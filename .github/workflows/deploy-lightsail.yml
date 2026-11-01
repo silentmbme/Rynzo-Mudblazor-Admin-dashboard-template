@@ -1,0 +1,88 @@
+
+name: Deploy Rynzo to AWS Lightsail
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rynzo-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install .NET 10
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish Rynzo for Linux
+        run: |
+          dotnet restore Rynzo/Rynzo.csproj -r linux-x64
+          dotnet publish Rynzo/Rynzo.csproj \
+            -c Release \
+            -r linux-x64 \
+            --self-contained true \
+            --no-restore \
+            -o "$RUNNER_TEMP/rynzo-publish"
+
+          test -f "$RUNNER_TEMP/rynzo-publish/Rynzo"
+          chmod +x "$RUNNER_TEMP/rynzo-publish/Rynzo"
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          SERVER_HOST: ${{ secrets.LIGHTSAIL_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          ssh-keyscan -T 10 -t ed25519 "$SERVER_HOST" > ~/.ssh/known_hosts 2>/dev/null
+
+          EXPECTED_FINGERPRINT="SHA256:3CtNI7Kdg4gaQw9QT1YJGRt/g1ompSEaBMFwEAlC+s0"
+          ssh-keygen -lf ~/.ssh/known_hosts -E sha256 | grep -F "$EXPECTED_FINGERPRINT"
+
+      - name: Upload published application
+        env:
+          SERVER_HOST: ${{ secrets.LIGHTSAIL_HOST }}
+          SERVER_USER: ${{ secrets.LIGHTSAIL_USER }}
+        run: |
+          ssh "$SERVER_USER@$SERVER_HOST" \
+            "mkdir -p /home/ubuntu/rynzo-incoming"
+
+          rsync -az --delete \
+            -e "ssh" \
+            "$RUNNER_TEMP/rynzo-publish/" \
+            "$SERVER_USER@$SERVER_HOST:/home/ubuntu/rynzo-incoming/"
+
+      - name: Activate deployment
+        env:
+          SERVER_HOST: ${{ secrets.LIGHTSAIL_HOST }}
+          SERVER_USER: ${{ secrets.LIGHTSAIL_USER }}
+        run: |
+          ssh "$SERVER_USER@$SERVER_HOST" <<'REMOTE'
+          set -e
+          sudo systemctl stop rynzo || true
+          rsync -a --delete \
+            /home/ubuntu/rynzo-incoming/ \
+            /var/www/rynzo/
+          chmod +x /var/www/rynzo/Rynzo
+          sudo systemctl start rynzo
+          sleep 5
+          sudo systemctl is-active --quiet rynzo
+          sudo systemctl status rynzo --no-pager
+          REMOTE
