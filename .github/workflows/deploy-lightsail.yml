@@ -28,7 +28,8 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-        - name: Publish Rynzo for Linux
+        
+      - name: Publish Rynzo for Linux
         run: |
           dotnet restore Rynzo/Rynzo.csproj
 
@@ -38,6 +39,7 @@ jobs:
             -o "$RUNNER_TEMP/rynzo-publish"
 
           test -f "$RUNNER_TEMP/rynzo-publish/Rynzo.dll"
+
           chmod +x "$RUNNER_TEMP/rynzo-publish/Rynzo"
 
       - name: Configure SSH
