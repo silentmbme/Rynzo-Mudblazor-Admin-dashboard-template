@@ -1,0 +1,187 @@
+.wizard-page {
+  min-width: 0;
+  padding-bottom: 24px;
+  color: var(--foreground);
+}
+.wizard-layout {
+  display: grid;
+  gap: 24px;
+  max-width: 1020px;
+  margin: 0 auto;
+}
+.wizard-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding: 0;
+  background: transparent;
+  position: relative;
+}
+.wizard-steps:before {
+  content: "";
+  position: absolute;
+  top: 21px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  background: var(--border);
+}
+.wizard-steps button {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  text-align: center;
+  cursor: pointer;
+}
+.wizard-steps button > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--card);
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+  color: var(--muted-foreground);
+  box-shadow: 0 0 0 6px var(--background);
+}
+.wizard-steps button.is-active > span {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--primary) 8%, var(--background));
+}
+.wizard-steps button.is-complete > span {
+  background: color-mix(in srgb, var(--success) 12%, var(--card));
+  border-color: var(--success);
+  color: var(--success);
+}
+.wizard-steps b {
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+}
+.wizard-steps small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-overline);
+  line-height: 1.5;
+}
+.wizard-layout ::deep .form-element-card {
+  max-width: 760px;
+  width: 100%;
+  justify-self: center;
+  box-shadow: 0 16px 36px color-mix(in srgb, var(--foreground) 5%, transparent);
+}
+.wizard-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 30px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--background);
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.wizard-progress ::deep .mud-progress-linear {
+  width: 180px;
+  height: 5px;
+  border-radius: 99px;
+}
+.wizard-fields {
+  display: grid;
+  gap: 22px;
+}
+.wizard-invite {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--background);
+}
+.wizard-invite > svg {
+  width: 21px;
+  height: 21px;
+  color: var(--primary);
+}
+.wizard-invite b {
+  font-size: var(--rynzo-font-body2);
+}
+.wizard-invite p {
+  margin: 4px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.wizard-review {
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  overflow: hidden;
+}
+.wizard-review > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 15px 17px;
+  border-bottom: 1px solid var(--border);
+}
+.wizard-review > div:last-child {
+  border-bottom: 0;
+}
+.wizard-review span {
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.wizard-review b {
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+  text-align: end;
+}
+.wizard-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+@media (max-width: 620px) {
+  .wizard-steps {
+    gap: 6px;
+  }
+  .wizard-steps:before {
+    left: 14%;
+    right: 14%;
+  }
+  .wizard-steps button {
+    padding: 0 2px;
+  }
+  .wizard-steps small {
+    display: none;
+  }
+  .wizard-steps button > span {
+    width: 36px;
+    height: 36px;
+  }
+  .wizard-progress {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .wizard-progress ::deep .mud-progress-linear {
+    width: 100%;
+  }
+}

@@ -1,0 +1,21 @@
+.ui-form-field {
+  min-width: 0;
+}
+.ui-form-field > label {
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  color: var(--foreground);
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.ui-form-field > label > span {
+  color: var(--destructive);
+  margin-left: 2px;
+}
+.ui-form-field > p {
+  font-size: var(--rynzo-font-overline);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin: 8px 0 0;
+}

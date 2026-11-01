@@ -1,0 +1,21 @@
+@using Rynzo.Client.Theme
+<div class="ui-notice-host @(Accent?"has-accent":"") @(Announcement?"is-announcement":"")" style="@($"--notice-tone:{Tone}")">
+    <MudAlert Severity="Severity" Variant="@(Announcement?Variant.Filled:Variant)" Icon="@Icon" ShowCloseIcon="OnDismiss.HasDelegate" CloseIcon="@RynzoIcons.Get("X")" CloseIconClicked="Dismiss" Class="ui-notice" Elevation="0">
+        @if(!string.IsNullOrWhiteSpace(Title)){<h3 class="ui-notice-title">@Title</h3>}
+        <div class="ui-notice-message">@ChildContent</div>
+        @if(Actions is not null){<div class="ui-notice-actions">@Actions</div>}
+    </MudAlert>
+</div>
+@code {
+    [Parameter] public string? Title {get;set;}
+    [Parameter] public string? Icon {get;set;}
+    [Parameter] public Severity Severity {get;set;}=Severity.Info;
+    [Parameter] public Variant Variant {get;set;}=Variant.Text;
+    [Parameter] public bool Accent {get;set;}
+    [Parameter] public bool Announcement {get;set;}
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+    [Parameter] public RenderFragment? Actions {get;set;}
+    [Parameter] public EventCallback OnDismiss {get;set;}
+    private Task Dismiss(MudAlert alert)=>OnDismiss.InvokeAsync();
+    private string Tone=>Severity switch{Severity.Success=>"var(--success)",Severity.Warning=>"var(--warning)",Severity.Error=>"var(--destructive)",_=>"var(--info)"};
+}

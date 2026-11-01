@@ -1,0 +1,72 @@
+.ui-help-accordion {
+  min-width: 0;
+}
+.ui-help-accordion ::deep .mud-expand-panel {
+  background: var(--card);
+  color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+  box-shadow: none;
+  border-radius: 0 !important;
+}
+.ui-help-accordion ::deep .mud-expand-panel:last-child {
+  border-bottom: 0;
+}
+.ui-help-accordion ::deep .mud-expand-panel-header {
+  padding: 16px 0;
+  min-height: 58px;
+  gap: 12px;
+}
+.ui-help-accordion ::deep .mud-expand-panel-header .mud-icon-root {
+  width: 18px;
+  height: 18px;
+  color: var(--muted-foreground);
+}
+.ui-help-accordion ::deep .mud-expand-panel-content {
+  padding: 0 0 18px;
+}
+.help-accordion-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.help-accordion-title b {
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  line-height: 1.8;
+}
+.help-accordion-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+  border-radius: 8px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.help-accordion-icon ::deep svg {
+  height: 16px;
+  width: 16px;
+  color: var(--primary) !important;
+}
+.help-accordion-answer {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.9;
+  margin: 0;
+}
+.with-icons .help-accordion-answer {
+  padding-left: 40px;
+}
+@media (max-width: 540px) {
+  .help-accordion-title b {
+    font-size: var(--rynzo-font-caption);
+  }
+  .ui-help-accordion ::deep .mud-expand-panel-header {
+    padding: 15px 0;
+  }
+  .with-icons .help-accordion-answer {
+    padding-left: 0;
+  }
+}

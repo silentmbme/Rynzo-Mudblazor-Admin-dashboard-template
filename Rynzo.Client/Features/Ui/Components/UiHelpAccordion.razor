@@ -1,0 +1,12 @@
+@using Rynzo.Client.Theme
+<div class="ui-help-accordion @(Icons?"with-icons":"")">
+<MudExpansionPanels Elevation="0">
+    @for(var i=0;i<Questions.Length;i++){var index=i;<MudExpansionPanel Expanded="@(Open==index)" ExpandedChanged="@(value=>Open=value?index:null)"><TitleContent><span class="help-accordion-title">@if(Icons){<span class="help-accordion-icon"><MudIcon Icon="@RynzoIcons.Get(QuestionIcons[index])" /></span>}<b>@Questions[index].Question</b></span></TitleContent><ChildContent><p class="help-accordion-answer">@Questions[index].Answer</p></ChildContent></MudExpansionPanel>}
+</MudExpansionPanels>
+</div>
+@code {
+    [Parameter] public bool Icons {get;set;}
+    private int? Open=0;
+    private static readonly string[] QuestionIcons=["CreditCard","ArrowRightLeft","Sparkles"];
+    private static readonly (string Question,string Answer)[] Questions=[("What is included in the Growth plan?","Growth includes unlimited projects, advanced analytics, workflow automation, priority support, and room for up to 25 team members."),("Can I change plans later?","Yes. Workspace administrators can upgrade or change billing frequency whenever your team needs change."),("Do you offer a free trial?","Every paid plan includes a 14-day trial with no credit card required.")];
+}

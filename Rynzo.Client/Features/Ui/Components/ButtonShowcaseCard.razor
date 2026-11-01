@@ -1,0 +1,14 @@
+@using Rynzo.Client.Theme
+<div class="rynzo-widget-host"><MudCard Class="button-showcase-card rynzo-widget-card" id="@Id" Elevation="0" Outlined="true" data-widget-element="section">
+    <header><div><h2>@Title</h2><p>@Description</p></div><MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@RynzoIcons.Get("Code2")" OnClick="@(()=>Show=!Show)" aria-expanded="@(Show?"true":"false")" aria-controls="@($"{Id}-code")">@(Show?"Hide code":"Show code")</MudButton></header>
+    <div class="showcase-preview">@ChildContent</div>
+    @if(Show){<div class="showcase-code" id="@($"{Id}-code")"><span>Razor / MudBlazor</span><pre><code>@Code</code></pre></div>}
+</MudCard></div>
+@code {
+    [Parameter,EditorRequired] public string Id {get;set;}="";
+    [Parameter] public string Title {get;set;}="";
+    [Parameter] public string Description {get;set;}="";
+    [Parameter] public string Code {get;set;}="";
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+    private bool Show;
+}

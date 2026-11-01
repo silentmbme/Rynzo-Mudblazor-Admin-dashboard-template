@@ -1,0 +1,57 @@
+@page "/dashboards/school-management"
+@page "/school-management.html"
+@page "/school-management.htmlhtml"
+@implements IAsyncDisposable
+@using System.Globalization
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Services
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+<PageTitle>School Management | Rynzo</PageTitle>
+<div class="school-dashboard">
+    <DashboardPageHeader Title="School Management" Description="Bring students, classrooms, and school operations together." ><Actions><div class="school-actions"><MudSelect T="string" @bind-Value="_grade" @bind-Value:after="Refresh" Variant="Variant.Outlined" Margin="Margin.Dense" Class="school-grade" aria-label="School grade"><MudSelectItem Value="@("all")">All grades</MudSelectItem>@foreach(var grade in _state.Source.Grades){<MudSelectItem Value="@grade">@grade</MudSelectItem>}</MudSelect><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export report</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" OnClick="Admit">Admit student</MudButton></div></Actions></DashboardPageHeader>
+    <section class="school-metrics">@foreach(var metric in Metrics){<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span><MudIcon Icon="@RynzoIcons.Get(metric.Icon)" /></span><p>@metric.Label</p><strong>@metric.Value</strong><small>@metric.Note</small></MudCard>}</section>
+    <section class="school-chart-grid">
+        <DashboardCard Title="Attendance pulse" Description="Compare attendance counts at a glance by grade" Class="school-attendance-v2">
+            <Actions><span class="school-chart-tag">Grade overview</span></Actions>
+            <ChildContent><div class="school-attendance-context"><span><MudIcon Icon="@RynzoIcons.Get("CalendarDays")" Size="Size.Small" />Today's grade snapshot</span><b>@_selected.Count(s=>s.Attendance=="Present") present <span>/ @_selected.Length enrolled</span></b></div><DashboardChart Data="_chartData" OptionsModule="./school-dashboard-options.js" Kind="attendance" Height="290" Label="Paired dot plot comparing present and absent student counts by grade" /><div class="school-attendance-key"><small>Compare the position of each grade?s Present and Absent markers.</small></div></ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Fee collection" Description="Collected and outstanding fees by grade" Class="school-fee-v2">
+            <Actions><span class="school-chart-tag">USD</span></Actions>
+            <ChildContent><div class="school-fee-summary"><div><small>Collected</small><strong>@Money(_collected)</strong></div><div><small>Outstanding</small><strong>@Money(_outstanding)</strong></div></div><DashboardChart Data="_chartData" OptionsModule="./school-dashboard-options.js" Kind="fee" Height="260" Label="Stacked columns comparing collected and outstanding fees by grade in dollars" /><div class="school-fee-footer"><span>Total billed <b>@Money(_collected+_outstanding)</b></span><span><b>@(_collected+_outstanding==0?0:Math.Round(_collected*100d/(_collected+_outstanding)))%</b> collected</span></div></ChildContent>
+        </DashboardCard>
+    </section>
+    <section class="school-three-grid"><DashboardCard Title="Classroom agenda" Description="Friday, October 9, 2026 ? Sample schedule" Class="school-agenda school-span-two"><Actions><MudChip T="string" Color="Color.Primary" Size="Size.Small">@Teachers.Length lessons</MudChip></Actions><ChildContent><SchoolClassroomAgenda Teachers="Teachers" Grades="_state.Source.Grades" /></ChildContent></DashboardCard><SchoolCampusCalendar Events="_state.Source.Events" /></section>
+    <DashboardCard Title="Faculty spotlight" Description="Class teachers and subjects" Class="school-faculty"><div class="school-faculty-list">@foreach(var teacher in Teachers){<div><img src="@SchoolClassroomAgenda.Portrait(teacher.Name)" alt="@teacher.Name" /><div><MudChip T="string" Color="Color.Primary" Size="Size.Small">@teacher.Grade</MudChip><h3>@teacher.Name</h3><p>@teacher.Subject</p></div></div>}@if(Teachers.Length==0){<p>No faculty records for this sample grade.</p>}</div></DashboardCard>
+    <DashboardCard Title="Assignment review board" Description="Review classroom work and keep feedback moving." Class="school-assignments"><Actions><MudChip T="string" Color="Color.Primary" Size="Size.Small">@Assignments.Length assignments</MudChip></Actions><ChildContent><SchoolAssignmentBoard Assignments="Assignments" Teachers="_state.Source.Teachers" Toggle="ToggleAssignment" /></ChildContent></DashboardCard>
+    <section class="school-bottom"><DashboardCard Title="Transport operations" Description="Sample campus routes ? Independent of grade filters" Class="school-transport"><div class="school-transport-summary"><div><h3>70<span>/ 94 seats</span></h3><p>Total route occupancy</p></div><MudChip T="string" Color="Color.Success" Size="Size.Small">2 of 3 arrived</MudChip></div><div class="school-buses">@foreach(var bus in _state.Source.Buses){var tone=bus.BarColor.Replace("bg-","");<div><span class="school-bus-number" style="@($"--bus-tone:var(--{tone})")">@bus.Bus</span><div><h3>@bus.Route</h3><div class="school-bus-seats" aria-label="@($"{bus.Seats} of {bus.Total} seats occupied")">@for(var i=0;i<10;i++){<i style="@($"background:var(--{(i<Math.Floor(bus.Seats/(double)bus.Total*10+.5)?tone:"muted")})")"></i>}</div></div><aside><MudChip T="string" Size="Size.Small" Color="@(bus.Status=="Arrived"?Color.Success:Color.Primary)">@bus.Status</MudChip><small>@bus.Seats/@bus.Total seats</small></aside></div>}</div></DashboardCard><MudCard Outlined="true" Elevation="0" Class="school-library rynzo-widget-card rynzo-widget-card--structured"><MudCardContent><header><div><h2>Library circulation</h2><p>Sample campus totals ? October 9</p></div><MudIcon Icon="@RynzoIcons.Get("BookOpen")" Color="Color.Primary" /></header><div class="school-library-totals"><div><b>42</b><small>Issued today</small></div><div><b>36</b><small>Returned today</small></div></div><MudCard Class="school-library-ratio rynzo-widget-card" Elevation="0" Outlined="true"><strong>86%</strong><span>Return-to-issue<br />ratio today</span><MudIcon Icon="@RynzoIcons.Get("RotateCcw")" /></MudCard><h3>Upcoming returns</h3><div class="school-books">@foreach(var book in _state.Source.Books){<div><p>@book.Title</p><span>@book.Due</span></div>}</div></MudCardContent></MudCard></section>
+    <DashboardCard Title="Student directory" Description="@($"{_visible.Length} students in view")" Class="school-directory"><Actions><MudTextField T="string" @bind-Value="_query" @bind-Value:after="Filter" Immediate="true" Placeholder="Search student or ID…" aria-label="Search students" Variant="Variant.Outlined" Margin="Margin.Dense" Class="school-search" /></Actions><ChildContent><MudTable T="SchoolStudent" Items="_visible" Breakpoint="Breakpoint.None" Elevation="0" Class="school-table" aria-label="Student directory"><HeaderContent><MudTh>Student</MudTh><MudTh>Grade</MudTh><MudTh>Attendance</MudTh><MudTh>Fee balance</MudTh><MudTh>Actions</MudTh></HeaderContent><RowTemplate><MudTd><div class="school-student-name"><span>@string.Concat(context.Name.Split(' ').Take(2).Select(part=>part[..1]))</span><div><p>@context.Name</p><small>@context.Id</small></div></div></MudTd><MudTd>@context.Grade</MudTd><MudTd><MudChip T="string" Color="@(context.Attendance=="Present"?Color.Success:Color.Warning)" Size="Size.Small">@context.Attendance</MudChip></MudTd><MudTd>@Money(context.Fee-context.Paid)</MudTd><MudTd><div class="school-row-actions"><MudButton Size="Size.Small" Variant="Variant.Outlined" OnClick="@(() => ToggleAttendance(context.Id))">Mark @(context.Attendance=="Present"?"absent":"present")</MudButton><MudButton Size="Size.Small" Variant="Variant.Outlined" Disabled="@(context.Paid==context.Fee)" OnClick="@(() => Pay(context.Id))">Mark paid</MudButton></div></MudTd></RowTemplate><NoRecordsContent><MudText Class="pa-8" Color="Color.Secondary">No students match your search.</MudText></NoRecordsContent></MudTable><p class="school-directory-footer">Attendance and fee actions update sample records only.</p></ChildContent></DashboardCard>
+</div>
+@code{
+    private readonly SchoolDashboardState _state=new();
+    private SchoolStudent[] _selected=[],_visible=[];
+    private SchoolTeacher[] Teachers=[];
+    private SchoolAssignment[] Assignments=[];
+    private string[] _classes=[];
+    private string _grade="all",_query="";
+    private int _collected,_outstanding;
+    private object _chartData=null!;
+    private IJSObjectReference? _download;
+    private static readonly CultureInfo English=CultureInfo.GetCultureInfo("en-US");
+    private static readonly BreadcrumbItem[] Breadcrumbs=[new("Dashboards",null),new("School Management",null,true)];
+    private static string Money(int value)=>value.ToString("C0",English);
+    private (string Label,string Value,string Note,string Icon)[] Metrics=>[("Enrolled students",_selected.Length.ToString(),"Active sample student records","UsersRound"),("Attendance today",$"{(_selected.Length==0?0:Math.Floor(_selected.Count(s=>s.Attendance=="Present")/(double)_selected.Length*100+.5))}%","Present students in selected grades","GraduationCap"),("Active classes",_classes.Length.ToString(),"One sample class per grade","BookOpen"),("Fees collected",Money(_collected),$"{Money(_outstanding)} outstanding","Wallet")];
+    protected override void OnInitialized()=>Refresh();
+    private void Filter()=>_visible=_state.Filter(_grade,_query);
+    private void Refresh(){_selected=_state.Selected(_grade);Filter();_classes=_state.Source.Grades.Where(g=>_grade=="all"||g==_grade).ToArray();Teachers=_state.Source.Teachers.Where(t=>_grade=="all"||t.Grade==_grade).ToArray();Assignments=_state.Assignments.Where(a=>_grade=="all"||a.Grade==_grade).ToArray();_collected=_selected.Sum(s=>s.Paid);_outstanding=_selected.Sum(s=>s.Fee-s.Paid);_chartData=new{Selected=_selected,Classes=_classes,Collected=_collected,Outstanding=_outstanding};}
+    private void ToggleAttendance(string id){if(_state.ToggleAttendance(id))Refresh();}
+    private void Pay(string id){if(_state.MarkPaid(id)){Refresh();Snackbar.Add("Sample fee marked paid",Severity.Success);}}
+    private void ToggleAssignment(string title){_state.ToggleAssignment(title);Assignments=_state.Assignments.Where(a=>_grade=="all"||a.Grade==_grade).ToArray();}
+    private async Task Admit(){_state.Admission.Name="";var dialog=await Dialogs.ShowAsync<SchoolAdmissionDialog>("Admit student",new DialogParameters<SchoolAdmissionDialog>{{d=>d.State,_state}},new DialogOptions{CloseButton=true,CloseOnEscapeKey=true,FullWidth=true,MaxWidth=MaxWidth.Small});var result=await dialog.Result;if(result is {Canceled:false}){_grade="all";_query="";Refresh();Snackbar.Add("Sample student admitted",Severity.Success);}}
+    private async Task Export(){_download??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/dashboard-download.js");await _download.InvokeVoidAsync("csv","school-students.csv",_state.Csv(_visible));}
+    public async ValueTask DisposeAsync(){if(_download is not null)try{await _download.DisposeAsync();}catch(JSDisconnectedException){}}
+}
+

@@ -1,0 +1,403 @@
+.badges-page {
+  min-width: 0;
+  color: var(--foreground);
+  font-size: var(--rynzo-font-body2);
+  padding-bottom: 24px;
+}
+.badges-intro {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 26px 28px;
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    110deg,
+    color-mix(in srgb, var(--primary) 5%, var(--card)),
+    var(--card)
+  );
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+}
+.badges-intro-icon {
+  height: 48px;
+  width: 48px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--card);
+  color: var(--primary);
+}
+.badges-intro-icon ::deep svg {
+  height: 23px;
+  width: 23px;
+}
+.badges-eyebrow,
+.badges-label {
+  font-size: var(--rynzo-font-overline);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+.badges-intro h2 {
+  font-size: var(--rynzo-font-h5);
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 6px 0;
+}
+.badges-intro p {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin: 0;
+}
+.badges-intro-preview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  padding-left: 20px;
+  flex-shrink: 0;
+}
+.badges-intro-preview > ::deep .mud-badge-root {
+  margin-left: 8px;
+  margin-right: 8px;
+  color: var(--muted-foreground);
+}
+.badges-intro-preview ::deep .mud-icon-root {
+  width: 20px;
+  height: 20px;
+}
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.badges-wide {
+  grid-column: 1/-1;
+  min-width: 0;
+}
+.badges-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.badges-note {
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin: 20px 0 0;
+}
+.badges-size-row {
+  display: flex;
+  align-items: end;
+  gap: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.badges-label {
+  display: block;
+  margin-bottom: 16px;
+}
+.badges-size-extras {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 22px;
+}
+.badges-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+.badges-selected > .badges-label {
+  margin: 0;
+}
+.badges-tag-count {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  background: var(--background);
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.badges-tags {
+  min-height: 32px;
+}
+.badges-context {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.badges-counters {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 10px 0 24px;
+}
+.badges-counters ::deep .mud-icon-button {
+  height: 42px;
+  width: 42px;
+  background: var(--card);
+}
+.badges-counters ::deep .mud-badge {
+  font-size: var(--rynzo-font-overline);
+}
+.badges-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+.badges-identity b {
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  display: block;
+}
+.badges-identity small {
+  font-size: var(--rynzo-font-caption);
+  display: block;
+  color: var(--muted-foreground);
+  margin-top: 5px;
+}
+.badges-identity > ::deep .ui-status-host {
+  margin-left: auto;
+}
+.badges-identity ::deep .mud-avatar {
+  height: 38px;
+  width: 38px;
+}
+.badges-status-list {
+  padding-left: 32px;
+  border-left: 1px solid var(--border);
+}
+.badges-status-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.badges-status-list > div:last-child {
+  padding-bottom: 0;
+  border: 0;
+}
+.badges-status-list > div > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badges-status-list b {
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+}
+.badges-status-list > div > span ::deep svg {
+  height: 18px;
+  width: 18px;
+  color: var(--muted-foreground);
+}
+.badges-avatar-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 30px;
+}
+.badges-portraits {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 18px;
+  padding-top: 8px;
+}
+.badges-portraits > div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.badges-portraits b {
+  font-size: var(--rynzo-font-caption);
+  font-weight: 400;
+  color: var(--muted-foreground);
+  text-align: center;
+  line-height: 1.7;
+}
+.badges-avatar-size {
+  display: grid;
+  place-items: center;
+  min-height: 60px;
+}
+.avatar-xs ::deep .mud-avatar {
+  width: 28px;
+  height: 28px;
+}
+.avatar-sm ::deep .mud-avatar {
+  width: 36px;
+  height: 36px;
+}
+.avatar-md ::deep .mud-avatar {
+  width: 44px;
+  height: 44px;
+}
+.avatar-lg ::deep .mud-avatar {
+  width: 56px;
+  height: 56px;
+}
+.badges-avatar-extras {
+  border-left: 1px solid var(--border);
+  padding-left: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+.badges-fallback {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.badges-fallback ::deep .mud-avatar {
+  height: 36px;
+  width: 36px;
+  font-size: var(--rynzo-font-caption);
+}
+.badges-stack {
+  display: flex;
+  padding-left: 7px;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding-top: 3px;
+}
+.badges-stack ::deep .mud-avatar {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--card);
+  margin-left: -7px;
+  font-size: var(--rynzo-font-caption);
+}
+.badges-page ::deep .mud-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (max-width: 1200px) {
+  .badges-intro-preview {
+    display: none;
+  }
+  .badges-grid {
+    gap: 20px;
+  }
+  .badges-avatar-layout {
+    grid-template-columns: 1fr;
+  }
+  .badges-avatar-extras {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+    padding-left: 0;
+    padding-top: 24px;
+  }
+  .badges-portraits {
+    justify-content: start;
+    gap: 30px;
+  }
+  .badges-context {
+    gap: 24px;
+  }
+  .badges-status-list {
+    padding-left: 24px;
+  }
+}
+@media (max-width: 800px) {
+  .badges-grid {
+    grid-template-columns: 1fr;
+  }
+  .badges-wide {
+    grid-column: auto;
+  }
+  .badges-context {
+    grid-template-columns: 1fr;
+  }
+  .badges-status-list {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+    padding-left: 0;
+    padding-top: 22px;
+  }
+  .badges-size-row {
+    gap: 28px;
+  }
+}
+@media (max-width: 540px) {
+  .badges-intro {
+    padding: 20px 16px;
+    gap: 12px;
+    align-items: start;
+  }
+  .badges-intro-icon {
+    height: 36px;
+    width: 36px;
+    border-radius: 10px;
+  }
+  .badges-intro-icon ::deep svg {
+    height: 18px;
+    width: 18px;
+  }
+  .badges-intro h2 {
+    font-size: var(--rynzo-font-h6);
+  }
+  .badges-eyebrow {
+    letter-spacing: 0.04em;
+  }
+  .badges-row {
+    gap: 10px;
+  }
+  .badges-portraits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  .badges-portraits > div {
+    flex-direction: row;
+    gap: 10px;
+  }
+  .badges-portraits b {
+    text-align: left;
+  }
+  .badges-avatar-extras {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .badges-identity {
+    padding: 14px 12px;
+    gap: 10px;
+  }
+  .badges-identity b {
+    font-size: var(--rynzo-font-caption);
+  }
+  .badges-size-row {
+    gap: 26px;
+  }
+}
+@media print {
+  .badges-page ::deep .button-showcase-card {
+    break-inside: avoid;
+  }
+  .badges-grid {
+    display: block;
+  }
+  .badges-grid > *,
+  .badges-wide {
+    margin-bottom: 16px;
+  }
+}

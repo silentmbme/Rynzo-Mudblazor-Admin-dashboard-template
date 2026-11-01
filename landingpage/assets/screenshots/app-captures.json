@@ -1,0 +1,175 @@
+{
+  "source": "http://localhost:5245",
+  "method": "Chrome DevTools Protocol capture from the current Rynzo .NET/Blazor app",
+  "capturedAt": "2026-11-01T06:33:23.698Z",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "dashboards": [
+    {
+      "title": "Executive",
+      "route": "/",
+      "filename": "dashboard-executive-v2.png"
+    },
+    {
+      "title": "Analytics",
+      "route": "/dashboards/analytics",
+      "filename": "dashboard-analytics-v2.png"
+    },
+    {
+      "title": "eCommerce",
+      "route": "/dashboards/ecommerce",
+      "filename": "dashboard-ecommerce-v2.png"
+    },
+    {
+      "title": "AI Analytics",
+      "route": "/dashboards/ai-analytics",
+      "filename": "dashboard-ai-analytics-v2.png"
+    },
+    {
+      "title": "Crypto",
+      "route": "/dashboards/crypto",
+      "filename": "dashboard-crypto-v2.png"
+    },
+    {
+      "title": "Hospital",
+      "route": "/dashboards/hospital-management",
+      "filename": "dashboard-hospital-management-v2.png"
+    },
+    {
+      "title": "LMS",
+      "route": "/dashboards/lms-dashboard",
+      "filename": "dashboard-lms-dashboard-v2.png"
+    },
+    {
+      "title": "CRM",
+      "route": "/dashboards/crm",
+      "filename": "dashboard-crm-v2.png"
+    },
+    {
+      "title": "Logistics",
+      "route": "/dashboards/logistics-dashboard",
+      "filename": "dashboard-logistics-dashboard-v2.png"
+    },
+    {
+      "title": "Projects",
+      "route": "/dashboards/projects",
+      "filename": "dashboard-projects-v2.png"
+    },
+    {
+      "title": "HRM",
+      "route": "/dashboards/hrm-dashboard",
+      "filename": "dashboard-hrm-dashboard-v2.png"
+    },
+    {
+      "title": "School",
+      "route": "/dashboards/school-management",
+      "filename": "dashboard-school-management-v2.png"
+    },
+    {
+      "title": "Restaurant POS",
+      "route": "/dashboards/restaurant-pos",
+      "filename": "dashboard-restaurant-pos-v2.png"
+    },
+    {
+      "title": "Finance",
+      "route": "/dashboards/finance",
+      "filename": "dashboard-finance-v2.png"
+    },
+    {
+      "title": "Marketing",
+      "route": "/dashboards/marketing",
+      "filename": "dashboard-marketing-v2.png"
+    },
+    {
+      "title": "SaaS",
+      "route": "/dashboards/saas",
+      "filename": "dashboard-saas-v2.png"
+    }
+  ],
+  "apps": [
+    {
+      "title": "Email",
+      "route": "/apps/email",
+      "filename": "app-email.png"
+    },
+    {
+      "title": "Chat",
+      "route": "/apps/chat",
+      "filename": "app-chat.png"
+    },
+    {
+      "title": "Calendar",
+      "route": "/apps/calendar",
+      "filename": "app-calendar.png"
+    },
+    {
+      "title": "Tasks",
+      "route": "/apps/tasks",
+      "filename": "app-tasks.png"
+    },
+    {
+      "title": "Kanban",
+      "route": "/apps/kanban",
+      "filename": "app-kanban.png"
+    },
+    {
+      "title": "File Manager",
+      "route": "/apps/files",
+      "filename": "app-files.png"
+    },
+    {
+      "title": "AI Chat",
+      "route": "/apps/ai-chat",
+      "filename": "app-ai-chat-v2.png"
+    },
+    {
+      "title": "Notes",
+      "route": "/apps/notes",
+      "filename": "app-notes-v2.png"
+    }
+  ],
+  "entries": [
+    {
+      "title": "Email",
+      "route": "/apps/email",
+      "filename": "app-email.png"
+    },
+    {
+      "title": "Chat",
+      "route": "/apps/chat",
+      "filename": "app-chat.png"
+    },
+    {
+      "title": "Calendar",
+      "route": "/apps/calendar",
+      "filename": "app-calendar.png"
+    },
+    {
+      "title": "Tasks",
+      "route": "/apps/tasks",
+      "filename": "app-tasks.png"
+    },
+    {
+      "title": "Kanban",
+      "route": "/apps/kanban",
+      "filename": "app-kanban.png"
+    },
+    {
+      "title": "File Manager",
+      "route": "/apps/files",
+      "filename": "app-files.png"
+    },
+    {
+      "title": "AI Chat",
+      "route": "/apps/ai-chat",
+      "filename": "app-ai-chat-v2.png"
+    },
+    {
+      "title": "Notes",
+      "route": "/apps/notes",
+      "filename": "app-notes-v2.png"
+    }
+  ]
+}

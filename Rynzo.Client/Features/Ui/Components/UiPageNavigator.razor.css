@@ -1,0 +1,36 @@
+.ui-page-navigator {
+  max-width: 100%;
+  min-width: 0;
+}
+.ui-page-navigator ::deep .mud-pagination {
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+}
+.ui-page-navigator ::deep .mud-pagination-item {
+  margin: 0;
+}
+.ui-page-navigator ::deep .mud-button-root {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+}
+.ui-page-navigator ::deep .mud-button-outlined-default {
+  border-color: var(--border);
+  color: var(--muted-foreground);
+}
+.ui-page-navigator ::deep .mud-button-outlined-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+.ui-page-navigator ::deep svg {
+  width: 16px;
+  height: 16px;
+}
+.ui-page-navigator ::deep .mud-disabled {
+  opacity: 0.45;
+}

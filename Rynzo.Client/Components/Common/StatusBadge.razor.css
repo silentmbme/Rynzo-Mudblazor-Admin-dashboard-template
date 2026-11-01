@@ -1,0 +1,12 @@
+.source-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+  color: var(--status-tone);
+  background: var(--status-bg);
+}

@@ -1,0 +1,28 @@
+{
+  "suggestions": [
+    {
+      "title": "Plan my day",
+      "prompt": "Help me plan a productive workday",
+      "color": "--warning",
+      "icon": "Lightbulb"
+    },
+    {
+      "title": "Write an email",
+      "prompt": "Draft a friendly project update email",
+      "color": "--success",
+      "icon": "PenLine"
+    },
+    {
+      "title": "Explain a concept",
+      "prompt": "Explain how React components work",
+      "color": "--info",
+      "icon": "Code2"
+    }
+  ],
+  "replies": {
+    "email": "Subject: Project update\n\nHi team,\n\nHere is a quick update on our project. We have completed the initial review and are working through the next milestones. Please share any blockers before our next check-in.\n\nThanks for your contributions!\n\nThis is a sample draft. Add your project details before sending.",
+    "react": "React components are reusable pieces of an interface. A component receives inputs called props and returns the UI to display. State stores values that change over time, such as a selected tab or message draft.\n\nFor example, a Message component can accept a sender and text, while a Chat component keeps the message list in state.\n\nThis is a preset demo explanation.",
+    "plan": "Here is a sample workday plan:\n\n09:00 — Choose your three most important tasks.\n09:30 — Focus on the highest-priority task.\n11:00 — Take a break and check messages.\n13:00 — Work on your second priority.\n15:00 — Collaborate and review progress.\n16:30 — Record next steps for tomorrow.\n\nAdjust these times to suit your schedule. This is a preset demo response.",
+    "fallback": "This chat is running in demo mode with preset replies. Try “Plan my day”, “Write an email”, or “Explain how React components work” to explore the interface.\n\nYour messages stay in this page session. Connect an AI backend to support open-ended conversations."
+  }
+}

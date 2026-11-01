@@ -1,0 +1,3 @@
+@using Rynzo.Client.Features.Dashboard.Models
+<span class="hospital-portrait @(Small?"hospital-portrait-small":"")" role="img" aria-label="@($"Portrait of {Doctor.Name}")" data-doctor-portrait="@Doctor.Id" style="@($"--portrait-tone:var(--{Tone})")"><span aria-hidden="true">@Doctor.Initials</span>@if(!_failed){<img src="@Doctor.Image" alt="" aria-hidden="true" width="384" height="384" loading="lazy" decoding="async" @onerror="@(() => _failed=true)" />}</span>
+@code{[Parameter,EditorRequired]public HospitalDoctor Doctor{get;set;}=null!;[Parameter]public bool Small{get;set;}private bool _failed;private string Tone=>Doctor.Tone.Split(' ')[1].Replace("text-","");}

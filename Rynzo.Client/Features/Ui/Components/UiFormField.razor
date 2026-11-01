@@ -1,0 +1,8 @@
+<div class="ui-form-field"><label for="@Id">@Label @if(Required){<span aria-hidden="true">*</span>}</label>@ChildContent@if(Hint is not null){<p id="@($"{Id}-hint")">@Hint</p>}</div>
+@code {
+    [Parameter] public string Id {get;set;}="";
+    [Parameter] public string Label {get;set;}="";
+    [Parameter] public string? Hint {get;set;}
+    [Parameter] public bool Required {get;set;}
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+}

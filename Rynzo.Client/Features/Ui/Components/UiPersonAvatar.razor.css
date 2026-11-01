@@ -1,0 +1,54 @@
+.ui-person-avatar {
+  display: inline-flex;
+  position: relative;
+  flex-shrink: 0;
+  vertical-align: middle;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  outline: 2px solid var(--card);
+}
+::deep .ui-person-surface {
+  height: 100%;
+  width: 100%;
+  background: color-mix(in srgb, var(--primary) 10%, var(--card));
+  color: var(--primary);
+}
+.ui-person-avatar img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}
+.ui-person-initials {
+  font-size: clamp(11px, calc(var(--avatar-size) * 0.3), 20px);
+  font-weight: 600;
+  line-height: 1;
+}
+.ui-person-presence {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--card);
+  border-radius: 50%;
+  background: var(--muted-foreground);
+  box-sizing: border-box;
+}
+.ui-person-presence.online {
+  background: var(--success);
+}
+.ui-person-presence.away {
+  background: var(--warning);
+}
+.ui-person-presence.busy {
+  background: var(--destructive);
+}
+.ui-person-presence.reviewing {
+  background: var(--info);
+}
+.ui-person-presence.offline {
+  background: var(--muted-foreground);
+}

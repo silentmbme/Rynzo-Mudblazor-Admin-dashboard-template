@@ -1,0 +1,139 @@
+{
+  "models": [
+    {
+      "id": "atlas-pro",
+      "name": "Atlas Pro",
+      "category": "Reasoning & analysis",
+      "requests": 48260,
+      "tokens": 18600000,
+      "cost": 486.2,
+      "latency": 1.24,
+      "success": 99.8,
+      "change": 18.4,
+      "color": "--primary",
+      "status": "Healthy"
+    },
+    {
+      "id": "atlas-mini",
+      "name": "Atlas Mini",
+      "category": "Fast text generation",
+      "requests": 72480,
+      "tokens": 24200000,
+      "cost": 168.4,
+      "latency": 0.42,
+      "success": 99.9,
+      "change": 24.8,
+      "color": "--chart-2",
+      "status": "Healthy"
+    },
+    {
+      "id": "vision-one",
+      "name": "Vision One",
+      "category": "Image understanding",
+      "requests": 18420,
+      "tokens": 9800000,
+      "cost": 294.6,
+      "latency": 2.18,
+      "success": 98.6,
+      "change": 12.6,
+      "color": "--chart-3",
+      "status": "Elevated latency"
+    },
+    {
+      "id": "embed-v2",
+      "name": "Embed v2",
+      "category": "Search & retrieval",
+      "requests": 32640,
+      "tokens": 8400000,
+      "cost": 42.8,
+      "latency": 0.18,
+      "success": 99.9,
+      "change": 8.2,
+      "color": "--chart-4",
+      "status": "Healthy"
+    }
+  ],
+  "workloads": [
+    {
+      "id": "RUN-2048",
+      "modelId": "atlas-pro",
+      "name": "Weekly research summary",
+      "category": "Document analysis",
+      "tokens": 12480,
+      "duration": "1.4s",
+      "status": "Completed",
+      "time": "Oct 9, 14:32"
+    },
+    {
+      "id": "RUN-2047",
+      "modelId": "atlas-mini",
+      "name": "Support reply generation",
+      "category": "Customer experience",
+      "tokens": 3240,
+      "duration": "0.4s",
+      "status": "Completed",
+      "time": "Oct 9, 14:28"
+    },
+    {
+      "id": "RUN-2046",
+      "modelId": "vision-one",
+      "name": "Product image classification",
+      "category": "Image processing",
+      "tokens": 8160,
+      "duration": "3.1s",
+      "status": "Retried",
+      "time": "Oct 9, 14:21"
+    },
+    {
+      "id": "RUN-2045",
+      "modelId": "embed-v2",
+      "name": "Knowledge base indexing",
+      "category": "Semantic search",
+      "tokens": 28600,
+      "duration": "0.2s",
+      "status": "Completed",
+      "time": "Oct 9, 14:18"
+    },
+    {
+      "id": "RUN-2044",
+      "modelId": "atlas-pro",
+      "name": "Quarterly forecast review",
+      "category": "Financial analysis",
+      "tokens": 18920,
+      "duration": "1.6s",
+      "status": "Completed",
+      "time": "Oct 9, 14:12"
+    }
+  ],
+  "dailyWeights": [
+    0.64,
+    0.78,
+    0.72,
+    0.92,
+    0.81,
+    0.96,
+    0.88,
+    1.04,
+    0.94,
+    1.12,
+    1.08,
+    1.24
+  ],
+  "activityWeights": [
+    0.56,
+    0.8,
+    1.12,
+    1.34,
+    1.06,
+    0.72
+  ],
+  "dayWeights": [
+    1.08,
+    1.2,
+    1.16,
+    1.24,
+    1.1,
+    0.62,
+    0.48
+  ]
+}

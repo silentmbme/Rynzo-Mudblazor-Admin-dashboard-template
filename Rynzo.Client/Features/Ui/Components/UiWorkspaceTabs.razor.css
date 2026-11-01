@@ -1,0 +1,350 @@
+.ui-workspace-tabs {
+  min-width: 0;
+}
+::deep .mud-tabs-tabbar {
+  background: transparent;
+  color: var(--muted-foreground);
+}
+::deep .mud-tab {
+  min-width: 90px;
+  min-height: 42px;
+  padding: 10px 16px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  text-transform: none;
+  line-height: 1.6;
+}
+::deep .mud-tab.mud-tab-active {
+  color: var(--primary);
+}
+::deep .mud-tab .mud-icon-root {
+  width: 16px;
+  height: 16px;
+}
+.workspace-tab-content {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  min-height: 115px;
+}
+.workspace-tab-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.workspace-tab-icon ::deep svg {
+  width: 16px;
+  height: 16px;
+}
+.workspace-tab-content h3 {
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0 0 7px;
+}
+.workspace-tab-content p {
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.9;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+.workspace-tab-count {
+  display: inline-block;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--destructive) 10%, var(--card));
+  color: var(--destructive);
+  font-size: var(--rynzo-font-overline);
+  padding: 1px 6px;
+  margin-left: 5px;
+}
+.tabs-pills .mud-tabs-tabbar-content{
+   display: flex;
+   align-items: center !important;
+}
+.tabs-pills ::deep .mud-tabs-tabbar {
+  border-radius: 999px;
+  padding: 4px;
+  background: color-mix(in srgb, var(--primary) 7%, var(--card));
+}
+.tabs-pills ::deep .mud-tab {
+  border-radius: 999px;
+  min-height: 36px;
+}
+.tabs-pills ::deep .mud-tab-active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.tabs-segmented ::deep .mud-tabs-tabbar {
+  background: var(--muted);
+  padding: 4px;
+  border-radius: 9px;
+}
+.tabs-segmented ::deep .mud-tab {
+  border-radius: 6px;
+  min-height: 36px;
+}
+.tabs-segmented ::deep .mud-tab-active {
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: 0 1px 4px #00000009;
+}
+.tabs-boxed ::deep .mud-tabs-tabbar {
+  border: 1px solid var(--border);
+  border-radius: 10px 10px 0 0;
+  background: var(--background);
+  padding: 4px 4px 0;
+}
+.tabs-boxed ::deep .mud-tab {
+  border-radius: 6px 6px 0 0;
+  border: 1px solid transparent;
+}
+.tabs-boxed ::deep .mud-tab-active {
+  background: var(--card);
+  border-color: var(--border);
+  border-bottom-color: var(--card);
+  color: var(--foreground);
+}
+.tabs-boxed .workspace-tab-content {
+  margin-top: 0;
+  border-radius: 0 0 10px 10px;
+  background: var(--card);
+}
+.tabs-vertical ::deep .mud-tabs-tabbar {
+  min-width: 118px;
+  max-width: 140px;
+  background: color-mix(in srgb, var(--primary) 6%, var(--card));
+  padding: 5px;
+  border-radius: 10px;
+  align-self: start;
+}
+.tabs-vertical ::deep .mud-tab {
+  border-radius: 7px;
+  justify-content: start;
+  min-width: 108px;
+}
+.tabs-vertical ::deep .mud-tab-active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.tabs-vertical .workspace-tab-content {
+  margin: 0 0 0 16px;
+  min-height: 142px;
+}
+.tabs-vertical ::deep .mud-tabs-panels {
+  min-width: 0;
+  flex: 1;
+}
+@media (max-width: 540px) {
+  ::deep .mud-tab {
+    min-width: 78px;
+    padding: 9px 11px;
+  }
+  .workspace-tab-content {
+    padding: 16px;
+    gap: 9px;
+  }
+  .workspace-tab-icon {
+    display: none;
+  }
+  .tabs-vertical ::deep .mud-tabs-tabbar {
+    min-width: 95px;
+    max-width: 100px;
+  }
+  .tabs-vertical ::deep .mud-tab {
+    min-width: 85px;
+    padding: 9px;
+    font-size: var(--rynzo-font-caption);
+  }
+  .tabs-vertical .workspace-tab-content {
+    margin-left: 10px;
+    padding: 14px;
+    min-height: 155px;
+  }
+}
+
+/* Normalize tab-strip spacing and keep vertical navigation aligned with panels. */
+.ui-workspace-tabs ::deep .mud-tabs-tabbar{
+  min-width: 0;
+}
+.ui-workspace-tabs ::deep .mud-tabs-tabbar-content{
+  align-items: stretch;
+}
+.ui-workspace-tabs ::deep .mud-tab{
+  justify-content: center;
+  gap: 7px;
+  line-height: 1.35;
+}
+.ui-workspace-tabs ::deep .mud-tabs-panels{
+  min-width: 0;
+}
+.tabs-vertical ::deep .mud-tabs{
+  align-items: flex-start;
+}
+.tabs-vertical ::deep .mud-tabs-tabbar{
+  flex: 0 0 128px;
+}
+.tabs-vertical ::deep .mud-tab{
+  justify-content: flex-start;
+  width: 100%;
+}
+.tabs-vertical .workspace-tab-content{
+  margin-left: 16px;
+}
+.tabs-icon-only ::deep .mud-tab{
+  justify-content: center;
+}
+.tabs-cards ::deep .mud-tab{
+  padding: 12px 16px;
+}
+@media (max-width: 540px){
+  .tabs-vertical ::deep .mud-tabs-tabbar{
+    flex-basis: 96px;
+    min-width: 96px;
+    max-width: 96px;
+  }
+  .tabs-vertical ::deep .mud-tab{
+    padding-inline: 9px;
+  }
+  .tabs-vertical .workspace-tab-content{
+    margin-left: 10px;
+  }
+  .tabs-cards ::deep .mud-tab{
+    padding: 10px 8px;
+  }
+}
+
+.ui-workspace-tabs ::deep .mud-tab {
+  min-width: 0 !important;
+  flex: 1;
+}
+.ui-workspace-tabs ::deep .mud-tabs-tabbar-content {
+  min-width: 0;
+}
+.tabs-vertical ::deep .mud-tab {
+  flex: none;
+}
+
+.tabs-colored ::deep .mud-tabs-tabbar {
+  background: var(--primary);
+  padding: 5px;
+  border-radius: 10px;
+}
+.tabs-colored ::deep .mud-tab {
+  color: var(--primary-foreground);
+  border-radius: 7px;
+  min-height: 38px;
+}
+.tabs-colored ::deep .mud-tab-active {
+  background: var(--card);
+  color: var(--primary);
+}
+.tabs-soft ::deep .mud-tabs-tabbar {
+  background: var(--background);
+  padding: 5px;
+  border-radius: 10px;
+}
+.tabs-soft ::deep .mud-tab {
+  border-radius: 7px;
+  min-height: 38px;
+}
+.tabs-soft ::deep .mud-tab-active {
+  background: color-mix(in srgb, var(--primary) 12%, var(--card));
+  color: var(--primary);
+}
+.tabs-outlined ::deep .mud-tabs-tabbar-content {
+  gap: 8px;
+}
+.tabs-outlined ::deep .mud-tab {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-height: 40px;
+}
+.tabs-outlined ::deep .mud-tab-active {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 5%, var(--card));
+  color: var(--primary);
+}
+.tabs-icon-only ::deep .mud-tabs-tabbar {
+  background: var(--background);
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.tabs-icon-only ::deep .mud-tab {
+  border-radius: 8px;
+  min-height: 42px;
+  min-width: 48px !important;
+  flex: 0 1 64px;
+}
+.tabs-icon-only ::deep .mud-tab-active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.tabs-icon-only ::deep .mud-tab .mud-icon-root {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+.tabs-cards ::deep .mud-tabs-tabbar-content {
+  gap: 10px;
+}
+.tabs-cards ::deep .mud-tab {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  min-height: 80px;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--background);
+}
+.tabs-cards ::deep .mud-tab .mud-icon-root {
+  margin: 0;
+  width: 21px;
+  height: 21px;
+}
+.tabs-cards ::deep .mud-tab-active {
+  border-color: color-mix(in srgb, var(--primary) 50%, var(--border));
+  background: color-mix(in srgb, var(--primary) 7%, var(--card));
+  color: var(--primary);
+}
+.tabs-connected ::deep .mud-tabs-tabbar {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.tabs-connected ::deep .mud-tab {
+  border-inline-end: 1px solid var(--border);
+  min-height: 42px;
+}
+.tabs-connected ::deep .mud-tab:last-child {
+  border-inline-end: 0;
+}
+.tabs-connected ::deep .mud-tab-active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+@media (max-width: 540px) {
+  .tabs-outlined ::deep .mud-tabs-tabbar-content,
+  .tabs-cards ::deep .mud-tabs-tabbar-content {
+    gap: 6px;
+  }
+  .tabs-outlined ::deep .mud-tab,
+  .tabs-soft ::deep .mud-tab {
+    padding: 8px;
+  }
+  .tabs-soft ::deep .mud-tab .mud-icon-root {
+    width: 13px;
+    height: 13px;
+    margin-right: 4px;
+  }
+}

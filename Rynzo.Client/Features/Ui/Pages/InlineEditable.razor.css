@@ -1,0 +1,134 @@
+.inline-page {
+  min-width: 0;
+  padding-bottom: 24px;
+  color: var(--foreground);
+}
+.inline-section + .inline-section {
+  margin-top: 32px;
+}
+.inline-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 19px;
+}
+.inline-heading > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--primary);
+}
+.inline-heading > span ::deep svg {
+  width: 18px;
+  height: 18px;
+}
+.inline-heading h2 {
+  margin: 0;
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+}
+.inline-heading p {
+  margin: 3px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.inline-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.inline-list {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.inline-select,
+.inline-status {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+}
+.inline-select-icon,
+.inline-status > span {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--primary);
+}
+.inline-select > div:nth-child(2),
+.inline-status > div {
+  flex: 1;
+}
+.inline-select small,
+.inline-status small {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-overline);
+}
+.inline-select b,
+.inline-status b {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--rynzo-font-caption);
+}
+.inline-actions {
+  display: flex !important;
+  gap: 3px;
+  flex: none !important;
+}
+.inline-caption {
+  margin: 17px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.inline-record {
+  padding: 2px;
+}
+.inline-record-head,
+.inline-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.inline-record h3 {
+  margin: 25px 0 6px;
+  font-size: var(--rynzo-font-h6);
+}
+.inline-record p,
+.inline-status p {
+  margin: 5px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.7;
+}
+.inline-record-fields {
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+}
+.inline-footer {
+  margin-top: 22px;
+  padding-top: 17px;
+  border-top: 1px solid var(--border);
+}
+.inline-status ::deep .mud-switch {
+  margin: 0;
+}
+@media (max-width: 850px) {
+  .inline-grid {
+    grid-template-columns: 1fr;
+  }
+}

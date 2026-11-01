@@ -1,0 +1,101 @@
+[
+  {
+    "id": "design",
+    "name": "Design Assets",
+    "folder": true,
+    "type": "Folder",
+    "size": "24 files",
+    "modified": "2 hours ago",
+    "owner": "You",
+    "path": "/"
+  },
+  {
+    "id": "finance",
+    "name": "Finance",
+    "folder": true,
+    "type": "Folder",
+    "size": "18 files",
+    "modified": "Yesterday",
+    "owner": "You",
+    "path": "/"
+  },
+  {
+    "id": "project",
+    "name": "Project Files",
+    "folder": true,
+    "type": "Folder",
+    "size": "36 files",
+    "modified": "Aug 21",
+    "owner": "You",
+    "path": "/"
+  },
+  {
+    "id": "reports",
+    "name": "Reports",
+    "folder": true,
+    "type": "Folder",
+    "size": "12 files",
+    "modified": "Aug 20",
+    "owner": "Sophia",
+    "path": "/",
+    "shared": true
+  },
+  {
+    "id": "q3",
+    "name": "Q3-Revenue-Report.pdf",
+    "type": "PDF",
+    "size": "2.4 MB",
+    "modified": "2 hours ago",
+    "owner": "Sophia",
+    "path": "/",
+    "star": true,
+    "shared": true
+  },
+  {
+    "id": "wire",
+    "name": "Dashboard-Wireframes.fig",
+    "type": "Design",
+    "size": "18.6 MB",
+    "modified": "Yesterday",
+    "owner": "You",
+    "path": "/"
+  },
+  {
+    "id": "data",
+    "name": "Customer-Data.xlsx",
+    "type": "Spreadsheet",
+    "size": "4.8 MB",
+    "modified": "Aug 21",
+    "owner": "Daniel",
+    "path": "/",
+    "shared": true
+  },
+  {
+    "id": "road",
+    "name": "Product-Roadmap.pptx",
+    "type": "Presentation",
+    "size": "12.2 MB",
+    "modified": "Aug 19",
+    "owner": "You",
+    "path": "/"
+  },
+  {
+    "id": "photo",
+    "name": "Team-Photo.jpg",
+    "type": "Image",
+    "size": "3.4 MB",
+    "modified": "Aug 18",
+    "owner": "Olivia",
+    "path": "/",
+    "star": true
+  },
+  {
+    "id": "invoice",
+    "name": "Invoice-August.pdf",
+    "type": "PDF",
+    "size": "1.2 MB",
+    "modified": "Aug 17",
+    "owner": "You",
+    "path": "/"
+  }
+]

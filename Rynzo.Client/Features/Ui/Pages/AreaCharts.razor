@@ -1,0 +1,117 @@
+﻿@page "/charts/area"
+@using Rynzo.Client.Features.Dashboard.Components
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>Area Chart Analytics | Rynzo</PageTitle>
+<div class="area-charts-page">
+    <DashboardPageHeader Title="Area Chart Analytics" Description="Follow the flow. Explore momentum, composition, and the uncertainty ahead.">
+        <Actions>
+            <MudSelect T="string" Value="Period" ValueChanged="ChangePeriod" Variant="Variant.Outlined" Margin="Margin.Dense" Class="area-control" aria-label="Reporting period">@foreach(var value in Periods){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudSelect T="string" @bind-Value="Category" Variant="Variant.Outlined" Margin="Margin.Dense" Class="area-control" aria-label="Chart category">@foreach(var value in Categories){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudButton Variant="Variant.Outlined" OnClick="Refresh" StartIcon="@Icons.Material.Filled.Refresh">Refresh</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Export" StartIcon="@Icons.Material.Filled.FileDownload">Export CSV</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    <div class="area-context"><span><i></i> TREND INTELLIGENCE <span>/</span> @Period</span><span>Illustrative data · @Updated</span></div>
+    <section class="area-kpis" aria-label="Trend overview">
+        @foreach(var kpi in Kpis){<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><div><span>@kpi.Title</span><MudIcon Icon="@kpi.Icon" Size="Size.Small" /></div><strong>@kpi.Value</strong><p>@kpi.Change</p><small>@kpi.Detail</small></MudCard>}
+    </section>
+    <section class="area-chart-grid" aria-label="Interactive area analytics">
+        @foreach(var card in Cards.Where(c=>Category=="All Charts"||c.Category==Category))
+        {
+            <MudCard Class="@((($"area-card {card.Kind}")) + " rynzo-widget-card")" @key="card.Kind" Elevation="0" Outlined="true" data-widget-element="article">
+                <header><div><span class="area-kicker">@card.Number / @card.Type</span><h2>@card.Title</h2><p>@card.Description</p></div><span class="area-badge">@card.Category</span></header>
+                @if(card.Kind=="coverage")
+                {
+                    <div class="featured-metrics"><div><span>RECOGNIZED REVENUE</span><strong>@Money(Current.Revenue.Sum())</strong></div><div><span>PERIOD GROWTH</span><b>@Change(Current.Revenue.Sum(),Previous.Revenue.Sum()).ToString("+0.0;-0.0;0.0")%</b><small>vs. previous period</small></div><div><span>PLAN COVERAGE</span><b>@((100*Current.Revenue.Sum()/Current.Target.Sum()).ToString("0.0"))%</b><small>@Money(Current.Target.Sum()) planned</small></div></div>
+                }
+                @if(card.Kind=="capacity"){<label class="chart-control">Operating threshold<select value="@Threshold" @onchange="ChangeThreshold"><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option></select></label>}
+                @if(card.Kind=="confidence"){<div class="forecast-note"><MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" /><span>Illustrative lower/upper range, not a statistical confidence claim.</span></div>}
+                @if(card.Kind=="momentum")
+                {
+                    <div class="momentum-layout"><aside><span class="area-kicker">A COMMON STARTING POINT</span><h3>Different measures.<br />Comparable momentum.</h3><p>Each metric begins at an index of 100. Compare relative change while retaining original values in the tooltip.</p><label class="chart-control">Focus<select value="@Focus" @onchange="ChangeFocus"><option>All metrics</option><option>Revenue</option><option>Traffic</option><option>Engagement</option></select></label><div class="momentum-values"><span>Revenue index <b>@((Current.Revenue[^1]/Current.Revenue[0]*100).ToString("0.0"))</b></span><span>Traffic index <b>@((Sessions(Current)[^1]/Sessions(Current)[0]*100).ToString("0.0"))</b></span><span>Engagement index <b>@((100d*Current.Engagement[^1]/Current.Engagement[0]).ToString("0.0"))</b></span></div></aside><DashboardChart Data="@Data" OptionsModule="./area-chart-options.js" Kind="momentum" Height="365" Label="Normalized revenue, traffic, and engagement trends" /></div>
+                }
+                else
+                {
+                    <DashboardChart Data="@Data" OptionsModule="./area-chart-options.js" Kind="@card.Kind" Height="@(card.Kind=="coverage"?355:315)" Label="@card.Title" />
+                }
+                @if(card.Kind=="customers"){<div class="customer-flow"><span>Acquired<b>@Current.Acquired.Sum().ToString("N0")</b></span><span>Lost<b>@Current.Churned.Sum().ToString("N0")</b></span><span>Net additions<b>@NetCustomers(Current).ToString("N0")</b></span></div>}
+                @if(card.Kind=="support"){<div class="support-balance"><span>Opening backlog <b>@Current.OpeningBacklog</b></span><span>Closing backlog <b>@Backlog(Current)</b></span></div>}
+                <footer><span>@card.Note</span><b>@Insight(card.Kind)</b></footer>
+            </MudCard>
+        }
+    </section>
+    <details class="area-method"><summary>How these trends are calculated</summary><p>Values are deterministic sample data. Revenue is recognized USD per bucket; traffic is sessions, engagement is engaged sessions, and customer growth is the running total of acquisitions minus churn within the window. Channel volumes add up to total sessions. Support backlog = opening backlog + opened tickets − resolved tickets. Cash movement is receipts minus payments. Forecast ranges extend three buckets beyond the historical window and widen with the horizon. Business momentum uses value / first bucket × 100 to compare metrics with different units. Previous-period buckets use matching durations. Monetary figures are USD.</p></details>
+</div>
+@code {
+    private static readonly string[] Periods=["7 Days","30 Days","90 Days","This Year"];
+    private static readonly string[] Categories=["All Charts","Revenue","Marketing","Customers","Operations","Finance"];
+    private string Period="30 Days",Category="All Charts",Focus="All metrics",Updated="Ready to explore";
+    private double Threshold=80;
+    private Snapshot Data=null!;
+    private IJSObjectReference? Module;
+    private sealed record Frame(double[] Revenue,double[] Target,int[][] Traffic,int[] Engagement,double[] Capacity,double[] Receipts,double[] Payments,int[] Acquired,int[] Churned,int[] Opened,int[] Resolved,int OpeningBacklog);
+    private sealed record Snapshot(string[] Labels,Frame Current,Frame Previous,string[] ForecastLabels,double[] Projection,double[] Lower,double[] Upper,double Threshold,string Focus);
+    private sealed record Card(string Number,string Kind,string Title,string Category,string Type,string Description,string Note);
+    private static readonly Card[] Cards=[
+        new("01","coverage","Revenue momentum & coverage","Revenue","FEATURED GRADIENT AREA","Recognized revenue against its plan and the matching previous period.","Actual and planned values share the same USD scale and reporting buckets."),
+        new("02","traffic","Traffic composition","Marketing","STACKED VOLUME","Follow the contribution of each acquisition channel over time.","Organic + Paid + Referral + Direct equals total sessions."),
+        new("03","confidence","Revenue forecast range","Revenue","RANGE AREA + PROJECTION","Separate observed performance from future possibilities.","The shaded range starts at the last historical value and widens over three future buckets."),
+        new("04","engagement","Engagement depth","Customers","SMOOTH COMPARATIVE AREA","Compare engaged sessions with the corresponding previous-period activity.","Engaged sessions are a subset of total sessions, not unique people."),
+        new("05","allocation","Channel share evolution","Marketing","100% STACKED AREA","Compare channel composition independently of overall traffic growth.","Tooltips show full-dataset share; hiding a channel re-normalizes the visible selection."),
+        new("06","capacity","Operational capacity","Operations","STEP AREA + THRESHOLD","Monitor utilization against an adjustable operating threshold.","Utilization is a 0–100% snapshot per bucket. The threshold is a reference, not a measured series."),
+        new("07","cashflow","Net cash movement","Finance","SIGNED AREA","Follow the balance between cash collected and payments made.","Net cash = receipts − payments. The zero line separates inflows from net outflows."),
+        new("08","customers","Customer growth","Customers","CUMULATIVE AREA","Track the net customer additions accumulated within the reporting window.","Starts from zero additions for this window; it does not represent the total customer base."),
+        new("09","support","Support demand & resolution","Operations","OVERLAPPING VOLUME AREAS","See how incoming demand compares with the pace of resolution.","Opened and resolved are ticket flows. Backlog is calculated separately from their difference."),
+        new("10","momentum","Business momentum index","Revenue","NORMALIZED MULTI-AREA","Compare relative movement across revenue, traffic, and engagement.","All series start at 100. An index of 120 means 20% above the first bucket.")];
+    private Frame Current=>Data.Current;
+    private Frame Previous=>Data.Previous;
+    private static double[] Sessions(Frame f)=>Enumerable.Range(0,f.Revenue.Length).Select(i=>(double)f.Traffic.Sum(row=>row[i])).ToArray();
+    private static int NetCustomers(Frame f)=>f.Acquired.Sum()-f.Churned.Sum();
+    private static int Backlog(Frame f)=>f.OpeningBacklog+f.Opened.Sum()-f.Resolved.Sum();
+    private static double Change(double value,double baseline)=>(value/baseline-1)*100;
+    private static string Money(double value)=>value.ToString("C0",System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+    private static string ShortMoney(double value)=>Math.Abs(value)>=1000000?$"${value/1000000:0.00}m":Money(value);
+    private static string ShortCount(double value)=>value>=1000000?$"{value/1000000:0.00}m":value.ToString("N0");
+    private IEnumerable<(string Title,string Value,string Change,string Detail,string Icon)> Kpis=>[
+        ("Total revenue",ShortMoney(Current.Revenue.Sum()),$"{Change(Current.Revenue.Sum(),Previous.Revenue.Sum()):+0.0;-0.0}% vs. previous",$"Recognized {Money(Current.Revenue.Sum())}",Icons.Material.Filled.AccountBalanceWallet),
+        ("Total sessions",ShortCount(Sessions(Current).Sum()),$"{Change(Sessions(Current).Sum(),Sessions(Previous).Sum()):+0.0;-0.0}% vs. previous",$"{Sessions(Current).Sum():N0} sessions across four channels",Icons.Material.Filled.TravelExplore),
+        ("Net customer additions",NetCustomers(Current).ToString("N0"),$"{NetCustomers(Current)-NetCustomers(Previous):+0;-0} vs. previous",$"{Current.Acquired.Sum():N0} acquired − {Current.Churned.Sum():N0} lost",Icons.Material.Filled.PersonAddAlt1),
+        ("Latest capacity",$"{Current.Capacity[^1]:0.0}%",$"{Current.Capacity[^1]-Previous.Capacity[^1]:+0.0;-0.0} pp vs. previous",$"Threshold {Threshold:0}% · {Current.Capacity.Count(v=>v>Threshold)} buckets above",Icons.Material.Filled.Speed)];
+    protected override void OnInitialized()=>Rebuild();
+    private void ChangePeriod(string value){Period=value;Rebuild();}
+    private void Refresh(){Updated="Refreshed just now";Rebuild();}
+    private void ChangeThreshold(ChangeEventArgs e){if(double.TryParse(e.Value?.ToString(),out var value)){Threshold=value;Data=Data with {Threshold=value};}}
+    private void ChangeFocus(ChangeEventArgs e){Focus=e.Value?.ToString()??"All metrics";Data=Data with {Focus=Focus};}
+    private void Rebuild()
+    {
+        var index=Array.IndexOf(Periods,Period);var scale=new double[]{.22,1,3.1,6}[index];
+        string[][] periods=[["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],["01–05","06–10","11–15","16–20","21–25","26–30"],["Weeks 1–2","Weeks 3–4","Weeks 5–6","Weeks 7–8","Weeks 9–10","Weeks 11–13"],["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]];
+        var labels=periods[index];var n=labels.Length;
+        Frame Build(bool previous)
+        {
+            var factor=previous ? .88:1d;
+            var revenue=Enumerable.Range(0,n).Select(i=>Math.Round((42000+i*2600+(i%3-1)*1400)*scale*factor)).ToArray();
+            var target=revenue.Select((v,i)=>Math.Round(v/(.95+(i%4)*.045-(previous ? .03:0)))).ToArray();
+            var sessions=Enumerable.Range(0,n).Select(i=>(int)Math.Round((24000+i*1600)*scale*factor)).ToArray();
+            var traffic=new int[4][];for(var c=0;c<4;c++)traffic[c]=new int[n];
+            for(var i=0;i<n;i++){traffic[0][i]=(int)(sessions[i]*(.4+i*.003));traffic[1][i]=(int)(sessions[i]*(.3-i*.002));traffic[2][i]=(int)(sessions[i]*.18);traffic[3][i]=sessions[i]-traffic[0][i]-traffic[1][i]-traffic[2][i];}
+            var engagement=sessions.Select((v,i)=>(int)Math.Round(v*(.57+i*.009+index*.005-(previous ? .02:0)))).ToArray();
+            var capacity=Enumerable.Range(0,n).Select(i=>Math.Min(96,52+i*3+(i%3)*5+index*2+(previous ? 3:0))).Select(v=>(double)v).ToArray();
+            var receipts=revenue.Select((v,i)=>Math.Round(v*(.82+(i%3)*.04))).ToArray();
+            var payments=revenue.Select((v,i)=>Math.Round(v*(new double[]{.76,.99,.74,.79,.95,.72}[i%6]))).ToArray();
+            var acquired=sessions.Select((v,i)=>(int)Math.Round(v*(.025+i*.0006))).ToArray();
+            var churned=acquired.Select((v,i)=>(int)Math.Round(v*(.16+(i%3)*.025+(previous ? .02:0)))).ToArray();
+            var opened=Enumerable.Range(0,n).Select(i=>(int)Math.Round((170+i*12)*scale*(previous ? 1.08:1))).ToArray();
+            var resolved=opened.Select((v,i)=>(int)Math.Round(v*(.88+(i%4)*.045+(previous ? -.02:0)))).ToArray();
+            return new(revenue,target,traffic,engagement,capacity,receipts,payments,acquired,churned,opened,resolved,120+index*30);
+        }
+        var current=Build(false);var last=current.Revenue[^1];var projection=new[]{last,Math.Round(last*1.06),Math.Round(last*1.12),Math.Round(last*1.19)};
+        Data=new(labels,current,Build(true),labels.Concat(new[]{"Forecast +1","Forecast +2","Forecast +3"}).ToArray(),projection,projection.Select((v,i)=>Math.Round(v*(1-i*.045))).ToArray(),projection.Select((v,i)=>Math.Round(v*(1+i*.045))).ToArray(),Threshold,Focus);
+    }
+    private string Insight(string kind)=>kind switch{"coverage"=>$"{100*Current.Revenue.Sum()/Current.Target.Sum():0.0}% of plan","traffic"=>$"{Sessions(Current).Sum():N0} sessions","confidence"=>"3 future buckets","engagement"=>$"{100d*Current.Engagement.Sum()/Sessions(Current).Sum():0.0}% engaged","allocation"=>"Four exclusive channels","capacity"=>$"{Current.Capacity.Count(v=>v>Threshold)} above threshold","cashflow"=>ShortMoney(Current.Receipts.Sum()-Current.Payments.Sum())+" net cash","customers"=>$"{NetCustomers(Current):N0} net additions","support"=>$"{Backlog(Current):N0} closing backlog",_=>"First bucket = 100"};
+    private async Task Export(){Module??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/area-chart-options.js");await Module.InvokeVoidAsync("exportCsv",Data,Period,Category);}
+    public async ValueTask DisposeAsync(){if(Module is not null){try{await Module.DisposeAsync();}catch(JSDisconnectedException){}}}
+}
+

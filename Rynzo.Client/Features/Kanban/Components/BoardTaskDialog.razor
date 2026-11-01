@@ -1,0 +1,19 @@
+@using Rynzo.Client.Features.Kanban.Models
+@using Rynzo.Client.Features.Kanban.Services
+@inject ISnackbar Snackbar
+<MudDialog Class="board-task-form" Style="width:min(672px,calc(100vw - 32px));max-width:672px;max-height:90vh;overflow-y:auto">
+    <TitleContent><MudText Typo="Typo.h6" HtmlTag="h2">@(Draft.Id.Length==0?"Add task":"Edit task")</MudText></TitleContent>
+    <DialogContent>
+        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">Add details to your board task.</MudText>
+        <MudTextField T="string" @bind-Value="Draft.Title" Immediate="true" Placeholder="Task title" aria-label="Task title" Variant="Variant.Outlined" />
+        <MudTextField T="string" @bind-Value="Draft.Description" Immediate="true" Placeholder="Description" aria-label="Task description" Lines="3" Variant="Variant.Outlined" Class="mt-3" />
+        <MudGrid Class="mt-0" Spacing="3">
+            <MudItem xs="6"><MudSelect T="string" @bind-Value="Draft.Column" Placeholder="Column" aria-label="Task column" Variant="Variant.Outlined" Class="board-task-column">@foreach(var column in State.Columns){<MudSelectItem Value="@column.Id">@column.Name</MudSelectItem>}</MudSelect></MudItem>
+            <MudItem xs="6"><MudSelect T="string" @bind-Value="Draft.Priority" Placeholder="Priority" aria-label="Task priority" Variant="Variant.Outlined" Class="board-task-priority">@foreach(var priority in new[]{"Critical","High","Medium","Low"}){<MudSelectItem Value="@priority">@priority</MudSelectItem>}</MudSelect></MudItem>
+        </MudGrid>
+        <MudTextField T="string" @bind-Value="Assignees" Immediate="true" Placeholder="Assignees" aria-label="Task assignees" Variant="Variant.Outlined" Class="mt-3" />
+        <MudTextField T="string" @bind-Value="Labels" Immediate="true" Placeholder="Labels" aria-label="Task labels" Variant="Variant.Outlined" Class="mt-3" />
+    </DialogContent>
+    <DialogActions><MudButton Variant="Variant.Outlined" OnClick="@(() => Dialog.Cancel())">Cancel</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save">Save task</MudButton></DialogActions>
+</MudDialog>
+@code{[Parameter,EditorRequired]public BoardTask Draft{get;set;}=null!;[Parameter,EditorRequired]public KanbanState State{get;set;}=null!;[CascadingParameter]public IMudDialogInstance Dialog{get;set;}=null!;private string Assignees{get=>string.Join(", ",Draft.Assignees);set=>Draft.Assignees=Split(value);}private string Labels{get=>string.Join(", ",Draft.Labels);set=>Draft.Labels=Split(value);}private static string[] Split(string value)=>value.Split(',').Select(v=>v.Trim()).Where(v=>v.Length>0).ToArray();private void Save(){if(!State.SaveTask(Draft)){Snackbar.Add("Task title is required",Severity.Error);return;}Dialog.Close(DialogResult.Ok(true));}}

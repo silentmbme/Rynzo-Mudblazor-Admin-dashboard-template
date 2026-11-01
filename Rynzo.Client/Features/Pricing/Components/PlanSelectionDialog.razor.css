@@ -1,0 +1,105 @@
+.plan-selection {
+  font-size: var(--rynzo-font-body2);
+  color: var(--foreground);
+}
+.selection-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, var(--primary) 20%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary) 4%, var(--card));
+}
+.selection-summary > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.selection-summary ::deep svg {
+  width: 20px;
+  height: 20px;
+}
+.selection-summary small {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.selection-summary h3 {
+  font-size: var(--rynzo-font-subtitle1);
+  font-weight: 600;
+  margin: 5px 0 0;
+}
+.selection-summary strong {
+  font-size: var(--rynzo-font-h4);
+  font-weight: 600;
+  margin-left: auto;
+  text-align: right;
+}
+.selection-summary strong small {
+  display: block;
+  font-weight: 400;
+  margin-top: 4px;
+}
+.selection-cycle {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  margin: 12px 0 24px;
+}
+.plan-selection h4 {
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.plan-selection ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.plan-selection li {
+  display: flex;
+  gap: 9px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.plan-selection li ::deep svg {
+  width: 16px;
+  height: 16px;
+  color: var(--success);
+  flex-shrink: 0;
+}
+.selection-note {
+  display: flex;
+  gap: 9px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+}
+.selection-note ::deep svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--primary);
+}
+.selection-note p {
+  margin: 0;
+}
+@media (max-width: 540px) {
+  .selection-summary {
+    flex-wrap: wrap;
+  }
+  .selection-summary strong {
+    width: 100%;
+    text-align: left;
+    margin-left: 50px;
+  }
+}

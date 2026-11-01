@@ -1,0 +1,82 @@
+[
+  {
+    "id": "M1",
+    "image": "assets/images/restaurant/margherita-pizza.jpg",
+    "name": "Margherita pizza",
+    "category": "Pizza",
+    "price": 14,
+    "description": "Tomato, mozzarella, fresh basil",
+    "icon": "Pizza",
+    "color": "--primary"
+  },
+  {
+    "id": "M2",
+    "image": "assets/images/restaurant/vegetable-pizza.jpg",
+    "name": "Roasted vegetable pizza",
+    "category": "Pizza",
+    "price": 17,
+    "description": "Peppers, mushrooms, olives",
+    "icon": "Pizza",
+    "color": "--warning"
+  },
+  {
+    "id": "M3",
+    "image": "assets/images/restaurant/garden-salad.jpg",
+    "name": "Garden salad",
+    "category": "Salads",
+    "price": 9,
+    "description": "Mixed greens, cucumber, lemon dressing",
+    "icon": "Salad",
+    "color": "--success"
+  },
+  {
+    "id": "M4",
+    "image": "assets/images/restaurant/greek-salad.jpg",
+    "name": "Greek salad",
+    "category": "Salads",
+    "price": 11,
+    "description": "Feta, olives, tomato, cucumber",
+    "icon": "Salad",
+    "color": "--info"
+  },
+  {
+    "id": "M5",
+    "image": "assets/images/restaurant/mushroom-pasta.jpg",
+    "name": "Creamy mushroom pasta",
+    "category": "Mains",
+    "price": 16,
+    "description": "Penne, mushrooms, parmesan",
+    "icon": "UtensilsCrossed",
+    "color": "--primary"
+  },
+  {
+    "id": "M6",
+    "image": "assets/images/restaurant/grilled-chicken.jpg",
+    "name": "Grilled chicken plate",
+    "category": "Mains",
+    "price": 19,
+    "description": "Herb chicken, potatoes, seasonal greens",
+    "icon": "UtensilsCrossed",
+    "color": "--warning"
+  },
+  {
+    "id": "M7",
+    "image": "assets/images/restaurant/iced-latte.jpg",
+    "name": "Iced latte",
+    "category": "Drinks",
+    "price": 5,
+    "description": "Espresso, milk, ice",
+    "icon": "Coffee",
+    "color": "--info"
+  },
+  {
+    "id": "M8",
+    "image": "assets/images/restaurant/lemonade.jpg",
+    "name": "Fresh lemonade",
+    "category": "Drinks",
+    "price": 4,
+    "description": "Lemon, sparkling water, mint",
+    "icon": "Coffee",
+    "color": "--success"
+  }
+]

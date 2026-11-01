@@ -1,0 +1,89 @@
+@page "/forms/editors"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Features.Ui.Components
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<PageTitle>Editors | Rynzo</PageTitle>
+<div class="editors-page">
+    <DashboardPageHeader Title="Editors" Description="A considered workspace for drafting, reviewing, and publishing content.">
+        <Actions>
+            <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Eye")" OnClick="@(()=>Preview=!Preview)">@(Preview ? "Edit" : "Preview")</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Save")" OnClick="Save">Save draft</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+
+    <div class="editor-grid">
+        <main class="editor-primary">
+            <FormElementCard Id="composer" Title="Content composer" Description="Draft the message and switch to preview whenever you need a clean read-through.">
+                <div class="editor-document-meta">
+                    <span class="editor-document-icon"><MudIcon Icon="@RynzoIcons.Get("FileText")" /></span>
+                    <div><span class="editor-kicker">WORKING DOCUMENT</span><b>Monthly update</b></div>
+                    <span class="editor-draft-state"><i></i>@Status</span>
+                </div>
+                <UiFormField Id="editor-title" Label="Document title">
+                    <MudTextField T="string" @bind-Value="Title" Placeholder="Give your update a clear title" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                </UiFormField>
+                <div class="editor-toolbar" role="toolbar" aria-label="Text formatting">
+                    <MudIconButton Icon="@RynzoIcons.Get("Bold")" aria-label="Bold" />
+                    <MudIconButton Icon="@RynzoIcons.Get("Italic")" aria-label="Italic" />
+                    <span class="editor-toolbar-divider"></span>
+                    <MudIconButton Icon="@RynzoIcons.Get("List")" aria-label="Bulleted list" />
+                    <MudIconButton Icon="@RynzoIcons.Get("ListOrdered")" aria-label="Numbered list" />
+                    <MudIconButton Icon="@RynzoIcons.Get("Link")" aria-label="Insert link" />
+                    <span class="editor-toolbar-mode">@(Preview ? "Preview mode" : "Editing")</span>
+                </div>
+                @if (Preview)
+                {
+                    <article class="editor-preview"><h2>@Title</h2><p>@Content</p></article>
+                }
+                else
+                {
+                    <MudTextField T="string" @bind-Value="Content" Lines="12" Placeholder="Start writing your update..." Variant="Variant.Text" Margin="Margin.Dense" Class="editor-surface" aria-label="Document content" />
+                }
+                <div class="editor-footer"><span>@Content.Length characters</span><span><MudIcon Icon="@RynzoIcons.Get("Clock3")" /> Saved locally when you select Save draft</span></div>
+            </FormElementCard>
+
+            <FormElementCard Id="quill" Title="Rich text studio" Description="Use the full editor for structured content with headings, lists, links, quotes, and code blocks.">
+                <div class="editor-quill-frame"><div id="quill-editor" class="quill-editor-host"></div></div>
+                <div class="editor-quill-actions"><span>Rich text content</span><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Save")" OnClick="SaveQuill">Save rich text</MudButton></div>
+            </FormElementCard>
+        </main>
+
+        <aside class="editor-side" aria-label="Publishing tools">
+            <FormElementCard Id="settings" Title="Publishing settings" Description="Choose the status and audience for this document.">
+                <div class="editor-settings">
+                    <UiFormField Id="editor-status" Label="Status">
+                        <MudSelect T="string" @bind-Value="Status" Variant="Variant.Outlined" Margin="Margin.Dense">
+                            <MudSelectItem Value="@("Draft")">Draft</MudSelectItem><MudSelectItem Value="@("In review")">In review</MudSelectItem><MudSelectItem Value="@("Published")">Published</MudSelectItem>
+                        </MudSelect>
+                    </UiFormField>
+                    <UiFormField Id="editor-audience" Label="Audience">
+                        <MudSelect T="string" @bind-Value="Audience" Variant="Variant.Outlined" Margin="Margin.Dense">
+                            <MudSelectItem Value="@("Workspace")">Workspace</MudSelectItem><MudSelectItem Value="@("Customers")">Customers</MudSelectItem><MudSelectItem Value="@("Public")">Public</MudSelectItem>
+                        </MudSelect>
+                    </UiFormField>
+                </div>
+                <div class="editor-check"><MudCheckBox T="bool" @bind-Value="Notify" Color="Color.Primary" Label="Notify audience when published" /></div>
+            </FormElementCard>
+
+            <FormElementCard Id="outline" Title="Document outline" Description="A quick structure for your draft.">
+                <ol class="editor-outline"><li class="is-active"><span>01</span>Introduction</li><li><span>02</span>What changed</li><li><span>03</span>Next steps</li></ol>
+                <MudButton Variant="Variant.Outlined" FullWidth="true" StartIcon="@RynzoIcons.Get("FileText")">Add section</MudButton>
+            </FormElementCard>
+
+            <div class="editor-side-note"><MudIcon Icon="@RynzoIcons.Get("Info")" /><p>Draft changes stay in this page session. Publishing and notifications are sample interactions.</p></div>
+        </aside>
+    </div>
+</div>
+
+@code {
+    private string Title="October product update",Content="Share a concise summary of the improvements your team shipped this month.",Status="Draft",Audience="Workspace";
+    private bool Preview,Notify=true,quillStarted;
+    protected override async Task OnAfterRenderAsync(bool firstRender){if(firstRender){await JS.InvokeVoidAsync("rynzoQuill.init","quill-editor","<p>Write a polished update with the Quill rich-text editor.</p>");quillStarted=true;}}
+    private void Save()=>Snackbar.Add("Draft saved",Severity.Success);
+    private async Task SaveQuill(){if(quillStarted){Content=await JS.InvokeAsync<string>("rynzoQuill.getHtml","quill-editor");}Snackbar.Add("Quill content saved",Severity.Success);}
+    public async ValueTask DisposeAsync(){if(quillStarted){try{await JS.InvokeVoidAsync("rynzoQuill.destroy","quill-editor");}catch{}}}
+}

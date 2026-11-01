@@ -1,0 +1,262 @@
+{
+  "owners": [
+    "Sophia Carter",
+    "Daniel Lee",
+    "Olivia Smith",
+    "Emma Wilson"
+  ],
+  "contacts": [
+    {
+      "id": 1,
+      "name": "Ava Thompson",
+      "email": "ava@cloudaxis.com",
+      "phone": "+1 212 555 0171",
+      "role": "VP Operations",
+      "company": "CloudAxis",
+      "industry": "SaaS",
+      "owner": "Sophia Carter",
+      "source": "LinkedIn",
+      "type": "Lead",
+      "status": "Qualified",
+      "tags": [
+        "Enterprise",
+        "Decision Maker",
+        "High Intent"
+      ],
+      "score": 86,
+      "pipeline": 84500,
+      "activity": "Email opened",
+      "activityDays": 0,
+      "followUp": "Aug 26",
+      "overdue": false,
+      "notes": [
+        "Demo completed with operations team.",
+        "Interested in enterprise rollout."
+      ],
+      "tasks": [
+        "Send proposal",
+        "Schedule technical review"
+      ],
+      "initials": "AT",
+      "location": "New York, US"
+    },
+    {
+      "id": 2,
+      "name": "Liam Brooks",
+      "email": "liam@vertexlabs.com",
+      "phone": "+44 20 7946 0281",
+      "role": "CTO",
+      "company": "Vertex Labs",
+      "industry": "Technology",
+      "owner": "Daniel Lee",
+      "source": "Referral",
+      "type": "Prospect",
+      "status": "Nurturing",
+      "tags": [
+        "Technical Buyer",
+        "Demo Requested"
+      ],
+      "score": 74,
+      "pipeline": 42000,
+      "activity": "Call completed",
+      "activityDays": 1,
+      "followUp": "Aug 28",
+      "overdue": false,
+      "notes": [
+        "Needs security documentation before approval."
+      ],
+      "tasks": [
+        "Share security pack"
+      ],
+      "initials": "LB",
+      "location": "London, UK"
+    },
+    {
+      "id": 3,
+      "name": "Emma Davis",
+      "email": "emma@rynzosystems.com",
+      "phone": "+1 416 555 0132",
+      "role": "Head of Marketing",
+      "company": "Rynzo Systems",
+      "industry": "Software",
+      "owner": "Olivia Smith",
+      "source": "Event",
+      "type": "Customer",
+      "status": "Active",
+      "tags": [
+        "VIP",
+        "Renewal",
+        "Decision Maker"
+      ],
+      "score": 91,
+      "pipeline": 128000,
+      "activity": "Deal moved to Proposal",
+      "activityDays": 2,
+      "followUp": "Today",
+      "overdue": false,
+      "notes": [
+        "Renewal expansion opportunity confirmed."
+      ],
+      "tasks": [
+        "Review renewal forecast",
+        "Send Q4 roadmap"
+      ],
+      "initials": "ED",
+      "location": "Toronto, Canada"
+    },
+    {
+      "id": 4,
+      "name": "Noah Walker",
+      "email": "noah@brightworks.com",
+      "phone": "+49 30 901824",
+      "role": "Procurement Manager",
+      "company": "BrightWorks",
+      "industry": "Manufacturing",
+      "owner": "Emma Wilson",
+      "source": "Website",
+      "type": "Lead",
+      "status": "New",
+      "tags": [
+        "High Intent"
+      ],
+      "score": 62,
+      "pipeline": 18000,
+      "activity": "Form submitted",
+      "activityDays": 4,
+      "followUp": "Aug 25",
+      "overdue": false,
+      "notes": [],
+      "tasks": [
+        "Qualify requirements"
+      ],
+      "initials": "NW",
+      "location": "Berlin, Germany"
+    },
+    {
+      "id": 5,
+      "name": "Mia Patel",
+      "email": "mia@acmeinc.com",
+      "phone": "+91 40 5550 0191",
+      "role": "Director of Finance",
+      "company": "Acme Inc.",
+      "industry": "Finance",
+      "owner": "Sophia Carter",
+      "source": "Email Campaign",
+      "type": "Prospect",
+      "status": "Inactive",
+      "tags": [
+        "Enterprise",
+        "Renewal"
+      ],
+      "score": 43,
+      "pipeline": 56000,
+      "activity": "No activity",
+      "activityDays": 45,
+      "followUp": "Overdue",
+      "overdue": true,
+      "notes": [
+        "Paused due to budget cycle."
+      ],
+      "tasks": [
+        "Re-engage after budget review"
+      ],
+      "initials": "MP",
+      "location": "Hyderabad, India"
+    }
+  ],
+  "statusTone": {
+    "Active": "success",
+    "New": "primary",
+    "Qualified": "success",
+    "Nurturing": "info",
+    "Inactive": "warning",
+    "Archived": "muted"
+  },
+  "blank": {
+    "first": "",
+    "last": "",
+    "email": "",
+    "phone": "",
+    "role": "",
+    "company": "CloudAxis",
+    "type": "Lead",
+    "status": "New",
+    "owner": "Sophia Carter",
+    "source": "Website",
+    "score": "50",
+    "tags": "",
+    "followUp": "Aug 30",
+    "notes": ""
+  },
+  "filters": [
+    [
+      "All types",
+      "Lead",
+      "Customer",
+      "Partner",
+      "Vendor",
+      "Prospect"
+    ],
+    [
+      "All statuses",
+      "Active",
+      "New",
+      "Qualified",
+      "Nurturing",
+      "Inactive",
+      "Archived"
+    ],
+    [
+      "All companies",
+      "Acme Inc.",
+      "Vertex Labs",
+      "Rynzo Systems",
+      "CloudAxis",
+      "BrightWorks"
+    ],
+    [
+      "All owners",
+      "Sophia Carter",
+      "Daniel Lee",
+      "Olivia Smith",
+      "Emma Wilson"
+    ],
+    [
+      "All sources",
+      "Website",
+      "Referral",
+      "LinkedIn",
+      "Email Campaign",
+      "Event",
+      "Partner",
+      "Manual Entry"
+    ],
+    [
+      "All tags",
+      "Enterprise",
+      "VIP",
+      "High Intent",
+      "Renewal",
+      "Demo Requested",
+      "Decision Maker",
+      "Technical Buyer"
+    ],
+    [
+      "Any activity",
+      "Today",
+      "Last 7 Days",
+      "Last 30 Days",
+      "No Activity",
+      "Overdue Follow-up"
+    ],
+    [
+      "Recently Added",
+      "Recently Updated",
+      "Name A-Z",
+      "Last Activity",
+      "Highest Deal Value",
+      "Next Follow-up",
+      "Company A-Z"
+    ]
+  ]
+}

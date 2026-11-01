@@ -1,0 +1,142 @@
+﻿@page "/dashboards/hrm-dashboard"
+@implements IAsyncDisposable
+@using System.Globalization
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Services
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+@inject RynzoAppearance Appearance
+<PageTitle>HRM Dashboard | Rynzo</PageTitle>
+<div class="hrm-dashboard">
+    <DashboardPageHeader Title="HRM Dashboard" Description="A clear view of your people, attendance, and team operations.">
+        <Actions><div class="hrm-actions">
+            <MudSelect T="string" @bind-Value="_department" @bind-Value:after="Refresh" Variant="Variant.Outlined" Margin="Margin.Dense" Class="hrm-department" aria-label="HRM department"><MudSelectItem Value="@("all")">All departments</MudSelectItem>@foreach (var department in _state.Source.Departments) { <MudSelectItem Value="@department">@department</MudSelectItem> }</MudSelect>
+            <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export report</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" OnClick="AddEmployee">Add employee</MudButton>
+        </div></Actions>
+    </DashboardPageHeader>
+
+    <section class="hrm-metrics" aria-label="People operations metrics">
+        @foreach (var metric in Metrics)
+        {
+            <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><div class="hrm-metric-top"><p>@metric.Label</p><span class="hrm-metric-icon"><MudIcon Icon="@RynzoIcons.Get(metric.Icon)" /></span></div><strong>@metric.Value</strong><small>@metric.Note</small></MudCard>
+        }
+    </section>
+
+
+
+    <section class="hrm-people-row" aria-label="Leave reviews and onboarding">
+        <DashboardCard Class="hrm-leave-card" Title="Leave requests" Description="Review upcoming time off · Approval updates the sample request only">
+            <Actions><span class="hrm-tag">@Leave.Count(r => r.Status == "Pending") pending</span></Actions>
+            <ChildContent><div class="hrm-leave-list">
+                @foreach (var request in Leave)
+                {
+                    <div class="hrm-leave-item"><div class="hrm-leave-person"><img src="@Avatar(request.Name)" alt="" width="36" height="36" /><span><b>@request.Name</b><small>@request.Type · @request.Dates · @request.Days days</small></span></div>
+                        @if (request.Status == "Pending")
+                        {
+                            <div class="hrm-review-actions"><MudButton Size="Size.Small" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Check")" aria-label="@($"Approve leave for {request.Name}")" OnClick="@(() => Review(request.Id, "Approved"))">Approve</MudButton><MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@RynzoIcons.Get("X")" aria-label="@($"Decline leave for {request.Name}")" OnClick="@(() => Review(request.Id, "Declined"))">Decline</MudButton></div>
+                        }
+                        else { <MudChip T="string" Color="@(request.Status == "Approved" ? Color.Success : Color.Warning)" Size="Size.Small">@request.Status</MudChip> }
+                    </div>
+                }
+            </div>@if (!Leave.Any()) { <p class="hrm-muted">No leave requests for this department.</p> }</ChildContent>
+        </DashboardCard>
+        <DashboardCard Class="hrm-onboarding-card" Title="Onboarding checklist" Description="@($"{Onboarding.Count(t => t.Done)} of {Onboarding.Count()} tasks complete")">
+            <Actions><span class="hrm-tag">New starters</span></Actions>
+            <ChildContent>
+                <MudCard Class="hrm-onboarding-summary rynzo-widget-card" Elevation="0" Outlined="true"><span class="hrm-onboarding-symbol"><MudIcon Icon="@RynzoIcons.Get("UsersRound")" /></span><div><strong>@Onboarding.Count(t => !t.Done)</strong><span>tasks remaining</span></div><small>Build a great<br />first impression.</small></MudCard>
+                <div class="hrm-onboarding">@foreach (var task in Onboarding) { <MudCheckBox T="bool" Value="task.Done" ValueChanged="@(_ => Toggle(task.Title))" Color="Color.Primary" Label="@task.Title" Class="@(task.Done ? "hrm-done" : "")" /> }</div>
+                @if (!Onboarding.Any()) { <p class="hrm-muted">No onboarding tasks for this department.</p> }
+            </ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="hrm-attendance-row" aria-label="Workforce attendance and availability">
+        <DashboardCard Class="hrm-attendance" Title="Workforce attendance" Description="On site, remote, and leave across departments">
+            <Actions><span class="hrm-tag">Department comparison</span></Actions>
+            <ChildContent><DashboardChart @key="ChartAppearance" Data="_chartData" OptionsModule="./hrm-dashboard-options.js" Kind="attendance" Height="300" Label="Grouped horizontal bars comparing on-site, remote, and on-leave employee counts by department" /><div class="hrm-chart-caption"><span>Today's workforce distribution</span><span>@(_department == "all" ? "All departments" : _department)</span></div></ChildContent>
+        </DashboardCard>
+        <DashboardCard Class="hrm-arrangement-card" Title="Work arrangements" Description="Today's team availability">
+            <ChildContent><DashboardChart @key="ChartAppearance" Data="_chartData" OptionsModule="./hrm-dashboard-options.js" Kind="arrangements" Height="285" Label="Donut chart of office, remote, and on-leave employee counts" /><div class="hrm-arrangement-legend">@foreach (var arrangement in Arrangements) { <div><span>@arrangement.Label</span><b>@_selected.Count(e => e.Status == arrangement.Status)</b></div> }</div></ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section aria-label="Employee directory">
+        <DashboardCard Class="hrm-directory" Title="Employee directory" Description="@($"{_visible.Length} employees in view")">
+            <Actions><MudTextField T="string" @bind-Value="_query" @bind-Value:after="FilterSearch" Immediate="true" Placeholder="Search name or role…" aria-label="Search employees" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" Class="hrm-search" /></Actions>
+            <ChildContent><MudTable T="HrmEmployee" Items="_visible" Breakpoint="Breakpoint.None" Elevation="0" Class="hrm-table" aria-label="Employee directory">
+                <HeaderContent><MudTh>Employee</MudTh><MudTh>Department</MudTh><MudTh>Attendance</MudTh><MudTh>Monthly salary</MudTh></HeaderContent>
+                <RowTemplate><MudTd><div class="hrm-employee"><MudAvatar Size="Size.Medium"><MudImage Src="@Avatar(context.Name)" Alt="" /></MudAvatar><span><b>@context.Name</b><small>@context.Role · @context.Id</small></span></div></MudTd><MudTd><span class="hrm-department-label">@context.Department</span></MudTd><MudTd><MudChip T="string" Color="@(context.Status == "On leave" ? Color.Warning : context.Status == "Remote" ? Color.Primary : Color.Success)" Size="Size.Small">@context.Status</MudChip></MudTd><MudTd><b class="hrm-salary">@Money(context.Salary)</b></MudTd></RowTemplate>
+                <NoRecordsContent><MudText Class="pa-6" Color="Color.Secondary">No employees match your search.</MudText></NoRecordsContent>
+            </MudTable><div class="hrm-directory-footer"><span>@_visible.Length of @_selected.Length selected employees</span><span>People directory · Monthly base salaries in USD</span></div></ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="hrm-pay-row" aria-label="Payroll and departmental headcount">
+        <DashboardCard Class="hrm-pay-chart" Title="Payroll &amp; headcount" Description="Monthly base salaries and employee counts / USD">
+            <Actions><span class="hrm-tag">October 2026</span></Actions>
+            <ChildContent><DashboardChart @key="ChartAppearance" Data="_chartData" OptionsModule="./hrm-dashboard-options.js" Kind="payroll" Height="300" Label="Base salaries and employee counts by department" /></ChildContent>
+        </DashboardCard>
+        <DashboardCard Class="hrm-pay-summary" Title="Payroll overview" Description="October 2026 · Sample estimates">
+            <ChildContent><div class="hrm-payroll"><span class="hrm-payroll-symbol"><MudIcon Icon="@RynzoIcons.Get("Wallet")" /></span><div><p>Base salary total</p><strong>@Money(Payroll)</strong></div></div><div class="hrm-payroll-departments">
+                @foreach (var department in _state.Source.Departments) { <p><span><i></i>@department</span><b>@Money(_selected.Where(e => e.Department == department).Sum(e => e.Salary))</b></p> }
+            </div><p class="hrm-payroll-note">Base salaries only. Taxes, deductions, and payouts are excluded.</p></ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="hrm-bottom-row" aria-label="Recruitment, activity and milestones">
+        <DashboardCard Class="hrm-recruit-card" Title="Recruitment pipeline" Description="Sample open positions">
+            <Actions><span class="hrm-tag">Hiring</span></Actions>
+            <ChildContent><div class="hrm-recruitment">
+                @foreach (var position in _state.Source.Recruitment.Where(p => _department == "all" || p.Department == _department)) { <div><span class="hrm-position-icon"><MudIcon Icon="@RynzoIcons.Get("BriefcaseBusiness")" /></span><span><b>@position.Title</b><small>@position.Department · @position.Candidates candidates</small></span><MudChip T="string" Size="Size.Small" Color="Color.Primary">Open</MudChip></div> }
+            </div>@if (!_state.Source.Recruitment.Any(p => _department == "all" || p.Department == _department)) { <p class="hrm-muted">No open positions.</p> }</ChildContent>
+        </DashboardCard>
+        <DashboardCard Class="hrm-activity-card" Title="People activity" Description="Latest sample HR updates">
+            <Actions><span class="hrm-tag">Activity log</span></Actions>
+            <ChildContent><div class="hrm-activity">@foreach (var activity in _state.Source.Activity) { <div><i></i><span><b>@activity.Title</b><small>@activity.Detail</small></span><time>@activity.Time</time></div> }</div></ChildContent>
+        </DashboardCard>
+        <DashboardCard Class="hrm-events-card" Title="Team milestones" Description="Celebrate the people behind your progress">
+            <Actions><span class="team-event-month">October 2026</span></Actions>
+            <ChildContent><div class="team-event-list">
+                @foreach (var milestone in _state.Source.Milestones.Where(m => _department == "all" || m.Department == _department))
+                {
+                    <article class="@(milestone.Label == "Birthday" ? "birthday" : "anniversary")"><div class="team-event-person"><MudAvatar Size="Size.Medium"><MudImage Src="@Avatar(milestone.Name)" Alt="" /></MudAvatar><span><h3>@milestone.Name</h3><p>@milestone.Department</p></span><time datetime="@($"2026-10-{milestone.Day}")"><small>OCT</small><b>@milestone.Day</b></time></div><div class="team-event-type"><MudIcon Icon="@RynzoIcons.Get(milestone.Label == "Birthday" ? "Gift" : "Award")" Size="Size.Small" /><span>@milestone.Label</span></div></article>
+                }
+            </div>@if (!_state.Source.Milestones.Any(m => _department == "all" || m.Department == _department)) { <p class="hrm-muted">No upcoming milestones.</p> }</ChildContent>
+        </DashboardCard>
+    </section>
+</div>
+@code {
+    private readonly HrmDashboardState _state=new();
+    private string _department="all",_query="",_newDepartment="Engineering";
+    private HrmEmployee[] _selected=[],_visible=[];
+    private object _chartData=null!;
+    private IJSObjectReference? _download;
+    private static readonly CultureInfo English=CultureInfo.GetCultureInfo("en-US");
+    private static readonly BreadcrumbItem[] Breadcrumbs=[new("Dashboards",null),new("HRM",null,true)];
+    private static readonly (string Label,string Status)[] Arrangements=[("Office","Present"),("Remote","Remote"),("On leave","On leave")];
+    private double Payroll=>_selected.Sum(e=>e.Salary);
+    private IEnumerable<HrmLeave> Leave=>_state.Requests.Where(r=>_department=="all"||r.Department==_department);
+    private IEnumerable<HrmOnboarding> Onboarding=>_state.Onboarding.Where(t=>_department=="all"||t.Department==_department);
+    private (string Label,string Value,string Note,string Icon)[] Metrics=>[("Total employees",_selected.Length.ToString(),"Active sample employee records","UsersRound"),("Attendance today",$"{(_selected.Length==0?0:Math.Floor(_selected.Count(e=>e.Status!="On leave")/(double)_selected.Length*100+.5))}%",$"{_selected.Count(e=>e.Status!="On leave")} on site or working remotely","Clock3"),("Pending leave",Leave.Count(r=>r.Status=="Pending").ToString(),"Requests awaiting your review","CalendarDays"),("Monthly payroll",Money(Payroll),"Sample base salaries · USD","Wallet")];
+    private static string Money(double value)=>value.ToString("C0",English);
+    private static string Avatar(string name)=>name.Trim().ToLowerInvariant() switch {"sophia carter"=>"assets/images/users/sophia-carter.jpg","noah williams"=>"assets/images/users/user-2.jpg","daniel lee"=>"assets/images/users/user-4.jpg",_=>"assets/images/users/user-1.jpg"};
+    private string ChartAppearance => $"{Appearance.Skin}-{Appearance.IsDark}";
+    protected override void OnInitialized(){ Appearance.Changed += AppearanceChanged; Refresh(); }
+    private void AppearanceChanged() => _ = InvokeAsync(StateHasChanged);
+    private void Refresh(){_selected=_state.Selected(_department);FilterSearch();_chartData=new{Selected=_selected,ChartDepartments=_state.Source.Departments.Where(d=>_department=="all"||d==_department).ToArray()};}
+    private void FilterSearch()=>_visible=_state.Visible(_department,_query);
+    private void Review(int id,string status){if(_state.Review(id,status))Snackbar.Add($"Sample leave request {status.ToLowerInvariant()}",Severity.Success);}
+    private void Toggle(string title)=>_state.ToggleOnboarding(title);
+    private async Task AddEmployee(){var dialog=await Dialogs.ShowAsync<HrmEmployeeDialog>("Add employee",new DialogParameters<HrmEmployeeDialog>{{d=>d.State,_state},{d=>d.InitialDepartment,_newDepartment},{d=>d.DepartmentChanged,EventCallback.Factory.Create<string>(this,value=>_newDepartment=value)}},new DialogOptions{CloseButton=true,CloseOnEscapeKey=true,FullWidth=true,MaxWidth=MaxWidth.Small});var result=await dialog.Result;if(result is {Canceled:false,Data:string department}){_newDepartment=department;_department="all";_query="";Refresh();Snackbar.Add("Sample employee added",Severity.Success);}}
+    private async Task Export(){_download??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/dashboard-download.js");await _download.InvokeVoidAsync("csv","hrm-employees.csv",HrmDashboardState.Csv(_visible));}
+    public async ValueTask DisposeAsync(){Appearance.Changed -= AppearanceChanged;if(_download is not null)try{await _download.DisposeAsync();}catch(JSDisconnectedException){}}
+}
+
+
+
+
+

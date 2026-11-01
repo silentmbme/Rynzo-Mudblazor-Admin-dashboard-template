@@ -1,0 +1,142 @@
+﻿.conversation-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.conversation-list > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 24px 20px 18px;
+}
+.conversation-list h2 {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.conversation-list p {
+  color: var(--muted-foreground);
+  font-size: 11px;
+  margin-top: 5px;
+}
+.conversation-list > header ::deep .mud-icon-button {
+  color: var(--primary);
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 8px;
+}
+.conversation-list > header ::deep svg {
+  width: 18px;
+  height: 18px;
+}
+.conversation-list > section {
+  padding: 0 18px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.conversation-list nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  margin-top: 16px;
+  scrollbar-width: thin;
+}
+.conversation-list ::deep .mud-button {
+  min-width: 0;
+  font-size: 12px;
+  flex-grow: 1;
+  min-height: 32px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.conversation-list ::deep .mud-button-filled {
+  box-shadow: none;
+}
+.conversation-list ::deep .mud-input {
+  background: var(--card);
+  font-size: 12px;
+}
+.conversation-list ::deep input {
+  padding-block: 9px;
+}
+.conversation-items {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px 10px;
+  scrollbar-width: thin;
+}
+.conversation-items > button {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 16px 12px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  text-align: start;
+  color: var(--foreground);
+  background: transparent;
+}
+.conversation-items > button:hover {
+  background: var(--muted);
+}
+.conversation-items > button.active {
+  background: var(--card);
+  border-color: color-mix(in srgb, var(--primary) 25%, var(--border));
+  box-shadow: var(--shadow-card);
+}
+.conversation-items > button > span:nth-child(2) {
+  min-width: 0;
+  flex: 1;
+}
+.conversation-items > button > span > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 7px;
+}
+.conversation-items b {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.conversation-items small {
+  color: var(--muted-foreground);
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.conversation-items > button > span > span + span {
+  margin-top: 7px;
+}
+.conversation-items i {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  font-style: normal;
+}
+.conversation-items strong {
+  font-size: 9px;
+  color: var(--primary-foreground);
+  background: var(--primary);
+  border-radius: 6px;
+  padding: 3px 6px;
+}
+.conversation-empty {
+  padding: 64px 16px;
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.conversation-items > button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}

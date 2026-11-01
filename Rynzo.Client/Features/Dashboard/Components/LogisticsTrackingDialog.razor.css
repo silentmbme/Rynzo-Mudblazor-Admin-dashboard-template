@@ -1,0 +1,29 @@
+.logistics-dialog-note {
+  font-size: var(--rynzo-font-body1);
+  color: var(--muted-foreground);
+}
+.logistics-dialog-route {
+  padding: 16px;
+  background: color-mix(in srgb, var(--primary) 5%, transparent);
+  border-radius: 8px;
+  margin: 16px 0;
+}
+.logistics-dialog-route p {
+  font-size: var(--rynzo-font-body1);
+  color: var(--muted-foreground);
+  margin-top: 8px;
+}
+.logistics-dialog-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  font-size: var(--rynzo-font-body1);
+  margin-bottom: 16px;
+}
+.logistics-dialog-details small {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.logistics-dialog-details p {
+  margin-top: 4px;
+}

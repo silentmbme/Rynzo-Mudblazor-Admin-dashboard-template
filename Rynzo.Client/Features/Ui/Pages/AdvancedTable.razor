@@ -1,0 +1,68 @@
+@page "/tables/advanced"
+@using Rynzo.Client.Assets
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+
+<PageTitle>Advanced Table | Rynzo</PageTitle>
+
+<div class="advanced-table-page">
+    <DashboardPageHeader Title="Advanced Table" Description="A flexible command center for large, changing datasets and operational decisions.">
+        <Actions><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export view</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" OnClick="Create">New opportunity</MudButton></Actions>
+    </DashboardPageHeader>
+
+    <section class="advanced-hero"><div class="advanced-hero-mark"><MudIcon Icon="@RynzoIcons.Get("SlidersHorizontal")" /></div><div><span class="eyebrow">Advanced data workspace</span><h2>Built for decisions, not just display.</h2><p>Group records, rearrange columns, filter deeply, and act on selections from one focused view.</p></div><div class="advanced-tools"><span><MudIcon Icon="@RynzoIcons.Get("Columns3")" /> Rearrange columns</span><span><MudIcon Icon="@RynzoIcons.Get("Filter")" /> Field filters</span><span><MudIcon Icon="@RynzoIcons.Get("Layers")" /> Group records</span></div></section>
+
+    <section class="pipeline-summary" aria-label="Pipeline overview"><div><span>Open pipeline</span><b>$@Opportunities.Sum(item => item.Value).ToString("N0")</b><small>Across @Opportunities.Length active opportunities</small></div><div><span>Weighted forecast</span><b>$@Opportunities.Sum(item => item.Value * item.Probability / 100).ToString("N0")</b><small>Based on stage probability</small></div><div><span>Closing this month</span><b>@Opportunities.Count(item => item.Close.Contains("Oct"))</b><small>Priority follow-ups</small></div><div><span>At risk</span><b>@Opportunities.Count(item => item.Health == "At risk")</b><small>Needs an action plan</small></div></section>
+
+    <MudCard Class="advanced-grid-surface rynzo-widget-card" aria-labelledby="opportunity-heading" Elevation="0" Outlined="true" data-widget-element="section">
+        <div class="advanced-grid-heading"><div><span class="eyebrow">Revenue operations</span><h2 id="opportunity-heading">Opportunity command center</h2><p>Drag headers to reorder, use column menus to configure the table, or group by stage.</p></div><span class="record-counter">@Visible.Count() opportunities</span></div>
+        <div class="advanced-controls"><MudTextField T="string" @bind-Value="SearchText" @bind-Value:event="oninput" Immediate="true" Placeholder="Search opportunity, account, owner, or source" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" aria-label="Search opportunities" /><MudSelect T="string" @bind-Value="Stage" Variant="Variant.Outlined" Margin="Margin.Dense" Label="Stage"><MudSelectItem Value="@("All stages")">All stages</MudSelectItem>@foreach(var stage in Stages){<MudSelectItem Value="@stage">@stage</MudSelectItem>}</MudSelect><MudButton Variant="Variant.Text" Size="Size.Small" Disabled="@(SearchText.Length == 0 && Stage == "All stages")" OnClick="Reset">Reset</MudButton></div>
+        @if (Selected.Count > 0){<div class="advanced-bulk"><span><b>@Selected.Count</b> selected</span><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="Assign">Assign owner</MudButton><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="MoveStage">Move stage</MudButton><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="AddTask">Add task</MudButton><MudButton Variant="Variant.Text" Size="Size.Small" OnClick="Clear">Clear</MudButton></div>}
+        <MudDataGrid T="Opportunity" Items="Visible" QuickFilter="QuickFilter" Filterable="true" ShowFilterIcons="true" ShowColumnOptions="true" Hideable="true" Groupable="true" DragDropColumnReordering="true" SortMode="SortMode.Multiple" MultiSelection="true" SelectOnRowClick="false" @bind-SelectedItems="Selected" RowsPerPage="6" Dense="true" Hover="true" Class="advanced-grid" aria-label="Advanced opportunity data grid">
+            <Columns>
+                <SelectColumn T="Opportunity" />
+                <TemplateColumn Title="Opportunity" SortBy="@(item => item.Name)"><CellTemplate Context="cell"><div class="opportunity-cell"><img src="@SourceUserImages.Get(cell.Item.Owner)" alt="@cell.Item.Owner" /><span><b>@cell.Item.Name</b><small>@cell.Item.Account · @cell.Item.Source</small></span></div></CellTemplate></TemplateColumn>
+                <TemplateColumn Title="Owner" SortBy="@(item => item.Owner)"><CellTemplate Context="cell"><span class="owner-cell"><img src="@SourceUserImages.Get(cell.Item.Owner)" alt="" />@cell.Item.Owner</span></CellTemplate></TemplateColumn>
+                <TemplateColumn Title="Stage" SortBy="@(item => item.Stage)"><CellTemplate Context="cell"><MudChip T="string" Size="Size.Small" Color="@StageColor(cell.Item.Stage)">@cell.Item.Stage</MudChip></CellTemplate></TemplateColumn>
+                <TemplateColumn Title="Health" SortBy="@(item => item.Health)"><CellTemplate Context="cell"><span class="health @cell.Item.Health.ToLowerInvariant().Replace(" ", "-")"><i></i>@cell.Item.Health</span></CellTemplate></TemplateColumn>
+                <TemplateColumn Title="Value" SortBy="@(item => item.Value)"><CellTemplate Context="cell"><b class="currency">@cell.Item.Value.ToString("C0")</b></CellTemplate></TemplateColumn>
+                <TemplateColumn Title="Probability" SortBy="@(item => item.Probability)"><CellTemplate Context="cell"><div class="probability"><b>@cell.Item.Probability%</b><span><i style="@($"width:{cell.Item.Probability}%")"></i></span></div></CellTemplate></TemplateColumn>
+                <PropertyColumn Property="@(item => item.Close)" Title="Close" />
+                <TemplateColumn Title=""><CellTemplate Context="cell"><MudIconButton Size="Size.Small" Icon="@RynzoIcons.Get("ArrowRight")" aria-label="@($"Open {cell.Item.Name}")" OnClick="@(() => Open(cell.Item))" /></CellTemplate></TemplateColumn>
+            </Columns>
+            <PagerContent><MudDataGridPager T="Opportunity" PageSizeOptions="new int[] { 6, 12, 24 }" /></PagerContent>
+        </MudDataGrid>
+    </MudCard>
+
+    <section class="advanced-footer"><div><MudIcon Icon="@RynzoIcons.Get("MousePointer2")" /><span><b>Configurable columns</b><small>Use each header menu to hide fields or add filters.</small></span></div><div><MudIcon Icon="@RynzoIcons.Get("GripVertical")" /><span><b>Drag to reorder</b><small>Arrange columns around the question you are answering.</small></span></div><div><MudIcon Icon="@RynzoIcons.Get("Layers")" /><span><b>Group-ready data</b><small>Group rows by stage, owner, or any compatible field.</small></span></div></section>
+</div>
+
+@code {
+    private string SearchText { get; set; } = string.Empty;
+    private string Stage { get; set; } = "All stages";
+    private HashSet<Opportunity> Selected { get; set; } = [];
+    private static readonly string[] Stages = ["Discovery", "Proposal", "Negotiation", "Closed won"];
+    private static readonly Opportunity[] Opportunities = [
+        new("Enterprise analytics rollout", "CloudAxis", "Sophia Carter", "Discovery", "Healthy", 84200, 35, "Oct 28", "Partner"),
+        new("Revenue operations suite", "Vertex Labs", "Daniel Lee", "Proposal", "Healthy", 48600, 60, "Oct 24", "Inbound"),
+        new("Customer portal expansion", "Nexora Systems", "Emma Wilson", "Negotiation", "At risk", 126400, 80, "Oct 19", "Referral"),
+        new("Workflow automation", "Altitude Co.", "Noah Williams", "Discovery", "Healthy", 12400, 25, "Nov 04", "Outbound"),
+        new("Workspace consolidation", "Lumina Studio", "Olivia Martinez", "Proposal", "Watch", 28900, 55, "Oct 31", "Inbound"),
+        new("Data migration program", "Kiteworks", "Daniel Lee", "Closed won", "Healthy", 36400, 100, "Oct 12", "Partner"),
+        new("Research operations", "Harbor & Finch", "Sophia Carter", "Negotiation", "Watch", 9200, 75, "Nov 08", "Referral"),
+        new("AI support workspace", "Orbit Labs", "Emma Wilson", "Proposal", "Healthy", 91400, 50, "Nov 15", "Inbound")
+    ];
+    private IEnumerable<Opportunity> Visible => Opportunities.Where(item => Stage == "All stages" || item.Stage == Stage);
+    private bool QuickFilter(Opportunity item)=>string.IsNullOrWhiteSpace(SearchText)||$"{item.Name} {item.Account} {item.Owner} {item.Stage} {item.Source} {item.Health}".Contains(SearchText,StringComparison.OrdinalIgnoreCase);
+    private void Reset(){SearchText=string.Empty;Stage="All stages";}
+    private void Clear()=>Selected=[];
+    private void Export()=>Snackbar.Add("Advanced view exported",Severity.Success);
+    private void Create()=>Snackbar.Add("New opportunity flow opened",Severity.Info);
+    private void Assign()=>Snackbar.Add("Owner assignment opened",Severity.Info);
+    private void MoveStage()=>Snackbar.Add("Stage selection opened",Severity.Info);
+    private void AddTask()=>Snackbar.Add("Task creation opened",Severity.Info);
+    private void Open(Opportunity item)=>Snackbar.Add($"Opening {item.Name}",Severity.Info);
+    private static Color StageColor(string stage)=>stage switch{"Discovery"=>Color.Info,"Proposal"=>Color.Primary,"Negotiation"=>Color.Warning,_=>Color.Success};
+    private sealed record Opportunity(string Name,string Account,string Owner,string Stage,string Health,decimal Value,int Probability,string Close,string Source);
+}

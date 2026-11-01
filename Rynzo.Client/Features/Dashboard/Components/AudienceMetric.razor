@@ -1,0 +1,7 @@
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Theme
+<div class="rynzo-widget-host"><MudCard Class="audience-metric rynzo-widget-card" Elevation="0" Outlined="true">
+    <span class="audience-icon"><MudIcon Icon="@RynzoIcons.Get(Metric.Icon)" /></span>
+    <div><p>@Metric.Label</p><strong>@Metric.Value</strong><small>@Metric.Trend</small></div>
+</MudCard></div>
+@code { [Parameter, EditorRequired] public AnalyticsMetric Metric { get; set; } = null!; }

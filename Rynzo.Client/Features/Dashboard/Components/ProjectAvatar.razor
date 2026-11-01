@@ -1,0 +1,2 @@
+<MudAvatar Style="@($"width:{Size}px;height:{Size}px")"><MudImage Src="@Portrait" Alt="@(Initials+" profile")" /></MudAvatar>
+@code{[Parameter]public string Initials{get;set;}="";[Parameter]public int Size{get;set;}=36;private string Portrait=>Initials switch{"SC"=>"assets/images/users/sophia-carter.jpg","DL"=>"assets/images/users/user-4.jpg","EW"=>"assets/images/users/user-3.jpg",_=>"assets/images/users/user-1.jpg"};}

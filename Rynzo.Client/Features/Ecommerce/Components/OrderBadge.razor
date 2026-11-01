@@ -1,0 +1,2 @@
+<span class="order-badge" style="@($"--order-tone:var(--{(Tone=="danger"?"destructive":Tone=="muted"?"muted-foreground":Tone)})")">@Text</span>
+@code{[Parameter]public string Text{get;set;}="";[Parameter]public string Tone{get;set;}="muted";}

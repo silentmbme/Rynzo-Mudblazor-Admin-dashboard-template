@@ -1,0 +1,74 @@
+@using Rynzo.Client.Theme
+@inject RynzoAppearance Appearance
+@if (Item.Children?.Count > 0 && Collapsed && Depth == 0)
+{
+    <div class="@($"rynzo-sidebar-collapsed-group {(LayoutCatalog.BranchActive(Item, Path) ? "branch-active" : "")}")">
+        <MudMenu Icon="@RynzoIcons.Get(Item.Icon)" AriaLabel="@($"Open {Item.Label} navigation")" title="@Item.Label"
+                 AnchorOrigin="@(Appearance.Direction == "rtl" ? Origin.CenterLeft : Origin.CenterRight)"
+                 TransformOrigin="@(Appearance.Direction == "rtl" ? Origin.TopRight : Origin.TopLeft)" PopoverClass="rynzo-sidebar-flyout" Dense="true">
+            <div class="rynzo-sidebar-flyout-heading">@Item.Label</div>
+            @foreach (var entry in Descendants(Item))
+            {
+                <MudMenuItem Href="@entry.Item.Href" OnClick="OnNavigate" Class="@(LayoutCatalog.IsActive(entry.Item, Path) ? "is-active" : "")">
+                    <span>@entry.Item.Label</span>
+                    @if (!string.IsNullOrEmpty(entry.Group)) { <small>@entry.Group</small> }
+                </MudMenuItem>
+            }
+        </MudMenu>
+    </div>
+}
+else if (Item.Children?.Count > 0)
+{
+    <MudNavGroup Title="@Item.Label" Icon="@(Depth == 0 ? RynzoIcons.Get(Item.Icon) : null)"
+                 Expanded="_expanded" ExpandedChanged="SetExpanded" ExpandIcon="@RynzoIcons.Get("ChevronRight")"
+                 Class="@($"rynzo-nav-branch depth-{Depth} {(LayoutCatalog.BranchActive(Item, Path) ? "branch-active" : "")}")">
+        <ChildContent>
+            @foreach (var child in Item.Children)
+            {
+                <AppNavigationItem Item="child" Path="@Path" Depth="@(Depth + 1)" OnNavigate="OnNavigate" />
+            }
+        </ChildContent>
+    </MudNavGroup>
+}
+else
+{
+    <div class="@($"rynzo-nav-leaf depth-{Depth} {(LayoutCatalog.IsActive(Item, Path) ? "leaf-active" : "")}")" @onclick="OnNavigate">
+        <MudNavLink Href="@Item.Href" Match="@(Item.Href == "/" ? NavLinkMatch.All : NavLinkMatch.Prefix)"
+                    Icon="@(Depth == 0 ? RynzoIcons.Get(Item.Icon) : null)"
+                    title="@(Collapsed ? Item.Label : null)" aria-label="@Item.Label"
+                    Class="@($"depth-{Depth} {(Collapsed ? "rynzo-nav-collapsed" : "")} {(LayoutCatalog.IsActive(Item, Path) ? "source-active" : "")}")">
+            @if (!Collapsed)
+            {
+                @if (Depth > 0) { <span class="rynzo-nav-dot"></span> }
+                <span class="rynzo-nav-label">@Item.Label</span>
+                @if (Item.Badge is not null) { <span class="rynzo-nav-badge">@Item.Badge.Text</span> }
+            }
+        </MudNavLink>
+    </div>
+}
+@code {
+    [Parameter, EditorRequired] public NavigationItem Item { get; set; } = new();
+    [Parameter] public string Path { get; set; } = "/";
+    [Parameter] public int Depth { get; set; }
+    [Parameter] public bool Collapsed { get; set; }
+    [Parameter] public EventCallback OnNavigate { get; set; }
+    private bool _expanded;
+    private string? _lastPath;
+    private static IEnumerable<(NavigationItem Item, string Group)> Descendants(NavigationItem parent, string group = "")
+    {
+        foreach (var child in parent.Children ?? [])
+        {
+            if (child.Children?.Count > 0)
+            {
+                foreach (var entry in Descendants(child, string.IsNullOrEmpty(group) ? child.Label : $"{group} / {child.Label}")) yield return entry;
+            }
+            else yield return (child, group);
+        }
+    }
+    protected override void OnParametersSet()
+    {
+        if (_lastPath != Path) { _expanded = LayoutCatalog.BranchActive(Item, Path); _lastPath = Path; }
+    }
+    private void SetExpanded(bool expanded) => _expanded = expanded;
+}
+

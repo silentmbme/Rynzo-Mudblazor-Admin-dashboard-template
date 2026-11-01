@@ -1,0 +1,331 @@
+@page "/dashboards/lms-dashboard"
+@implements IAsyncDisposable
+@using System.Globalization
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Services
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+<PageTitle>LMS Dashboard | Rynzo</PageTitle>
+<div class="lms-dashboard">
+    <DashboardPageHeader Title="LMS Dashboard"
+                         Description="Track learning, manage courses, and help every student move forward.">
+        <Actions>
+            <div class="lms-actions">
+                <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export
+                    report</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")"
+                               OnClick="CreateCourse">Create course</MudButton>
+                </div>
+            </Actions>
+        </DashboardPageHeader>
+        <section class="lms-overview">
+            <MudCard Outlined="true" Elevation="0" Class="lms-banner rynzo-widget-card">
+                <div class="lms-academy-mark">
+                    <MudIcon Icon="@RynzoIcons.Get("GraduationCap")" /><span>LEARNING WORKSPACE</span>
+                </div>
+                <div>
+                    <div class="lms-banner-title">
+                        <h2>Build skills.<br />Inspire progress.</h2>
+                        <MudChip T="string" Color="Color.Primary" Size="Size.Small">Sample data</MudChip>
+                    </div>
+                    <p>Learning operations overview · Period ending October 9, 2026</p>
+                </div>
+                <div class="lms-banner-filters">
+                    <MudSelect T="string" @bind-Value="_category" @bind-Value:after="Refresh" Variant="Variant.Outlined"
+                               Margin="Margin.Dense" Class="lms-category" aria-label="Learning category">
+                        <MudSelectItem Value="@("all")">All categories</MudSelectItem>@foreach(var category in
+                        _state.Source.Categories){
+                            <MudSelectItem Value="@category">@category</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudSelect T="int" @bind-Value="_period" @bind-Value:after="Refresh" Variant="Variant.Outlined"
+                               Margin="Margin.Dense" Class="lms-period" aria-label="Learning reporting period">
+                        <MudSelectItem Value="7">Last 7 days</MudSelectItem>
+                        <MudSelectItem Value="30">Last 30 days</MudSelectItem>
+                    </MudSelect>
+                </div>
+            </MudCard>
+            <section class="lms-metrics" aria-label="Learning key metrics">@foreach(var metric in Metrics){
+                <MudCard
+                    Class="lms-metric rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span class="lms-metric-icon">
+                    <MudIcon Icon="@RynzoIcons.Get(metric.Icon)" />
+                </span>
+                <p>@metric.Label</p><strong>@metric.Value</strong><small>@metric.Note</small>
+            </MudCard>
+        }
+    </section>
+</section>
+<section class="lms-learning-layout">
+    <div class="lms-library">
+        <div class="lms-catalog-heading">
+            <div>
+                <h2>Course catalog</h2>
+                <p>Discover, review, and manage your learning content.</p>
+            </div>
+            <div class="lms-catalog-filters">
+                <MudTextField T="string" @bind-Value="_query" @bind-Value:after="FilterCatalog" Immediate="true"
+                              Placeholder="Search courses..." aria-label="Search LMS courses" Variant="Variant.Outlined"
+                              Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")"
+                              Class="lms-search" />
+                <MudSelect T="string" @bind-Value="_courseStatus" @bind-Value:after="FilterCatalog"
+                           Variant="Variant.Outlined" Margin="Margin.Dense" Class="lms-status" aria-label="Course status">
+                    <MudSelectItem Value="@("all")">All statuses</MudSelectItem>
+                    <MudSelectItem Value="@("Published")">Published</MudSelectItem>
+                    <MudSelectItem Value="@("Draft")">Draft</MudSelectItem>
+                </MudSelect>
+            </div>
+        </div>
+        <LmsCourseCarousel Courses="_visibleCourses" Instructors="_state.Source.Instructors" View="ViewCourse" />
+    </div>
+    <aside class="lms-schedule">
+        <DashboardCard Title="Upcoming live sessions" Description="Sample workshop schedule · Times in IST"
+                       Class="lms-span-two lms-sessions">
+            <Actions><span class="lms-session-count">@Sessions.Count() sessions</span></Actions>
+            <ChildContent>
+                <div class="lms-session-list">@foreach(var session in Sessions){
+                    <div><span
+                        class="lms-session-date"><small>@session.Month</small><b>@session.Day</b></span>
+                        <div>
+                            <h3>@session.Title</h3>
+                            <p>@Instructor(session.InstructorId).Name</p>
+                            <p>@session.Time</p>
+                        </div>
+                        <MudIconButton Icon="@RynzoIcons.Get("ChevronRight")" Size="Size.Small"
+                                       aria-label="@($"View {session.Title} session")" OnClick="@(() => ViewSession(session))" />
+                    </div>
+                }
+                </div>@if(!Sessions.Any()){
+                <p class="lms-session-empty">No upcoming sample sessions for this
+                    category.</p>
+                }
+            </ChildContent>
+    </DashboardCard>
+</aside>
+</section>
+<MudCard Class="lms-faculty rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section">
+    <div class="lms-instructor-heading">
+        <MudIcon Icon="@RynzoIcons.Get("GraduationCap")" Color="Color.Primary" Size="Size.Small" />
+        <h2>Meet your instructors</h2>
+    </div>
+    <section class="lms-instructors">@foreach(var instructor in Instructors){
+        <MudCard Outlined="true" Elevation="0"
+                 Class="lms-instructor-card rynzo-widget-card rynzo-widget-card--structured">
+            <MudCardContent>
+                <div>
+                    <MudAvatar Size="Size.Large">
+                        <MudImage Src="@InstructorPortrait(instructor.Id)" Alt="@instructor.Name" />
+                    </MudAvatar><span>
+                    <h3>@instructor.Name</h3><small>@instructor.Specialty</small>
+                </span><b>★ @instructor.Rating</b>
+            </div>
+            <footer><span>@_data.Selected.Count(c => c.InstructorId == instructor.Id)
+                courses</span><span>@_data.Selected.Where(c => c.InstructorId == instructor.Id).Sum(c => c.Students)
+                enrollments</span></footer>
+            </MudCardContent>
+        </MudCard>
+    }
+</section>
+</MudCard>
+<section class="lms-insights">
+    <DashboardCard Title="Learning journey"
+                   Description="@($"Completed and continuing learners over {_period} days")" Class="lms-journey">
+        <Actions>
+            <MudChip T="string" Color="Color.Primary" Size="Size.Small">@_data.Enrollments.ToString("N0", English)
+                enrollments</MudChip>
+            </Actions>
+            <ChildContent>
+                <div class="lms-journey-totals">
+                    <div><b>@_data.Enrollments.ToString("N0", English)</b><small>Enrollments</small></div>
+                    <div><b>@_data.Completions.ToString("N0", English)</b><small>Completions</small></div>
+                </div>
+                <DashboardChart Data="_chartData" OptionsModule="./lms-dashboard-options.js" Kind="growth" Height="285"
+                                Label="Completed and continuing learners by date" />
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Learning outcomes" Description="Completion across selected courses" Class="lms-outcomes">
+            <div class="lms-completion-rate"><strong>@_data.CompletionRate.ToString("F1", English)%</strong><span>Overall
+                completion rate</span></div>
+                <DashboardChart Data="_chartData" OptionsModule="./lms-dashboard-options.js" Kind="completion" Height="200"
+                                Label="Horizontal bar comparison of completed and in-progress learners" />
+                <div class="lms-outcome-totals">
+                    <div><b>@_data.Completions</b><small>Completed</small></div>
+                    <div><b>@(_data.Enrollments - _data.Completions)</b><small>In progress</small></div>
+                </div>
+            </DashboardCard>
+        </section>
+
+        <section class="lms-supporting-widgets">
+            <DashboardCard Title="Learning landscape" Description="@($"Compare category enrollments over {_period} days")"
+                           Class="lms-landscape">
+                <DashboardChart Data="_chartData" OptionsModule="./lms-dashboard-options.js" Kind="category" Height="265"
+                                Label="Enrollments across four course categories" />
+            </DashboardCard>
+            <DashboardCard Title="Course performance" Description="@($"Leading courses by enrollments over {_period} days")"
+                           Class="lms-course-performance">
+                <div class="lms-performance-list">
+                    @foreach (var course in _data.Selected.Where(c => c.Students > 0).OrderByDescending(c =>
+                    c.Students).Take(3))
+                    {
+                        var enrolled = ReportCount(course.Students);
+                        var completed = ReportCount(course.Completed);
+                        var rate = enrolled == 0 ? 0 : completed * 100d / enrolled;
+                        <div class="lms-performance-row">
+                            <div><button type="button" class="lms-course-link"
+                                             @onclick="@(() => ViewCourse(course))">@course.Title</button><span>@enrolled.ToString("N0", English)
+                                enrollments <b>@rate.ToString("F0", English)% complete</b></span></div>
+                                <MudProgressLinear Value="rate" Color="Color.Primary" Rounded="true"
+                                                   aria-label="@($"{course.Title} completion rate")" />
+                            </div>
+                        }
+                        @if (!_data.Selected.Any(c => c.Students > 0))
+                        {
+                            <p class="lms-widget-empty">No enrollments in the
+                                selected category yet.</p>
+                            }
+                        </div>
+                    </DashboardCard>
+                    <DashboardCard Title="Catalog readiness" Description="Content available in the selected category"
+                                   Class="lms-readiness">
+                        <div class="lms-readiness-total"><strong>@_data.Selected.Length</strong><span>courses in your<br />learning
+                            library</span>
+                            <MudIcon Icon="@RynzoIcons.Get("BookOpen")" />
+                        </div>
+                        <div class="lms-readiness-track" aria-hidden="true"><span
+                            style="@($"flex:{_data.Selected.Count(c => c.Status == "Published")}")"></span><i
+                            style="@($"flex:{_data.Selected.Count(c => c.Status == "Draft")}")"></i></div>
+                            <dl class="lms-readiness-list">
+                                <div>
+                                    <dt><i class="published"></i>Published</dt>
+                                    <dd>@_data.Selected.Count(c => c.Status == "Published")</dd>
+                                </div>
+                                <div>
+                                    <dt><i class="draft"></i>Drafts in progress</dt>
+                                    <dd>@_data.Selected.Count(c => c.Status == "Draft")</dd>
+                                </div>
+                                <div>
+                                    <dt>Lessons in catalog</dt>
+                                    <dd>@_data.Selected.Sum(c => c.Lessons)</dd>
+                                </div>
+                            </dl>
+                        </DashboardCard>
+                    </section>
+                    <DashboardCard Title="Learner progress" Description="Track sample students and mark their next lesson complete"
+                                   Class="lms-learners">
+                        <Actions>
+                            <MudChip T="string" Color="Color.Primary" Size="Size.Small">@Learners.Count() learners</MudChip>
+                        </Actions>
+                        <ChildContent>
+                            <MudTable T="LmsLearner" Items="Learners" Breakpoint="Breakpoint.None" Elevation="0" Class="lms-table"
+                                      aria-label="Learner progress">
+                                <HeaderContent>
+                                    <MudTh>Learner</MudTh>
+                                    <MudTh>Course</MudTh>
+                                    <MudTh>Progress</MudTh>
+                                    <MudTh>Last active</MudTh>
+                                    <MudTh>Action</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>@{
+                                    var course = _state.Courses.Single(c => c.Id == context.CourseId); var
+                                        percent = Math.Floor(context.Finished / (double)course.Lessons * 100 + .5);
+                                }
+                                <MudTd>
+                                    <div class="lms-learner-name">
+                                        <MudAvatar Size="Size.Medium">
+                                            <MudImage Src="@LearnerPortrait(context.Name)" Alt="" />
+                                        </MudAvatar><span><b>@context.Name</b><small>@context.Id</small></span>
+                                    </div>
+                                </MudTd>
+                                <MudTd>@course.Title</MudTd>
+                                <MudTd>
+                                    <div class="lms-learner-progress">
+                                        <p><span>@context.Finished/@course.Lessons lessons</span><b>@percent%</b></p>
+                                        <MudProgressLinear Value="percent" Color="@(percent == 100 ? Color.Success : Color.Primary)"
+                                                           Rounded="true" aria-label="@($"{context.Name} course progress")" />
+                                    </div>
+                                </MudTd>
+                                <MudTd>@context.LastActive</MudTd>
+                                <MudTd>@if(percent==100){
+                                    <MudChip T="string" Color="Color.Success" Size="Size.Small">Completed
+                                    </MudChip>
+                                }else
+                                {
+
+                                    <MudButton Size="Size.Small" StartIcon="@RynzoIcons.Get("Check")"
+                                               Variant="Variant.Filled" Color="Color.Primary" Class="lms-complete-lesson"
+                                               aria-label="@($"Complete next lesson for {context.Name}")"
+                                               OnClick="@(() => CompleteLesson(context.Id))">Complete lesson</MudButton>
+                                }
+                            </MudTd>
+                        </RowTemplate>
+                        <NoRecordsContent>
+                            <MudText Class="pa-6" Color="Color.Secondary">No learners in this category.</MudText>
+                        </NoRecordsContent>
+                    </MudTable>
+                    <p class="lms-table-footer">Sample learner records · Changes stay in this page session</p>
+                </ChildContent>
+            </DashboardCard>
+
+        </div>
+@code {
+    private readonly LmsDashboardState _state = new();
+    private LmsOverview _data = null!;
+    private LmsCourse[] _visibleCourses = [];
+    private object _chartData = null!;
+    private string _category = "all", _query = "", _courseStatus = "all";
+    private int _period = 30;
+    private IJSObjectReference? _download;
+    private static readonly CultureInfo English = CultureInfo.GetCultureInfo("en-US");
+    private static readonly BreadcrumbItem[] Breadcrumbs = [new("Dashboards", null), new("LMS", null, true)];
+    private IEnumerable<LmsLearner> Learners => _state.Learners.Where(l => _data.Selected.Any(c => c.Id == l.CourseId));
+    private IEnumerable<LmsSession> Sessions => _state.Source.Sessions
+        .Where(s => _category == "all" || s.Category == _category)
+        .Take(4);
+    private IEnumerable<LmsInstructor>
+Instructors => _state.Source.Instructors.Where(i => _data.Selected.Any(c => c.InstructorId == i.Id));
+    private (string Label, string Value, string Note, string Icon)[] Metrics => [("Course enrollments", _data.Enrollments.ToString("N0", English), $"Across the last {_period} days", "UsersRound"), ("Published courses", _data.Selected.Count(c => c.Status == "Published").ToString(), $"{_data.Selected.Count(c => c.Status == "Draft")} draft courses in progress", "BookOpen"), ("Course completions", _data.Completions.ToString("N0", English), $"{_data.CompletionRate.ToString("F1", English)}% completion rate", "Award"), ("Sample course revenue", Money(_data.Revenue), $"Enrollment revenue over {_period} days", "CircleDollarSign")];
+    private int ReportCount(int value) => (int)Math.Floor(value * _period / 30d + .5);
+    private static string Money(double value) => value.ToString("C0", English);
+    private LmsInstructor Instructor(string id) => _state.Source.Instructors.Single(i => i.Id == id);
+    private static string InstructorPortrait(string
+id) => id == "sophia" ? "assets/images/users/sophia-carter.jpg" : id == "daniel" ? "assets/images/users/user-4.jpg" : "assets/images/users/user-1.jpg";
+    private static string LearnerPortrait(string name) => name is "Daniel Reyes" or "Noah Williams" ? "assets/images/users/user-2.jpg" : "assets/images/users/user-1.jpg";
+    protected override void OnInitialized() => Refresh();
+    private void
+Refresh()
+    { _data = _state.Overview(_period, _category); FilterCatalog(); _chartData = new { Data = _data, Period = _period, Categories = _state.Source.Categories }; }
+    private void FilterCatalog() => _visibleCourses = _state.Filter(_data, _courseStatus, _query);
+    private void CompleteLesson(string id)
+    {
+        var message = _state.CompleteLesson(id); if (message is not
+null) { Refresh(); Snackbar.Add(message, Severity.Success); }
+    }
+    private async Task CreateCourse()
+    {
+        _state.Draft.Title = ""; var dialog = await Dialogs.ShowAsync<LmsCreateCourse>("Create course", new DialogParameters<LmsCreateCourse> { { d => d.State, _state } }, Options); var result = await dialog.Result; if (result is
+        { Canceled: false }) { _category = "all"; _courseStatus = "all"; _query = ""; Refresh(); Snackbar.Add("Sample course saved as a draft", Severity.Success); }
+    }
+    private static DialogOptions
+Options => new() { CloseButton = true, CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.Small };
+    private async Task ViewCourse(LmsCourse course) => await Dialogs.ShowAsync<LmsCourseDetails>(course.Title, new
+DialogParameters<LmsCourseDetails> { { d => d.Course, course }, { d => d.Instructor, Instructor(course.InstructorId).Name } }, Options);
+    private async Task ViewSession(LmsSession session) => await Dialogs.ShowAsync<LmsSessionDetails>(session.Title, new
+DialogParameters<LmsSessionDetails> { { d => d.Session, session }, { d => d.Instructor, Instructor(session.InstructorId).Name } }, Options);
+    private async Task Export()
+    {
+        _download ??= await
+JS.InvokeAsync<IJSObjectReference>("import", "./theme/dashboard-download.js"); await
+_download.InvokeVoidAsync("csv", "lms-course-report.csv", _state.Csv(_visibleCourses));
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (_download is not null) try
+            {
+                await
+_download.DisposeAsync();
+            }
+            catch (JSDisconnectedException) { }
+    }
+}

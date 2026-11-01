@@ -1,0 +1,22 @@
+@page "/ecommerce/products"
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+@using Rynzo.Client.Features.Ecommerce.Models
+@using Rynzo.Client.Features.Ecommerce.Components
+@using Rynzo.Client.Theme
+<PageTitle>Products | Rynzo</PageTitle>
+<div class="products-page" @ref="_element"><header><PageHeader Title="Products" Description="Manage your catalog, inventory, pricing and product availability." Breadcrumbs="Breadcrumbs" /><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" Href="/ecommerce/add-product">Add product</MudButton></header><MudCard Outlined="true" Elevation="0" Class="products-summary rynzo-widget-card">@foreach(var metric in Metrics){<div><p>@metric.Label</p><b>@metric.Value</b></div>}</MudCard><MudCard Outlined="true" Elevation="0" Class="products-workspace rynzo-widget-card"><div class="products-toolbar"><MudTextField T="string" @bind-Value="_query" Immediate="true" Placeholder="Search products, SKU, category..." aria-label="Search products, SKU, category..." Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" /><select aria-label="Product category">@foreach(var category in new[]{"All categories","Electronics","Sports","Accessories"}){<option>@category</option>}</select><MudIconButton Icon="@RynzoIcons.Get("Grid2X2")" aria-label="Grid view" Variant="Variant.Filled" Color="@(!_list?Color.Primary:Color.Default)" OnClick="@(() => _list=false)" /><MudIconButton Icon="@RynzoIcons.Get("List")" aria-label="List view" Variant="Variant.Filled" Color="@(_list?Color.Primary:Color.Default)" OnClick="@(() => _list=true)" /></div>@if(_selected.Count>0){<div class="products-bulk"><b>@_selected.Count selected</b><MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small">Publish</MudButton><MudButton Variant="Variant.Outlined" Size="Size.Small">Archive</MudButton><MudButton Variant="Variant.Filled" Color="Color.Error" Size="Size.Small">Delete</MudButton></div>}<div class="@($"products-catalog {(_list?"list":"grid")}")">@foreach(var product in Visible){<CatalogProductCard @key="product.Sku" Product="product" ListView="_list" Selected="@_selected.Contains(product.Sku)" InCart="@_cart.Contains(product.Sku)" Select="@(() => Toggle(product.Sku))" Cart="@(() => _cart.Add(product.Sku))" />}@if(Visible.Length==0){<p class="products-empty">No products found. Try adjusting your search.</p>}</div></MudCard></div>
+@code{
+    private ElementReference _element;
+    private IJSObjectReference? _keyboard;
+    protected override async Task OnAfterRenderAsync(bool firstRender){if(firstRender){_keyboard=await JS.InvokeAsync<IJSObjectReference>("import","./theme/catalog-keyboard.js");await _keyboard.InvokeVoidAsync("connect",_element);}}
+    public async ValueTask DisposeAsync(){if(_keyboard is not null)try{await _keyboard.InvokeVoidAsync("disconnect",_element);await _keyboard.DisposeAsync();}catch(JSDisconnectedException){}}
+    private readonly CatalogProduct[] _catalog=CatalogProduct.Load();
+    private readonly HashSet<string> _selected=[],_cart=[];
+    private string _query="";
+    private bool _list;
+    private CatalogProduct[] Visible=>_catalog.Where(p=>p.SearchText.Contains(_query,StringComparison.OrdinalIgnoreCase)).ToArray();
+    private static readonly BreadcrumbItem[] Breadcrumbs=[new("Rynzo",null),new("eCommerce",null),new("Products",null,true)];
+    private static readonly (string Label,string Value)[] Metrics=[("Total products","1,248"),("Active","986"),("Low stock","42"),("Out of stock","18"),("Draft","54")];
+    private void Toggle(string sku){if(!_selected.Remove(sku))_selected.Add(sku);}
+}

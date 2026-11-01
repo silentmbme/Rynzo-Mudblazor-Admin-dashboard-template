@@ -1,0 +1,3 @@
+@using Rynzo.Client.Theme
+<span class="crypto-change" style="@(Value>=0?"color:var(--success)":"color:var(--destructive)")"><MudIcon Icon="@RynzoIcons.Get(Value>=0?"ArrowUpRight":"ArrowDownLeft")" Size="Size.Small" />@(Value>0?"+":"")@Value.ToString("F2",System.Globalization.CultureInfo.GetCultureInfo("en-US"))%</span>
+@code { [Parameter] public double Value { get; set; } }

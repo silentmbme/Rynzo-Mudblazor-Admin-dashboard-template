@@ -1,0 +1,189 @@
+@page "/hospital/doctors"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Services
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+<PageTitle>Doctors | Rynzo</PageTitle>
+<div class="doctors-page">
+    <DashboardPageHeader Title="Doctors"
+                         Description="Explore your care team, specialties, and appointment availability.">
+        <Actions>
+            <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export
+                doctors</MudButton>
+            </Actions>
+        </DashboardPageHeader>
+        <section Class="dr-summary rynzo-widget-card" Elevation="0" Outlined="true">@foreach(var item in
+            new[] { ("Doctors", State.Source.Doctors.Length, "Stethoscope"), ("Available", State.Source.Doctors.Count(d => d.Available), "UserCheck"), ("In surgery", State.Source.Doctors.Count(d => !d.Available), "Activity"), ("Patients assigned", State.Source.Doctors.Sum(d => d.Patients), "Users") }){
+                <MudCard Class="rynzo-widget-card" Elevation="0"
+                         Outlined="true" data-widget-element="article"><span>
+                    <MudIcon Icon="@RynzoIcons.Get(item.Item3)" />@item.Item1
+                </span><strong>@item.Item2</strong><small>Sample hospital roster</small></MudCard>
+            }
+        </section>
+        <p class="dr-notice">
+            <MudIcon Icon="@RynzoIcons.Get("Info")" />Fictional hospital workspace. Bookings apply to this page session.
+        </p>
+        @if (Notice.Length > 0)
+        {
+            <MudAlert Severity="Severity.Success" role="status" Class="mb-5">@Notice</MudAlert>
+        }
+        <div class="dr-heading">
+            <div><span class="dr-eyebrow">People behind the care</span>
+                <h2>Doctor directory <small>@Visible.Count()</small></h2>
+                <p>Find the right specialty and review your care team's availability.</p>
+            </div>
+        </div>
+        <div class="dr-filters">
+            <MudTextField T="string" @bind-Value="Query" Immediate="true" aria-label="Search doctors"
+                          Placeholder="Search doctor or specialty - " Adornment="Adornment.Start"
+                          AdornmentIcon="@RynzoIcons.Get("Search")" Variant="Variant.Outlined" Margin="Margin.Dense" /><select
+            aria-label="Doctor department" @bind="Department">
+            <option value="All">All departments</option>@foreach(var department in
+            State.Source.Doctors.Select(d => d.Department).Distinct()){
+                <option>@department</option>
+            }
+        </select><select aria-label="Doctor availability" @bind="Availability">
+        <option value="All">All availability</option>
+        <option>Available</option>
+        <option>In surgery</option>
+    </select>
+</div>
+<div class="dr-grid">@foreach(var doctor in Visible){
+    <MudCard Class="dr-card rynzo-widget-card" Elevation="0"
+             Outlined="true" data-widget-element="article">
+        <div class="dr-card-top"><span
+            class="dr-status @(doctor.Available ? "available" : "busy")"><i></i>@(doctor.Available ? "Available" : "In surgery")</span><small>@doctor.Id.ToUpperInvariant()</small></div>
+            <div class="dr-person">
+                <HospitalDoctorPortrait Doctor="doctor" />
+                <h3>@doctor.Name</h3>
+                <p>@doctor.Role</p><span>@doctor.Department</span>
+            </div>
+            <div class="dr-assigned">
+                <MudIcon Icon="@RynzoIcons.Get("Users")" /><span>Patients assigned</span><b>@doctor.Patients</b>
+            </div>
+            <div class="dr-card-actions">
+                <MudButton Variant="Variant.Text" EndIcon="@RynzoIcons.Get("ArrowUpRight")"
+                           aria-label="@($"Profile {doctor.Id}")" OnClick="@(() => Selected = doctor)">View profile</MudButton>
+                <MudButton Variant="Variant.Outlined" Disabled="@(!doctor.Available)"
+                           StartIcon="@RynzoIcons.Get("CalendarDays")" aria-label="@($"Book {doctor.Id}")"
+                           OnClick="@(()=>Book(doctor.Id))">Book appointment</MudButton>
+            </div>
+        </MudCard>
+    }
+</div>
+@if (!Visible.Any())
+{
+    <div class="dr-empty">
+        <h3>No matching doctors</h3>
+        <p>Try another specialty or availability.</p>
+        <MudButton OnClick="Reset">Clear filters</MudButton>
+    </div>
+}
+<div class="dr-footer">Showing @Visible.Count() of @State.Source.Doctors.Length doctors <span>Demo data -
+    Session-only bookings</span></div>
+</div>
+<MudDialog Visible="@(Selected is not null)" VisibleChanged="@(v => { if (!v) Selected = null; })" Options="Options">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Doctor profile</MudText>
+    </TitleContent>
+    <DialogContent>@if(Selected is {} doctor){
+        <div class="dr-profile">
+            <HospitalDoctorPortrait Doctor="doctor" />
+            <h2>@doctor.Name</h2>
+            <p>@doctor.Role</p>
+            <dl>
+                <div>
+                    <dt>Department</dt>
+                    <dd>@doctor.Department</dd>
+                </div>
+                <div>
+                    <dt>Availability</dt>
+                    <dd>@(doctor.Available ? "Available" : "In surgery")</dd>
+                </div>
+                <div>
+                    <dt>Patients assigned</dt>
+                    <dd>@doctor.Patients</dd>
+                </div>
+                <div>
+                    <dt>Reference</dt>
+                    <dd>@doctor.Id</dd>
+                </div>
+            </dl>
+        </div>
+    }
+</DialogContent>
+<DialogActions>
+    <MudButton OnClick="@(() => Selected = null)">Close</MudButton>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" Disabled="@(Selected?.Available != true)"
+               OnClick="@(()=>Book(Selected!.Id))">Book appointment</MudButton>
+</DialogActions>
+</MudDialog>
+<MudDialog @bind-Visible="Booking" Options="Options">
+    <TitleContent>
+        <MudText Typo="Typo.h6">New appointment</MudText>
+    </TitleContent>
+    <DialogContent>
+        <div class="dr-form">
+            <p>Sample booking. Changes last for this page session.</p><label>Patient name</label>
+            <MudTextField T="string" @bind-Value="State.Booking.Patient" Immediate="true" aria-label="Patient name"
+                          Variant="Variant.Outlined" Margin="Margin.Dense" MaxLength="80" /><label>Doctor</label><select
+            aria-label="Appointment doctor" @bind="State.Booking.DoctorId">@foreach(var doctor in
+            State.Source.Doctors.Where(d => d.Available)){
+                <option value="@doctor.Id">@doctor.Name - @doctor.Department
+                </option>
+            }
+        </select><label>Date</label><input type="date" aria-label="Appointment date" min="2026-10-09"
+                                           value="@State.Booking.Date"
+                                           @onchange="@(e => State.Booking.Date = e.Value?.ToString() ?? "")" /><label>Time</label><input type="time"
+                                                                                                 aria-label="Appointment time" value="@State.Booking.Time"
+                                                                                                 @onchange="@(e => State.Booking.Time = NormalizeTime(e.Value?.ToString() ?? ""))" /><label>Visit
+        type</label><select aria-label="Visit type" @bind="State.Booking.Type">
+        <option>Consultation</option>
+        <option>Follow-up</option>
+    </select>@if(Error.Length>0){
+    <MudAlert Severity="Severity.Error" role="alert" Class="mt-4">@Error</MudAlert>
+}
+</div>
+</DialogContent>
+<DialogActions>
+    <MudButton OnClick="@(() => Booking = false)">Cancel</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save">Save appointment</MudButton>
+</DialogActions>
+</MudDialog>
+@code {
+    private readonly HospitalDashboardState State = new(); private string
+   Query = "", Department = "All", Availability = "All", Notice = "", Error = ""; private HospitalDoctor? Selected; private bool
+   Booking; private IJSObjectReference? Download; private static readonly DialogOptions
+   Options = new() { MaxWidth = MaxWidth.Small, FullWidth = true };
+    private IEnumerable<HospitalDoctor> Visible => State.Source.Doctors.Where(d => $"{d.Name} {d.Department} {d.Role} {d.Id}".Contains(Query.Trim(), StringComparison.OrdinalIgnoreCase) && (Department == "All" || Department == d.Department) && (Availability == "All" || (Availability == "Available" ? d.Available : !d.Available)));
+    private static string NormalizeTime(string value) => value.Length >= 5 ? value[..5] : value; private void
+   Reset()
+    { Query = ""; Department = Availability = "All"; }
+    private void Book(string
+   id)
+    { Selected = null; State.OpenBooking(id); Error = ""; Booking = true; }
+    private void
+   Save()
+    { Error = State.Book() ?? ""; if (Error.Length > 0) return; Booking = false; Notice = "Sample appointment added. No notifications are sent."; }
+    private async Task Export()
+    {
+        static string Quote(string value) => "\"" + value.Replace("\"", "\"\"") + "\""; var
+   rows = new[] { new[] { "Reference", "Doctor", "Department", "Role", "Patients assigned", "Availability" } }.Concat(Visible.Select(d => new[] { d.Id, d.Name, d.Department, d.Role, d.Patients.ToString(), d.Available ? "Available" : "In surgery" })); var csv = string.Join("\r\n", rows.Select(r => string.Join(",", r.Select(Quote)))); Download ??= await
+   JS.InvokeAsync<IJSObjectReference>("import", "./theme/ai-workspace-download.js"); await
+   Download.InvokeVoidAsync("download", "hospital-doctors.csv", csv, "text/csv;charset=utf-8"); Notice = "Filtered doctor roster exported.";
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (Download is not null)
+        {
+            try
+            {
+                await
+   Download.DisposeAsync();
+            }
+            catch (JSDisconnectedException) { }
+        }
+    }
+}

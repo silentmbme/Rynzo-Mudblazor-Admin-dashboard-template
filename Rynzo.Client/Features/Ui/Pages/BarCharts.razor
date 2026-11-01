@@ -1,0 +1,117 @@
+﻿@page "/charts/bar"
+@using Rynzo.Client.Features.Dashboard.Components
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>Bar Chart Analytics | Rynzo</PageTitle>
+<div class="bar-charts-page">
+    <DashboardPageHeader Title="Bar Chart Analytics" Description="Compare outcomes, uncover gaps, and follow the drivers behind business momentum.">
+        <Actions>
+            <MudSelect T="string" Value="Period" ValueChanged="ChangePeriod" Variant="Variant.Outlined" Margin="Margin.Dense" Class="bar-control" aria-label="Reporting period">@foreach(var value in Periods){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudSelect T="string" @bind-Value="Category" Variant="Variant.Outlined" Margin="Margin.Dense" Class="bar-control" aria-label="Chart category">@foreach(var value in Categories){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudButton Variant="Variant.Outlined" OnClick="Refresh" StartIcon="@Icons.Material.Filled.Refresh">Refresh</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Export" StartIcon="@Icons.Material.Filled.FileDownload">Export CSV</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    <div class="bar-context"><span><i></i> COMPARATIVE INTELLIGENCE <span>/</span> @Period</span><span>Illustrative data · @Updated</span></div>
+    <section class="bar-kpis" aria-label="Business performance summary">
+        @foreach(var kpi in Kpis){<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><div><span>@kpi.Title</span><MudIcon Icon="@kpi.Icon" Size="Size.Small" /></div><strong>@kpi.Value</strong><p>@kpi.Change</p><small>@kpi.Detail</small></MudCard>}
+    </section>
+    <section class="bar-chart-board" aria-label="Interactive bar analytics">
+        @foreach(var card in Cards.Where(c=>Category=="All Charts"||c.Category==Category))
+        {
+            <MudCard Class="@((($"bar-card {card.Kind}")) + " rynzo-widget-card")" @key="card.Kind" Elevation="0" Outlined="true" data-widget-element="article">
+                <header><div><span class="bar-kicker">@card.Number / @card.Type</span><h2>@card.Title</h2><p>@card.Description</p></div><span class="bar-badge">@card.Category</span></header>
+                @if(card.Kind=="revenue")
+                {
+                    <div class="featured-metrics"><div><span>RECOGNIZED REVENUE</span><strong>@Money(Current.Revenue.Sum())</strong></div><div><span>VS. PREVIOUS PERIOD</span><b>@RevenueGrowth.ToString("+0.0;-0.0;0.0")%</b><small>Previous: @Money(Previous.Revenue.Sum())</small></div><div><span>TARGET ATTAINMENT</span><b>@Attainment(Current).ToString("0.0")%</b><small>@Money(Current.Targets.Sum()) planned</small></div></div>
+                }
+                @if(card.Kind=="delivery"){<label class="chart-control"><input type="checkbox" checked="@ShowTargets" @onchange="ToggleTargets" /> Show planned target markers</label>}
+                @if(card.Kind=="support"){<label class="chart-control">Rank queues<select value="@Sort" @onchange="ChangeSort"><option>Highest first</option><option>Lowest first</option></select></label>}
+                @if(card.Kind=="sentiment"){<div class="sentiment-key"><span>← Negative feedback</span><b>0</b><span>Positive feedback →</span></div>}
+                <DashboardChart Data="@Data" OptionsModule="./bar-chart-options.js" Kind="@card.Kind" Height="@(card.Kind=="revenue"||card.Kind=="waterfall"?350:320)" Label="@card.Title" />
+                @if(card.Kind=="pipeline")
+                {
+                    <div class="pipeline-insights"><div><span>Lead → qualified</span><b>@((100d*Current.Pipeline[1]/Current.Pipeline[0]).ToString("0.0"))%</b></div><div><span>Opportunity → won</span><b>@((100d*Current.Pipeline[^1]/Current.Pipeline[2]).ToString("0.0"))%</b></div><div><span>Overall conversion</span><b>@((100d*Current.Pipeline[^1]/Current.Pipeline[0]).ToString("0.0"))%</b></div></div>
+                }
+                @if(card.Kind=="waterfall")
+                {
+                    <div class="waterfall-summary"><span>Opening revenue<b>@Money(Previous.Revenue.Sum())</b></span><span>Net contribution<b>@Money(Current.Revenue.Sum()-Previous.Revenue.Sum())</b></span><span>Closing revenue<b>@Money(Current.Revenue.Sum())</b></span></div>
+                }
+                <footer><span>@card.Note</span><b>@Insight(card.Kind)</b></footer>
+            </MudCard>
+        }
+    </section>
+    <details class="bar-method"><summary>About these metrics</summary><p>All monetary values are USD. Product and regional revenue reconcile to the featured revenue total. Target attainment is actual revenue divided by planned revenue. Delivery completion is completed tasks divided by planned tasks. Workforce columns show the share of employees in each working arrangement, with actual headcounts in tooltips. Customer sentiment uses binary positive/negative responses; negative bars indicate direction, not negative response counts. The waterfall connects the previous period’s revenue with current revenue. Period samples are deterministic; refresh reloads the same sample.</p></details>
+</div>
+@code {
+    private static readonly string[] Periods=["7 Days","30 Days","90 Days","This Year"];
+    private static readonly string[] Categories=["All Charts","Revenue","Sales","Teams","Customers","Operations"];
+    private string Period="30 Days",Category="All Charts",Sort="Highest first",Updated="Ready to explore";
+    private bool ShowTargets=true;
+    private Snapshot Data=null!;
+    private IJSObjectReference? Module;
+    private sealed record Frame(double[] Revenue,double[] Targets,double[] RegionalRevenue,double[] RegionalTargets,double[] ProductRevenue,int[] Planned,int[] Completed,int[] Pipeline,int[][] Workforce,int[] Support,int[] Positive,int[] Negative,double[][] Ranges);
+    private sealed record Snapshot(string[] Labels,Frame Current,Frame Previous,string[] Regions,string[] Products,string[] Teams,string[] Stages,string[] Queues,string[] SurveyLabels,string[] Releases,bool ShowTargets,bool Descending);
+    private sealed record Card(string Number,string Kind,string Title,string Category,string Type,string Description,string Note);
+    private static readonly Card[] Cards=[
+        new("01","revenue","Revenue momentum","Revenue","FEATURED GROUPED COLUMNS","Track recognized revenue alongside the corresponding previous-period buckets.","Each bucket has the same duration as its corresponding previous-period comparison."),
+        new("02","region","Regional sales vs target","Sales","GROUPED COLUMNS","Compare the regional contribution with the revenue plan.","Actual and target totals reconcile to the featured revenue metrics."),
+        new("03","products","Product revenue ranking","Revenue","RANKED HORIZONTAL BARS","See which product lines contribute the most to recognized revenue.","Product revenue totals match recognized revenue; ranking uses current values."),
+        new("04","workforce","Workforce composition","Teams","100% STACKED COLUMNS","Compare working arrangements while retaining actual team sizes.","On-site + remote + leave equals the complete employee count for each team."),
+        new("05","delivery","Team delivery against plan","Teams","HORIZONTAL GOAL BARS","Completed tasks with a clear reference marker for planned delivery.","Markers indicate planned tasks. Completion rates use the same planned denominator."),
+        new("06","pipeline","Sales pipeline","Sales","DISTRIBUTED STAGE BARS","Follow one cohort from generated leads to converted customers.","Counts are nested stage volumes; stages must not be added together."),
+        new("07","sentiment","Customer sentiment balance","Customers","DIVERGING STACKED BARS","Compare positive and negative feedback across service dimensions.","Each row totals 100% of its responses. Tooltip counts are always non-negative."),
+        new("08","ranges","Release effort ranges","Operations","FLOATING RANGE BARS","Explore the low and high effort estimates for four release initiatives.","Both ends use delivery points. Range width is uncertainty, not elapsed time."),
+        new("09","support","Support queue demand","Operations","DISTRIBUTED RANKING","Prioritize queues by their current open-ticket workload.","Open tickets are a point-in-time snapshot within the selected reporting window."),
+        new("10","waterfall","Revenue growth bridge","Revenue","WATERFALL COLUMNS","Connect the opening position to the contributions behind current revenue.","Floating bars connect consecutive totals. Blue columns show opening and closing revenue.")];
+    private Frame Current=>Data.Current;
+    private Frame Previous=>Data.Previous;
+    private double RevenueGrowth=>(Current.Revenue.Sum()/Previous.Revenue.Sum()-1)*100;
+    private static double Attainment(Frame f)=>f.Revenue.Sum()/f.Targets.Sum()*100;
+    private static double Completion(Frame f)=>100d*f.Completed.Sum()/f.Planned.Sum();
+    private static string Money(double value)=>value.ToString("C0",System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+    private static string SummaryMoney(double value)=>value>=1000000?$"${value/1000000:0.00}m":Money(value);
+    private IEnumerable<(string Title,string Value,string Change,string Detail,string Icon)> Kpis=>[
+        ("Total revenue",SummaryMoney(Current.Revenue.Sum()),$"{RevenueGrowth:+0.0;-0.0}% vs. previous period",$"Recognized {Money(Current.Revenue.Sum())} · previous {Money(Previous.Revenue.Sum())}",Icons.Material.Filled.AccountBalanceWallet),
+        ("Target attainment",$"{Attainment(Current):0.0}%",$"{Attainment(Current)-Attainment(Previous):+0.0;-0.0} pp vs. previous",$"Target: {Money(Current.Targets.Sum())}",Icons.Material.Filled.TrackChanges),
+        ("Delivery completion",$"{Completion(Current):0.0}%",$"{Completion(Current)-Completion(Previous):+0.0;-0.0} pp vs. previous",$"{Current.Completed.Sum():N0} of {Current.Planned.Sum():N0} tasks",Icons.Material.Filled.TaskAlt),
+        ("Open support tickets",Current.Support.Sum().ToString("N0"),$"{Current.Support.Sum()-Previous.Support.Sum():+0;-0} vs. previous",$"Across {Data.Queues.Length} service queues",Icons.Material.Filled.SupportAgent)];
+    protected override void OnInitialized()=>Rebuild();
+    private void ChangePeriod(string value){Period=value;Rebuild();}
+    private void Refresh(){Updated="Refreshed just now";Rebuild();}
+    private void ToggleTargets(ChangeEventArgs e){ShowTargets=e.Value is bool value&&value;Data=Data with {ShowTargets=ShowTargets};}
+    private void ChangeSort(ChangeEventArgs e){Sort=e.Value?.ToString()??"Highest first";Data=Data with {Descending=Sort=="Highest first"};}
+    private void Rebuild()
+    {
+        var index=Array.IndexOf(Periods,Period);var scale=new double[]{.22,1,3.1,6}[index];
+        string[][] periods=[["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],["01–05","06–10","11–15","16–20","21–25","26–30"],["Weeks 1–2","Weeks 3–4","Weeks 5–6","Weeks 7–8","Weeks 9–10","Weeks 11–13"],["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]];
+        var labels=periods[index];var volumeScale=index==3?12:scale;
+        double[] Allocate(double total,double[] weights){total=Math.Round(total);var values=weights.Select(v=>Math.Round(total*v/weights.Sum())).ToArray();values[^1]=total-values.Take(values.Length-1).Sum();return values;}
+        Frame Build(bool previous)
+        {
+            var factor=previous ? .88:1d;
+            var revenue=Enumerable.Range(0,labels.Length).Select(i=>Math.Round((42000+i*2600+(i%3-1)*1400)*scale*factor)).ToArray();
+            var targets=revenue.Select((v,i)=>Math.Round(v/(new double[]{.94,1.02,1.08,.98,1.06,1.12}[i%6]-(previous ? .04:0)))).ToArray();
+            var total=revenue.Sum();var planned=Enumerable.Range(0,4).Select(i=>(int)Math.Round((180+i*35)*Math.Max(.3,volumeScale)*(previous ? .94:1))).ToArray();
+            var completed=planned.Select((v,i)=>(int)Math.Round(v*(.84+i*.03+index*.008-(previous ? .04:0)))).ToArray();
+            var leadCount=(int)Math.Round(4800*volumeScale*(previous ? .9:1));var pipeline=new double[]{1,.65,.30,.20,.13+index*.005}.Select(v=>(int)Math.Round(leadCount*v)).ToArray();
+            int[][] workforce=[new[]{42+index,36+index,30+index,24+index},new[]{28+index,21+index,18+index,16+index},new[]{4,3,2,2}];
+            if(previous)workforce=workforce.Select(row=>row.Select(v=>Math.Max(1,v-1)).ToArray()).ToArray();
+            var support=new[]{48,32,26,16,10}.Select((v,i)=>(int)Math.Round((v+index*2)*Math.Max(.6,scale)*(previous ? 1.12:1))).ToArray();
+            var respondents=new[]{320,280,240,210}.Select(v=>(int)Math.Round(v*Math.Max(.4,volumeScale))).ToArray();
+            var positive=respondents.Select((v,i)=>(int)Math.Round(v*(.78+i*.035+index*.008-(previous ? .035:0)))).ToArray();
+            var negative=respondents.Select((v,i)=>v-positive[i]).ToArray();
+            double[][] ranges=Enumerable.Range(0,4).Select(i=>new[]{Math.Round((24+i*9+index*2)*(previous ? 1.05:1)),Math.Round((40+i*12+index*2)*(previous ? 1.05:1))}).ToArray();
+            return new(revenue,targets,Allocate(total,[39+index,27,21-index*.5,13-index*.5]),Allocate(targets.Sum(),[38,28,22,12]),Allocate(total,[31,25+index,19,15-index*.5,10-index*.5]),planned,completed,pipeline,workforce,support,positive,negative,ranges);
+        }
+        Data=new(labels,Build(false),Build(true),["North America","Europe","Asia Pacific","Latin America"],["Platform","Analytics","Automation","Services","Add-ons"],["Engineering","Product","Sales","Operations"],["Leads generated","Qualified leads","Opportunities","Negotiation","Won customers"],["Billing","Technical","Account","Onboarding","General"],["Product","Support","Delivery","Onboarding"],["Design system","Platform build","Quality assurance","Launch readiness"],ShowTargets,Sort=="Highest first");
+    }
+    private string Insight(string kind)=>kind switch{"revenue"=>$"{RevenueGrowth:+0.0;-0.0}% growth","region"=>$"{Attainment(Current):0.0}% achieved","products"=>Data.Products[Array.IndexOf(Current.ProductRevenue,Current.ProductRevenue.Max())]+" leads","workforce"=>$"{Current.Workforce.Sum(row=>row.Sum()):N0} employees","delivery"=>$"{Completion(Current):0.0}% complete","pipeline"=>$"{Current.Pipeline[^1]:N0} won customers","sentiment"=>$"{100d*Current.Positive.Sum()/(Current.Positive.Sum()+Current.Negative.Sum()):0.0}% positive","ranges"=>"Delivery points","support"=>$"{Current.Support.Sum():N0} open tickets",_=>Money(Current.Revenue.Sum())+" closing revenue"};
+    private async Task Export(){Module??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/bar-chart-options.js");await Module.InvokeVoidAsync("exportCsv",Data,Period,Category);}
+    public async ValueTask DisposeAsync(){if(Module is not null){try{await Module.DisposeAsync();}catch(JSDisconnectedException){}}}
+}
+
+
+
+

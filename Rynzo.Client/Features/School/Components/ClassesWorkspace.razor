@@ -1,0 +1,43 @@
+@using Rynzo.Client.Features.School.Models
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+<div class="classes-workspace">
+    <DashboardPageHeader Title="Classes" Description="Explore class groups, teachers, and student rosters."><Actions><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export classes</MudButton></Actions></DashboardPageHeader>
+    <section Class="class-summary pa-0 rynzo-widget-card" aria-label="Academic overview" Elevation="0" Outlined="true" data-widget-element="section">
+        @foreach(var metric in Metrics){<MudCard Style="@($"--tone:var(--{metric.Tone})")" Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span class="class-summary-icon"><MudIcon Icon="@RynzoIcons.Get(metric.Icon)" /></span><div><span>@metric.Label</span><strong>@metric.Value</strong></div><small>@metric.Caption</small></MudCard>}
+    </section>
+    <div class="class-session"><MudIcon Icon="@RynzoIcons.Get("Info")" /><p>Sample academic workspace <span>·</span> 2026&#8211;27. Records apply to this page session.</p><span>Demo data</span></div>
+    @if(Notice.Length>0){<MudAlert Severity="Severity.Success" role="status" Class="mb-4">@Notice</MudAlert>}
+    <section aria-label="Class directory">
+        <div class="class-directory-heading"><div><span class="class-eyebrow">Learning communities</span><h2>Class directory <span>@Visible.Count()</span></h2><p>A clear view of your classrooms, teaching teams, and enrollment.</p></div><div class="class-academic-year"><MudIcon Icon="@RynzoIcons.Get("CalendarDays")" /><span>Academic year <b>2026&#8211;27</b></span></div></div>
+        <div class="class-toolbar"><MudTextField T="string" @bind-Value="Query" Immediate="true" aria-label="Search classes" Placeholder="Search class or teacher&#8230;" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" /><select aria-label="Filter class" @bind="ClassFilter"><option value="All">All classes</option>@foreach(var group in State.Data.Classes){<option value="@group.Id">@group.Title</option>}</select><span class="class-result-count">@Visible.Count() of @State.Data.Classes.Length class groups</span></div>
+        <div class="class-grid">
+            @foreach(var group in Visible){var students=Students(group).ToArray();var percent=Math.Round(students.Length*100d/group.Capacity);<MudCard Class="class-card rynzo-widget-card" Style="@($"--tone:var(--{group.Color})")" Elevation="0" Outlined="true" data-widget-element="article">
+                <div class="class-card-top"><span class="class-emblem"><MudIcon Icon="@RynzoIcons.Get("GraduationCap")" /></span><span class="class-status"><i></i>Active class</span></div>
+                <div class="class-title-row"><div><span class="class-eyebrow">Class @group.Id</span><h3>@group.Title</h3></div><span class="class-room"><MudIcon Icon="@RynzoIcons.Get("MapPin")" />@group.Room</span></div>
+                <div class="class-teacher"><span><MudIcon Icon="@RynzoIcons.Get("UserRound")" /></span><div><small>Class teacher</small><b>@group.Teacher</b></div></div>
+                <div class="class-card-metrics"><div><strong>@students.Length</strong><span>Students</span></div><div><strong>@group.Capacity</strong><span>Capacity</span></div><div><strong>@group.Subjects</strong><span>Subjects</span></div></div>
+                <div class="class-enrollment"><div><span>Sample enrollment</span><b>@percent%</b></div><div class="class-capacity-track" role="meter" aria-label="@($"{group.Title} enrollment")" aria-valuenow="@students.Length" aria-valuemin="0" aria-valuemax="@group.Capacity"><span style="@($"width:{percent.ToString(System.Globalization.CultureInfo.InvariantCulture)}%")"></span></div><small>@(group.Capacity-students.Length) places available</small></div>
+                <div class="class-card-footer"><div class="class-student-stack">@foreach(var student in students.Take(3)){<img src="@student.Photo" alt="@student.Name" loading="lazy" />}<span>@students.Length enrolled</span></div><MudButton Variant="Variant.Text" Size="Size.Small" EndIcon="@RynzoIcons.Get("ArrowUpRight")" aria-label="@($"Roster {group.Id}")" OnClick="@(()=>Selected=group)">Open roster</MudButton></div>
+            </MudCard>}
+        </div>
+        @if(!Visible.Any()){<div class="class-empty"><span><MudIcon Icon="@RynzoIcons.Get("Search")" /></span><h3>No matching classes</h3><p>Try another class name, teacher, or class filter.</p><MudButton Variant="Variant.Outlined" OnClick="ResetFilters">Reset filters</MudButton></div>}
+        <div class="class-directory-footer"><span>Showing <b>@Visible.Count()</b> of @State.Data.Classes.Length classes</span><span><MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" /> Sample school directory</span></div>
+    </section>
+</div>
+<MudDialog Visible="@(Selected is not null)" VisibleChanged="@(v=>{if(!v)Selected=null;})" Options="RosterOptions"><TitleContent><MudText Typo="Typo.h6">@Selected?.Title roster</MudText></TitleContent><DialogContent>@if(Selected is {} group){<div class="class-roster"><div class="class-roster-overview" style="@($"--tone:var(--{group.Color})")"><span class="class-emblem"><MudIcon Icon="@RynzoIcons.Get("GraduationCap")" /></span><div><span class="class-eyebrow">Class @group.Id</span><h2>@group.Title</h2><p>@group.Teacher <span>·</span> @group.Room</p></div></div><div class="class-roster-meta"><h3>Enrolled students <span>@Students(group).Count()</span></h3><span>@group.Capacity total capacity</span></div><div class="class-roster-list">@foreach(var student in Students(group)){<div class="class-roster-student"><img src="@student.Photo" alt="@student.Name" /><div><b>@student.Name</b><small>@student.Id</small></div><span class="class-student-status @(student.Status=="Active"?"active":"leave")"><i></i>@student.Status</span></div>}</div><p class="class-roster-note"><MudIcon Icon="@RynzoIcons.Get("Info")" /> Sample student records for this class group.</p></div>}</DialogContent><DialogActions><MudButton Variant="Variant.Outlined" OnClick="@(()=>Selected=null)">Close</MudButton></DialogActions></MudDialog>
+@code {
+    private readonly SchoolState State=new();
+    private string Query="",ClassFilter="All",Notice="";
+    private SchoolClass? Selected;
+    private IJSObjectReference? Download;
+    private static readonly DialogOptions RosterOptions=new(){MaxWidth=MaxWidth.Small,FullWidth=true};
+    private IEnumerable<SchoolClass> Visible=>State.Data.Classes.Where(c=>(ClassFilter=="All"||c.Id==ClassFilter)&&$"{c.Title} {c.Teacher}".Contains(Query.Trim(),StringComparison.OrdinalIgnoreCase));
+    private IEnumerable<Student> Students(SchoolClass group)=>State.Data.Students.Where(s=>s.ClassId==group.Id);
+    private (string Label,int Value,string Caption,string Icon,string Tone)[] Metrics=>[("Class groups",State.Data.Classes.Length,"Active learning groups","BookOpen","primary"),("Enrolled students",State.Data.Students.Count,"Sample student records","Users","info"),("Teachers",State.Data.Classes.Length,"Class teaching leads","UserRound","success"),("Total capacity",State.Data.Classes.Sum(c=>c.Capacity),"Available across all classes","GraduationCap","warning")];
+    private void ResetFilters(){Query="";ClassFilter="All";}
+    private async Task Export(){IEnumerable<IEnumerable<string>> rows=new[]{new[]{"Class","Teacher","Room","Enrolled","Capacity"}}.Concat(Visible.Select(c=>new[]{c.Title,c.Teacher,c.Room,Students(c).Count().ToString(),c.Capacity.ToString()}));Download??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/dashboard-download.js");await Download.InvokeVoidAsync("csv","classes.csv",SchoolState.Csv(rows));Notice="Filtered sample records exported.";}
+    public async ValueTask DisposeAsync(){if(Download is not null){try{await Download.DisposeAsync();}catch(JSDisconnectedException){}}}
+}

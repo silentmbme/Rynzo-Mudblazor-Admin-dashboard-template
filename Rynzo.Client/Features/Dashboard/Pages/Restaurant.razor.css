@@ -1,0 +1,373 @@
+/* Restaurant service console: scoped{
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+  color: var(--foreground);
+}with original ordering behavior. */
+.pos-dashboard{
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+  color: var(--foreground);
+}.pos-dashboard ::deep .dashboard-page-header{
+  margin: 0;
+}.pos-dashboard ::deep .mud-button{
+  font-size: 11px;
+  text-transform: none;
+  box-shadow: none;
+}.pos-dashboard ::deep .pos-banner{display: flex;align-items: center;flex-wrap: wrap;gap: 14px}.pos-banner > ::deep svg{
+  width: 38px;
+  height: 38px;
+  padding: 9px;
+  color: var(--primary);
+  background: var(--accent);
+  border-radius: 10px;
+}.pos-banner strong{
+  display: block;
+  font-size: 15px;
+  font-weight: 650;
+}.pos-banner p{
+  font-size: 10px;
+  color: var(--muted-foreground);
+  margin-top: 5px;
+}.pos-banner ::deep .mud-chip{
+  margin-left: auto;
+}.pos-metrics{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}::deep .pos-metrics :is(:is(article,[data-widget-element="article"]),[data-widget-element=":is(article,[data-widget-element="article"])"]){display: flex;align-items: center;gap: 16px;min-width: 0}.pos-metrics :is(:is(article,[data-widget-element="article"]),[data-widget-element=":is(article,[data-widget-element="article"])"]) > span{
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  color: var(--metric-tone);
+  background: color-mix(in srgb, var(--metric-tone) 8%, var(--card));
+}.pos-metrics :is(:is(article,[data-widget-element="article"]),[data-widget-element=":is(article,[data-widget-element="article"])"]) > span ::deep svg{
+  width: 20px;
+  height: 20px;
+}.pos-metrics p{
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.pos-metrics strong{
+  display: block;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.7px;
+  margin-top: 5px;
+}.pos-metrics small{
+  display: block;
+  font-size: 9px;
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin-top: 4px;
+}.pos-workspace{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 370px;
+  gap: 24px;
+  align-items: start;
+}::deep .pos-catalog{min-width: 0}.pos-menu-heading{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}.pos-section-label{
+  display: block;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  margin-bottom: 7px;
+}.pos-menu-heading h2{
+  font-size: 19px;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+}.pos-dashboard ::deep .pos-search{
+  width: 240px;
+  margin: 0;
+}.pos-dashboard ::deep .mud-input-control{
+  margin-top: 0;
+}.pos-dashboard ::deep .mud-input-outlined{
+  background: var(--card);
+  font-size: 11px;
+}.pos-dashboard ::deep .pos-search input{
+  font-size: 11px;
+  padding-block: 10px;
+}.pos-categories{
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  padding: 18px 0;
+  margin: 17px 0 20px;
+  border-block: 1px solid var(--border);
+}.pos-categories ::deep button{
+  padding: 6px 14px;
+  border-color: transparent;
+  border-radius: 6px;
+  font-size: 10px;
+  min-width: 0;
+}.pos-categories ::deep button[aria-pressed="false"]{
+  background: var(--muted);
+  color: var(--muted-foreground);
+}.pos-menu-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}.pos-dashboard ::deep .pos-menu-card{display: flex;flex-direction: column;height: 100%;overflow: hidden}.pos-menu-empty{
+  text-align: center;
+  padding: 50px 18px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}.pos-dashboard ::deep .pos-current-order{position: sticky;top: 88px;overflow: hidden}.pos-current-order > header{display: flex;align-items: center;justify-content: space-between;gap: 12px}.pos-current-order h2{
+  font-size: 15px;
+  font-weight: 650;
+}.pos-current-order > header p{
+  font-size: 10px;
+  margin-top: 5px;
+  color: var(--muted-foreground);
+}.pos-order-types{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}.pos-order-types ::deep button{
+  min-width: 0;
+  padding: 6px 2px;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.pos-order-types ::deep button[aria-pressed="true"]{
+  background: var(--accent);
+  color: var(--primary);
+}.pos-dashboard ::deep .pos-table{
+  margin-bottom: 20px;
+}.pos-cart{
+  display: grid;
+  gap: 16px;
+}.pos-cart-item{
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}.pos-cart-item > div{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}.pos-cart-item > div > div{
+  flex: 1;
+  min-width: 0;
+}.pos-cart-item img{
+  width: 44px;
+  height: 44px;
+  border-radius: 9px;
+  object-fit: cover;
+  flex-shrink: 0;
+}.pos-cart-item h3{
+  font-size: 11px;
+  line-height: 1.7;
+  font-weight: 600;
+}.pos-cart-item p{
+  font-size: 10px;
+  color: var(--muted-foreground);
+  margin-top: 3px;
+}.pos-cart-item > div ::deep button{
+  width: 26px;
+  height: 26px;
+  padding: 5px;
+}.pos-cart-item footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}.pos-cart-item footer > div{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}.pos-cart-item footer ::deep button{
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  border-color: var(--border);
+  border-radius: 6px;
+}.pos-cart-item footer b{
+  font-size: 12px;
+  font-weight: 600;
+}.pos-cart-item footer strong{
+  font-size: 12px;
+  font-weight: 600;
+}.pos-cart-empty{
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding: 35px 10px;
+  border: 1px dashed var(--border);
+  border-radius: 9px;
+}.pos-cart-empty ::deep svg{
+  width: 30px;
+  height: 30px;
+  color: var(--muted-foreground);
+  margin-bottom: 14px;
+}.pos-cart-empty h3{
+  font-size: 12px;
+  font-weight: 600;
+}.pos-cart-empty p{
+  font-size: 10px;
+  color: var(--muted-foreground);
+  margin-top: 5px;
+}.pos-dashboard ::deep .pos-notes{
+  margin-top: 20px;
+}.pos-discount-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 17px;
+  font-size: 10px;
+}.pos-dashboard ::deep .pos-discount{
+  width: 80px;
+  flex-shrink: 0;
+  margin: 0;
+}.pos-dashboard ::deep .pos-discount .mud-select-input{
+  padding-block: 8px;
+  font-size: 10px;
+  min-height: 18px;
+}.pos-totals{
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 11px;
+}.pos-totals > div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}.pos-totals span{
+  color: var(--muted-foreground);
+}.pos-totals b{
+  font-weight: 500;
+}.pos-discount-total b{
+  color: var(--success);
+}.pos-discount-total span{
+  color: var(--success);
+}.pos-totals .pos-grand-total{
+  border-top: 1px dashed var(--border);
+  padding-top: 17px;
+  margin-top: 4px;
+}.pos-grand-total span{
+  color: var(--foreground);
+  font-size: 12px;
+}.pos-grand-total b{
+  font-size: 25px;
+  font-weight: 650;
+  letter-spacing: -0.5px;
+}.pos-dashboard ::deep .pos-checkout{
+  margin-top: 20px;
+  padding: 12px;
+  font-size: 11px;
+  border-radius: 7px;
+}.pos-kitchen header{display: flex;align-items: center;justify-content: space-between;gap: 12px}.pos-kitchen h2{
+  font-size: 16px;
+  font-weight: 650;
+}.pos-kitchen-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
+}.pos-kitchen-grid :is(:is(article,[data-widget-element="article"]),[data-widget-element=":is(article,[data-widget-element="article"])"]){
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--warning);
+  border-radius: 8px;
+}.pos-kitchen-grid :is(:is(article,[data-widget-element="article"]),[data-widget-element=":is(article,[data-widget-element="article"])"]):has(button:disabled){
+  border-top-color: var(--success);
+}.pos-kitchen h3{
+  font-size: 12px;
+  font-weight: 650;
+}.pos-kitchen :is(:is(article,[data-widget-element="article"]),[data-widget-element=":is(article,[data-widget-element="article"])"]) > b{
+  display: block;
+  font-size: 10px;
+  color: var(--muted-foreground);
+  margin-top: 10px;
+}.pos-kitchen :is(:is(article,[data-widget-element="article"]),[data-widget-element=":is(article,[data-widget-element="article"])"]) > p{
+  font-size: 11px;
+  line-height: 1.8;
+  margin-top: 12px;
+}.pos-kitchen .pos-kitchen-note{
+  color: var(--muted-foreground);
+  padding: 10px;
+  background: var(--muted);
+  border-radius: 5px;
+  font-size: 10px;
+}.pos-kitchen footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 15px;
+  margin-top: 18px;
+  border-top: 1px dashed var(--border);
+}.pos-kitchen footer strong{
+  font-size: 18px;
+  font-weight: 600;
+}.pos-kitchen footer ::deep button{
+  font-size: 10px;
+}.pos-kitchen-empty{
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted-foreground);
+  padding: 35px 0;
+}.pos-dashboard ::deep .mud-chip{
+  margin: 0;
+  height: auto;
+  min-height: 22px;
+  border-radius: 5px;
+  font-size: 9px;
+}.pos-dashboard ::deep .mud-chip-color-primary{
+  color: var(--primary);
+  background: var(--accent);
+}.pos-dashboard ::deep .mud-chip-color-success{
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 8%, var(--card));
+}
+@media (min-width: 1700px) {.pos-menu-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1199px) {.pos-workspace{
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 20px;
+  }.pos-menu-grid{
+    grid-template-columns: 1fr;
+  }.pos-dashboard ::deep .pos-search{
+    width: 100%;
+  }
+}
+@media (max-width: 899px) {.pos-workspace{
+    grid-template-columns: 1fr;
+  }.pos-menu-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.pos-dashboard ::deep .pos-current-order{position: static}.pos-kitchen-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }::deep .pos-metrics :is(:is(article,[data-widget-element="article"]),[data-widget-element=":is(article,[data-widget-element="article"])"]){gap: 10px}
+}
+@media (max-width: 599px) {.pos-dashboard{
+    gap: 18px;
+  }.pos-metrics{
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }.pos-metrics :is(:is(article,[data-widget-element="article"]),[data-widget-element=":is(article,[data-widget-element="article"])"]) > div{
+    flex: 1;
+  }.pos-metrics strong{
+    font-size: 25px;
+  }.pos-menu-grid{
+    grid-template-columns: 1fr;
+  }.pos-kitchen-grid{
+    grid-template-columns: 1fr;
+  }.pos-banner ::deep .mud-chip{
+    margin-left: 0;
+  }
+}

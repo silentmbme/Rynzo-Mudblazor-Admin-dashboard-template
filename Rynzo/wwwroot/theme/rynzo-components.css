@@ -1,0 +1,293 @@
+/* Shared MudBlazor primitives. Tokens are generated from Theme/design-system.json. */
+.rynzo-theme .rynzo-header {
+  background: var(--header);
+  color: var(--foreground);
+}
+.rynzo-theme .rynzo-header .mud-icon-button {
+  color: var(--muted-foreground);
+}
+.rynzo-theme .mud-typography {
+  font-family: var(--rynzo-font-family);
+}
+.rynzo-theme .mud-typography-h1,
+.rynzo-theme .mud-typography-h2,
+.rynzo-theme .mud-typography-h3,
+.rynzo-theme .mud-typography-h4,
+.rynzo-theme .mud-typography-h5,
+.rynzo-theme .mud-typography-h6 {
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+.rynzo-theme .mud-paper-outlined,
+.rynzo-theme .mud-card,
+.rynzo-theme .rynzo-card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+.rynzo-theme .rynzo-card-header {
+  padding: var(--rynzo-space-4) var(--rynzo-space-5);
+  border-bottom: 1px solid var(--border);
+}
+.rynzo-theme .rynzo-card-body {
+  padding: 12px;
+  min-width: 0;
+}
+/* One reusable surface for dashboard, chart, metric, and feature widgets. */
+.rynzo-widget-host { display: contents; }
+.rynzo-widget-card {
+  display: block;
+  flex-direction: row;
+}
+.rynzo-widget-card--structured {
+  display: flex;
+  flex-direction: column;
+}
+.rynzo-theme .rynzo-widget-card.mud-card {
+  --rynzo-widget-padding: 20px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: var(--rynzo-widget-padding);
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  overflow: visible;
+  gap: 1rem;
+}
+.rynzo-theme .rynzo-widget-card.mud-card.rynzo-widget-card--structured {
+  padding: 0;
+}
+.rynzo-theme .rynzo-widget-card > .mud-card-header {
+  padding: var(--rynzo-widget-padding);
+  border-bottom: 1px solid var(--border);
+}
+.rynzo-theme .rynzo-widget-card > .mud-card-content {
+  padding: var(--rynzo-widget-padding);
+  min-width: 0;
+}
+.rynzo-theme .rynzo-widget-card > header {
+  padding: 0 0 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.rynzo-theme[data-density="compact"] .rynzo-widget-card.mud-card {
+  --rynzo-widget-padding: 12px;
+}
+.rynzo-theme .mud-popover,
+.rynzo-theme .mud-dialog {
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-pop);
+}
+.rynzo-theme .mud-button-root {
+  min-height: 36px;
+  border-radius: var(--rynzo-control-radius);
+  text-transform: none;
+  font-size: var(--rynzo-font-button);
+  font-weight: 500;
+  gap: var(--rynzo-space-2);
+  line-height: 20px;
+}
+.rynzo-theme .mud-button {
+  padding: 8px 16px;
+}
+.rynzo-theme .mud-button-size-small {
+  min-height: 32px;
+  font-size: var(--rynzo-font-caption);
+  padding: 6px 12px;
+}
+.rynzo-theme .mud-button-size-large {
+  min-height: 40px;
+  padding: 10px 32px;
+}
+.rynzo-theme .mud-button-filled {
+  box-shadow: var(--shadow-sm);
+}
+.rynzo-theme .mud-button-filled-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: var(--shadow-sm);
+}
+.rynzo-theme .mud-button-filled-primary:active {
+  background: var(--primary-active);
+}
+.rynzo-theme .mud-button-outlined {
+  border-color: var(--input);
+  background: var(--card);
+  box-shadow: var(--shadow-xs);
+}
+.rynzo-theme .mud-button-outlined-default {
+  color: var(--foreground);
+}
+.rynzo-theme .mud-button-outlined:hover {
+  background: var(--accent);
+  border-color: var(--accent-border);
+  color: var(--accent-foreground);
+}
+.rynzo-theme .mud-button-text:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+.rynzo-theme .rynzo-button-soft {
+  background: color-mix(in oklab, var(--primary) 12%, transparent);
+  color: var(--primary);
+}
+.rynzo-theme .rynzo-button-pill {
+  border-radius: 999px;
+}
+.rynzo-theme .mud-button-root:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.rynzo-theme .mud-icon-button {
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  border-radius: var(--rynzo-control-radius);
+}
+.rynzo-theme .mud-icon-button .mud-icon-root {
+  width: 15px;
+  height: 15px;
+}
+.rynzo-theme :focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.rynzo-theme .mud-input {
+  font-family: inherit;
+  font-size: var(--rynzo-font-h6);
+}
+.rynzo-theme .mud-input-outlined {
+  background: var(--background);
+  color: var(--foreground);
+  border-radius: var(--rynzo-control-radius);
+  box-shadow: var(--shadow-xs);
+  caret-color: var(--primary);
+}
+.rynzo-theme .mud-input-outlined .mud-input-outlined-border {
+  border-color: var(--input);
+  border-radius: var(--rynzo-control-radius);
+}
+.rynzo-theme
+  .mud-input-outlined.mud-input-focused:not(.mud-input-error)
+  .mud-input-outlined-border {
+  border-color: var(--primary);
+}
+.rynzo-theme .mud-input-outlined:not(.mud-input-error):focus-within {
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--ring) 20%, transparent);
+}
+.rynzo-theme .mud-input-outlined .mud-input-outlined-border legend {
+  background: transparent;
+}
+.rynzo-theme .mud-input-outlined input.mud-input-slot {
+  padding: 8px 12px;
+  min-height: 20px;
+  box-sizing: content-box;
+}
+.rynzo-theme .mud-input-outlined textarea.mud-input-slot {
+  padding: 8px 12px;
+  min-height: 60px;
+}
+.rynzo-theme .mud-input input::placeholder,
+.rynzo-theme .mud-input textarea::placeholder {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+.rynzo-theme .mud-input-error .mud-input-outlined-border {
+  border-color: var(--destructive);
+}
+.rynzo-theme .mud-input-control .mud-input-helper-text {
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.rynzo-theme .mud-input-control .mud-input-error,
+.rynzo-theme .mud-input-error .mud-input-helper-text {
+  color: var(--destructive);
+}
+/* Use Variant.Outlined, Margin.Dense and non-floating labels for the closest source field geometry. */
+.rynzo-theme .mud-table-container {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+.rynzo-theme .mud-table {
+  border-color: var(--border);
+  border-radius: var(--radius);
+}
+.rynzo-theme .mud-table table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.rynzo-theme .mud-table .mud-table-cell {
+  border-color: var(--border);
+  font-size: var(--rynzo-font-body2);
+  text-align: start;
+  padding: 12px 16px;
+}
+.rynzo-theme .mud-table .mud-table-head .mud-table-cell {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+}
+.rynzo-theme
+  .mud-table
+  .mud-table-body
+  .mud-table-row:last-child
+  .mud-table-cell {
+  border-bottom: 0;
+}
+.rynzo-theme .mud-table-hover .mud-table-body .mud-table-row:hover {
+  background: color-mix(in oklab, var(--muted) 60%, transparent);
+}
+.rynzo-theme .rynzo-table-primitive .mud-table-cell {
+  padding: 8px;
+}
+.rynzo-theme .rynzo-table-primitive .mud-table-head .mud-table-cell {
+  height: 40px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--rynzo-font-body1);
+  font-weight: 500;
+  background: transparent;
+}
+.rynzo-theme .rynzo-status-chip {
+  border-radius: 999px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+}
+.rynzo-theme .rynzo-boxed {
+  max-width: 1400px;
+  margin-inline: auto;
+}
+.rynzo-theme ::selection {
+  background: color-mix(in oklab, var(--primary) 26%, transparent);
+  color: var(--foreground);
+}
+.rynzo-theme ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.rynzo-theme ::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--muted-foreground) 30%, transparent);
+  border-radius: 999px;
+}
+.rynzo-theme ::-webkit-scrollbar-track {
+  background: transparent;
+}
+@media (min-width: 768px) {
+  .rynzo-theme .mud-input {
+    font-size: var(--rynzo-font-body1);
+  }
+}
+.mud-tabs-tabbar .mud-tabs-tabbar-inner {
+  min-height: auto;
+}

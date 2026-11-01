@@ -1,0 +1,127 @@
+{
+  "gallery": [
+    "assets/images/products/wireless-headphones-pro.png",
+    "assets/images/products/smart-watch-series-x.png",
+    "assets/images/products/portable-speaker-mini.png",
+    "assets/images/products/aurora-desk-lamp.png"
+  ],
+  "finishes": [
+    "Graphite",
+    "Silver",
+    "Midnight"
+  ],
+  "features": [
+    [
+      "Volume2",
+      "Adaptive audio",
+      "Balanced sound in every environment"
+    ],
+    [
+      "BatteryCharging",
+      "40-hour battery",
+      "Fast USB-C charging"
+    ],
+    [
+      "Bluetooth",
+      "Multipoint",
+      "Move between devices"
+    ],
+    [
+      "ShieldCheck",
+      "2-year warranty",
+      "Coverage included"
+    ]
+  ],
+  "specifications": [
+    [
+      "Driver",
+      "40 mm dynamic"
+    ],
+    [
+      "Connection",
+      "Bluetooth 5.3, USB-C"
+    ],
+    [
+      "Battery",
+      "Up to 40 hours"
+    ],
+    [
+      "Weight",
+      "0.42 kg"
+    ],
+    [
+      "Charge time",
+      "2.5 hours"
+    ],
+    [
+      "In the box",
+      "Case, cable, quick guide"
+    ]
+  ],
+  "distribution": [
+    [
+      5,
+      72
+    ],
+    [
+      4,
+      20
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      1,
+      1
+    ]
+  ],
+  "reviews": [
+    [
+      "Camila Rossi",
+      "Beautifully built, comfortable for a full day, and the noise cancellation is excellent."
+    ],
+    [
+      "Henry Whitlock",
+      "Easy to pair and the battery life is exactly as advertised."
+    ]
+  ],
+  "shipping": [
+    [
+      "Truck",
+      "Free shipping over $75",
+      "Arrives in 2-4 business days"
+    ],
+    [
+      "RotateCcw",
+      "30-day returns",
+      "No-questions-asked returns"
+    ],
+    [
+      "ShieldCheck",
+      "2-year warranty",
+      "Covers parts and performance"
+    ]
+  ],
+  "recommendations": [
+    [
+      "Portable Speaker Mini",
+      "$69.00",
+      "assets/images/products/portable-speaker-mini.png"
+    ],
+    [
+      "Smart Watch Series X",
+      "$219.00",
+      "assets/images/products/smart-watch-series-x.png"
+    ],
+    [
+      "Aurora Desk Lamp",
+      "$89.00",
+      "assets/images/products/aurora-desk-lamp.png"
+    ]
+  ]
+}

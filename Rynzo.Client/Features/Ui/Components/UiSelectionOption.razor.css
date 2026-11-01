@@ -1,0 +1,153 @@
+.ui-selection-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+  cursor: pointer;
+  position: relative;
+  color: var(--foreground);
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.7;
+}
+.ui-selection-option input {
+  appearance: none;
+  -webkit-appearance: none;
+  display: grid;
+  place-items: center;
+  width: 19px;
+  height: 19px;
+  min-width: 19px;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--card);
+  cursor: pointer;
+  color: var(--selection-contrast);
+}
+.ui-selection-option input:checked {
+  background: var(--selection-tone);
+  border-color: var(--selection-tone);
+}
+.ui-selection-option input[type="checkbox"]:checked:after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 9px;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+.ui-selection-option input[type="radio"] {
+  border-radius: 50%;
+}
+.ui-selection-option input[type="radio"]:checked:after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: currentColor;
+  border-radius: 50%;
+}
+.ui-selection-option input:focus-visible {
+  outline: 2px solid var(--selection-tone);
+  outline-offset: 4px;
+}
+.ui-selection-option.soft input:checked {
+  background: color-mix(in srgb, var(--selection-tone) 12%, var(--card));
+  border-color: color-mix(in srgb, var(--selection-tone) 40%, var(--border));
+  color: var(--selection-tone);
+}
+.ui-selection-option.outline input:checked {
+  background: var(--card);
+  border: 2px solid var(--selection-tone);
+  color: var(--selection-tone);
+}
+.ui-selection-option.round input {
+  border-radius: 50%;
+}
+.ui-selection-option.small input {
+  width: 15px;
+  height: 15px;
+  min-width: 15px;
+}
+.ui-selection-option.large input {
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+}
+.ui-selection-option.large input[type="radio"]:checked:after {
+  width: 11px;
+  height: 11px;
+}
+.ui-selection-option.small input[type="radio"]:checked:after {
+  width: 5px;
+  height: 5px;
+}
+.ui-selection-option.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.ui-selection-option.is-disabled input {
+  cursor: not-allowed;
+}
+.ui-selection-option.pill {
+  padding: 8px 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+}
+.ui-selection-option.pill.is-checked {
+  background: color-mix(in srgb, var(--selection-tone) 6%, var(--card));
+  border-color: var(--selection-tone);
+  color: var(--selection-tone);
+}
+.ui-selection-option.pill input {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+}
+.ui-selection-option.icon-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 23px 18px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--card);
+  min-height: 120px;
+}
+.ui-selection-option.icon-card.is-checked {
+  background: color-mix(in srgb, var(--selection-tone) 5%, var(--card));
+  border-color: var(--selection-tone);
+  color: var(--selection-tone);
+  box-shadow: 0 0 0 1px var(--selection-tone);
+}
+.ui-selection-option.icon-card input {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 13px;
+  height: 13px;
+  min-width: 13px;
+}
+.ui-selection-option.icon-card input:checked:after {
+  width: 5px;
+  height: 5px;
+}
+.ui-selection-icon {
+  height: 36px;
+  width: 36px;
+  border-radius: 9px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+}
+.ui-selection-icon ::deep svg {
+  height: 18px;
+  width: 18px;
+}
+.ui-selection-label {
+  overflow-wrap: anywhere;
+}

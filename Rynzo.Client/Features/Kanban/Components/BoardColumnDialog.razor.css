@@ -1,0 +1,7 @@
+.board-column-form ::deep .mud-input-outlined-border legend {
+  display: none;
+}
+
+.board-column-form ::deep .mud-input-outlined {
+  background: var(--background);
+}

@@ -1,0 +1,188 @@
+.hrm-source-surface {
+  min-width: 0;
+}
+.hrm-source-surface ::deep .mud-typography-caption {
+  color: var(--muted-foreground) !important;
+}
+.hrm-source-surface ::deep .heading > div:first-child {
+  flex: 1;
+}
+.hrm-source-surface ::deep .heading > .mud-stack:first-child {
+  flex-shrink: 1;
+}
+.hrm-source-surface ::deep .metric-root {
+  height: 100%;
+}
+.hrm-source-surface ::deep .heading > .mud-stack:first-child {
+  gap: 0 !important;
+}
+.hrm-source-surface
+  ::deep
+  .heading
+  > .mud-stack:first-child
+  > .mud-typography-body1 {
+  color: var(--muted-foreground);
+}
+@media (min-width: 640px) {
+  .hrm-source-surface ::deep .mud-grid-item-sm-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .hrm-source-surface ::deep .mud-grid-item-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+@media (min-width: 1280px) {
+  .hrm-source-surface ::deep .mud-grid-item-xl-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  .hrm-source-surface ::deep .mud-grid-item-xl-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+  .hrm-source-surface ::deep .mud-grid-item-xl-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+  .hrm-source-surface ::deep .mud-grid-item-xl-9 {
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
+}
+@media (min-width: 1536px) {
+  .hrm-source-surface ::deep .mud-grid-item-xxl-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+.hrm-source-surface ::deep .heading {
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.hrm-source-surface ::deep .heading > .mud-stack:first-child {
+  margin-bottom: 0 !important;
+}
+.hrm-source-surface ::deep h1 {
+  font-size: var(--rynzo-font-h4);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: normal;
+}
+.hrm-source-surface
+  ::deep
+  .heading
+  > .mud-stack:first-child
+  > .mud-typography-body1 {
+  font-size: var(--rynzo-font-body1);
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}
+.hrm-source-surface ::deep .mud-paper-outlined {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+.hrm-source-surface ::deep .mud-table {
+  box-shadow: none;
+  background: var(--card);
+}
+.hrm-source-surface ::deep .mud-table .mud-table-cell {
+  padding: 8px;
+  font-size: var(--rynzo-font-body1);
+  border-color: var(--border);
+}
+.hrm-source-surface ::deep .mud-table .mud-table-head .mud-table-cell {
+  height: 40px;
+  background: transparent;
+  font-weight: 500;
+  font-size: var(--rynzo-font-body1);
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--muted-foreground);
+}
+.hrm-source-surface ::deep .mud-table-hover .mud-table-row:hover {
+  background: color-mix(in srgb, var(--primary) 3.5%, transparent);
+}
+.hrm-source-surface ::deep .mud-chip {
+  border-radius: 999px;
+  min-height: 21px;
+  height: auto;
+  margin: 0;
+  padding: 2px 8px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+  line-height: 17px;
+}
+.hrm-source-surface ::deep .mud-chip-color-primary {
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary);
+}
+.hrm-source-surface ::deep .mud-chip-color-success {
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  color: var(--success);
+}
+.hrm-source-surface ::deep .mud-chip-color-warning {
+  background: color-mix(in srgb, var(--warning) 16%, transparent);
+  color: var(--warning);
+}
+.hrm-source-surface ::deep .mud-chip-color-info {
+  background: color-mix(in srgb, var(--info) 14%, transparent);
+  color: var(--info);
+}
+.hrm-source-surface ::deep .mud-avatar img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.hrm-source-surface ::deep .mud-typography-subtitle2 {
+  font-size: var(--rynzo-font-body1);
+  font-weight: 600;
+}
+.hrm-source-surface ::deep .filters .mud-input {
+  height: 40px;
+  background: var(--card);
+  font-size: var(--rynzo-font-body1);
+  border-radius: 8px;
+}
+.hrm-source-surface ::deep .filters .mud-input-slot {
+  padding: 8px 12px !important;
+}
+.hrm-source-surface ::deep .filters .mud-input-control {
+  margin: 0;
+}
+.hrm-source-surface ::deep .filters .mud-input-label {
+  font-size: var(--rynzo-font-caption);
+}
+.hrm-source-surface ::deep .filters .mud-input-label {
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.hrm-source-surface ::deep .filters .mud-input-outlined-border legend {
+  width: 0 !important;
+}
+.hrm-source-surface ::deep .mud-button-root {
+  font-size: var(--rynzo-font-body1);
+  min-height: 36px;
+  line-height: 20px;
+  text-transform: none;
+}
+.hrm-source-surface ::deep .mud-button-size-small {
+  font-size: var(--rynzo-font-caption);
+  min-height: 32px;
+}
+@media (max-width: 639px) {
+  .hrm-source-surface ::deep .heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

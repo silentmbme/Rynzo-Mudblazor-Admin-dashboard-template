@@ -1,0 +1,36 @@
+@using Rynzo.Client.Features.Help.Models
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+<MudDialog Class="rynzo-source-dialog">
+    <TitleContent><MudText Typo="Typo.h6">Contact Support</MudText></TitleContent>
+    <DialogContent>
+        <div class="support-intro"><span><MudIcon Icon="@RynzoIcons.Get("Headphones")" /></span><div><h3>Let's work through it.</h3><p>Share your question and the details of what happened.</p></div></div><div class="support-note">Support delivery is pending backend integration. No request will be sent.</div>
+        <div class="faq-support-grid">
+            <SourceTextField Label="Name" Placeholder="Your name" @bind-Value="_draft.Name" />
+            <SourceTextField Label="Email" Placeholder="you@company.com" @bind-Value="_draft.Email" />
+            <div class="rynzo-source-field"><label for="faq-support-topic">Topic</label>
+            <MudSelect T="string" InputId="faq-support-topic" @bind-Value="_draft.Topic" Variant="Variant.Outlined" Margin="Margin.Dense">
+                @foreach (var topic in Topics) { <MudSelectItem Value="@topic">@topic</MudSelectItem> }
+            </MudSelect>
+            </div>
+            <SourceTextField Label="Subject" Placeholder="What can we help with?" @bind-Value="_draft.Subject" />
+        </div>
+        <SourceTextField Label="Message" Placeholder="Share the details so we can help." @bind-Value="_draft.Message" Lines="4" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Send">Send Request</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] private IMudDialogInstance Dialog { get; set; } = null!;
+    private readonly SupportDraft _draft = new();
+    private static readonly string[] Topics = ["Account", "Billing", "Projects", "Security", "Integrations", "Technical Issue", "Other"];
+    // React has no required fields or submission validation. Do not invent new requirements.
+    private void Cancel() => Dialog.Cancel();
+    private void Send()
+    {
+        Dialog.Close();
+        Snackbar.Add("Support delivery is pending backend integration. No request was sent.", Severity.Info);
+    }
+}

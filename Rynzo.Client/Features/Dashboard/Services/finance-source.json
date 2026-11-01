@@ -1,0 +1,243 @@
+{
+  "profitability": [
+    [
+      "Revenue",
+      "$186,420",
+      "bg-primary"
+    ],
+    [
+      "Gross profit",
+      "$92,640",
+      "bg-success"
+    ],
+    [
+      "Net profit",
+      "$48,280",
+      "bg-chart-2"
+    ]
+  ],
+  "margins": [
+    [
+      "Gross margin",
+      49.7
+    ],
+    [
+      "Operating margin",
+      32.1
+    ],
+    [
+      "Net margin",
+      25.9
+    ]
+  ],
+  "series": [
+    {
+      "name": "Revenue",
+      "type": "column",
+      "data": [
+        142,
+        158,
+        166,
+        171,
+        179,
+        186
+      ]
+    },
+    {
+      "name": "Operating expenses",
+      "type": "column",
+      "data": [
+        88,
+        94,
+        102,
+        108,
+        112,
+        116
+      ]
+    },
+    {
+      "name": "Net income",
+      "type": "line",
+      "data": [
+        32,
+        38,
+        42,
+        44,
+        46,
+        48
+      ]
+    }
+  ],
+  "expenses": [
+    [
+      "Payroll",
+      "$34,800",
+      40
+    ],
+    [
+      "Operations",
+      "$17,500",
+      20
+    ],
+    [
+      "Marketing",
+      "$12,600",
+      15
+    ],
+    [
+      "Software",
+      "$8,900",
+      10
+    ],
+    [
+      "Facilities",
+      "$6,200",
+      7
+    ]
+  ],
+  "accounts": [
+    [
+      "Operating",
+      " 4582",
+      "$184,600"
+    ],
+    [
+      "Reserve",
+      " 8174",
+      "$128,240"
+    ],
+    [
+      "Payroll",
+      " 2951",
+      "$68,400"
+    ],
+    [
+      "Petty cash",
+      "",
+      "$1,400"
+    ]
+  ],
+  "receivables": [
+    [
+      "030",
+      "$51K"
+    ],
+    [
+      "3160",
+      "$24K"
+    ],
+    [
+      "6190",
+      "$13K"
+    ],
+    [
+      "90+",
+      "$8K"
+    ]
+  ],
+  "payables": [
+    [
+      "Cloud hosting",
+      "$8,400",
+      "Aug 26"
+    ],
+    [
+      "Office lease",
+      "$6,800",
+      "Aug 28"
+    ],
+    [
+      "Software licenses",
+      "$5,200",
+      "Sep 01"
+    ]
+  ],
+  "transactions": [
+    [
+      "Stripe settlement",
+      "Operating",
+      "Sales",
+      "Aug 22",
+      "+$12,840",
+      "Completed"
+    ],
+    [
+      "AWS cloud services",
+      "Operating",
+      "Infrastructure",
+      "Aug 22",
+      "-$4,280",
+      "Paid"
+    ],
+    [
+      "Payroll batch",
+      "Payroll",
+      "People",
+      "Aug 21",
+      "-$28,600",
+      "Paid"
+    ]
+  ],
+  "sources": [
+    [
+      "Subscriptions",
+      48,
+      "$89.4K"
+    ],
+    [
+      "Services",
+      24,
+      "$44.7K"
+    ],
+    [
+      "Marketplace",
+      17,
+      "$31.7K"
+    ],
+    [
+      "Other",
+      11,
+      "$20.6K"
+    ]
+  ],
+  "goals": [
+    [
+      "Annual revenue",
+      71
+    ],
+    [
+      "Expense reduction",
+      68
+    ],
+    [
+      "Cash reserve",
+      64
+    ],
+    [
+      "Net margin",
+      86
+    ]
+  ],
+  "summary": [
+    [
+      "Revenue",
+      "$186,420"
+    ],
+    [
+      "Cost of revenue",
+      "-$93,780"
+    ],
+    [
+      "Gross profit",
+      "$92,640"
+    ],
+    [
+      "Operating expenses",
+      "-$44,360"
+    ],
+    [
+      "Net income",
+      "$39,860"
+    ]
+  ]
+}

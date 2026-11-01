@@ -1,0 +1,131 @@
+@implements IDisposable
+@using Rynzo.Client.Features.Auth.Models
+@using Rynzo.Client.Features.Auth.Validators
+@using Rynzo.Client.Theme
+@inject RynzoAppearance Appearance
+<PageTitle>@Title — Rynzo</PageTitle>
+<main class="auth-background">
+    <div class="@(Variant == "cover" ? "auth-shell cover" : "auth-shell basic")">
+        <section class="auth-panel">
+            <header class="auth-header"><BrandLogo DarkSurface="Appearance.IsDark" />
+                <MudIconButton Icon="@(Appearance.IsDark ? RynzoIcons.Sun : RynzoIcons.Moon)" OnClick="Appearance.ToggleAsync" aria-label="Toggle color theme" />
+            </header>
+            <div class="auth-form-container @(Flow is "verify-email" or "two-step" ? "auth-verification" : "") @(Flow == "forgot-password" && Variant == "cover" ? "auth-recovery-cover" : "")">
+                @if (Flow is "verify-email" or "two-step" or "lock-screen") { <div class="auth-symbol"><MudIcon Icon="@RynzoIcons.Get(Flow == "verify-email" ? "Mail" : Flow == "two-step" ? "ShieldCheck" : "UserRound")" /></div> }
+                <MudText Typo="Typo.h2" HtmlTag="h1">@Title</MudText>
+                <MudText Class="auth-description">@Description</MudText>
+                <MudAlert Severity="Severity.Info" Dense="true" Class="my-4 auth-pending">Authentication service is not connected. This form cannot create an account or session, send email, or change a password.</MudAlert>
+                @if (Flow == "verify-email")
+                {
+                    <MudButton FullWidth="true" Variant="MudBlazor.Variant.Filled" Color="Color.Primary" OnClick="Pending">I've verified my email</MudButton>
+                    <MudButton FullWidth="true" Disabled="@(_countdown > 0)" OnClick="Resend">@(_countdown > 0 ? $"Resend email in {_countdown}s" : "Resend verification email")</MudButton>
+                    <MudLink Href="/auth/sign-in/basic">Return to Sign In</MudLink>
+                }
+                else if (Flow == "two-step")
+                {
+                    <MudTextField T="string" Label="Verification code" Value="_code" ValueChanged="CodeChanged" Immediate="true" MaxLength="6"
+                                  Variant="MudBlazor.Variant.Outlined" InputMode="InputMode.numeric" autocomplete="one-time-code" />
+                    <MudButton FullWidth="true" OnClick="Pending" Variant="MudBlazor.Variant.Filled" Color="Color.Primary">Verify code</MudButton>
+                    <MudButton Disabled="@(_countdown > 0)" OnClick="Resend">@(_countdown > 0 ? $"You can request a new code in {_countdown}s" : "Resend code")</MudButton>
+                    <MudLink Href="/auth/sign-in/basic">Return to Sign In</MudLink>
+                }
+                else
+                {
+                    <div class="auth-form-scope">
+                    <EditForm Model="_state" OnSubmit="Submit" FormName="rynzo-auth" class="auth-form">
+                        @if (Flow == "sign-up")
+                        {
+                            <div class="auth-name-grid">
+                                <AuthTextField Label="First name" Placeholder="Sophia" @bind-Value="_state.FirstName" AutoComplete="given-name" />
+                                <AuthTextField Label="Last name" Placeholder="Carter" @bind-Value="_state.LastName" AutoComplete="family-name" />
+                            </div>
+                        }
+                        @if (Flow is "sign-in" or "sign-up" or "forgot-password")
+                        {
+                            <AuthTextField Label="@(Flow == "forgot-password" && Variant == "cover" ? "Work email" : "Email")" Placeholder="@(Flow == "forgot-password" && Variant == "cover" ? "you@company.com" : "you@example.com")"
+                                          @bind-Value="_state.Email" AutoComplete="email" Error="@Error("email")" />
+                        }
+                        @if (Flow is "sign-in" or "sign-up" or "reset-password" or "lock-screen")
+                        {
+                            <AuthPasswordField Label="@(Flow == "reset-password" ? "New password" : "Password")" @bind-Value="_state.Password"
+                                               AutoComplete="@(StrongPassword ? "new-password" : "current-password")" Error="@Error("password")" />
+                        }
+                        @if (StrongPassword)
+                        {
+                            <div class="auth-strength"><MudText Typo="Typo.caption">Password strength</MudText><MudText Typo="Typo.caption" Class="@(AuthFormValidator.Strength(_state.Password) > 2 ? "auth-strong" : "")">@StrengthLabel</MudText></div>
+                            <div class="auth-strength-bars @(AuthFormValidator.Strength(_state.Password) > 2 ? "strong" : "")">@for (var i = 1; i <= 4; i++) { <span class="@(i <= AuthFormValidator.Strength(_state.Password) ? "filled" : "")"></span> }</div>
+                            <AuthPasswordField Label="Confirm password" @bind-Value="_state.ConfirmPassword" AutoComplete="new-password" Error="@Error("confirm")" />
+                        }
+                        @if (Flow == "sign-in")
+                        {
+                            <div class="auth-remember"><MudCheckBox T="bool" @bind-Value="_state.RememberMe" Label="Remember me" Size="Size.Small" /><MudLink Href="/auth/forgot-password/basic">Forgot password?</MudLink></div>
+                        }
+                        @if (Flow == "sign-up")
+                        {
+                            <MudCheckBox T="bool" @bind-Value="_state.AcceptTerms" Size="Size.Small"><span>I agree to the <MudLink Href="#terms">Terms</MudLink> and <MudLink Href="#privacy">Privacy Policy</MudLink>.</span></MudCheckBox>
+                        }
+                        <MudButton ButtonType="ButtonType.Submit" FullWidth="true" Variant="MudBlazor.Variant.Filled" Color="Color.Primary">@SubmitLabel</MudButton>
+                        @if (Flow == "sign-in")
+                        {
+                            <div class="auth-social-divider">or continue with</div>
+                            <div class="auth-name-grid"><MudButton Variant="MudBlazor.Variant.Outlined" StartIcon="@RynzoIcons.Get("Chrome")" OnClick="Pending">Google</MudButton><MudButton Variant="MudBlazor.Variant.Filled" Class="auth-github" StartIcon="@RynzoIcons.Get("Github")" OnClick="Pending">GitHub</MudButton></div>
+                            <MudLink Href="/auth/lock-screen/basic" Class="auth-centered">Lock screen demo</MudLink>
+                            <MudText Class="auth-centered">Don't have an account? <MudLink Href="/auth/sign-up/basic">Create one</MudLink></MudText>
+                        }
+                        @if (Flow == "sign-up") { <MudText Class="auth-centered">Already have an account? <MudLink Href="/auth/sign-in/basic">Sign In</MudLink></MudText> }
+                        @if (Flow == "forgot-password" && Variant == "cover") { <MudLink Href="/auth/sign-in/cover" Class="auth-centered">Back to sign in</MudLink> }
+                        @if (Flow == "reset-password") { <MudLink Href="/auth/sign-in/basic" Class="auth-centered">Return to Sign In</MudLink> }
+                        @if (Flow == "lock-screen") { <MudLink Href="/auth/sign-in/basic" Class="auth-centered">Switch account</MudLink> }
+                    </EditForm>
+                    </div>
+                }
+                @if (_pending) { <MudAlert Severity="Severity.Warning" Dense="true" Class="mt-4" role="status">No authentication request was sent. The real authentication contract is required to continue.</MudAlert> }
+            </div>
+            <footer class="auth-footer"><MudLink Href="#privacy">Privacy</MudLink><MudLink Href="#terms">Terms</MudLink><MudLink Href="#help">Help</MudLink></footer>
+        </section>
+        @if (Variant == "cover")
+        {
+            <aside class="auth-cover-panel">
+                <div><MudText Class="auth-cover-name">Rynzo</MudText><MudText Typo="Typo.h1" HtmlTag="h2">A calmer way to run your work.</MudText>
+                    <MudText Class="mt-4">Bring teams, projects, customer relationships, and daily decisions into one focused workspace.</MudText></div>
+                <div class="auth-testimonial"><MudText>It gives our whole team a much clearer view of what needs attention.</MudText><MudText Typo="Typo.caption" Class="mt-4">Sofia Carter Operations Lead</MudText></div>
+            </aside>
+        }
+    </div>
+</main>
+@code {
+    [Parameter] public string Flow { get; set; } = "sign-in";
+    [Parameter] public string Variant { get; set; } = "basic";
+    private AuthFormState _state = new();
+    private IReadOnlyDictionary<string, string> _errors = new Dictionary<string, string>();
+    private bool _pending;
+    private string _code = "";
+    private int _countdown = 32;
+    private readonly CancellationTokenSource _stop = new();
+    private bool StrongPassword => Flow is "sign-up" or "reset-password";
+    private string StrengthLabel => new[] { "Add a password", "Weak", "Fair", "Good", "Strong" }[AuthFormValidator.Strength(_state.Password)];
+    private string? Error(string key) => _errors.GetValueOrDefault(key);
+    private string Title => Flow switch { "sign-up" => "Create your account", "forgot-password" => "Forgot your password?", "reset-password" => "Create a new password", "verify-email" => "Verify your email", "two-step" => "Confirm it's you", "lock-screen" => "Welcome back", _ => "Welcome back" };
+    private string Description => Flow switch {
+        "sign-up" => "Start organizing your work in one place.", "forgot-password" => "Enter your email and we'll send reset instructions.",
+        "reset-password" => "Choose a strong password for your account.", "verify-email" => "Email verification requires a connected authentication service.",
+        "two-step" => "Enter the 6-digit code from your authentication provider.", "lock-screen" => "Enter your password to continue. Session verification is pending integration.", _ => "Sign in to continue to your workspace." };
+    private string SubmitLabel => Flow switch { "sign-up" => "Create Account", "forgot-password" when Variant == "cover" => "Send recovery link", "forgot-password" => "Send Reset Link", "reset-password" => "Reset Password", "lock-screen" => "Unlock", _ => "Sign In" };
+    protected override void OnInitialized() { if (Flow is "verify-email" or "two-step") _ = TickAsync(); }
+    private async Task TickAsync()
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        try { while (await timer.WaitForNextTickAsync(_stop.Token)) { if (_countdown > 0) { _countdown--; await InvokeAsync(StateHasChanged); } } }
+        catch (OperationCanceledException) { }
+    }
+    private void Submit()
+    {
+        _errors = AuthFormValidator.Validate(Flow, _state);
+        _pending = _errors.Count == 0;
+        // No network/client storage, principal creation, success redirect or fake delay.
+    }
+    private void Pending() => _pending = true;
+    private void Resend() { _countdown = 32; Pending(); }
+    private void CodeChanged(string value) => _code = new string(value.Where(char.IsAsciiDigit).Take(6).ToArray());
+    public void Dispose() { _stop.Cancel(); _stop.Dispose(); _state.ClearCredentials(); _code = ""; }
+}

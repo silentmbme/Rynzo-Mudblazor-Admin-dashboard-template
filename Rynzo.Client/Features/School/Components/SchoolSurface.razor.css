@@ -1,0 +1,86 @@
+.school-surface {
+  min-width: 0;
+}
+.school-surface ::deep .school-heading > .mud-stack:first-child {
+  margin-bottom: 0 !important;
+  gap: 4px !important;
+}
+.school-surface ::deep .school-heading .mud-typography-body1 {
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-body1);
+}
+.school-surface ::deep .mud-paper-outlined {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+.school-surface ::deep .mud-table {
+  background: var(--card);
+  box-shadow: none;
+}
+.school-surface ::deep .mud-table .mud-table-cell {
+  padding: 8px;
+  border-color: var(--border);
+  font-size: var(--rynzo-font-body1);
+}
+.school-surface ::deep .mud-table .mud-table-head .mud-table-cell {
+  background: transparent;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--rynzo-font-body1);
+  font-weight: 500;
+  color: var(--muted-foreground);
+  height: 40px;
+}
+.school-surface ::deep .mud-chip {
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+  border-radius: 99px;
+  height: auto;
+  min-height: 21px;
+  margin: 0;
+  padding: 2px 8px;
+}
+.school-surface ::deep .mud-chip-color-success {
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  color: var(--success);
+}
+.school-surface ::deep .mud-chip-color-warning {
+  background: color-mix(in srgb, var(--warning) 16%, transparent);
+  color: var(--warning);
+}
+.school-surface ::deep .mud-chip-color-info {
+  background: color-mix(in srgb, var(--info) 14%, transparent);
+  color: var(--info);
+}
+.school-surface ::deep .mud-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.school-surface ::deep .school-toolbar .mud-input {
+  height: 40px;
+  font-size: var(--rynzo-font-body1);
+  background: var(--card);
+  border-radius: 8px;
+}
+.school-surface ::deep .school-toolbar .mud-input-slot {
+  padding: 8px 12px !important;
+}
+.school-surface ::deep .school-toolbar .mud-input-control {
+  margin: 0;
+}
+.school-surface ::deep .school-toolbar .mud-input-label {
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.school-surface ::deep .school-toolbar legend {
+  width: 0 !important;
+}
+.school-surface ::deep .mud-typography-caption {
+  color: var(--muted-foreground) !important;
+}

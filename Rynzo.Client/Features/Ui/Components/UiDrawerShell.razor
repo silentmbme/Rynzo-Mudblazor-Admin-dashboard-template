@@ -1,0 +1,23 @@
+@using Rynzo.Client.Theme
+@using Microsoft.AspNetCore.Components.Web
+@if (Open)
+{
+<MudDrawer Open="Open" OpenChanged="OpenChanged" Anchor="Anchor" Variant="DrawerVariant.Temporary" Width="Width" Height="auto" Elevation="0" Style="@($"z-index:1400;width:{(Anchor is Anchor.Top or Anchor.Bottom?"100vw":Width)};max-width:100vw;max-height:100dvh")" Overlay="true" OverlayAutoClose="true">
+    <div class="ui-drawer-shell" role="dialog" aria-modal="true" aria-label="@Title" @onkeydown="HandleKey" style="@(Anchor is Anchor.Top or Anchor.Bottom?"max-height:85dvh":"height:100dvh")">
+    <MudFocusTrap Disabled="@(!Open)"><header class="ui-drawer-heading"><span class="ui-drawer-heading-icon"><MudIcon Icon="@Icon" /></span><div><small>Workspace / Context panel</small><h2>@Title</h2><p>@Description</p></div><MudIconButton Icon="@RynzoIcons.Get("X")" aria-label="Close drawer" OnClick="Close" /></header><div class="ui-drawer-body">@ChildContent</div>@if(Actions is not null){<footer class="ui-drawer-footer">@Actions</footer>}</MudFocusTrap>
+    </div>
+</MudDrawer>
+}
+@code {
+ [Parameter] public bool Open {get;set;}
+ [Parameter] public EventCallback<bool> OpenChanged {get;set;}
+ [Parameter] public Anchor Anchor {get;set;}=Anchor.Right;
+ [Parameter] public string Width {get;set;}="460px";
+ [Parameter] public string Title {get;set;}="";
+ [Parameter] public string Description {get;set;}="";
+ [Parameter] public string Icon {get;set;}="";
+ [Parameter] public RenderFragment? ChildContent {get;set;}
+ [Parameter] public RenderFragment? Actions {get;set;}
+ private Task Close()=>OpenChanged.InvokeAsync(false);
+ private Task HandleKey(KeyboardEventArgs e)=>e.Key=="Escape"?Close():Task.CompletedTask;
+}

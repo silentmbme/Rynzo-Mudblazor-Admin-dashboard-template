@@ -1,0 +1,22 @@
+.contact-action-dialog ::deep .mud-input-control {
+  margin: 0;
+}
+
+.contact-action-dialog ::deep .mud-input-label,
+.contact-action-dialog ::deep .mud-input-outlined-border legend {
+  display: none;
+}
+
+.contact-action-dialog ::deep .mud-input-outlined {
+  min-height: 44px;
+}
+
+.contact-action-dialog ::deep .mud-input > input.mud-input-root-outlined,
+.contact-action-dialog ::deep div.mud-input-slot.mud-input-root-outlined {
+  padding: 10.5px 14px;
+}
+
+.contact-action-dialog ::deep textarea.mud-input-slot {
+  padding: 12px 14px;
+  line-height: 1.5;
+}

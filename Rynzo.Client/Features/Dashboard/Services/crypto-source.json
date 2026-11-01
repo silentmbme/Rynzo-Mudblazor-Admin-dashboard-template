@@ -1,0 +1,117 @@
+{
+  "assets": [
+    {
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "mark": "₿",
+      "price": 67482.5,
+      "change": 2.84,
+      "holding": 0.42,
+      "entry": 59200,
+      "volume": 24800,
+      "marketCap": 1330000,
+      "color": "--warning",
+      "tone": "bg-warning/15 text-warning"
+    },
+    {
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "mark": "Ξ",
+      "price": 3524.8,
+      "change": 1.62,
+      "holding": 4.8,
+      "entry": 2880,
+      "volume": 12600,
+      "marketCap": 423000,
+      "color": "--primary",
+      "tone": "bg-primary/10 text-primary"
+    },
+    {
+      "symbol": "SOL",
+      "name": "Solana",
+      "mark": "◎",
+      "price": 172.64,
+      "change": 5.21,
+      "holding": 36,
+      "entry": 148,
+      "volume": 2840,
+      "marketCap": 78200,
+      "color": "--chart-2",
+      "tone": "bg-info/15 text-info"
+    },
+    {
+      "symbol": "BNB",
+      "name": "BNB",
+      "mark": "◇",
+      "price": 586.32,
+      "change": -0.74,
+      "holding": 8.5,
+      "entry": 615,
+      "volume": 1420,
+      "marketCap": 86500,
+      "color": "--chart-4",
+      "tone": "bg-warning/15 text-warning"
+    },
+    {
+      "symbol": "AVAX",
+      "name": "Avalanche",
+      "mark": "▲",
+      "price": 38.46,
+      "change": -1.36,
+      "holding": 42,
+      "entry": 34.8,
+      "volume": 468,
+      "marketCap": 14800,
+      "color": "--chart-5",
+      "tone": "bg-destructive/10 text-destructive"
+    }
+  ],
+  "cash": 3240,
+  "transactions": [
+    {
+      "id": "TX-1058",
+      "type": "Buy",
+      "symbol": "BTC",
+      "quantity": 0.025,
+      "amount": 1687.06,
+      "time": "Oct 9, 14:32",
+      "status": "Completed"
+    },
+    {
+      "id": "TX-1057",
+      "type": "Deposit",
+      "symbol": "USD",
+      "quantity": 1500,
+      "amount": 1500,
+      "time": "Oct 9, 12:48",
+      "status": "Completed"
+    },
+    {
+      "id": "TX-1056",
+      "type": "Sell",
+      "symbol": "SOL",
+      "quantity": 4,
+      "amount": 690.56,
+      "time": "Oct 9, 11:15",
+      "status": "Completed"
+    },
+    {
+      "id": "TX-1055",
+      "type": "Buy",
+      "symbol": "ETH",
+      "quantity": 0.5,
+      "amount": 1762.4,
+      "time": "Oct 8, 16:20",
+      "status": "Completed"
+    },
+    {
+      "id": "TX-1054",
+      "type": "Deposit",
+      "symbol": "ETH",
+      "quantity": 0.25,
+      "amount": 881.2,
+      "time": "Oct 8, 10:42",
+      "status": "Pending"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+﻿@page "/apps/tasks"
+@using Rynzo.Client.Features.Tasks.Models
+@using Rynzo.Client.Features.Tasks.Services
+@using Rynzo.Client.Features.Tasks.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+@inject ISnackbar Snackbar
+<div class="rynzo-widget-host"><PageTitle>Tasks | Rynzo</PageTitle>
+<PageHeader Title="Tasks" Description="Plan, assign and track work across your team.">
+    <Actions>
+        <MudIconButton Icon="@RynzoIcons.Get("SlidersHorizontal")" Variant="Variant.Outlined" Class="tasks-open-filters"
+                       aria-label="Open filters" OnClick="@(() => _filtersOpen = true)" />
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")"
+                   OnClick="@(() => TaskForm(new()))">Add task</MudButton>
+    </Actions>
+</PageHeader>
+<section Class="tasks-overview pa-0 rynzo-widget-card" aria-label="Task overview" Elevation="0" Outlined="true" data-widget-element="section">
+    <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span>
+            <MudIcon Icon="@RynzoIcons.Get("ListTodo")" />Active tasks
+        </span><strong>@_state.Tasks.Count(t => t.Status != "Completed")</strong><small>Work waiting to move forward</small>
+    </MudCard>
+    <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span>
+        <MudIcon Icon="@RynzoIcons.Get("Clock3")" />In progress
+    </span><strong>@_state.Tasks.Count(t => t.Status == "In Progress")</strong><small>Your team's current focus</small>
+    </MudCard>
+    <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span>
+        <MudIcon Icon="@RynzoIcons.Get("CircleCheck")" />Completed
+        </span><strong>@_state.Tasks.Count(t => t.Status == "Completed")</strong><small>Finished and ready to
+        celebrate</small>
+    </MudCard>
+</section>
+<div class="tasks-app">
+    <aside class="tasks-desktop-filters">
+        <TaskFilters State="_state" Changed="Refresh" />
+    </aside>
+    <main>
+        <header class="tasks-heading">
+            <div class="tasks-search-sort">
+                <MudTextField T="string" @bind-Value="_state.Search" Immediate="true" Placeholder="Search tasks"
+                              aria-label="Search tasks" Variant="Variant.Outlined" Margin="Margin.Dense"
+                              Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" /><select @bind="_state.Sort"
+                                                                                            aria-label="Task sorting" class="tasks-sort">@foreach(var sort in new[]{"Due date","Priority","Title A-Z"}){
+                <option value="@sort">@sort</option>
+            }
+        </select><select @bind="_state.Group"
+                     aria-label="Task grouping" class="tasks-group">@foreach(var group in
+        new[] { "None", "Status", "Priority", "Assignee", "Project" }){
+            <option value="@group">@group</option>
+        }
+    </select>
+</div>
+</header>
+<div class="tasks-summary"><span><b>@_state.Tasks.Count(t => t.Status != "Completed")
+    Active</b><span>@_state.Tasks.Count(t => t.Status == "In Progress") In
+    progress</span><span>@_state.Tasks.Count(t => t.Status == "Completed") completed</span></span>
+    <MudCheckBox T="bool" Value="@(_state.Shown.Length > 0 && _state.Selected.Count == _state.Shown.Length)"
+                 ValueChanged="@((bool value) => _state.SelectAll(value))" Label="Select all" Color="Color.Primary"
+                 Size="Size.Small" />
+</div>@if(_state.Selected.Count>0){
+<div class="tasks-bulk"><b>@_state.Selected.Count selected</b>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+               OnClick="@(() => Complete(_state.Selected))">Mark complete</MudButton>
+    <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="Progress">Move to progress</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Error" Size="Size.Small" OnClick="@(() => Delete(true))">
+        Delete</MudButton>
+    </div>
+}
+<section class="tasks-list">@foreach(var group in _state.Groups){
+    <div
+        class="@($"tasks-list-group {(_state.Group == "Status" && _state.DraggedId is not null ? "tasks-drop-active" : "")}")"
+        data-task-group="@group.Name" @ondragover:preventDefault="@(_state.Group == "Status")"
+        @ondrop="@(() => Drop(group.Name))">
+        <h2>@group.Name <span>@group.Tasks.Length</span></h2>
+        <div>@foreach(var task in group.Tasks){
+            <WorkTaskRow @key="task.Id" Task="task" Selected="@_state.Selected.Contains(task.Id)"
+                         Select="@(() => _state.ToggleSelection(task.Id))" Open="@(() => _detail=task)"
+                         Complete="@(() => Complete([task.Id]))" Drag="@(() => _state.DraggedId=task.Id)" />
+        }
+        @if (_state.Group == "Status" && _state.DraggedId is not null)
+        {
+            <p class="tasks-drop-hint">Drop task here
+                to move it to @group.Name</p>
+            }
+        </div>
+    </div>
+}
+@if (_state.Shown.Length == 0)
+{
+    <div class="tasks-empty">
+        <MudIcon Icon="@RynzoIcons.Get("ListTodo")" />No tasks match these filters.
+    </div>
+}
+</section>
+</main>
+</div>
+<MudOverlay Visible="@(_filtersOpen || _detail is not null)" DarkBackground="true" AutoClose="true" LockScroll="true"
+            ZIndex="1399" OnClosed="CloseDrawers" />
+<MudDrawer Open="_filtersOpen" OpenChanged="@((bool value) => _filtersOpen = value)" Anchor="Anchor.Left"
+           Variant="DrawerVariant.Temporary" Overlay="false" Width="320px" Elevation="0"
+           Style="z-index:1400;max-width:100vw;background:var(--card);overflow-y:auto" Class="tasks-filter-drawer">
+    <MudFocusTrap Disabled="@(!_filtersOpen)">
+        <header class="tasks-drawer-heading">
+            <div>
+                <h2>Task filters</h2>
+                <p>Refine the tasks you see.</p>
+            </div>
+            <MudIconButton Icon="@RynzoIcons.Get("X")" aria-label="Close task filters"
+                           OnClick="@(() => _filtersOpen=false)" />
+        </header>
+        <TaskFilters State="_state" Changed="Refresh" />
+    </MudFocusTrap>
+</MudDrawer>
+<MudDrawer Open="@(_detail is not null)" OpenChanged="@((bool value) => { if (!value) _detail = null; })"
+           Anchor="Anchor.Right" Variant="DrawerVariant.Temporary" Overlay="false" Width="448px" Elevation="0"
+           Style="z-index:1400;max-width:100vw;background:var(--card);overflow-y:auto" Class="tasks-detail-drawer">
+    <MudFocusTrap Disabled="@(_detail is null)">@if(_detail is not null){
+        <WorkTaskDetails Task="_detail" State="_state" Close="@(() => _detail = null)" Edit="Edit"
+                         Complete="@(() => Complete([_detail.Id]))" Duplicate="Duplicate" Delete="@(() => Delete(false))"
+                         Subtask="Subtask" Comment="Comment" />
+    }
+</MudFocusTrap>
+</MudDrawer></div>
+@code {
+    private readonly TasksState _state = new();
+    private WorkTask? _detail;
+    private bool _filtersOpen;
+    private void Refresh() => StateHasChanged();
+    private void CloseDrawers() { _filtersOpen = false; _detail = null; }
+    private void Complete(IEnumerable<string> ids)
+    {
+        var
+selected = ids.ToArray(); _state.Complete(selected); Snackbar.Add(selected.Length > 1 ? "Tasks updated" : "Task updated", Severity.Success);
+    }
+    private void Progress() { _state.ProgressSelected(); Snackbar.Add("Status updated", Severity.Success); }
+    private void Drop(string status) { if (_state.Drop(status)) Snackbar.Add("Task moved to " + status, Severity.Success); }
+    private Task Edit()
+    {
+        if (_detail is null) return Task.CompletedTask; var draft = _detail with { }; _detail = null; return
+TaskForm(draft);
+    }
+    private void Duplicate() { if (_detail is null) return; _state.Duplicate(_detail); Snackbar.Add("Task duplicated", Severity.Success); }
+    private void Subtask(int index) { if (_detail is not null) _state.ToggleSubtask(_detail.Id, index); }
+    private void Comment() { if (_detail is not null && _state.AddComment(_detail.Id)) Snackbar.Add("Comment added", Severity.Success); }
+    private async Task TaskForm(WorkTask draft)
+    {
+        var isNew = draft.Id.Length == 0; var dialog = await
+Dialogs.ShowAsync<WorkTaskForm>(isNew ? "Add task" : "Edit task", new
+DialogParameters<WorkTaskForm> { { d => d.Draft, draft }, { d => d.State, _state } }, new
+DialogOptions
+{ CloseButton = true, CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.Small }); var result = await
+dialog.Result; if (result is { Canceled: false }) Snackbar.Add(isNew ? "Task created" : "Task updated", Severity.Success);
+    }
+    private async Task Delete(bool bulk)
+    {
+        var ids = bulk ? _state.Selected.ToArray() : _detail is not null ? new[] { _detail.Id } : []; var
+result = await Dialogs.ShowMessageBoxAsync(bulk ? $"Delete {ids.Length} tasks?" : "Delete task?", "This task will be removed from the demo workspace.", yesText: "Delete", cancelText: "Cancel"); if (result == true) { _state.Delete(ids); _detail = null; Snackbar.Add("Task deleted", Severity.Success); }
+    }
+}
+
+
+
+

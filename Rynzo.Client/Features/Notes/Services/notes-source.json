@@ -1,0 +1,34 @@
+[
+  {
+    "id": "note-1",
+    "title": "Weekly priorities",
+    "content": "Review the dashboard designs.\nFinish the project handoff checklist.\nSchedule a team catch-up.",
+    "category": "Work",
+    "color": "--primary",
+    "pinned": true
+  },
+  {
+    "id": "note-2",
+    "title": "Ideas for the next release",
+    "content": "Improve onboarding guidance.\nExplore keyboard shortcuts.\nCollect feedback from the team.",
+    "category": "Ideas",
+    "color": "--warning",
+    "pinned": false
+  },
+  {
+    "id": "note-3",
+    "title": "Meeting recap",
+    "content": "Discussed current milestones and next steps.\nShare the updated timeline before the next review.",
+    "category": "Work",
+    "color": "--info",
+    "pinned": false
+  },
+  {
+    "id": "note-4",
+    "title": "Reading list",
+    "content": "Read a chapter each evening.\nSave useful articles and write a short summary.",
+    "category": "Personal",
+    "color": "--success",
+    "pinned": false
+  }
+]

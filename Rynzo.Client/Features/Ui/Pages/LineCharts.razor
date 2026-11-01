@@ -1,0 +1,116 @@
+﻿@page "/charts/line"
+@using Rynzo.Client.Features.Dashboard.Components
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>Line Chart Analytics | Rynzo</PageTitle>
+<div class="line-charts-page">
+    <DashboardPageHeader Title="Line Chart Analytics" Description="Read the trajectory. Compare performance, track service levels, and look ahead.">
+        <Actions>
+            <MudSelect T="string" Value="Period" ValueChanged="ChangePeriod" Variant="Variant.Outlined" Margin="Margin.Dense" Class="line-control" aria-label="Reporting period">@foreach(var value in Periods){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudSelect T="string" @bind-Value="Category" Variant="Variant.Outlined" Margin="Margin.Dense" Class="line-control" aria-label="Chart category">@foreach(var value in Categories){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudButton Variant="Variant.Outlined" OnClick="Refresh" StartIcon="@Icons.Material.Filled.Refresh">Refresh</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Export" StartIcon="@Icons.Material.Filled.FileDownload">Export CSV</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    <div class="line-context"><span><i></i> PERFORMANCE TRAJECTORIES <span>/</span> @Period</span><span>Illustrative data · @Updated</span></div>
+    <section class="line-kpis" aria-label="Business trend summary">
+        @foreach(var kpi in Kpis){<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><div><span>@kpi.Title</span><MudIcon Icon="@kpi.Icon" Size="Size.Small" /></div><strong>@kpi.Value</strong><p>@kpi.Change</p><small>@kpi.Detail</small></MudCard>}
+    </section>
+    <section class="line-chart-grid" aria-label="Interactive line analytics">
+        @foreach(var card in Cards.Where(c=>Category=="All Charts"||c.Category==Category))
+        {
+            <MudCard Class="@((($"line-card {card.Kind}")) + " rynzo-widget-card")" @key="card.Kind" Elevation="0" Outlined="true" data-widget-element="article">
+                <header><div><span class="line-kicker">@card.Number / @card.Type</span><h2>@card.Title</h2><p>@card.Description</p></div><span class="line-badge">@card.Category</span></header>
+                @if(card.Kind=="velocity")
+                {
+                    <div class="featured-metrics"><div><span>RECOGNIZED REVENUE</span><strong>@Money(Current.Revenue.Sum())</strong></div><div><span>PERIOD GROWTH</span><b>@Growth.ToString("+0.0;-0.0;0.0")%</b><small>vs. previous period</small></div><div><span>PLAN ATTAINMENT</span><b>@((Current.Revenue.Sum()/Current.Plan.Sum()*100).ToString("0.0"))%</b><small>@Money(Current.Plan.Sum()) planned</small></div></div>
+                }
+                @if(card.Kind=="latency"){<label class="chart-control">P95 service threshold<select value="@Sla" @onchange="ChangeSla"><option value="3">3.0 seconds</option><option value="3.5">3.5 seconds</option><option value="4">4.0 seconds</option></select></label>}
+                @if(card.Kind=="rolling"){<label class="chart-control">Trailing window<select value="@Window" @onchange="ChangeWindow"><option value="2">2 buckets</option><option value="3">3 buckets</option><option value="4">4 buckets</option></select></label>}
+                @if(card.Kind=="forecast"){<div class="forecast-note"><MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" /><span>Dashed projections and dotted bounds are illustrative scenarios.</span></div>}
+                @if(card.Kind=="momentum")
+                {
+                    <div class="momentum-layout"><aside><span class="line-kicker">ONE COMMON BASELINE</span><h3>Compare change,<br />across different measures.</h3><p>Revenue, activation, and retention each start at 100. Tooltips retain their original currency and percentage values.</p><label class="chart-control">Focus<select value="@Focus" @onchange="ChangeFocus"><option>All metrics</option><option>Revenue</option><option>Activation</option><option>Retention</option></select></label><div class="momentum-stat"><strong>@((Current.Revenue[^1]/Current.Revenue[0]*100).ToString("0.0"))</strong><span>Latest revenue index<br />First bucket = 100</span></div></aside><DashboardChart Data="@Data" OptionsModule="./line-chart-options.js" Kind="momentum" Height="365" Label="Indexed revenue, activation, and retention lines" /></div>
+                }
+                else
+                {
+                    <DashboardChart Data="@Data" OptionsModule="./line-chart-options.js" Kind="@card.Kind" Height="@(card.Kind=="velocity"?355:315)" Label="@card.Title" />
+                }
+                @if(card.Kind=="activation"){<div class="rate-breakdown"><span>Activated<b>@Current.Activated.Sum().ToString("N0")</b></span><span>Eligible registrations<b>@Current.Eligible.Sum().ToString("N0")</b></span><span>Weighted rate<b>@Rate(Current.Activated,Current.Eligible).ToString("0.0")%</b></span></div>}
+                @if(card.Kind=="retention"){<div class="retention-insight"><span>Retained @Current.Retained.Sum().ToString("N0") of @Current.Cohort.Sum().ToString("N0") eligible accounts</span><b>Reference: 90%</b></div>}
+                <footer><span>@card.Note</span><b>@Insight(card.Kind)</b></footer>
+            </MudCard>
+        }
+    </section>
+    <details class="line-method"><summary>How to read these trends</summary><p>Revenue is recognized USD per bucket. Acquisition channels are mutually exclusive registrations and sum to activation eligibility. Activation, retention, and resolution rates use actual numerator and denominator counts; KPI rates use summed counts, not averages of percentages. Latency lines show median (P50) and 95th-percentile (P95) samples; lower is faster. Rolling averages include only the selected trailing buckets and the available prefix at the start. Net cash is receipts minus payments. Forecasts extend three buckets beyond history. Indexed metrics use value / first bucket × 100. Previous-period buckets have matching durations. Data remains deterministic for the same period.</p></details>
+</div>
+@code {
+    private static readonly string[] Periods=["7 Days","30 Days","90 Days","This Year"];
+    private static readonly string[] Categories=["All Charts","Revenue","Marketing","Customers","Operations","Finance"];
+    private string Period="30 Days",Category="All Charts",Focus="All metrics",Updated="Ready to explore";
+    private int Window=3;
+    private double Sla=3.5;
+    private Snapshot Data=null!;
+    private IJSObjectReference? Module;
+    private sealed record Frame(double[] Revenue,double[] Plan,int[][] Channels,int[] Due,int[] Resolved,int[] Eligible,int[] Activated,int[] Cohort,int[] Retained,double[] P50,double[] P95,double[] Receipts,double[] Payments);
+    private sealed record Snapshot(string[] Labels,Frame Current,Frame Previous,string[] ForecastLabels,double[] Projection,double[] Lower,double[] Upper,double Sla,int Window,string Focus);
+    private sealed record Card(string Number,string Kind,string Title,string Category,string Type,string Description,string Note);
+    private static readonly Card[] Cards=[
+        new("01","velocity","Revenue trajectory","Revenue","FEATURED MULTI-LINE","Actual revenue, the corresponding previous period, and the revenue plan.","All three series use recognized USD and matching reporting buckets."),
+        new("02","acquisition","Acquisition sources","Marketing","CHANNEL COMPARISON","Follow the contribution of four registration sources.","Organic + Paid + Referral + Direct equals eligible registrations."),
+        new("03","resolution","Support resolution","Operations","STEPPED SERVICE LINE","Monitor the share of eligible tickets resolved within the service window.","Resolution = resolved tickets / tickets due. The reference line is 90%."),
+        new("04","activation","Activation pacing","Customers","ACTUAL VS. GOAL","Track the journey from registration to activation against a 65% goal.","Rates are per bucket; the KPI uses activated / eligible across the entire period."),
+        new("05","retention","Customer retention","Customers","DASHED BASELINE COMPARISON","Compare retained eligible accounts with the previous period.","Retention = retained accounts / eligible cohort. Both periods use the same method."),
+        new("06","latency","Response latency","Operations","MARKER + THRESHOLD","Compare median and tail response times against an adjustable P95 threshold.","Lower is faster. P95 is always at least as high as the median in this sample."),
+        new("07","forecast","Revenue forecast outlook","Revenue","ACTUAL + FORECAST BOUNDS","Keep observed performance separate from projected outcomes.","Solid history, dashed projection, and dotted lower/upper scenario bounds."),
+        new("08","rolling","Revenue signal & rolling average","Revenue","RAW VS. SMOOTHED SIGNAL","Separate bucket-level movement from its trailing trend.","The moving average uses past and present values only; no future values are included."),
+        new("09","cashflow","Cash movement","Finance","SIGNED FINANCIAL LINES","Understand receipts, payments, and the net balance between them.","Net cash = receipts − payments. Negative values indicate net cash outflow."),
+        new("10","momentum","Business momentum index","Revenue","NORMALIZED LINE COMPARISON","Compare relative movement without mixing currency and percentage scales.","Every series starts at 100; 120 means 20% above its own first-bucket value.")];
+    private Frame Current=>Data.Current;
+    private Frame Previous=>Data.Previous;
+    private double Growth=>(Current.Revenue.Sum()/Previous.Revenue.Sum()-1)*100;
+    private static double Rate(int[] numerator,int[] denominator)=>100d*numerator.Sum()/denominator.Sum();
+    private static string Money(double value)=>value.ToString("C0",System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+    private static string ShortMoney(double value)=>Math.Abs(value)>=1000000?$"${value/1000000:0.00}m":Money(value);
+    private IEnumerable<(string Title,string Value,string Change,string Detail,string Icon)> Kpis=>[
+        ("Total revenue",ShortMoney(Current.Revenue.Sum()),$"{Growth:+0.0;-0.0}% vs. previous",$"Recognized {Money(Current.Revenue.Sum())}",Icons.Material.Filled.AccountBalanceWallet),
+        ("Activation rate",$"{Rate(Current.Activated,Current.Eligible):0.0}%",$"{Rate(Current.Activated,Current.Eligible)-Rate(Previous.Activated,Previous.Eligible):+0.0;-0.0} pp vs. previous",$"{Current.Activated.Sum():N0} of {Current.Eligible.Sum():N0} registrations",Icons.Material.Filled.PersonAddAlt1),
+        ("Customer retention",$"{Rate(Current.Retained,Current.Cohort):0.0}%",$"{Rate(Current.Retained,Current.Cohort)-Rate(Previous.Retained,Previous.Cohort):+0.0;-0.0} pp vs. previous",$"{Current.Retained.Sum():N0} retained eligible accounts",Icons.Material.Filled.Groups),
+        ("Latest P95 latency",$"{Current.P95[^1]:0.00}s",$"{Current.P95[^1]-Previous.P95[^1]:+0.00;-0.00;0.00}s vs. previous",$"Lower is faster · threshold {Sla:0.0}s",Icons.Material.Filled.Speed)];
+    protected override void OnInitialized()=>Rebuild();
+    private void ChangePeriod(string value){Period=value;Rebuild();}
+    private void Refresh(){Updated="Refreshed just now";Rebuild();}
+    private void ChangeSla(ChangeEventArgs e){if(double.TryParse(e.Value?.ToString(),out var value)){Sla=value;Data=Data with {Sla=value};}}
+    private void ChangeWindow(ChangeEventArgs e){if(int.TryParse(e.Value?.ToString(),out var value)){Window=value;Data=Data with {Window=value};}}
+    private void ChangeFocus(ChangeEventArgs e){Focus=e.Value?.ToString()??"All metrics";Data=Data with {Focus=Focus};}
+    private void Rebuild()
+    {
+        var index=Array.IndexOf(Periods,Period);var scale=new double[]{.22,1,3.1,6}[index];
+        string[][] periods=[["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],["01–05","06–10","11–15","16–20","21–25","26–30"],["Weeks 1–2","Weeks 3–4","Weeks 5–6","Weeks 7–8","Weeks 9–10","Weeks 11–13"],["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]];
+        var labels=periods[index];var n=labels.Length;
+        Frame Build(bool previous)
+        {
+            var factor=previous ? .88:1d;
+            var revenue=Enumerable.Range(0,n).Select(i=>Math.Round((42000+i*2600+(i%3-1)*1400)*scale*factor)).ToArray();
+            var plan=revenue.Select((v,i)=>Math.Round(v/(.95+(i%4)*.045-(previous ? .03:0)))).ToArray();
+            var eligible=Enumerable.Range(0,n).Select(i=>(int)Math.Round((1800+i*110)*scale*factor)).ToArray();
+            var channels=new int[4][];for(var j=0;j<4;j++)channels[j]=new int[n];
+            for(var i=0;i<n;i++){channels[0][i]=(int)(eligible[i]*(.39+i*.003));channels[1][i]=(int)(eligible[i]*(.3-i*.002));channels[2][i]=(int)(eligible[i]*.18);channels[3][i]=eligible[i]-channels[0][i]-channels[1][i]-channels[2][i];}
+            var activated=eligible.Select((v,i)=>(int)Math.Round(v*(.52+i*.022+index*.008-(previous ? .025:0)))).ToArray();
+            var cohort=Enumerable.Range(0,n).Select(i=>(int)Math.Round((1000+i*95)*scale*factor)).ToArray();
+            var retained=cohort.Select((v,i)=>(int)Math.Round(v*(.87+i*.004+index*.004-(previous ? .015:0)))).ToArray();
+            var due=Enumerable.Range(0,n).Select(i=>(int)Math.Round((150+i*12)*scale*factor)).ToArray();
+            var resolved=due.Select((v,i)=>(int)Math.Round(v*(.84+i*.008+index*.006-(previous ? .02:0)))).ToArray();
+            var p50=Enumerable.Range(0,n).Select(i=>Math.Round(Math.Max(.7,2.4-i*.08-index*.05+(previous ? .2:0)),2)).ToArray();
+            var p95=p50.Select(v=>Math.Round(v*1.65+.25,2)).ToArray();
+            var receipts=revenue.Select((v,i)=>Math.Round(v*(.82+(i%3)*.04))).ToArray();var payments=revenue.Select((v,i)=>Math.Round(v*new double[]{.76,.99,.74,.79,.95,.72}[i%6])).ToArray();
+            return new(revenue,plan,channels,due,resolved,eligible,activated,cohort,retained,p50,p95,receipts,payments);
+        }
+        var current=Build(false);var last=current.Revenue[^1];var projection=new[]{last,Math.Round(last*1.06),Math.Round(last*1.12),Math.Round(last*1.19)};
+        Data=new(labels,current,Build(true),labels.Concat(new[]{"Forecast +1","Forecast +2","Forecast +3"}).ToArray(),projection,projection.Select((v,i)=>Math.Round(v*(1-i*.04))).ToArray(),projection.Select((v,i)=>Math.Round(v*(1+i*.04))).ToArray(),Sla,Window,Focus);
+    }
+    private string Insight(string kind)=>kind switch{"velocity"=>$"{Growth:+0.0;-0.0}% growth","acquisition"=>$"{Current.Eligible.Sum():N0} registrations","resolution"=>$"{Rate(Current.Resolved,Current.Due):0.0}% resolved","activation"=>$"{Rate(Current.Activated,Current.Eligible):0.0}% activated","retention"=>$"{Rate(Current.Retained,Current.Cohort):0.0}% retained","latency"=>$"{Current.P95.Count(v=>v>Sla)} buckets above threshold","forecast"=>"3 future buckets","rolling"=>$"{Window}-bucket trailing window","cashflow"=>ShortMoney(Current.Receipts.Sum()-Current.Payments.Sum())+" net cash",_=>"First bucket = 100"};
+    private async Task Export(){Module??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/line-chart-options.js");await Module.InvokeVoidAsync("exportCsv",Data,Period,Category);}
+    public async ValueTask DisposeAsync(){if(Module is not null){try{await Module.DisposeAsync();}catch(JSDisconnectedException){}}}
+}

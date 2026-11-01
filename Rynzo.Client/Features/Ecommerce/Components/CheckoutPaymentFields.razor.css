@@ -1,0 +1,25 @@
+.checkout-payment-choices {
+  display: grid;
+  gap: 8px;
+}
+.checkout-card-fields {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 15%, transparent);
+}
+.checkout-payment-notice {
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--muted) 20%, transparent);
+  font-size: var(--rynzo-font-body1);
+  color: var(--muted-foreground);
+}
+@media (min-width: 640px) {
+  .checkout-payment-choices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

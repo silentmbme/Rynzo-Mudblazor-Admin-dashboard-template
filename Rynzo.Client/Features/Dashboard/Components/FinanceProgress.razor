@@ -1,0 +1,3 @@
+@using System.Globalization
+<div class="finance-progress"><i style="@($"width:{Value.ToString(CultureInfo.InvariantCulture)}%;background:var(--{Tone})")"></i></div>
+@code { [Parameter] public double Value { get; set; } [Parameter] public string Tone { get; set; } = "primary"; }

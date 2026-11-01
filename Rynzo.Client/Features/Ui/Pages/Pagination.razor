@@ -1,0 +1,77 @@
+@page "/ui/pagination"
+@using Rynzo.Client.Features.Ui.Components
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+<PageTitle>Pagination | Rynzo</PageTitle>
+<div class="pagination-page">
+    <DashboardPageHeader Title="Pagination" Description="Navigate long collections with clear page state, result context, and accessible controls.">
+        <Actions>
+            <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Print">Export</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("FilePlus2")">Create report</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    <section class="pagination-intro">
+        <div class="pagination-intro-icon"><MudIcon Icon="@RynzoIcons.Get("Layers")" /></div>
+        <div><small>Component library / Navigation</small><h2>A clear path through every collection.</h2><p>Keep people oriented with concise controls, meaningful ranges, and predictable page changes.</p></div>
+        <span class="pagination-intro-note"><MudIcon Icon="@RynzoIcons.Get("MousePointer2")" /> Interactive examples</span>
+    </section>
+    <div class="pagination-grid">
+        <ButtonShowcaseCard Id="numbered" Title="Numbered pagination" Description="Direct access to a known collection of pages." Code="@NumberedCode">
+            <div class="pagination-example-heading"><span class="pagination-eyebrow">Project directory</span><span class="pagination-small-count">8 pages</span></div>
+            <UiPageNavigator Count="8" @bind-Selected="Page" Label="Numbered pages" />
+            <p class="pagination-caption" aria-live="polite">Viewing page <b>@Page</b> of 8</p>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="previous-next" Title="Previous and next" Description="Focused navigation for a short, linear flow." Code="@SimpleCode">
+            <div class="pagination-flow-heading"><span><MudIcon Icon="@RynzoIcons.Get("FileText")" /></span><div><h3>Collection overview</h3><p>Move through one page at a time.</p></div></div>
+            <div class="pagination-simple"><MudButton Variant="Variant.Outlined" Disabled="@(SimplePage==1)" StartIcon="@RynzoIcons.Get("ArrowLeft")" OnClick="@(()=>SimplePage--)">Previous</MudButton><span aria-live="polite">Page <b>@SimplePage</b> of 4</span><MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(SimplePage==4)" EndIcon="@RynzoIcons.Get("ArrowRight")" OnClick="@(()=>SimplePage++)">Next</MudButton></div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="compact" Title="Compact pagination" Description="A shorter control for narrow cards and mobile layouts." Code="@CompactCode">
+            <div class="pagination-compact-surface"><div><h3>Quick navigation</h3><p>Three pages, less visual weight.</p></div><UiPageNavigator Count="3" Selected="Math.Min(Page,3)" SelectedChanged="@(value=>Page=value)" Compact="true" Label="Compact pages" /></div>
+            <p class="pagination-caption">Intermediate page numbers can collapse as the collection grows.</p>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="cursor" Title="Cursor pagination" Description="Browse activity when a total page count is unavailable." Code="@CursorCode">
+            <div class="pagination-cursor-heading"><span class="pagination-activity-dot"></span><div><h3>Recent activity</h3><p>Loaded 20 recent updates</p></div><UiStatusChip Color="Color.Info">Live feed</UiStatusChip></div>
+            <div class="pagination-cursor"><MudButton Size="Size.Small" StartIcon="@RynzoIcons.Get("ChevronUp")" OnClick="@(()=>SimplePage=Math.Max(1,SimplePage-1))">Newer</MudButton><span>Activity stream</span><MudButton Size="Size.Small" EndIcon="@RynzoIcons.Get("ChevronDown")" OnClick="@(()=>SimplePage=Math.Min(4,SimplePage+1))">Older</MudButton></div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="result-count" Title="Pagination with result count" Description="Pair navigation with context about the current result range." Code="@ResultsCode">
+            <div class="pagination-result-range"><span class="pagination-range-icon"><MudIcon Icon="@RynzoIcons.Get("FolderOpen")" /></span><div><strong>@((Page-1)*10+1)–@(Math.Min(Page*10,84))</strong><p>of <b>84</b> projects</p></div><span class="pagination-small-count">Current results</span></div>
+            <UiPageNavigator Count="8" @bind-Selected="Page" Label="Result pages" />
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="jump" Title="Jump to page" Description="Go directly to a specific page in a larger collection." Code="@JumpCode">
+            <div class="pagination-jump"><label for="pagination-page-number">Go to page</label><div><input id="pagination-page-number" aria-label="Page number" type="number" min="1" max="8" value="@Page" @oninput="Jump" /><span>of 8</span><MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@RynzoIcons.Get("ArrowRight")" OnClick="Go">Go</MudButton></div></div>
+            <p class="pagination-caption" aria-live="polite">Page <b>@Page</b> selected. Values stay within the available range.</p>
+        </ButtonShowcaseCard>
+    </div>
+    <div class="pagination-table-section">
+        <ButtonShowcaseCard Id="table-pagination" Title="Table pagination" Description="Keep page size, result range, and navigation together below the records." Code="@TableCode">
+            <div class="pagination-table-summary"><div><span class="pagination-eyebrow">Workspace projects</span><h3>Project directory <span>19 records</span></h3></div><span class="pagination-table-page" aria-live="polite">Page @TablePage of @TablePages</span></div>
+            <div class="pagination-table-scroll" role="region" aria-label="Projects table" tabindex="0">
+                <table><thead><tr><th>Project</th><th>Owner</th><th>Status</th><th>ID</th></tr></thead><tbody>
+                    @foreach(var record in Visible){<tr><td><div class="pagination-project"><span><MudIcon Icon="@RynzoIcons.Get("Folder")" /></span><b>@record.Name</b></div></td><td>@record.Owner</td><td><UiStatusChip Color="@(record.Status=="On track"?Color.Success:Color.Warning)" Dot="true">@record.Status</UiStatusChip></td><td>@record.Id</td></tr>}
+                </tbody></table>
+            </div>
+            <footer class="pagination-table-footer"><div><label for="pagination-rows">Rows per page</label><select id="pagination-rows" aria-label="Rows per page" value="@RowsPerPage" @onchange="UpdateRows"><option value="5">5</option><option value="10">10</option></select><span aria-live="polite">@((TablePage-1)*RowsPerPage+1)–@(Math.Min(TablePage*RowsPerPage,19)) of 19</span></div><UiPageNavigator Count="TablePages" @bind-Selected="TablePage" Compact="@(TablePages<=3)" Label="Project table pages" /></footer>
+        </ButtonShowcaseCard>
+    </div>
+</div>
+@code {
+    private int Page=3,SimplePage=1,RowsPerPage=5,TablePage=1;
+    private int TablePages=>(int)Math.Ceiling(19d/RowsPerPage);
+    private static readonly string[] Names=["Website Redesign","Mobile App","Brand Refresh","Customer Portal","Analytics Hub"];
+    private static readonly string[] Owners=["Sophia Carter","Daniel Lee","Mia Chen","Noah Bennett"];
+    private static readonly ProjectRecord[] Records=Enumerable.Range(0,19).Select(i=>new ProjectRecord($"PRJ-{1042+i}",Names[i%5],Owners[i%4],i%5==0?"At risk":"On track")).ToArray();
+    private IEnumerable<ProjectRecord> Visible=>Records.Skip((TablePage-1)*RowsPerPage).Take(RowsPerPage);
+    private record ProjectRecord(string Id,string Name,string Owner,string Status);
+    private void Jump(ChangeEventArgs args)=>Page=int.TryParse(args.Value?.ToString(),out var value)?Math.Clamp(value,1,8):1;
+    private void Go()=>Page=Math.Clamp(Page,1,8);
+    private void UpdateRows(ChangeEventArgs args){RowsPerPage=args.Value?.ToString()=="10"?10:5;TablePage=1;}
+    private async Task Print()=>await JS.InvokeVoidAsync("print");
+    private const string NumberedCode="<UiPageNavigator Count=\"8\" @bind-Selected=\"Page\" />";
+    private const string SimpleCode="<MudButton Disabled=\"@(Page == 1)\" OnClick=\"Previous\">Previous</MudButton>\n<MudButton Disabled=\"@(Page == 4)\" OnClick=\"Next\">Next</MudButton>";
+    private const string CompactCode="<UiPageNavigator Count=\"3\" Compact=\"true\" @bind-Selected=\"Page\" />";
+    private const string CursorCode="<MudButton OnClick=\"LoadNewer\">Newer</MudButton>\n<MudButton OnClick=\"LoadOlder\">Older</MudButton>";
+    private const string ResultsCode="<p>Showing 21-30 of 84 projects</p>\n<UiPageNavigator Count=\"8\" @bind-Selected=\"Page\" />";
+    private const string JumpCode="<input type=\"number\" min=\"1\" max=\"8\" value=\"@Page\" @oninput=\"Jump\" />\n<MudButton OnClick=\"Go\">Go</MudButton>";
+    private const string TableCode="<UiPageNavigator Count=\"TablePages\" @bind-Selected=\"TablePage\" />\n// Reset TablePage to 1 when rows per page changes.";
+}

@@ -1,0 +1,193 @@
+{
+  "grades": [
+    "Grade 8",
+    "Grade 9",
+    "Grade 10",
+    "Grade 11",
+    "Grade 12"
+  ],
+  "students": [
+    {
+      "id": "ST-101",
+      "name": "Emma Wilson",
+      "grade": "Grade 8",
+      "attendance": "Present",
+      "fee": 1200,
+      "paid": 1200
+    },
+    {
+      "id": "ST-102",
+      "name": "Liam Parker",
+      "grade": "Grade 8",
+      "attendance": "Absent",
+      "fee": 1200,
+      "paid": 600
+    },
+    {
+      "id": "ST-103",
+      "name": "Ava Thompson",
+      "grade": "Grade 9",
+      "attendance": "Present",
+      "fee": 1400,
+      "paid": 1400
+    },
+    {
+      "id": "ST-104",
+      "name": "Noah Williams",
+      "grade": "Grade 9",
+      "attendance": "Present",
+      "fee": 1400,
+      "paid": 700
+    },
+    {
+      "id": "ST-105",
+      "name": "Mia Anderson",
+      "grade": "Grade 10",
+      "attendance": "Present",
+      "fee": 1600,
+      "paid": 1600
+    },
+    {
+      "id": "ST-106",
+      "name": "Oliver Davis",
+      "grade": "Grade 10",
+      "attendance": "Absent",
+      "fee": 1600,
+      "paid": 0
+    },
+    {
+      "id": "ST-107",
+      "name": "Isabella Clark",
+      "grade": "Grade 11",
+      "attendance": "Present",
+      "fee": 1600,
+      "paid": 1200
+    },
+    {
+      "id": "ST-108",
+      "name": "Lucas Brown",
+      "grade": "Grade 11",
+      "attendance": "Absent",
+      "fee": 1600,
+      "paid": 800
+    },
+    {
+      "id": "ST-109",
+      "name": "Amelia Hall",
+      "grade": "Grade 12",
+      "attendance": "Present",
+      "fee": 1600,
+      "paid": 1600
+    },
+    {
+      "id": "ST-110",
+      "name": "Ethan Miller",
+      "grade": "Grade 12",
+      "attendance": "Present",
+      "fee": 1600,
+      "paid": 800
+    }
+  ],
+  "teachers": [
+    {
+      "name": "Sophia Carter",
+      "subject": "Mathematics",
+      "grade": "Grade 8"
+    },
+    {
+      "name": "Daniel Lee",
+      "subject": "Science",
+      "grade": "Grade 9"
+    },
+    {
+      "name": "Olivia Smith",
+      "subject": "English",
+      "grade": "Grade 10"
+    }
+  ],
+  "assignments": [
+    {
+      "title": "Algebra practice",
+      "grade": "Grade 8",
+      "subject": "Mathematics",
+      "done": false
+    },
+    {
+      "title": "Science lab report",
+      "grade": "Grade 9",
+      "subject": "Science",
+      "done": false
+    },
+    {
+      "title": "Reading reflection",
+      "grade": "Grade 10",
+      "subject": "English",
+      "done": true
+    }
+  ],
+  "events": [
+    {
+      "title": "Parent-teacher meeting",
+      "day": "12",
+      "weekday": "MON",
+      "type": "Families",
+      "detail": "Connect with class teachers",
+      "color": "--primary"
+    },
+    {
+      "title": "Science fair registration",
+      "day": "16",
+      "weekday": "FRI",
+      "type": "Academics",
+      "detail": "Submit student project entries",
+      "color": "--info"
+    },
+    {
+      "title": "School sports day",
+      "day": "23",
+      "weekday": "FRI",
+      "type": "Campus life",
+      "detail": "Celebrate teamwork and school spirit",
+      "color": "--success"
+    }
+  ],
+  "buses": [
+    {
+      "route": "North campus",
+      "bus": "01",
+      "color": "bg-primary/10 text-primary",
+      "barColor": "bg-primary",
+      "seats": 24,
+      "total": 32,
+      "status": "Arrived"
+    },
+    {
+      "route": "Central park",
+      "bus": "02",
+      "color": "bg-chart-3/10 text-chart-3",
+      "barColor": "bg-chart-3",
+      "seats": 28,
+      "total": 32,
+      "status": "Arrived"
+    },
+    {
+      "route": "West avenue",
+      "bus": "03",
+      "color": "bg-chart-4/10 text-chart-4",
+      "barColor": "bg-chart-4",
+      "seats": 18,
+      "total": 30,
+      "status": "En route"
+    }
+  ],
+  "books": [
+    {
+      "title": "The Science Explorer",
+      "due": "Oct 12"
+    },
+    {
+      "title": "A World of Stories",
+      "due": "Oct 14"
+    }
+  ]
+}

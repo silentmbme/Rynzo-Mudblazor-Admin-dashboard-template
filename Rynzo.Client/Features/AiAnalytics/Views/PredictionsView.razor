@@ -1,0 +1,268 @@
+@using Rynzo.Client.Theme
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Assets
+@implements IAsyncDisposable
+@using System.Globalization
+@using Rynzo.Client.Features.AiAnalytics.Models
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+
+<section class="predictions-view">
+    <div class="prediction-metrics">
+    <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true">
+        <div Class="prediction-stat rynzo-widget-card" Elevation="0" Outlined="true"><span
+                class="prediction-icon primary">
+                <MudIcon Icon="@RynzoIcons.Get("Target")" />
+            </span>
+            <MudText Typo="Typo.caption">Tracked forecasts</MudText>
+            <MudText Typo="Typo.h4">@AiAnalyticsSource.Forecasts.Length</MudText>
+            <MudText Typo="Typo.caption">Across four business areas</MudText>
+        </div>
+    </MudCard>
+    <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true">
+        <div Class="prediction-stat rynzo-widget-card" Elevation="0" Outlined="true"><span
+                class="prediction-icon success">
+                <MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" />
+            </span>
+            <MudText Typo="Typo.caption">Average sample confidence</MudText>
+            <MudText Typo="Typo.h4">@AverageConfidence%</MudText>
+            <MudText Typo="Typo.caption">Illustrative scores, not validation results</MudText>
+        </div>
+</MudCard>
+<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true">
+    <div Class="prediction-stat rynzo-widget-card" Elevation="0" Outlined="true"><span
+            class="prediction-icon info">
+            <MudIcon Icon="@RynzoIcons.Get("Clock3")" />
+        </span>
+        <MudText Typo="Typo.caption">Forecast horizon</MudText>
+        <MudText Typo="Typo.h4">@_horizon days</MudText>
+        <MudText Typo="Typo.caption">@_scenario scenario</MudText>
+    </div>
+</MudCard>
+<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true">
+    <div Class="prediction-stat rynzo-widget-card" Elevation="0" Outlined="true"><span
+            class="prediction-icon warning">
+            <MudIcon Icon="@Icons.Material.Filled.TrendingUp" />
+        </span>
+        <MudText Typo="Typo.caption">Sample runs</MudText>
+        <MudText Typo="Typo.h4">@_runs</MudText>
+        <MudText Typo="Typo.caption">Runs in this session</MudText>
+    </div>
+</MudCard>
+</div>
+<div class="prediction-actions">
+    <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="ExportForecast">Export
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("ArrowRight")"
+               OnClick="RunForecast">Run sample forecast</MudButton>
+</div>
+@if (!string.IsNullOrWhiteSpace(_notice))
+{
+    <MudAlert Severity="Severity.Success" Dense="true"
+              Class="prediction-notice">@_notice</MudAlert>
+}
+<div class="outlook-grid">
+    <div>
+        <MudCard Class="outlook-card rynzo-widget-card" Elevation="0" Outlined="true">
+            <div class="panel-heading">
+                <div>
+                    <MudText Typo="Typo.h6">@Active.Title outlook</MudText>
+                    <MudText Typo="Typo.caption">Fixed sample history through Oct 9, 2026; forecast dates are
+                        relative to this sample date.</MudText>
+                    </div>
+                    <MudChip T="string" Size="Size.Small" Color="Color.Primary">@Active.Id</MudChip>
+                </div>
+                <div class="outlook-controls"><label class="pf-field"><span>Forecast metric</span><select
+                    aria-label="Forecast metric" @bind="_selected">@foreach(var forecast in
+                    AiAnalyticsSource.Forecasts){
+                        <option value="@forecast.Id">@forecast.Title</option>
+                    }
+                </select></label><label class="pf-field"><span>Forecast horizon</span><select
+                aria-label="Forecast horizon" @bind="_horizon">
+                <option value="7">Next 7 days</option>
+                <option value="14">Next 14 days</option>
+                <option value="30">Next 30 days</option>
+            </select></label><label class="pf-field"><span>Forecast scenario</span><select
+            aria-label="Forecast scenario" @bind="_scenario">@foreach(var scenario in Scenarios){
+            <option>@scenario</option>
+        }
+    </select></label></div>
+    <div class="projected-heading">
+        <div>
+            <MudText Typo="Typo.caption">Projected at day @_horizon</MudText>
+            <MudText Typo="Typo.h3">@Format(Projected, Active)</MudText>
+        </div>
+        <MudChip T="string" Color="@(Favorable ? Color.Success : Color.Warning)">
+            @(Movement >= 0 ? "+" : "")@Movement.ToString("F1")% vs current</MudChip>
+        </div>
+        <DashboardChart Kind="predictions" OptionsModule="./ai-workspace-options.js"
+                        Data="@(new { forecast=new {current=Active.Current,unit=Active.Unit,history=Active.History},horizon=_horizon,projected=Projected,scenario=_scenario })"
+                        Height="300" Label="Forecast outlook" />
+        <MudText Typo="Typo.caption" Class="chart-note">Dashed lines show forecasts. Bounds are illustrative
+            +/-12% ranges, not statistical confidence intervals. Sample confidence scores do not describe these
+            bounds.</MudText>
+        </MudCard>
+    </div>
+    <div>
+        <div class="side-stack">
+            <MudCard Class="side-card rynzo-widget-card" Elevation="0" Outlined="true">
+                <MudText Typo="Typo.h6">Scenario comparison</MudText>
+                <MudText Typo="Typo.caption">Explore a simple sensitivity model</MudText>
+                <div class="scenario-list">@foreach(var scenario in Scenarios){
+                    <button type="button"
+                            class="@(ScenarioClass(scenario))" aria-pressed="@(_scenario == scenario)"
+                            @onclick="@(() => SetScenario(scenario))"><span><b>@scenario</b><small>@ScenarioDescription(scenario)</small></span><strong>@Format(Estimate(Active, scenario), Active)</strong></button>
+                }
+            </div>
+            <MudText Typo="Typo.caption">Base case: @Format(BaseEstimate, Active). Scenario shifts are
+                illustrative assumptions you can compare; they are not model-generated probabilities.</MudText>
+            </MudCard>
+            <MudCard Class="side-card rynzo-widget-card" Elevation="0" Outlined="true"><span class="driver-icon">
+                <MudIcon Icon="@RynzoIcons.Get("SlidersHorizontal")" />
+            </span>
+            <MudText Typo="Typo.h6">Key forecast driver</MudText>
+            <MudText Typo="Typo.subtitle2">@Active.Driver</MudText>
+            <MudText Typo="Typo.body2">@Active.Assumption</MudText>
+            <MudButton Variant="Variant.Outlined" FullWidth="true" OnClick="@(() => _detail = true)">Review
+                assumptions
+                <MudIcon Icon="@RynzoIcons.Get("ArrowUpRight")" Size="Size.Small" />
+            </MudButton>
+        </MudCard>
+    </div>
+</div>
+</div>
+<div class="library-heading">
+    <div>
+        <MudText Typo="Typo.h6">Forecast library</MudText>
+        <MudText Typo="Typo.caption">@Visible.Count() predictions - click a metric to explore its outlook</MudText>
+    </div>
+    <div class="library-filters">
+        <MudTextField @bind-Value="_query" Immediate="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                      aria-label="Search predictions" Placeholder="Search forecasts..." Adornment="Adornment.Start"
+                      AdornmentIcon="@RynzoIcons.Get("Search")" /><select class="pf-category" aria-label="Prediction category"
+                                                        @bind="_category">
+        <option value="All">All categories</option>@foreach(var category in Categories){
+        <option>@category
+        </option>
+    }
+</select>
+</div>
+</div>
+    @if (Visible.Any())
+{
+    <div class="forecast-grid">@foreach(var forecast in Visible){var
+        value = Estimate(forecast, _scenario); var change = (value - forecast.Current) / forecast.Current * 100; var
+        good = forecast.LowerBetter ? change <= 0 : change >= 0;
+        <div>
+            <div class="@(ForecastClass(forecast))">
+                <div class="forecast-card-top">
+                    <MudChip T="string" Size="Size.Small" Color="Color.Info">@forecast.Category</MudChip>
+                    <MudText Typo="Typo.caption">@forecast.Id</MudText>
+                </div>
+                <MudText Typo="Typo.h6">@forecast.Title</MudText>
+                <MudText Typo="Typo.h3">@Format(value, forecast)</MudText>
+                <div class="change-line">
+                    <MudChip T="string" Size="Size.Small" Color="@(good ? Color.Success : Color.Warning)">
+                        @(change >= 0 ? "+" : "")@change.ToString("F1")%</MudChip>
+                        <MudText Typo="Typo.caption">Current: @Format(forecast.Current, forecast)</MudText>
+                    </div>
+                    <div class="confidence-line">
+                        <MudText Typo="Typo.caption">Sample confidence</MudText>
+                        <MudText Typo="Typo.caption"><b>@forecast.Confidence%</b></MudText>
+                    </div>
+                    <MudText Typo="Typo.caption">@_horizon days / @_scenario / @forecast.Owner</MudText>
+                    <MudButton Variant="@(forecast.Id == _selected ? Variant.Filled : Variant.Outlined)" Color="Color.Primary"
+                               FullWidth="true" OnClick="@(()=>_selected=forecast.Id)">@(forecast.Id==_selected?"Viewing forecast":"Explore forecast")
+                        <MudIcon Icon="@RynzoIcons.Get("ArrowUpRight")" Size="Size.Small" />
+                    </MudButton>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+
+    <div class="prediction-empty">
+        <MudText Typo="Typo.body2">No matching predictions.</MudText>
+        <MudButton Variant="Variant.Outlined" OnClick="Reset">Reset filters</MudButton>
+    </div>
+}
+@if (_detail)
+{
+    <MudDialog @bind-Visible="_detail">
+        <DialogContent>
+            <MudText Typo="Typo.h6">@Active.Title assumptions</MudText>
+            <MudText Typo="Typo.caption">@Active.Id / @Active.Model / Sample forecast</MudText>
+            <div class="detail-grid">
+                <div><small>Source</small><b>@Active.Source</b></div>
+                <div><small>Sample records</small><b>@Active.Samples.ToString("N0")</b></div>
+            </div>
+            <MudText Typo="Typo.subtitle2">Core assumption</MudText>
+            <MudText Typo="Typo.body2">@Active.Assumption</MudText>
+            <MudText Typo="Typo.subtitle2">Risk to monitor</MudText>
+            <MudText Typo="Typo.body2">@Active.Risk</MudText>
+            <MudText Typo="Typo.subtitle2">Recommended next step</MudText>
+            <MudText Typo="Typo.body2">@Active.Action</MudText>
+            <MudText Typo="Typo.caption">The base estimate linearly scales a fixed 30-day sample trend to your selected
+                horizon. No live model or external data is connected.</MudText>
+            </DialogContent>
+            <DialogActions>
+                <MudButton OnClick="@(() => _detail = false)">Close assumptions</MudButton>
+            </DialogActions>
+        </MudDialog>
+    }
+</section>
+
+@code {
+    private const string All = "All", Base = "Base case", Optimistic = "Optimistic", Adverse = "Adverse"; private string
+_selected = "PRE-201", _query = "", _category = All, _scenario = Base, _notice = ""; private int _horizon = 30, _runs; private bool
+_detail;
+    private readonly string[] Categories = ["Revenue", "Customers", "Operations", "Marketing"]; private readonly string[]
+Scenarios = [Base, Optimistic, Adverse]; private IEnumerable<Forecast>
+Visible => AiAnalyticsSource.Forecasts.Where(f => (_category == All || f.Category == _category) && $"{f.Title} {f.Id} {f.Owner}".Contains(_query.Trim(), StringComparison.OrdinalIgnoreCase)); private Forecast
+Active => AiAnalyticsSource.Forecasts.First(f => f.Id == _selected); private double Projected => Estimate(Active, _scenario);
+    private double BaseEstimate => Estimate(Active, Base); private double
+    Movement => (Projected - Active.Current) / Active.Current * 100; private bool
+    Favorable => Active.LowerBetter ? Movement <= 0 : Movement >= 0; private int
+    AverageConfidence => (int)Math.Round(AiAnalyticsSource.Forecasts.Average(x => x.Confidence));
+    private double Estimate(Forecast f, string scenario)
+    {
+        var baseline = f.Current + (f.Target - f.Current) * _horizon / 30d; var
+direction = f.LowerBetter ? -1 : 1; var shift = scenario == Optimistic ? .08 * direction : scenario == Adverse ? -.08 * direction :
+0; return Math.Max(0, baseline * (1 + shift));
+    }
+    private string Format(double value, Forecast f) => f.Unit
+switch
+    { "usd" => value.ToString("C0", CultureInfo.GetCultureInfo("en-US")), "percent" => $"{value:F1}%", "days" => $"{value:F1} days", _ => Math.Round(value).ToString("N0") }; private string ScenarioClass(string scenario) => $"scenario-option {(scenario == _scenario ? "active" : "")}"; private string ForecastClass(Forecast forecast) => $"forecast-card {(forecast.Id == _selected ? "selected" : "")}"; private void SetScenario(string scenario) => _scenario = scenario; private void
+RunForecast()
+    { _runs++; _notice = "Sample forecast run completed using the selected scenario and horizon. Fixed demo inputs are unchanged; no live model is connected."; }
+    private void Reset() { _query = ""; _category = All; }
+    private string ScenarioDescription(string s) => s == Base ? "Linear sample trend" : s == Optimistic ? "8% shift in a favorable direction" : "8% shift in an adverse direction"; private string HistoryPoints => string.Join(" ", Active.History.Select((v, i) => $"{i * 100},{220 - v / Math.Max(1, Active.Current) * 130:0.#}")); private string
+ScenarioPoints(double target)
+    {
+        var
+values = Enumerable.Repeat(Active.Current, 6).Append(Active.Current).Concat(Enumerable.Range(1, 3).Select(i => Active.Current + (target - Active.Current) * i / 3d)); return
+string.Join(" ", values.Select((v, i) => $"{i * 100},{220 - v / Math.Max(1, Active.Current) * 130:0.#}"));
+    }
+    private async Task ExportForecast()
+    {
+        var rows = new List<string> { "Metric,Horizon days,Scenario,Current,Projected,Confidence score" }; rows.AddRange(Visible.Select(f => $"{f.Title},{_horizon},{_scenario},{f.Current},{Estimate(f, _scenario):F2},{f.Confidence}")); var
+csv = string.Join("\r\n", rows); await
+DownloadFile("sample-predictions.csv", csv, "text/csv;charset=utf-8"); _notice = $"Exported {Visible.Count()} sample predictions.";
+    }
+    private IJSObjectReference? _download; private async Task DownloadFile(string name, string contents, string
+    type)
+    {
+        _download ??= await JS.InvokeAsync<IJSObjectReference>("import", "./theme/ai-workspace-download.js"); await
+    _download.InvokeVoidAsync("download", name, contents, type);
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (_download is not
+    null) { try { await _download.DisposeAsync(); } catch (JSDisconnectedException) { } }
+    }
+}
+
+
+

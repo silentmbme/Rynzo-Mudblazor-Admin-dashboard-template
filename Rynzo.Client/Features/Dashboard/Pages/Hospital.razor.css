@@ -1,0 +1,467 @@
+/* Hospital operations. Scoped to this page; shared theme and shell remain untouched. */
+.hospital-dashboard{
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+  color: var(--foreground);
+}.hospital-dashboard ::deep .dashboard-page-header{
+  margin: 0;
+}.hospital-actions{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}.hospital-banner-title{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}.hospital-banner-filters{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}.hospital-dashboard ::deep .mud-button{
+  text-transform: none;
+  font-size: var(--rynzo-font-caption);
+  box-shadow: none;
+}.hospital-dashboard ::deep .hospital-banner{display: flex;flex-wrap: wrap;align-items: center;gap: 16px}.hospital-dashboard ::deep .hospital-banner > .mud-icon-root{
+  width: 40px;
+  height: 40px;
+  padding: 9px;
+  background: var(--accent);
+  border-radius: 10px;
+}.hospital-banner h2{
+  font-size: 14px;
+  font-weight: 650;
+}.hospital-banner p{
+  color: var(--muted-foreground);
+  font-size: 11px;
+  margin-top: 5px;
+}.hospital-banner-filters{
+  margin-left: auto;
+}.hospital-dashboard ::deep .hospital-department{
+  width: 185px;
+}.hospital-dashboard ::deep .hospital-period{
+  width: 145px;
+}.hospital-dashboard ::deep .mud-input-control{
+  margin-top: 0;
+}.hospital-dashboard ::deep .mud-input-outlined{
+  background: var(--card);
+  font-size: 12px;
+}.hospital-dashboard ::deep .mud-select-input{
+  padding-block: 0px;
+  min-height: 16px;
+}.hospital-metrics{gap:16px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  
+  border-radius: var(--radius);
+  
+  
+}::deep .hospital-metric{display: flex;align-items: flex-start;gap: 14px;min-width: 0}.hospital-metric-icon{
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: var(--primary);
+  background: var(--accent);
+}.hospital-metric:nth-child(2) .hospital-metric-icon{
+  color: var(--info);
+  background: color-mix(in srgb, var(--info) 10%, var(--card));
+}.hospital-metric:nth-child(3) .hospital-metric-icon{
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 10%, var(--card));
+}.hospital-metric:nth-child(4) .hospital-metric-icon{
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 10%, var(--card));
+}.hospital-metric-icon ::deep svg{
+  width: 18px;
+  height: 18px;
+}.hospital-metric p{
+  font-size: 11px;
+  color: var(--muted-foreground);
+}.hospital-metric strong{
+  display: block;
+  font-size: 25px;
+  font-weight: 600;
+  margin: 5px 0;
+  font-variant-numeric: tabular-nums;
+}.hospital-metric small{
+  display: block;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}.hospital-care-grid{
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 22px;
+  align-items: stretch;
+}.hospital-capacity-grid{
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+  gap: 22px;
+}.hospital-bottom{
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 22px;
+}.hospital-dashboard ::deep .executive-card{min-width: 0;height: 100%;overflow: hidden}.hospital-dashboard ::deep .executive-card .mud-card-header{align-items: flex-start;gap: 10px}.hospital-dashboard ::deep .executive-card h2{
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.5;
+}.hospital-dashboard ::deep .executive-card .mud-typography-caption{
+  display: block;
+  font-size: 11px;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin-top: 3px;
+}.hospital-dashboard ::deep .mud-card-header-actions{
+  margin: 0;
+  padding: 0;
+}.hospital-flow-totals{
+  display: flex;
+  gap: 32px;
+  padding: 16px 0 18px;
+  margin-bottom: 8px;
+  border-block: 1px solid var(--border);
+}.hospital-flow-totals > div{
+  padding-left: 13px;
+  border-left: 3px solid var(--info);
+}.hospital-flow-totals > div + div{
+  border-color: var(--success);
+}.hospital-flow-totals b{
+  display: block;
+  font-size: 23px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}.hospital-flow-totals small{
+  font-size: 11px;
+  color: var(--muted-foreground);
+}.hospital-roster{
+  min-width: 0;
+  padding: 21px 22px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}.hospital-doctor-heading{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border);
+}.hospital-doctor-heading h2{
+  font-size: 14px;
+  font-weight: 650;
+}.hospital-doctor-heading > span{
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--success);
+}.hospital-doctors{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block-start: 1rem;
+}.hospital-dashboard ::deep .hospital-doctor{min-width: 0}.hospital-doctor-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}.hospital-roster ::deep .hospital-portrait{
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}.hospital-doctor h3{
+  font-size: 12px;
+  font-weight: 650;
+}.hospital-doctor p{
+  display: block;
+  font-size: 10px;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}.hospital-doctor small{
+  display: block;
+  font-size: 10px;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}.hospital-assigned{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 0;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.hospital-assigned ::deep svg{
+  width: 14px;
+  height: 14px;
+}.hospital-doctor-empty{
+  grid-column: 1/-1;
+  padding: 28px 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}.hospital-bed-totals{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 14px 0;
+  border-block: 1px solid var(--border);
+  text-align: center;
+}.hospital-bed-totals b{
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+}.hospital-bed-totals small{
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.hospital-allocation{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--muted-foreground);
+  margin-top: 14px;
+}.hospital-wards{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 18px;
+}.hospital-wards p{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 11px;
+  margin-bottom: 8px;
+}.hospital-wards b{
+  font-weight: 600;
+}.hospital-wards span{
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.hospital-wards small{
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.hospital-bed-map{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 6px;
+}.hospital-bed-map i{
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--muted);
+}.hospital-bed-map i.occupied{
+  background: var(--ward-tone);
+  opacity: 0.8;
+}.hospital-wards .hospital-progress{
+  height: 3px;
+  margin-bottom: 5px;
+}.hospital-progress{
+  height: 6px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--muted);
+}.hospital-progress i{
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}.hospital-table-filters{
+  display: flex;
+  gap: 12px;
+  padding: 0 22px 18px;
+}.hospital-dashboard ::deep .hospital-search{
+  flex: 1;
+  min-width: 0;
+}.hospital-dashboard ::deep .hospital-status{
+  width: 155px;
+  flex: 0 0 155px;
+}.hospital-dashboard ::deep .hospital-table table{
+  min-width: 900px;
+}.hospital-dashboard ::deep .hospital-table .mud-table-cell{
+  padding: 16px 22px;
+  font-size: 11px;
+  white-space: nowrap;
+  border-color: var(--border);
+}.hospital-dashboard ::deep .hospital-table th{
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-weight: 500;
+  font-size: 10px;
+  padding-block: 12px;
+}.hospital-dashboard ::deep .hospital-table tbody tr:hover{
+  background: color-mix(in srgb, var(--accent) 40%, var(--card));
+}.hospital-person{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}.hospital-person b{
+  font-size: 12px;
+  font-weight: 600;
+}.hospital-person p{
+  font-weight: 500;
+}.hospital-table small{
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.hospital-dashboard ::deep .hospital-person .mud-avatar{
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  font-size: 11px;
+  color: var(--primary);
+  background: var(--accent);
+}.hospital-row-actions{
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}.hospital-dashboard ::deep .hospital-check-in{
+  color: var(--primary);
+  background: var(--accent);
+}.hospital-table-footer{
+  padding: 14px 22px;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.hospital-supply-list{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}.hospital-supply-list > div{
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}.hospital-supply-list p{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  margin-bottom: 16px;
+}.hospital-supply-list b{
+  font-weight: 600;
+}.hospital-supply-list small{
+  display: block;
+  font-size: 10px;
+  margin-top: 9px;
+  color: var(--muted-foreground);
+}.hospital-activity-list{
+  display: grid;
+}.hospital-activity-list > div{
+  position: relative;
+  display: flex;
+  gap: 14px;
+  padding-bottom: 22px;
+}.hospital-activity-list > div:last-child{
+  padding-bottom: 0;
+}.hospital-activity-list > div:not(:last-child)::before{
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 35px;
+  bottom: 3px;
+  width: 1px;
+  background: var(--border);
+}.hospital-activity-icon{
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--activity-tone);
+  background: color-mix(in srgb, var(--activity-tone) 10%, var(--card));
+}.hospital-activity-icon + div{
+  flex: 1;
+  min-width: 0;
+}.hospital-activity-list header{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}.hospital-activity-list h3{
+  font-size: 12px;
+  font-weight: 600;
+}.hospital-activity-list time{
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.hospital-activity-list p{
+  font-size: 11px;
+  line-height: 1.7;
+  margin-top: 4px;
+  color: var(--muted-foreground);
+}.hospital-dashboard ::deep .mud-chip{
+  height: 22px;
+  margin: 0;
+  font-size: 10px;
+  border-radius: 5px;
+}.hospital-dashboard ::deep .mud-chip-color-primary{
+  color: var(--primary);
+  background: var(--accent);
+}.hospital-dashboard ::deep .mud-chip-color-success{
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 10%, var(--card));
+}.hospital-dashboard ::deep .mud-chip-color-warning{
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 10%, var(--card));
+}.hospital-dashboard ::deep .mud-chip-color-info{
+  color: var(--info);
+  background: color-mix(in srgb, var(--info) 10%, var(--card));
+}
+
+@media (max-width: 1279px) {.hospital-care-grid{
+    grid-template-columns: 1fr;
+  }.hospital-doctors{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }.hospital-capacity-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.hospital-dashboard ::deep .hospital-capacity{grid-column: 1/-1}.hospital-wards{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }::deep .hospital-metric{gap: 10px}
+}
+@media (max-width: 767px) {.hospital-dashboard{
+    gap: 16px;
+  }.hospital-metrics{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.hospital-metric strong{
+    font-size: 24px;
+  }.hospital-doctors{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.hospital-bottom{
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }.hospital-capacity-grid{
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }.hospital-banner-filters{
+    margin: 0;
+    width: 100%;
+  }.hospital-dashboard ::deep .hospital-department{
+    flex: 1;
+    min-width: 120px;
+    width: auto;
+  }.hospital-dashboard ::deep .hospital-period{
+    flex: 1;
+    min-width: 120px;
+    width: auto;
+  }.hospital-table-filters{
+    flex-wrap: wrap;
+  }.hospital-dashboard ::deep .hospital-search{
+    flex-basis: 100%;
+  }.hospital-dashboard ::deep .hospital-status{
+    width: 100%;
+    flex-basis: 100%;
+  }.hospital-wards{
+    grid-template-columns: 1fr;
+  }.hospital-supply-list{
+    grid-template-columns: 1fr;
+  }.hospital-roster{
+    padding: 18px;
+  }
+}
+@media (max-width: 399px) {::deep .hospital-metric{flex-direction: column}.hospital-doctors{
+    grid-template-columns: 1fr;
+  }
+}

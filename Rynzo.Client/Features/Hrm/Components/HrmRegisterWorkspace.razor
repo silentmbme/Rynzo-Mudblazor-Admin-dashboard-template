@@ -1,0 +1,70 @@
+﻿@using Rynzo.Client.Theme
+@using Rynzo.Client.Features.Hrm.Models
+@using System.Globalization
+@inject IJSRuntime JS
+@inject ISnackbar Snackbar
+@implements IAsyncDisposable
+
+<HrmSurface>
+<section class="hr-register">
+    <div class="heading"><PageHeader Title="@Title" Description="@Description" Breadcrumbs="Crumbs" /><MudStack Row="true"><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export</MudButton>@if(!IsPayroll){<MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@RynzoIcons.Get("Plus")" OnClick="OpenCreate">Create review</MudButton>}</MudStack></div>
+    <MudGrid Class="mb-6">@foreach(var stat in Stats){<MudItem xs="12" sm="6" xl="3"><HrmMetric Compact="true" Label="@stat.Label" Value="@stat.Value" Icon="@(stat.Label==Stats[0].Label?"Users":stat.Label==Stats[1].Label?"Wallet":stat.Label==Stats[2].Label?"CalendarDays":"Star")" Tone="@(stat.Label==Stats[1].Label?"success":stat.Label==Stats[2].Label?"warning":stat.Label==Stats[3].Label?"info":"primary")" /></MudItem>}</MudGrid>
+    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="mb-5">Sample HR workspace / records and edits apply to this page session. @(IsPayroll?"Amounts and deductions are illustrative; no payments are made.":"")</MudAlert>
+    @if(Notice.Length>0){<MudAlert Severity="Severity.Success" Class="mb-5" role="status">@Notice</MudAlert>}
+    <div class="filters">
+        <MudTextField T="string" @bind-Value="Query" Immediate="true" Placeholder="Search employee or reference..." Label="Search HR records" Variant="Variant.Outlined" Margin="Margin.Dense" />
+        <MudSelect T="string" @bind-Value="Department" Label="HR department" Variant="Variant.Outlined" Margin="Margin.Dense"><MudSelectItem Value="@("All")">All departments</MudSelectItem>@foreach(var d in HrmRegister.Departments){<MudSelectItem Value="@d">@d</MudSelectItem>}</MudSelect>
+        <MudSelect T="string" @bind-Value="Status" Label="HR status" Variant="Variant.Outlined" Margin="Margin.Dense"><MudSelectItem Value="@("All")">All statuses</MudSelectItem>@foreach(var s in Statuses){<MudSelectItem Value="@s">@s</MudSelectItem>}</MudSelect>
+    </div>
+    @if(IsPayroll)
+    {
+        <MudPaper Outlined="true"><div class="register-card-heading"><MudText Typo="Typo.h6">October payroll register</MudText><MudText Typo="Typo.caption">@VisiblePay.Count() illustrative pay records</MudText></div>
+        <MudTable Items="VisiblePay" Hover="true" Elevation="0"><HeaderContent><MudTh>Employee</MudTh><MudTh>Base salary</MudTh><MudTh>Allowances</MudTh><MudTh>Deductions</MudTh><MudTh>Net pay</MudTh><MudTh>Status</MudTh><MudTh>Actions</MudTh></HeaderContent><RowTemplate>
+            <MudTd DataLabel="Employee"><HrmPersonLabel Person="@State.Person(context.EmployeeId)" /></MudTd><MudTd DataLabel="Base salary">@HrmRegister.Money(context.Base)</MudTd><MudTd DataLabel="Allowances">@HrmRegister.Money(context.Allowance)</MudTd><MudTd DataLabel="Deductions">@HrmRegister.Money(context.Deduction)</MudTd><MudTd DataLabel="Net pay"><b>@HrmRegister.Money(context.Net)</b></MudTd><MudTd DataLabel="Status"><MudChip T="string" Size="Size.Small" Color="@(context.Status=="Processed"?Color.Success:Color.Warning)">@context.Status</MudChip></MudTd><MudTd><MudButton Variant="Variant.Outlined" Size="Size.Small" aria-label="@($"Payroll {context.Id}")" OnClick="@(()=>PayDetail=context)">View breakdown</MudButton></MudTd>
+        </RowTemplate><NoRecordsContent>No matching payroll records.</NoRecordsContent></MudTable></MudPaper>
+    }
+    else
+    {
+        <MudGrid>@foreach(var review in VisibleReviews){<MudItem xs="12" md="6"><MudPaper Outlined="true" Class="pa-5"><MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center"><HrmPersonLabel Person="@State.Person(review.EmployeeId)" /><MudChip T="string" Size="Size.Small" Color="@(review.Status=="Completed"?Color.Success:Color.Warning)">@review.Status</MudChip></MudStack><MudStack Row="true" AlignItems="AlignItems.Center" Class="my-5"><MudRating ReadOnly="true" SelectedValue="review.Rating" /><MudText Typo="Typo.body2">@review.Rating/5 @(review.Status=="Draft"?"(draft)":"")</MudText></MudStack><MudText Typo="Typo.body2" Class="feedback">@(review.Notes.Length>0?review.Notes:"No feedback added yet.")</MudText><div class="review-meta"><div><small>Reviewer</small><b>@review.Reviewer</b></div><div><small>Due date</small><b>@review.Due</b></div></div><MudButton FullWidth="true" Class="mt-5" Variant="Variant.Outlined" aria-label="@($"Review {review.Id}")" OnClick="@(()=>OpenReview(review))">@(review.Status=="Completed"?"View review":"Edit review")</MudButton></MudPaper></MudItem>}</MudGrid>
+        @if(!VisibleReviews.Any()){<MudPaper Outlined="true" Class="pa-5">No matching reviews.</MudPaper>}
+    }
+</section>
+
+<MudDialog Visible="@(PayDetail is not null)" VisibleChanged="@(v=>{if(!v)PayDetail=null;})"><TitleContent><MudText Typo="Typo.h6">Payroll breakdown</MudText></TitleContent><DialogContent>
+    @if(PayDetail is { } pay){<MudText Typo="Typo.caption">@pay.Id / @pay.Period / Illustrative amounts</MudText><div class="my-5"><HrmPersonLabel Person="@State.Person(pay.EmployeeId)" /></div><MudList T="string">@foreach(var row in new[]{("Base salary",HrmRegister.Money(pay.Base)),("Allowances",HrmRegister.Money(pay.Allowance)),("Sample deductions",HrmRegister.Money(pay.Deduction)),("Net pay",HrmRegister.Money(pay.Net)),("Status",pay.Status)}){<MudListItem><MudStack Row="true" Justify="Justify.SpaceBetween"><span>@row.Item1</span><b>@row.Item2</b></MudStack></MudListItem>}</MudList><MudText Typo="Typo.caption">Net pay = base + allowances - sample deductions. No tax calculation, banking connection, or payment is performed.</MudText>}
+</DialogContent><DialogActions><MudButton OnClick="@(()=>PayDetail=null)">Close</MudButton><MudButton Color="Color.Primary" Variant="Variant.Filled" Disabled="@(PayDetail?.Status=="Processed")" OnClick="Process">Mark sample processed</MudButton></DialogActions></MudDialog>
+
+<MudDialog @bind-Visible="Create"><TitleContent><MudText Typo="Typo.h6">Create performance review</MudText></TitleContent><DialogContent><MudText Typo="Typo.caption">Create a sample record for this page session.</MudText><MudSelect T="string" @bind-Value="EmployeeId" Label="Employee" Class="mt-4">@foreach(var p in State.People){<MudSelectItem Value="@p.Id">@p.Name</MudSelectItem>}</MudSelect><MudTextField T="string" @bind-Value="Reviewer" Immediate="true" Label="Reviewer name" MaxLength="80" Required="true" /><MudTextField T="string" @bind-Value="Due" Label="Review due date" InputType="InputType.Date" Required="true" />@if(Error.Length>0){<MudAlert Severity="Severity.Error" role="alert">@Error</MudAlert>}</DialogContent><DialogActions><MudButton OnClick="@(()=>Create=false)">Cancel</MudButton><MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="CreateReview">Create draft</MudButton></DialogActions></MudDialog>
+
+<MudDialog Visible="@(Draft is not null)" VisibleChanged="@(v=>{if(!v)Draft=null;})"><TitleContent><MudText Typo="Typo.h6">Performance review</MudText></TitleContent><DialogContent>@if(Draft is { } draft){<MudText Typo="Typo.caption">@draft.Id / Sample feedback record</MudText><div class="my-5"><HrmPersonLabel Person="@State.Person(draft.EmployeeId)" /></div><MudText Typo="Typo.caption">Reviewer: @draft.Reviewer / Due: @draft.Due</MudText><MudSelect T="int" Label="Review rating" Value="draft.Rating" ValueChanged="@(v=>Draft=draft with{Rating=v})" Disabled="@(draft.Status=="Completed")">@foreach(var n in Enumerable.Range(1,5)){<MudSelectItem Value="@n">@n / 5</MudSelectItem>}</MudSelect><MudTextField T="string" Label="Review feedback" Value="draft.Notes" ValueChanged="@(v=>Draft=draft with{Notes=v})" Immediate="true" Disabled="@(draft.Status=="Completed")" Lines="5" MaxLength="1500" />@if(Error.Length>0){<MudAlert Severity="Severity.Error" role="alert">@Error</MudAlert>}}</DialogContent><DialogActions><MudButton OnClick="@(()=>Draft=null)">Close</MudButton>@if(Draft?.Status=="Draft"){<MudButton Variant="Variant.Outlined" OnClick="@(()=>Save(false))">Save draft</MudButton><MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="@(()=>Save(true))">Complete review</MudButton>}else{<MudButton Variant="Variant.Outlined" OnClick="Reopen">Reopen review</MudButton>}</DialogActions></MudDialog>
+
+</HrmSurface>
+@code {
+    [Parameter] public string Kind {get;set;}="payroll";
+    private readonly HrmRegister State=new();
+    private bool IsPayroll=>Kind=="payroll";
+    private string Title=>IsPayroll?"Payroll":"Performance Reviews";
+    private string Description=>IsPayroll?"Review sample payroll records and earnings breakdowns.":"Plan feedback cycles and record performance reviews.";
+    private IReadOnlyList<BreadcrumbItem> Crumbs=>[new("Management",null),new("HRM",null),new(Title,null,true)];
+    private string Query="",Department="All",Status="All",Notice="",Error="",EmployeeId="EMP-101",Reviewer="",Due="2026-10-23";
+    private bool Create;
+    private PayRecord? PayDetail;
+    private ReviewRecord? Draft;
+    private IJSObjectReference? Download;
+    private string[] Statuses=>IsPayroll?["Pending","Processed"]:["Draft","Completed"];
+    private IEnumerable<PayRecord> VisiblePay=>State.Payroll.Where(p=>State.Matches(p.EmployeeId,p.Id,p.Status,Query,Department,Status));
+    private IEnumerable<ReviewRecord> VisibleReviews=>State.Reviews.Where(r=>State.Matches(r.EmployeeId,r.Id,r.Status,Query,Department,Status));
+    private (string Label,string Value)[] Stats=>IsPayroll?[("Net sample payroll",HrmRegister.Money(State.Payroll.Sum(p=>p.Net))),("Processed",HrmRegister.Money(State.Payroll.Where(p=>p.Status=="Processed").Sum(p=>p.Net))),("Pending records",State.Payroll.Count(p=>p.Status=="Pending").ToString()),("Pay period","Oct 2026")]:[("Review cycles",State.Reviews.Count.ToString()),("Completed",State.Reviews.Count(r=>r.Status=="Completed").ToString()),("Drafts",State.Reviews.Count(r=>r.Status=="Draft").ToString()),("Average completed rating",AverageRating)];
+    private string AverageRating=>State.Reviews.Any(r=>r.Status=="Completed")?State.Reviews.Where(r=>r.Status=="Completed").Average(r=>r.Rating).ToString("F1",CultureInfo.InvariantCulture)+" / 5":"No ratings";
+    private void Process(){if(PayDetail is not {} p)return;State.Process(p.Id);PayDetail=State.Payroll.First(r=>r.Id==p.Id);Notice=$"{p.Id} marked processed in the sample register. No payment made.";}
+    private void OpenCreate(){Error="";Create=true;}
+    private void OpenReview(ReviewRecord r){Error="";Draft=r with{};}
+    private void CreateReview(){Error=State.CreateReview(EmployeeId,Reviewer,Due)??"";if(Error.Length>0)return;Notice=$"{State.Reviews.Last().Id} created as a draft.";Create=false;}
+    private void Save(bool complete){if(Draft is not {} d)return;Error=State.SaveReview(d,complete)??"";if(Error.Length>0)return;Notice=$"{d.Id} "+(complete?"completed locally.":"draft saved.");Draft=null;}
+    private void Reopen(){if(Draft is not {} d)return;State.SaveReview(d,false);Draft=d with{Status="Draft"};Notice=$"{d.Id} reopened as a draft.";}
+    private async Task Export(){try{IEnumerable<IEnumerable<string>> rows=IsPayroll?new[]{new[]{"ID","Employee","Period","Base","Allowances","Sample deductions","Net","Status"}}.Concat(VisiblePay.Select(p=>new[]{p.Id,State.Person(p.EmployeeId).Name,p.Period,p.Base.ToString(CultureInfo.InvariantCulture),p.Allowance.ToString(CultureInfo.InvariantCulture),p.Deduction.ToString(CultureInfo.InvariantCulture),p.Net.ToString(CultureInfo.InvariantCulture),p.Status})):new[]{new[]{"ID","Employee","Reviewer","Due","Rating","Status","Notes"}}.Concat(VisibleReviews.Select(r=>new[]{r.Id,State.Person(r.EmployeeId).Name,r.Reviewer,r.Due,r.Rating.ToString(CultureInfo.InvariantCulture),r.Status,r.Notes}));Download??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/dashboard-download.js");await Download.InvokeVoidAsync("csv",IsPayroll?"sample-payroll.csv":"performance-reviews.csv",HrmRegister.Csv(rows));Notice="Filtered sample records exported.";}catch(JSException){Snackbar.Add("The browser could not export these records.",Severity.Error);}}
+    public async ValueTask DisposeAsync(){if(Download is not null){try{await Download.DisposeAsync();}catch(JSDisconnectedException){}}}
+}
+
+
+

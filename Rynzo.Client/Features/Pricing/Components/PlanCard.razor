@@ -1,0 +1,16 @@
+@using Rynzo.Client.Features.Pricing.Models
+@using Rynzo.Client.Theme
+<div class="rynzo-widget-host"><MudCard Class="@((($"pricing-plan {(Plan.Featured ? "featured" : "")}")) + " rynzo-widget-card")" data-plan="@Plan.Id" Elevation="0" Outlined="true" data-widget-element="article">
+    <div class="plan-topline"><span class="plan-icon"><MudIcon Icon="@RynzoIcons.Get(Plan.Id switch { "starter" => "Zap", "growth" => "Rocket", "business" => "Building2", _ => "ShieldCheck" })" /></span>@if (Plan.Featured) { <span class="plan-popular"><MudIcon Icon="@RynzoIcons.Get("Sparkles")" />Most Popular</span> }</div>
+    <MudText Typo="Typo.h6" HtmlTag="h2">@Plan.Name</MudText>
+    <p class="plan-description">@Plan.Description</p>
+    <div class="plan-price"><span>@(Plan.Price(Billing) is int amount ? $"${amount}" : "Custom")</span>@if (Plan.Price(Billing) != null) { <small>/ user / month</small> }</div>
+    <p class="plan-cycle">@(Plan.Price(Billing) == null ? "Tailored to your organization" : Billing == BillingCycle.Yearly ? "Billed annually" : "Billed monthly")</p>
+    <MudButton FullWidth="true" Variant="@(Plan.Featured ? Variant.Filled : Variant.Outlined)" Color="@(Plan.Featured ? Color.Primary : Color.Default)" OnClick="@(() => OnSelect.InvokeAsync(Plan))">@(Plan.Id == "enterprise" ? "Contact Sales" : Plan.Id == "starter" ? "Start Free Trial" : $"Choose {Plan.Name}")</MudButton>
+    <div class="plan-included"><p>What's included</p><ul>@foreach (var feature in Plan.Features) { <li><MudIcon Icon="@RynzoIcons.Get("Check")" Color="Color.Primary" Size="Size.Small" />@feature</li> }</ul></div>
+</MudCard></div>
+@code {
+    [Parameter, EditorRequired] public PricingPlan Plan { get; set; } = null!;
+    [Parameter] public BillingCycle Billing { get; set; }
+    [Parameter] public EventCallback<PricingPlan> OnSelect { get; set; }
+}

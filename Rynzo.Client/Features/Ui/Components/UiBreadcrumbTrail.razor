@@ -1,0 +1,29 @@
+@using Rynzo.Client.Theme
+<div class="ui-breadcrumb-trail">
+    <MudBreadcrumbs Items="Crumbs" Separator="/" aria-label="@Label">
+        <SeparatorTemplate>@if(Slash){<span class="ui-crumb-slash" aria-hidden="true">/</span>}else{<MudIcon Icon="@RynzoIcons.Get("ChevronRight")" />}</SeparatorTemplate>
+        <ItemTemplate Context="item">
+            @if(item.Text==HiddenMarker){<MudIconButton Class="ui-crumb-expander" Size="Size.Small" Variant="Variant.Outlined" Icon="@RynzoIcons.Get("Ellipsis")" aria-label="Show hidden breadcrumb items" aria-expanded="false" OnClick="@(()=>Expanded=true)" />}
+            else if(item.Text==ActionLabel && ItemAction is not null){@ItemAction}
+            else if(item.Disabled){<span class="ui-crumb-current" aria-current="page" title="@item.Text">@item.Text</span>}
+            else{<button type="button" class="ui-crumb-link" title="@item.Text" aria-label="@item.Text">@if(HomeIcon&&item.Text=="Home"){<MudIcon Icon="@RynzoIcons.Get("Home")" />}else{@item.Text}</button>}
+        </ItemTemplate>
+    </MudBreadcrumbs>
+</div>
+@code {
+    [Parameter] public IReadOnlyList<string> Items {get;set;}=[];
+    [Parameter] public bool HomeIcon {get;set;}
+    [Parameter] public bool Slash {get;set;}
+    [Parameter] public bool Collapsed {get;set;}
+    [Parameter] public string Label {get;set;}="Breadcrumb";
+    [Parameter] public string? ActionLabel {get;set;}
+    [Parameter] public RenderFragment? ItemAction {get;set;}
+    private const string HiddenMarker="__hidden_ancestors__";
+    private bool Expanded;
+    private IReadOnlyList<BreadcrumbItem> Crumbs{
+        get{
+            IReadOnlyList<string> visible=Collapsed&&!Expanded&&Items.Count>4?[Items[0],HiddenMarker,Items[^2],Items[^1]]:Items;
+            return visible.Select((text,index)=>new BreadcrumbItem(text,null,index==visible.Count-1)).ToArray();
+        }
+    }
+}

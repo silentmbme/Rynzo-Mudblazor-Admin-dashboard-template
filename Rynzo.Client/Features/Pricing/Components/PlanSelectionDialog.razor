@@ -1,0 +1,17 @@
+@using Rynzo.Client.Features.Pricing.Models
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+<MudDialog Class="rynzo-source-dialog">
+    <TitleContent><MudText Typo="Typo.h6">Choose @Plan.Name</MudText></TitleContent>
+    <DialogContent>
+        <div class="plan-selection"><div class="selection-summary"><span><MudIcon Icon="@RynzoIcons.Get("Package")" /></span><div><small>@(Billing==BillingCycle.Yearly?"Yearly billing":"Monthly billing")</small><h3>@Plan.Name plan</h3></div><strong>$@Plan.Price(Billing)<small>/ user / month</small></strong></div><p class="selection-cycle">@(Billing==BillingCycle.Yearly?"Billed annually after your trial.":"Billed monthly after your trial.")</p><h4>Your plan includes</h4><ul>@foreach(var feature in Plan.Features.Take(4)){<li><MudIcon Icon="@RynzoIcons.Get("Check")" />@feature</li>}</ul><div class="selection-note"><MudIcon Icon="@RynzoIcons.Get("Info")" /><p>Checkout is not connected. Continuing only records a local selection; no trial, charge or subscription will be created.</p></div></div>
+    </DialogContent>
+    <DialogActions><MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("CreditCard")" OnClick="Continue">Continue</MudButton></DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] private IMudDialogInstance Dialog { get; set; } = null!;
+    [Parameter, EditorRequired] public PricingPlan Plan { get; set; } = null!;
+    [Parameter] public BillingCycle Billing { get; set; }
+    private void Cancel() => Dialog.Cancel();
+    private void Continue() { Dialog.Close(); Snackbar.Add($"{Plan.Name} selected. Your {Billing.ToString().ToLowerInvariant()} plan selection is ready for checkout. Checkout integration is pending; no subscription was created.", Severity.Info); }
+}

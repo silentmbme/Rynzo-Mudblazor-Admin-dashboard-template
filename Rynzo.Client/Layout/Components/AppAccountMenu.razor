@@ -1,0 +1,50 @@
+@using Rynzo.Client.Theme
+@implements IDisposable
+@inject ILayoutSession Session
+@inject ISnackbar Snackbar
+<MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" PopoverClass="rynzo-account-popover rynzo-header-dropdown" Dense="true">
+    <ActivatorContent>
+        <MudButton OnClick="@context.ToggleAsync" aria-label="Account menu" Class="rynzo-account-trigger">
+            <MudAvatar Rounded="true" Class="rynzo-account-avatar me-2"><MudImage Src="@ProfileImage" Alt="" /></MudAvatar>
+            <div class="rynzo-account-label"><strong>@ProfileName</strong><span>@ProfileDescription</span></div>
+            <MudIcon Icon="@RynzoIcons.Get("ChevronDown")" Class="rynzo-account-label" Size="Size.Small" />
+        </MudButton>
+    </ActivatorContent>
+    <ChildContent>
+        <div class="rynzo-account-profile"><MudAvatar Rounded="true" Class="rynzo-account-profile-avatar"><MudImage Src="@ProfileImage" Alt="" /></MudAvatar><div><strong>@ProfileName</strong><span>@ProfileDescription</span></div></div>
+        <MudMenuItem Href="/pages/profile" Icon="@RynzoIcons.Get("User")">Profile</MudMenuItem>
+        <MudMenuItem Href="/pages/settings" Icon="@RynzoIcons.Get("Settings")">Account settings</MudMenuItem>
+        <MudMenuItem Href="/invoices/list" Icon="@RynzoIcons.Get("CreditCard")">Billing &amp; plan</MudMenuItem>
+        <MudDivider />
+        @if(Session.Profile is not null)
+        {
+        <MudText Typo="Typo.caption" Class="rynzo-account-section-label">Set status</MudText>
+        @foreach (var status in new[] { "Online", "Away", "Invisible" })
+        {
+            <MudMenuItem Disabled="@(Session.Profile is null)" OnClick="@(() => SetPresence(status))">
+                <span class="rynzo-presence-dot status-@status.ToLowerInvariant()"></span>@status @if (Session.Profile is not null && _presence == status) { <MudIcon Icon="@RynzoIcons.Get("Check")" Size="Size.Small" Class="rynzo-option-check" /> }
+            </MudMenuItem>
+        }
+        <MudDivider />
+        }
+        <MudMenuItem Disabled="@(!Session.CanSignOut)" OnClick="SignOut" Icon="@RynzoIcons.Get("LogOut")" Class="rynzo-signout">Sign out</MudMenuItem>
+        <MudMenuItem Href="/pages/faq" Icon="@RynzoIcons.Get("CircleHelp")">Help &amp; support</MudMenuItem>
+    </ChildContent>
+</MudMenu>
+@code {
+    private string _presence = "Online"; // Local presentation preference, never used as authentication evidence.
+    // Sample presentation only; never creates an authenticated session.
+    private string ProfileName => Session.Profile?.DisplayName ?? "Sophia Carter";
+    private string ProfileDescription => string.IsNullOrWhiteSpace(Session.Profile?.Description) ? "UI Developer" : Session.Profile!.Description!;
+    private string ProfileImage => string.IsNullOrWhiteSpace(Session.Profile?.AvatarUrl) ? Rynzo.Client.Assets.SourceUserImages.Get(ProfileName) : Session.Profile!.AvatarUrl!;
+    protected override void OnInitialized() => Session.Changed += Refresh;
+    private void Refresh() => _ = InvokeAsync(StateHasChanged);
+    private void SetPresence(string status) { _presence = status; Snackbar.Add($"Status set to {status}", Severity.Success); }
+    private async Task SignOut()
+    {
+        try { await Session.SignOutAsync(); }
+        catch { Snackbar.Add("Sign out could not be completed. Please try again.", Severity.Error); }
+    }
+    public void Dispose() => Session.Changed -= Refresh;
+}
+

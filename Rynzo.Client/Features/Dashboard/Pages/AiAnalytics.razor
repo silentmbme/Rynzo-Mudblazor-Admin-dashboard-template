@@ -1,0 +1,81 @@
+@page "/dashboards/ai-analytics"
+@implements IAsyncDisposable
+@using System.Globalization
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Services
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+@inject IJSRuntime JS
+<PageTitle>AI Analytics | Rynzo</PageTitle>
+<div class="ai-dashboard">
+    <DashboardPageHeader Title="AI Analytics" Description="A clearer view of your AI usage, performance, and spend." ><Actions><div class="ai-actions"><MudSelect T="int" @bind-Value="_period" @bind-Value:after="Recalculate" Variant="Variant.Outlined" Margin="Margin.Dense" Class="ai-period" aria-label="Analytics period" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("CalendarDays")">@foreach(var period in Periods){<MudSelectItem Value="period">Last @period days</MudSelectItem>}</MudSelect><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export report</MudButton></div></Actions></DashboardPageHeader>
+    <MudCard Outlined="true" Elevation="0" Class="ai-workspace rynzo-widget-card"><MudIcon Icon="@RynzoIcons.Get("Sparkles")" Color="Color.Primary" /><div><div class="ai-workspace-title"><h2>Your AI workspace, at a glance</h2><MudChip T="string" Size="Size.Small" Color="Color.Primary">Sample data</MudChip></div><p>@_data.Models.Length @(_data.Models.Length == 1 ? "model" : "models") in view · @F(_data.Success,1)% successful requests · Period ending Oct 9, 2026</p></div><MudSelect T="string" @bind-Value="_modelId" @bind-Value:after="Recalculate" Variant="Variant.Outlined" Margin="Margin.Dense" Class="ai-model-filter" aria-label="Filter AI model"><MudSelectItem Value="@("all")">All models</MudSelectItem>@foreach(var model in _source.Models){<MudSelectItem Value="@model.Id">@model.Name</MudSelectItem>}</MudSelect></MudCard>
+    <section class="ai-metrics">
+        <AiDashboardMetric Label="Total requests" Value="@N(_data.Requests)" Icon="Bot" Trend="@($"↗ {F(_data.Change,1)}%")" Detail="vs. previous period" />
+        <AiDashboardMetric Label="Tokens processed" Value="@N(_data.Tokens)" Icon="Layers3" Trend="@($"{Math.Floor(_data.Tokens / (double)Math.Max(_data.Requests,1) + .5)} tokens")" Detail="average per request" />
+        <AiDashboardMetric Label="Total AI spend" Value="@Money(_data.Cost)" Icon="CircleDollarSign" Trend="@Money(_data.Cost / Math.Max(_data.Requests,1) * 1000)" Detail="per 1,000 requests" />
+        <AiDashboardMetric Label="Average latency" Value="@(F(_data.Latency,2)+"s")" Icon="Zap" Trend="@(F(_data.Success,1)+"%")" Detail="request success rate" />
+    </section>
+    <section class="ai-grid ai-usage-grid">
+        <DashboardCard Title="AI usage over time" Description="@($"Request and token volume over the last {_period} days")" Class="ai-span-two ai-usage"><Actions><div class="ai-chart-tabs">@foreach(var metric in Metrics){<MudButton Size="Size.Small" Variant="@(_chartMetric == metric ? Variant.Filled : Variant.Text)" aria-pressed="@(_chartMetric == metric ? "true" : "false")" OnClick="@(() => SetMetric(metric))">@metric</MudButton>}</div></Actions><ChildContent><div class="ai-usage-total"><strong>@N(_chartMetric == "requests" ? _data.Requests : _data.Tokens)</strong><small>total @_chartMetric</small><span>↗ @F(_data.Change,1)%</span></div><DashboardChart Data="_chartData" OptionsModule="./ai-dashboard-options.js" Kind="usage" Height="285" Label="AI request or token volume by date" /></ChildContent></DashboardCard>
+        <DashboardCard Title="Spend by model" Description="Compare the cost of each AI model" Class="ai-spend"><DashboardChart Data="_chartData" OptionsModule="./ai-dashboard-options.js" Kind="distribution" Height="235" Label="Cost by AI model" /><div class="ai-distribution">@foreach(var model in _data.Models){<div><span class="ai-dot" style="@($"background:var({model.Color})")"></span><span>@model.Name</span><b>@F(model.Cost / Math.Max(_data.Cost,1) * 100,1)%</b></div>}</div></DashboardCard>
+    </section>
+    <section class="ai-metrics ai-secondary">
+        <AiDashboardMetric Compact="true" Label="Daily throughput" Value="@N(Math.Floor(_data.Requests / (double)_period + .5))" Icon="Cpu" Detail="requests per day" />
+        <AiDashboardMetric Compact="true" Label="Cached tokens" Value="@N(_data.CachedTokens)" Icon="Layers3" Detail="12% of processed tokens" />
+        <AiDashboardMetric Compact="true" Label="Estimated cache savings" Value="@Money(_data.Cost * .12)" Icon="Coins" Detail="at the average token rate" />
+        <AiDashboardMetric Compact="true" Label="Failed requests" Value="@N(_data.FailedRequests)" Icon="ShieldCheck" Detail="@($"{F(100-_data.Success,2)}% of total requests")" />
+    </section>
+    <section class="ai-grid ai-performance-grid">
+        <DashboardCard Title="Response time trends" Description="Sample average and tail latency" Class="ai-latency"><div class="ai-latency-summary"><strong>@F(_data.Latency,2)s</strong><small>weighted average</small></div><DashboardChart Data="_chartData" OptionsModule="./ai-dashboard-options.js" Kind="latency" Height="250" Label="Average and sample P95 latency by date" /></DashboardCard>
+        <DashboardCard Title="Request activity" Description="@($"Requests grouped by weekday and hour over {_period} days")" Class="ai-activity"><DashboardChart Data="_chartData" OptionsModule="./ai-dashboard-options.js" Kind="heatmap" Height="265" Label="AI requests by weekday and hour" /><div class="ai-heat-legend"><span>Less</span>@foreach(var opacity in Opacities){<i style="@($"opacity:{opacity.ToString(CultureInfo.InvariantCulture)}")"></i>}<span>More requests</span></div></DashboardCard>
+        <DashboardCard Title="AI spend budget" Description="Manage your sample spending target" Class="ai-budget"><Actions><MudIcon Icon="@RynzoIcons.Get("Gauge")" Size="Size.Small" /></Actions><ChildContent><DashboardChart Data="_chartData" OptionsModule="./ai-dashboard-options.js" Kind="budget" Height="205" Label="AI spending budget used" /><div class="ai-budget-values"><div><p>Spent</p><b>@Money(_data.Cost)</b></div><div><p>@(BudgetPercent > 100 ? "Over budget" : "Remaining")</p><b class="@(BudgetPercent > 100 ? "ai-danger" : "ai-success")">@Money(Math.Abs(PeriodBudget-_data.Cost))</b></div></div><div class="ai-budget-target"><label for="ai-monthly-budget">Monthly target</label><MudSelect T="int" @bind-Value="_budget" @bind-Value:after="RefreshCharts" InputId="ai-monthly-budget" Variant="Variant.Outlined" Margin="Margin.Dense" Class="ai-monthly-budget" aria-label="Monthly AI budget">@foreach(var amount in Budgets){<MudSelectItem Value="amount">@Money(amount)</MudSelectItem>}</MudSelect></div><p class="ai-budget-note">Target adjusted to @Money(PeriodBudget) for @_period days.</p></ChildContent></DashboardCard>
+    </section>
+    <section class="ai-grid ai-usage-grid">
+        <DashboardCard Title="Token breakdown" Description="Understand where your tokens go" Class="ai-token-breakdown"><div class="ai-token-summary"><MudIcon Icon="@RynzoIcons.Get("Layers3")" Color="Color.Primary" /><div><strong>@N(_data.Tokens)</strong><small>total processed tokens</small></div></div><div class="ai-token-mix" aria-label="Token mix: 60% input, 28% output, 12% cached"><span style="width:60%;background:var(--primary)"></span><span style="width:28%;background:var(--chart-2)"></span><span style="width:12%;background:var(--chart-3)"></span></div><div class="ai-token-list">@foreach(var token in TokenMix){<div><span class="ai-dot" style="@($"background:var(--{token.Color})")"></span><span>@token.Label</span><b>@N(token.Value)</b><small>@token.Percent</small></div>}</div><div class="ai-cache-hint"><MudIcon Icon="@RynzoIcons.Get("Target")" Size="Size.Small" />Cached context helps reduce repeated processing.</div></DashboardCard>
+        <DashboardCard Title="Recent AI workloads" Description="Sample runs from October 9, 2026" Class="ai-span-two ai-workloads-card"><Actions><MudChip T="string" Size="Size.Small" Color="Color.Primary">@Workloads.Count() runs</MudChip></Actions><ChildContent><div class="ai-workloads">@foreach(var workload in Workloads){<div><MudIcon Icon="@RynzoIcons.Get("FileText")" Color="Color.Primary" /><span class="ai-workload-name"><b>@workload.Name</b><small>@_source.Models.Single(model=>model.Id==workload.ModelId).Name · @workload.Time</small></span><span class="ai-workload-amount"><b>@N(workload.Tokens) tokens</b><small>@workload.Duration</small></span><MudChip T="string" Size="Size.Small" Color="@(workload.Status == "Completed" ? Color.Success : Color.Warning)">@workload.Status</MudChip><MudIconButton Icon="@RynzoIcons.Get("ChevronRight")" Size="Size.Small" aria-label="@($"View model for {workload.Name}")" OnClick="@(() => ModelDetails(workload.ModelId))" /></div>}</div></ChildContent></DashboardCard>
+    </section>
+    <div class="ai-insights-heading"><MudIcon Icon="@RynzoIcons.Get("WandSparkles")" Color="Color.Primary" Size="Size.Small" /><h2>Workspace insights</h2><small>Based on the selected sample</small></div>
+    <section class="ai-insights">
+        <AiDashboardInsight Icon="ArrowUpRight" Tone="Color.Primary" Title="Usage is growing" Description="@($"Request volume is up {F(_data.Change,1)}% compared with the previous period. Track capacity as your AI workflows scale.")" Footer="@($"{_data.Requests.ToString("N0",English)} requests processed")" />
+        <AiDashboardInsight Icon="ArrowDownRight" Tone="Color.Success" Title="Keep an eye on cost" Description="@($"Your average cost is {Money(_data.Cost / Math.Max(_data.Requests,1) * 1000)} per 1,000 requests. Route simple tasks to smaller models to keep spend predictable.")" Footer="@($"{Money(_data.Cost / _period)} average daily spend")" />
+        <AiDashboardInsight Icon="ShieldCheck" Tone="Color.Info" Title="Quality stays consistent" Description="@($"{F(_data.Success,1)}% of requests completed successfully. {(_data.Models.Any(model=>model.Status == "Elevated latency") ? "Vision One has elevated latency; review image sizes and request complexity." : "All selected models are operating within their latency targets.")}")" Footer="@($"{F(_data.Latency,2)}s weighted average response")" />
+    </section>
+    <DashboardCard Title="Model performance" Description="Compare usage, reliability, and cost across your AI models" Class="ai-model-performance"><Actions><MudChip T="string" Color="Color.Primary" Size="Size.Small">@_data.Models.Length models</MudChip></Actions><ChildContent><MudTable T="AiModel" Items="_data.Models" Breakpoint="Breakpoint.None" Elevation="0" Class="ai-model-table" aria-label="Model performance"><HeaderContent><MudTh>Model</MudTh><MudTh>Requests</MudTh><MudTh>Tokens</MudTh><MudTh>Avg. latency</MudTh><MudTh>Success rate</MudTh><MudTh>Cost</MudTh><MudTh>Status</MudTh><MudTh><span class="sr-only">Details</span></MudTh></HeaderContent><RowTemplate><MudTd><div class="ai-model-name"><MudIcon Icon="@RynzoIcons.Get("Bot")" Style="@($"color:var({context.Color})")" /><span><b>@context.Name</b><small>@context.Category</small></span></div></MudTd><MudTd>@N(context.Requests)</MudTd><MudTd>@N(context.Tokens)</MudTd><MudTd>@F(context.Latency,2)s</MudTd><MudTd><span class="ai-success">✓ @context.Success.ToString(English)%</span></MudTd><MudTd>@Money(context.Cost)</MudTd><MudTd><MudChip T="string" Size="Size.Small" Color="@(context.Status == "Healthy" ? Color.Success : Color.Warning)">@context.Status</MudChip></MudTd><MudTd><MudIconButton Icon="@RynzoIcons.Get("ChevronRight")" Size="Size.Small" aria-label="@($"View {context.Name} details")" OnClick="@(() => ModelDetails(context.Id))" /></MudTd></RowTemplate></MudTable><div class="ai-table-footer"><span>Showing @_data.Models.Length of @_source.Models.Length models</span><span><MudIcon Icon="@RynzoIcons.Get("Activity")" Size="Size.Small" />Sample reporting period · Last @_period days</span></div></ChildContent></DashboardCard>
+</div>
+@code {
+    private readonly AiSourceData _source = AiSourceData.Load();
+    private AiDashboardData _data = null!;
+    private object _chartData = null!;
+    private int _period = 30, _budget = 1000;
+    private string _modelId = "all", _chartMetric = "requests";
+    private IJSObjectReference? _download;
+    private static readonly int[] Periods = [7,30,90], Budgets = [500,1000,2000,5000];
+    private static readonly string[] Metrics = ["requests","tokens"];
+    private static readonly double[] Opacities = [.15,.3,.5,.7,1];
+    private static readonly CultureInfo English = CultureInfo.GetCultureInfo("en-US");
+    private static readonly BreadcrumbItem[] Breadcrumbs = [new("Dashboards",null),new("AI Analytics",null,true)];
+    private double PeriodBudget => _budget * _period / 30d;
+    private double BudgetPercent => _data.Cost / PeriodBudget * 100;
+    private IEnumerable<AiWorkload> Workloads => _source.Workloads.Where(workload=>_modelId == "all" || workload.ModelId == _modelId);
+    private (string Label,long Value,string Percent,string Color)[] TokenMix => [("Input tokens",_data.InputTokens,"60%","primary"),("Output tokens",_data.OutputTokens,"28%","chart-2"),("Cached tokens",_data.CachedTokens,"12%","chart-3")];
+    private static string N(double value) => AiDashboardCalculator.Number(value);
+    private static string Money(double value) => AiDashboardCalculator.Cost(value);
+    private static string F(double value,int digits) => value.ToString("F"+digits,English);
+    protected override void OnInitialized() => Recalculate();
+    private void Recalculate() { _data = AiDashboardCalculator.Calculate(_source,_period,_modelId); RefreshCharts(); }
+    private void RefreshCharts() => _chartData = new { Data = _data, ChartMetric = _chartMetric, BudgetPercent };
+    private void SetMetric(string metric) { _chartMetric = metric; RefreshCharts(); }
+    private async Task ModelDetails(string id)
+    {
+        var model = _data.Models.Single(model=>model.Id == id);
+        await Dialogs.ShowAsync<AiModelDetails>($"{model.Name} performance",new DialogParameters<AiModelDetails> { {dialog=>dialog.Model,model}, {dialog=>dialog.Period,_period} },new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.Small });
+    }
+    private async Task Export()
+    {
+        _download ??= await JS.InvokeAsync<IJSObjectReference>("import","./theme/dashboard-download.js");
+        await _download.InvokeVoidAsync("csv",$"ai-analytics-{_modelId}-{_period}-days.csv",AiDashboardCalculator.Csv(_data,_period));
+    }
+    public async ValueTask DisposeAsync() { if(_download is not null)try { await _download.DisposeAsync(); } catch(JSDisconnectedException) { } }
+}

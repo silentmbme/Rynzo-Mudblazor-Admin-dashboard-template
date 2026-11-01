@@ -1,0 +1,37 @@
+@using Rynzo.Client.Theme
+<div class="rynzo-sidebar-content @(Collapsed ? "is-collapsed" : "")" data-tone="@(DarkSurface ? "dark" : "light")">
+    <MudDrawerHeader>
+        <BrandLogo DarkSurface="DarkSurface" IconOnly="Collapsed" />
+    </MudDrawerHeader>
+    <nav aria-label="Main navigation" class="rynzo-navigation">
+        <MudNavMenu>
+            @foreach (var group in LayoutCatalog.Data.Groups)
+            {
+                <section class="rynzo-navigation-group" aria-label="@group.Title">
+                    @if (!Collapsed) { <MudText Class="rynzo-navigation-title">@group.Title</MudText> }
+                    @foreach (var item in group.Items)
+                    {
+                        <AppNavigationItem Item="item" Path="@Path" Collapsed="Collapsed" OnNavigate="OnNavigate" />
+                    }
+                </section>
+            }
+        </MudNavMenu>
+    </nav>
+    @if (!Collapsed)
+    {
+        <div class="rynzo-sidebar-footer">
+        <MudPaper Outlined="true" Elevation="0" Class="rynzo-storage" aria-label="Workspace storage">
+            <div class="rynzo-storage-capacity"><strong>18.4 <small>GB</small></strong><span>of 25 GB used</span></div>
+            <div class="rynzo-storage-meter"><MudProgressLinear Value="73.6" Color="Color.Primary" Rounded="true" aria-label="Workspace storage used: 18.4 GB of 25 GB" /></div>
+            <div class="rynzo-storage-available"><span><i aria-hidden="true"></i><strong>6.6 GB</strong> free</span><span>26% available</span></div>
+        </MudPaper>
+        </div>
+    }
+</div>
+@code {
+    [Parameter] public bool Collapsed { get; set; }
+    [Parameter] public bool DarkSurface { get; set; }
+    [Parameter] public string Path { get; set; } = "/";
+    [Parameter] public EventCallback OnNavigate { get; set; }
+}
+

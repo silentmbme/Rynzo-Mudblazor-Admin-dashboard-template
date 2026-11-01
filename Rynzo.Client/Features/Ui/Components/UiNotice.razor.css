@@ -1,0 +1,114 @@
+.ui-notice-host {
+  min-width: 0;
+}
+::deep .ui-notice {
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: none;
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+}
+::deep .ui-notice .mud-alert-icon {
+  padding: 0;
+  margin-right: 12px;
+  align-self: start;
+}
+::deep .ui-notice .mud-alert-icon .mud-icon-root {
+  height: 20px;
+  width: 20px;
+  margin-top: 2px;
+}
+::deep .ui-notice .mud-alert-message {
+  padding: 0;
+  min-width: 0;
+  flex: 1;
+}
+::deep .ui-notice .mud-alert-close {
+  padding: 0;
+  margin-left: 8px;
+  align-self: start;
+}
+::deep .ui-notice .mud-alert-close button {
+  height: 26px;
+  width: 26px;
+  min-height: 26px;
+  padding: 5px;
+}
+::deep .ui-notice .mud-alert-close svg {
+  height: 15px;
+  width: 15px;
+}
+.ui-notice-title {
+  font-size: var(--rynzo-font-body2);
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0 0 5px;
+}
+.ui-notice-message {
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.ui-notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.ui-notice-actions ::deep .mud-button {
+  font-size: var(--rynzo-font-caption);
+  min-height: 30px;
+  padding: 5px 10px;
+}
+.has-accent ::deep .ui-notice {
+  border: 1px solid var(--border);
+  border-inline-start: 3px solid var(--notice-tone);
+  background: var(--card);
+  color: var(--foreground);
+}
+.has-accent ::deep .mud-alert-icon {
+  color: var(--notice-tone);
+}
+.has-accent .ui-notice-message {
+  color: var(--muted-foreground);
+}
+.is-announcement ::deep .ui-notice {
+  background: linear-gradient(
+    110deg,
+    var(--notice-tone),
+    color-mix(in srgb, var(--notice-tone) 75%, var(--primary))
+  );
+  color: #fff;
+  border: 0;
+  padding: 22px;
+}
+.is-announcement ::deep .mud-alert-icon {
+  color: #fff;
+}
+.is-announcement .ui-notice-title {
+  font-size: var(--rynzo-font-subtitle1);
+}
+.is-announcement .ui-notice-message {
+  color: #fff;
+}
+.is-announcement .ui-notice-actions ::deep .mud-button {
+  background: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
+  box-shadow: none;
+}
+@media (max-width: 540px) {
+  ::deep .ui-notice {
+    padding: 14px;
+  }
+  ::deep .ui-notice .mud-alert-icon {
+    margin-right: 9px;
+  }
+  ::deep .ui-notice .mud-alert-icon .mud-icon-root {
+    height: 17px;
+    width: 17px;
+  }
+  .is-announcement ::deep .ui-notice {
+    padding: 18px 14px;
+  }
+}

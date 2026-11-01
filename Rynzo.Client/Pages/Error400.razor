@@ -1,0 +1,22 @@
+@page "/auth/errors/400"
+@layout MainLayout
+@using Rynzo.Client.Theme
+<PageTitle>400 · Bad request | Rynzo</PageTitle>
+<main class="request-error" aria-labelledby="request-title">
+    <section class="request-copy">
+        <span class="eyebrow">REQUEST INTERRUPTED</span>
+        <div class="error-number">400<span>Bad request</span></div>
+        <h1 id="request-title">Oops! Something Doesn't Look Right</h1>
+        <p>We couldn't process your request. Some information may be missing or invalid.</p>
+        <Rynzo.Client.Components.Common.ErrorRecoveryActions Code="400" />
+        <div class="request-note"><MudIcon Icon="@RynzoIcons.Get("Lightbulb")" /><span>Check the link or information you entered, then try your request again.</span></div>
+    </section>
+    <div class="request-art" aria-hidden="true">
+        <div class="art-grid"></div><div class="orbit"></div>
+        <div class="request-document"><div class="document-top"><i></i><i></i><i></i><span>Request preview</span></div><div class="document-body"><span class="mock-label">DESTINATION</span><div class="mock-field"><i></i><b></b></div><span class="mock-label">REQUEST DETAILS</span><div class="mock-field invalid"><i></i><span>?</span></div><div class="mock-lines"><i></i><i></i></div></div><footer><span>Incomplete request</span><b>!</b></footer></div>
+        <div class="fragment fragment-one"><MudIcon Icon="@Icons.Material.Outlined.LinkOff" /><span>Connection interrupted</span></div>
+        <div class="fragment fragment-two"><span>{</span><i></i><span>…</span><span>}</span></div>
+        <svg class="broken-path" viewBox="0 0 440 400" fill="none"><path d="M55 118H125V175M300 255V320H380" stroke="currentColor" stroke-width="2" stroke-dasharray="5 7"/><circle cx="55" cy="118" r="5" fill="currentColor"/><circle cx="380" cy="320" r="5" fill="currentColor"/></svg>
+        <span class="art-caption">A small detour. A clear way back.</span>
+    </div>
+</main>

@@ -1,0 +1,72 @@
+@page "/ui/toasts"
+@using Rynzo.Client.Features.Ui.Components
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@implements IDisposable
+@inject IJSRuntime JS
+<PageTitle>Toasts | Rynzo</PageTitle>
+<div class="toasts-page">
+    <DashboardPageHeader Title="Toasts" Description="Non-blocking feedback for completed actions, errors, background work, and timely updates."><Actions><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Print">Export</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("FilePlus2")">Create report</MudButton></Actions></DashboardPageHeader>
+    <MudCard Class="toasts-intro rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><span><MudIcon Icon="@RynzoIcons.Get("BellRing")" /></span><div><small>Component library / Feedback</small><h2>Timely feedback. Clear next steps.</h2><p>Keep people informed without interrupting the work in front of them.</p></div><div class="toasts-intro-note"><i></i> Live notification previews</div></MudCard>
+    <div class="toasts-grid">
+        <ButtonShowcaseCard Id="status" Title="Status toasts" Description="Match the notification tone to the outcome of an action." Code="@StatusCode">
+            <div class="toasts-preview"><UiToastNotice Preview="true" Title="Project created successfully" Description="Your workspace is ready for the next step." Severity="Severity.Success" /></div>
+            <div class="toasts-buttons"><UiActionButton Color="Color.Success" Soft="true" StartIcon="@RynzoIcons.Get("CircleCheck")" OnClick="@(()=>Show("Project created successfully",Severity.Success))">Success</UiActionButton><UiActionButton Color="Color.Info" Soft="true" StartIcon="@RynzoIcons.Get("Info")" OnClick="@(()=>Show("A new workspace update is available",Severity.Info))">Info</UiActionButton><UiActionButton Color="Color.Warning" Soft="true" StartIcon="@RynzoIcons.Get("TriangleAlert")" OnClick="@(()=>Show("Storage is nearly full",Severity.Warning))">Warning</UiActionButton><UiActionButton Color="Color.Error" Soft="true" StartIcon="@RynzoIcons.Get("CircleAlert")" OnClick="@(()=>Show("Payment could not be processed",Severity.Error))">Error</UiActionButton></div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="description" Title="With description" Description="Add a useful next step when a title alone is not enough." Code="@DescriptionCode">
+            <div class="toasts-preview"><UiToastNotice Preview="true" Title="Invoice sent" Description="A copy was emailed to Olivia Hayes." Icon="Send" /></div><div class="toasts-card-footer"><span>Title + supporting context</span><UiActionButton Soft="true" StartIcon="@RynzoIcons.Get("Send")" OnClick="SendInvoice">Send invoice</UiActionButton></div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="action" Title="Action toast" Description="Offer a reversible action without opening a dialog." Code="@ActionCode">
+            <div class="toasts-preview"><UiToastNotice Preview="true" Title="Project archived" Description="Website Redesign was moved to archive." Icon="Archive" /><div class="toasts-preview-action"><span>One clear recovery action</span><span>Undo <MudIcon Icon="@RynzoIcons.Get("Undo2")" /></span></div></div><div class="toasts-card-footer"><span>Try the Undo action in the toast.</span><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Archive")" OnClick="Archive">Archive project</MudButton></div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="loading" Title="Loading toast" Description="Keep background work visible from start to completion." Code="@LoadingCode">
+            <div class="toasts-preview"><UiToastNotice Preview="true" Title="Export is being prepared..." Description="The notification updates when your report is ready." Loading="true" /></div><div class="toasts-card-footer"><span>Updates the same notification.</span><UiActionButton Loading="Exporting" StartIcon="@RynzoIcons.Get("Download")" OnClick="ExportReport">@(Exporting?"Preparing export":"Export report")</UiActionButton></div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="promise" Title="Promise toast" Description="Connect loading, success, and error feedback to one request." Code="@PromiseCode">
+            <div class="toasts-promise-flow"><span><MudIcon Icon="@RynzoIcons.Get("Upload")" /> Publishing</span><MudIcon Icon="@RynzoIcons.Get("ArrowRight")" /><span><MudIcon Icon="@RynzoIcons.Get("CircleCheck")" /> Published</span></div><p class="toasts-help">A short sample request moves from publishing to a successful result.</p><div class="toasts-buttons"><UiActionButton Gradient="true" Loading="Publishing" StartIcon="@RynzoIcons.Get("CloudUpload")" OnClick="Publish">@(Publishing?"Publishing changes":"Publish changes")</UiActionButton></div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="rich" Title="Rich notification" Description="Combine an icon, context, and action for workspace updates." Code="@RichCode">
+            <div class="toasts-preview"><UiToastNotice Preview="true" Title="AI summary is ready" Description="Review key decisions and actions from the Design review meeting." Icon="Sparkles" /></div><div class="toasts-card-footer"><span>Open a summary or dismiss it.</span><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Bell")" OnClick="Rich">Show notification</MudButton></div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="positions" Title="Toast positions" Description="Choose a position that works with the surrounding layout." Code="@PositionsCode">
+            <div class="toasts-position-grid">@foreach(var position in Positions){<MudButton Variant="Variant.Outlined" aria-label="@($"Preview {position.Label}")" OnClick="@(()=>PositionToast(position))"><span class="toasts-position-preview @position.Key" aria-hidden="true"><i></i></span><span>@position.Label</span></MudButton>}</div><p class="toasts-help">Each preview uses its own local position override.</p>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="dismiss" Title="Dismiss control" Description="Let people close a persistent informational update when ready." Code="@DismissCode">
+            <div class="toasts-preview"><UiToastNotice Preview="true" Title="Scheduled maintenance" Description="The API will be read-only Sunday, 02:00–04:00 UTC." Icon="CalendarClock" Severity="Severity.Info" /></div><div class="toasts-card-footer"><span>Stays open until dismissed.</span><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("CalendarClock")" OnClick="Maintenance">Show maintenance notice</MudButton></div>
+        </ButtonShowcaseCard>
+    </div>
+    @foreach(var group in Notices.GroupBy(n=>n.Position).ToArray()){
+        <div class="toasts-live-stack @group.Key" data-position="@group.Key" aria-label="Notification previews">
+            @foreach(var notice in group.ToArray()){<div @key="notice.Id" class="toasts-live-item" data-toast-id="@notice.Id"><UiToastNotice Title="@notice.Title" Description="@notice.Description" Severity="notice.Severity" Icon="@notice.Icon" Loading="notice.Loading" ActionLabel="@notice.Action" DismissLabel="@notice.DismissLabel" OnDismiss="@(()=>Remove(notice.Id))" OnAction="@(notice.Action is null?default(EventCallback):EventCallback.Factory.Create(this,()=>Act(notice)))" /></div>}
+        </div>
+    }
+</div>
+@code {
+    private bool Exporting,Publishing;
+    private readonly CancellationTokenSource Lifetime=new();
+    private readonly List<ToastState> Notices=[];
+    private static readonly (string Label,string Key)[] Positions=[("Top left","top-left"),("Top center","top-center"),("Top right","top-right"),("Bottom left","bottom-left"),("Bottom center","bottom-center"),("Bottom right","bottom-right")];
+    private sealed class ToastState{public Guid Id {get;}=Guid.NewGuid();public string Title {get;set;}="";public string? Description {get;set;}public Severity Severity {get;set;}public string? Icon {get;set;}public string? Action {get;set;}public string? DismissLabel {get;set;}public bool Loading {get;set;}public string Position {get;set;}="bottom-right";}
+    private void Show(string title,Severity severity)=>Add(new(){Title=title,Severity=severity});
+    private void Add(ToastState notice,bool persistent=false){Notices.Add(notice);if(!persistent)_=Expire(notice.Id);}
+    private async Task Expire(Guid id){try{await Task.Delay(5000,Lifetime.Token);await InvokeAsync(()=>{Remove(id);StateHasChanged();});}catch(OperationCanceledException){}}
+    private void Remove(Guid id)=>Notices.RemoveAll(n=>n.Id==id);
+    private void SendInvoice()=>Add(new(){Title="Invoice sent",Description="A copy was emailed to Olivia Hayes.",Icon="Send"});
+    private void Archive()=>Add(new(){Title="Project archived",Description="Website Redesign was moved to archive.",Icon="Archive",Action="Undo"},true);
+    private void Rich()=>Add(new(){Title="AI summary is ready",Description="Review key decisions and actions from the Design review meeting.",Icon="Sparkles",Action="Open summary",DismissLabel="Dismiss"},true);
+    private void Maintenance()=>Add(new(){Title="Scheduled maintenance",Description="The API will be read-only Sunday, 02:00–04:00 UTC.",Severity=Severity.Info,Icon="CalendarClock",DismissLabel="Dismiss"},true);
+    private void PositionToast((string Label,string Key) position)=>Add(new(){Title=$"Preview: {position.Label}",Description="This toast uses a local position override.",Position=position.Key});
+    private void Act(ToastState notice){Remove(notice.Id);Show(notice.Action=="Undo"?"Project restored":"Summary opened",Severity.Success);}
+    private async Task ExportReport(){if(Exporting)return;Exporting=true;var notice=new ToastState{Title="Export is being prepared...",Loading=true};Add(notice,true);try{await Task.Delay(1500,Lifetime.Token);if(Notices.Contains(notice)){notice.Title="Export is ready to download";notice.Loading=false;notice.Severity=Severity.Success;_=Expire(notice.Id);}}catch(OperationCanceledException){}finally{Exporting=false;}}
+    private async Task Publish(){if(Publishing)return;Publishing=true;var notice=new ToastState{Title="Publishing changes...",Loading=true};Add(notice,true);try{await Task.Delay(1400,Lifetime.Token);if(Notices.Contains(notice)){notice.Title="Changes published successfully";notice.Loading=false;notice.Severity=Severity.Success;_=Expire(notice.Id);}}catch(OperationCanceledException){}catch{notice.Title="Unable to publish changes";notice.Loading=false;notice.Severity=Severity.Error;_=Expire(notice.Id);}finally{Publishing=false;}}
+    private async Task Print()=>await JS.InvokeVoidAsync("print");
+    public void Dispose(){Lifetime.Cancel();Lifetime.Dispose();}
+    private const string StatusCode="<UiToastNotice Title=\"Project created successfully\" Severity=\"Severity.Success\" />";
+    private const string DescriptionCode="<UiToastNotice Title=\"Invoice sent\"\n    Description=\"A copy was emailed to Olivia Hayes.\" />";
+    private const string ActionCode="<UiToastNotice Title=\"Project archived\" ActionLabel=\"Undo\" OnAction=\"Restore\" />";
+    private const string LoadingCode="<UiToastNotice Title=\"Export is being prepared...\" Loading=\"true\" />\n// Update the same notification when the export is ready.";
+    private const string PromiseCode="try { await PublishAsync(); ShowSuccess(); }\ncatch { ShowError(); }";
+    private const string RichCode="<UiToastNotice Title=\"AI summary is ready\" Icon=\"Sparkles\"\n    ActionLabel=\"Open summary\" OnAction=\"OpenSummary\"\n    DismissLabel=\"Dismiss\" OnDismiss=\"Dismiss\" />";
+    private const string PositionsCode="// Page-local notification containers\n// top-left, top-center, top-right\n// bottom-left, bottom-center, bottom-right";
+    private const string DismissCode="<UiToastNotice Title=\"Scheduled maintenance\"\n    DismissLabel=\"Dismiss\" OnDismiss=\"Dismiss\" />";
+}

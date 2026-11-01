@@ -1,0 +1,177 @@
+.date-pickers-page {
+  min-width: 0;
+  padding-bottom: 24px;
+  color: var(--foreground);
+  font-size: var(--rynzo-font-body2);
+}
+.date-section + .date-section {
+  margin-top: 32px;
+}
+.date-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 19px;
+}
+.date-section-heading > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--primary);
+}
+.date-section-heading > span ::deep svg {
+  width: 18px;
+  height: 18px;
+}
+.date-section-heading h2 {
+  margin: 0;
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+}
+.date-section-heading p {
+  margin: 3px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+}
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.date-range-grid {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+.date-selection,
+.date-note,
+.date-preset-current {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 23px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+}
+.date-selection > span,
+.date-preset-current > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--primary);
+}
+.date-selection > div,
+.date-preset-current > div {
+  flex: 1;
+}
+.date-selection small,
+.date-preset-current small {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-overline);
+}
+.date-selection b,
+.date-preset-current b {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+}
+.date-note {
+  border-left: 3px solid var(--primary);
+  border-radius: 0 9px 9px 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.date-note ::deep svg {
+  width: 17px;
+  height: 17px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.date-range-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 23px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--border);
+}
+.date-range-summary > div {
+  padding: 15px;
+  background: var(--card);
+}
+.date-range-summary span {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-overline);
+}
+.date-range-summary b {
+  display: block;
+  margin-top: 6px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+}
+.date-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.date-presets ::deep .mud-button {
+  font-size: var(--rynzo-font-caption);
+  border-radius: 8px;
+}
+.date-preset-current {
+  margin-top: 23px;
+}
+.date-time-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.date-state-stack {
+  display: grid;
+  gap: 22px;
+}
+@media (max-width: 850px) {
+  .date-grid,
+  .date-range-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 540px) {
+  .date-section + .date-section {
+    margin-top: 28px;
+  }
+  .date-time-grid,
+  .date-range-summary {
+    grid-template-columns: 1fr;
+  }
+  .date-range-summary {
+    gap: 1px;
+  }
+  .date-selection,
+  .date-preset-current {
+    align-items: flex-start;
+  }
+}
+@media print {
+  .date-grid {
+    display: block;
+  }
+  .date-pickers-page ::deep .form-element-card {
+    break-inside: avoid;
+    margin-bottom: 20px;
+  }
+}

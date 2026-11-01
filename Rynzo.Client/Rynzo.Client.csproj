@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+    <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Features/Dashboard/Services/hospital-source.json" LogicalName="Rynzo.HospitalSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/school-source.json" LogicalName="Rynzo.SchoolSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/restaurant-source.json" LogicalName="Rynzo.RestaurantSource" />
+    <EmbeddedResource Include="Features/Calendar/Services/calendar-source.json" LogicalName="Rynzo.CalendarSource" />
+    <EmbeddedResource Include="Features/Notes/Services/notes-source.json" LogicalName="Rynzo.NotesSource" />
+    <EmbeddedResource Include="Features/AiChat/Services/ai-chat-source.json" LogicalName="Rynzo.AiChatSource" />
+    <EmbeddedResource Include="Features/Mail/Services/mail-source.json" LogicalName="Rynzo.MailSource" />
+    <EmbeddedResource Include="Features/Files/Services/files-source.json" LogicalName="Rynzo.FilesSource" />
+    <EmbeddedResource Include="Features/Kanban/Services/kanban-source.json" LogicalName="Rynzo.KanbanSource" />
+    <EmbeddedResource Include="Features/Tasks/Services/tasks-source.json" LogicalName="Rynzo.TasksSource" />
+    <EmbeddedResource Include="Features/Chat/Services/chat-source.json" LogicalName="Rynzo.ChatSource" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.13" />
+    <PackageReference Include="MudBlazor" Version="9.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Layout/Data/layout-source.json" LogicalName="Rynzo.LayoutSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/executive-source.json" LogicalName="Rynzo.ExecutiveSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/analytics-source.json" LogicalName="Rynzo.AnalyticsSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/saas-source.json" LogicalName="Rynzo.SaasSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/finance-source.json" LogicalName="Rynzo.FinanceSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/marketing-source.json" LogicalName="Rynzo.MarketingSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/commerce-source.json" LogicalName="Rynzo.CommerceSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/ai-source.json" LogicalName="Rynzo.AiSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/crypto-source.json" LogicalName="Rynzo.CryptoSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/logistics-source.json" LogicalName="Rynzo.LogisticsSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/hrm-source.json" LogicalName="Rynzo.HrmSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/lms-source.json" LogicalName="Rynzo.LmsSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/crm-source.json" LogicalName="Rynzo.CrmSource" />
+    <EmbeddedResource Include="Features/Dashboard/Services/projects-source.json" LogicalName="Rynzo.ProjectsSource" />
+  </ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Features/Ecommerce/Services/products-source.json" LogicalName="Rynzo.ProductsSource" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Features/Ecommerce/Services/product-details-source.json" LogicalName="Rynzo.ProductDetailsSource" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Features/Ecommerce/Services/orders-source.json" LogicalName="Rynzo.OrdersSource" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Features/Ecommerce/Services/customers-source.json" LogicalName="Rynzo.CustomersSource" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Features/Ecommerce/Services/checkout-source.json" LogicalName="Rynzo.CheckoutSource" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Features/Crm/Services/contacts-source.json" LogicalName="Rynzo.CrmContactsSource" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Assets/user-images.json" LogicalName="Rynzo.UserImages" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Features/Crm/Services/companies-source.json" LogicalName="Rynzo.CrmCompaniesSource" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Features/Crm/Services/leads-source.json" LogicalName="Rynzo.CrmLeadsSource" /></ItemGroup>
+</Project>
+
+
+
+
+

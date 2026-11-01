@@ -1,0 +1,92 @@
+@page "/dashboards/projects"
+@using System.Text.Json
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+<PageTitle>Projects Dashboard | Rynzo</PageTitle>
+<div class="projects-dashboard">
+    <DashboardPageHeader Title="Projects" Description="One place to steer delivery, capacity and project risk." ><Actions><div class="projects-actions"><MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@RynzoIcons.Get("CalendarDays")">August</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" StartIcon="@RynzoIcons.Get("Plus")">Create project</MudButton></div></Actions></DashboardPageHeader>
+    <section class="projects-overview-metrics" aria-label="Portfolio overview">@for(var i=0;i<_data.Portfolio.Length;i++){var metric=_data.Portfolio[i]; var widgetIndex=i;<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span class="projects-stat-icon"><MudIcon Icon="@RynzoIcons.Get(new[]{"Layers3","Activity","CircleAlert","CheckCircle2"}[widgetIndex])" /></span><div><small>@metric[0].GetString()</small><strong>@metric[1]</strong></div></MudCard>}</section>
+    <MudCard Outlined="true" Elevation="0" Class="projects-command rynzo-widget-card"><div class="projects-portfolio"><p class="projects-eyebrow">Delivery command center</p><h2><strong>68%</strong><span>of portfolio delivery<br />is on plan.</span></h2><p>14 active projects are consuming $284K of the $410K portfolio budget. Three need an owner decision this week.</p></div><aside class="projects-pulse"><b>Portfolio pulse</b><div>@foreach(var pulse in _data.Pulse){<div><p><span>@pulse[0].GetString()</span><b>@pulse[1]%</b></p></div>}</div><small>3 delivery risks require review before Friday.</small></aside></MudCard>
+    <section class="projects-row-grid projects-delivery-grid"><DashboardCard Title="Delivery trend" Description="Are planned tasks being delivered on schedule?" Class="projects-trend project-span-7 "><DashboardChart Data="_data" OptionsModule="./projects-dashboard-options.js" Kind="delivery" Height="300" Label="Planned, completed and overdue tasks by date" /><div class="projects-trend-totals"><div><small>Latest planned</small><b>@(_data.ChartSeries[0].Data[^1])</b></div><div><small>Latest completed</small><b class="projects-success">@(_data.ChartSeries[1].Data[^1])</b></div><div><small>Latest overdue</small><b class="projects-danger">@(_data.ChartSeries[2].Data[^1])</b></div></div></DashboardCard><DashboardCard Title="Budget watch" Description="Active allocation, spend and remaining headroom" Class="projects-budget projects-chart-footer project-span-5 "><DashboardChart Data="_data" OptionsModule="./projects-dashboard-options.js" Kind="budget" Height="300" Label="Spent and remaining budget by project" /><div class="projects-three-totals"><div><small>Allocated</small><b>$410K</b></div><div><small>Committed</small><b class="projects-primary">$284K</b></div><div><small>Headroom</small><b class="projects-success">$126K</b></div></div></DashboardCard></section>
+    <section class="projects-row-grid projects-workforce-grid"><DashboardCard Title="Team workload" Description="People closest to capacity" Class="projects-workload-card project-span-6 "><div class="projects-workload">@foreach(var person in _data.Workload){<div><ProjectAvatar Initials="@(person[1].GetString()!)" /><span class="projects-workload-person"><b>@person[0].GetString()</b><small>@person[2] tasks assigned</small></span><span class="projects-load-number @(person[3].GetDouble()>90?"near-capacity":"")"><b>@person[3]%</b><small>utilized</small></span></div>}</div><p class="projects-workload-summary"><b>@_data.Workload.Sum(person=>person[2].GetInt32()) assigned tasks</b><span>@_data.Workload.Length contributors in this view</span></p></DashboardCard><DashboardCard Title="Capacity board" Description="Available focus time and allocation by discipline" Class="projects-capacity-card project-span-6">
+        <Actions><span class="capacity-period"><MudIcon Icon="@RynzoIcons.Get("CalendarDays")" Size="Size.Small" />This week</span></Actions>
+        <ChildContent>
+            <div class="capacity-overview"><div><strong>@_data.Capacity.Sum(item=>double.Parse(item[1].GetString()!.Split(' ')[0],System.Globalization.CultureInfo.InvariantCulture)).ToString("0.#",System.Globalization.CultureInfo.InvariantCulture)<span>days</span></strong><p>Available across @_data.Capacity.Length disciplines</p></div><span class="capacity-overview-icon"><MudIcon Icon="@RynzoIcons.Get("UsersRound")" /></span></div>
+            <div class="capacity-column-labels" aria-hidden="true"><span>Discipline / focus</span><span>Available</span><span>Allocated</span></div>
+            <div class="capacity-roster">
+                @foreach(var capacity in _data.Capacity)
+                {
+                    <article><div class="capacity-discipline"><ProjectAvatar Initials="@(capacity[4].GetString()!)" Size="30" /><span><h3>@capacity[0].GetString()</h3><p>@capacity[2].GetString()</p></span></div><strong>@capacity[1].GetString()</strong><span class="capacity-allocation @(capacity[3].GetDouble()>85?"capacity-tight":"")">@capacity[3]%</span></article>
+                }
+            </div>
+            <aside class="capacity-planning"><MudIcon Icon="@RynzoIcons.Get("CircleAlert")" Size="Size.Small" /><p><b>Planning note</b>Engineering has 2 focused days available after the API owner is confirmed.</p></aside>
+        </ChildContent>
+    </DashboardCard></section>
+    <DashboardCard Title="Active delivery board" Description="Ownership, deadlines, and confidence for each active project" Class="projects-delivery-board">
+        <div class="projects-board">
+            @foreach(var project in _data.Projects)
+            {
+                <article style="@($"--project-tone:var(--{(project[4]=="Delayed"?"destructive":project[4]=="At Risk"?"warning":"primary")})")">
+                    <header><span class="projects-project-mark"><MudIcon Icon="@RynzoIcons.Get("FolderKanban")" Size="Size.Small" /></span><MudChip T="string" Size="Size.Small" Color="@StatusTone(project[4])">@project[4]</MudChip></header>
+                    <h3>@project[0]</h3><small class="projects-client">@project[1]</small>
+                    <div class="projects-delivery-score"><strong>@project[2]<span>%</span></strong><small>Delivery progress</small></div>
+                    <footer><ProjectAvatar Initials="@project[5]" Size="28" /><time><span>Due date</span>@project[3]</time></footer>
+                </article>
+            }
+        </div>
+    </DashboardCard>
+    <section class="projects-row-grid projects-action-grid"><DashboardCard Title="Priority tasks" Description="Personal actions due next" Class="projects-task-card project-span-7 "><div class="projects-tasks">@for(var i=0;i<_data.Tasks.Length;i++){var index=i;var task=_data.Tasks[i];<div><MudCheckBox T="bool" @bind-Value="_taskDone[index]" Color="Color.Primary" aria-label="@task[0].GetString()" /><span><b>@task[0].GetString()</b><small>@task[1].GetString() @task[4].GetString()</small></span><ProjectAvatar Initials="@(task[3].GetString()!)" Size="28" /></div>}</div></DashboardCard><DashboardCard Title="Next deadlines" Description="The work that cannot slip" Class="projects-deadlines-card project-span-5 "><ol class="projects-deadlines">@foreach(var deadline in _data.Deadlines){<li><time><b>@deadline[1]</b><small>@deadline[0]</small></time><span><b>@deadline[2]</b><small>@deadline[3]</small></span><MudChip T="string" Color="@PriorityTone(deadline[4])" Size="Size.Small">@deadline[4]</MudChip></li>}</ol></DashboardCard></section>
+    <section class="projects-row-grid projects-oversight-grid"><DashboardCard Title="Risk register" Description="Highest-impact blockers this week" Class="projects-risk-card project-span-5 "><div class="projects-risks">@foreach(var risk in _data.Risks){<div><p><b>@risk[0]</b><MudChip T="string" Color="@PriorityTone(risk[2])" Size="Size.Small">@risk[2]</MudChip></p><small>@risk[1] @risk[3]</small></div>}</div><div class="projects-risk-totals"><span><b>7</b>Open risks</span><span><b class="projects-danger">2</b>Critical</span><span><b class="projects-warning">18</b>Blocked</span></div></DashboardCard><DashboardCard Title="Execution pulse" Description="Work status across all active projects" Class="projects-execution-card project-span-3 "><div class="projects-execution">@foreach(var item in _data.Execution){<p><i style="@($"background:var(--{item[2].GetString()![3..]})")"></i><span>@item[0].GetString()</span><b>@item[1]</b></p>}</div><p class="projects-completion"><b>72% completion</b><small>+8 points from the previous sprint.</small></p></DashboardCard><DashboardCard Title="Delivery health" Description="Signals across scope, schedule and quality" Class="projects-health-card project-span-4 "><div class="projects-health">@foreach(var health in _data.Health){<div><MudIcon Icon="@RynzoIcons.Get("CheckCircle2")" Color="@Tone(health[2])" /><b>@health[1]</b><small>@health[0]</small></div>}</div><div class="projects-health-summary"><p><span>Delivery confidence</span><b>82 / 100</b></p><p><span>Milestones on time</span><b class="projects-success">12 of 14</b></p><p><span>Open dependencies</span><b class="projects-warning">5</b></p></div></DashboardCard></section>
+    <DashboardCard Title="Milestone path" Description="From completed work to the next delivery checkpoint" Class="projects-milestones-card project-span-12">
+        <Actions><span class="milestone-summary">@_data.Milestones.Count(m=>m[2]=="Completed") completed <span aria-hidden="true">/</span> @_data.Milestones.Length milestones</span></Actions>
+        <ChildContent>
+            <ol class="milestone-path">
+                @for(var index=0;index<_data.Milestones.Length;index++)
+                {
+                    var milestone=_data.Milestones[index];
+                    var state=milestone[2]=="Completed"?"complete":milestone[2]=="Current"?"current":"upcoming";
+                    <li class="milestone-stage @state" aria-current="@(state=="current"?"step":null)">
+                        <div class="milestone-track"><span class="milestone-node">@if(state=="complete"){<MudIcon Icon="@RynzoIcons.Get("Check")" Size="Size.Small" />}else{<span>@((index+1).ToString("00"))</span>}</span><span class="milestone-status">@milestone[2]</span></div>
+                        <div class="milestone-detail"><time data-status="@milestone[2]"><MudIcon Icon="@RynzoIcons.Get("CalendarDays")" Size="Size.Small" />@milestone[3]</time><h3>@milestone[0]</h3><p>@milestone[1]</p><span class="milestone-caption">@(state=="complete"?"Delivery checkpoint achieved":state=="current"?"Current delivery checkpoint":"Next delivery checkpoint")</span></div>
+                    </li>
+                }
+            </ol>
+        </ChildContent>
+    </DashboardCard>   <section class="projects-row-grid projects-standup-grid">
+        <DashboardCard Title="Delivery stand-up" Description="Team updates that need a clear next step" Class="projects-standup-card project-span-7">
+            <Actions><span class="standup-count">@_data.Standup.Length updates</span></Actions>
+            <ChildContent><div class="projects-standup">
+                @foreach(var update in _data.Standup)
+                {
+                    <article style="@($"--update-tone:var(--{(update[4]=="danger"?"destructive":update[4])})")"><span class="standup-marker"><MudIcon Icon="@RynzoIcons.Get("MessageSquare")" Size="Size.Small" /></span><div class="standup-content"><header><h3>@update[0]</h3><span class="standup-due">@update[3]</span></header><p>@update[1]</p><footer><span class="standup-owner"><MudIcon Icon="@RynzoIcons.Get("UserRound")" Size="Size.Small" />@update[2]</span><MudButton Size="Size.Small" Color="Color.Primary" EndIcon="@RynzoIcons.Get("ArrowUpRight")" aria-label="@($"Open {update[0]} stand-up item")" OnClick="@(() => Alert(update[0]+" stand-up item opened"))">Open</MudButton></footer></div></article>
+                }
+            </div></ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Decision queue" Description="Resolve the choices holding delivery back" Class="projects-decision-card project-span-5">
+            <Actions><span class="decision-count">@_data.Decisions.Length waiting</span></Actions>
+            <ChildContent><div class="projects-decisions">
+                @for(var i=0;i<_data.Decisions.Length;i++)
+                {
+                    var decision=_data.Decisions[i]; var decisionNumber=(i+1).ToString("00");
+                    <MudButton Variant="Variant.Outlined" Class="projects-decision" aria-label="@($"Open {decision[0]} decision")" OnClick="@(() => Alert(decision[0]+" decision opened"))"><span class="decision-order">@decisionNumber</span><span class="decision-copy"><small>@decision[1]</small><b>@decision[0]</b><span class="decision-timing"><MudIcon Icon="@RynzoIcons.Get("Clock")" Size="Size.Small" />@decision[2]</span></span><span class="decision-open"><MudIcon Icon="@RynzoIcons.Get("ArrowUpRight")" Size="Size.Small" /></span></MudButton>
+                }
+            </div><div class="decision-queue-footer"><MudIcon Icon="@RynzoIcons.Get("CheckCircle2")" Size="Size.Small" /><span>3 decisions waiting before the next planning cycle.</span></div></ChildContent>
+        </DashboardCard>
+    </section>
+    <section class="projects-row-grid projects-finance-grid"><DashboardCard Title="Team performance" Description="On-time completion by discipline" Class="projects-team projects-chart-footer project-span-6 "><DashboardChart Data="_data" OptionsModule="./projects-dashboard-options.js" Kind="team" Height="280" Label="On-time delivery across design, development, QA, product and operations" /><div class="projects-team-signals"><span><small>Best signal</small><b class="projects-success">Product 91%</b></span><span><small>Focus area</small><b class="projects-warning">Operations 72%</b></span></div></DashboardCard><DashboardCard Title="Project rhythm" Description="Next delivery moments" Class="projects-rhythm-card project-span-6 "><ol class="projects-timeline">@foreach(var rhythm in _data.Rhythm){<li><time>@rhythm[0]</time><b>@rhythm[1]</b><small>@rhythm[2]</small></li>}</ol></DashboardCard></section>
+</div>
+@code{
+    private readonly ProjectsDashboardData _data=ProjectsDashboardData.Load();
+    private bool[] _taskDone=[];
+    private static readonly BreadcrumbItem[] Breadcrumbs=[new("Rynzo",null),new("Dashboards",null),new("Projects",null,true)];
+    protected override void OnInitialized()=>_taskDone=_data.Tasks.Select(t=>t[5].GetBoolean()).ToArray();
+    private static Color Tone(string tone)=>tone switch{"success"=>Color.Success,"warning"=>Color.Warning,"danger"=>Color.Error,"info"=>Color.Info,_=>Color.Default};
+    private static Color StatusTone(string status)=>status=="On Track"?Color.Success:status=="At Risk"?Color.Warning:Color.Error;
+    private static Color PriorityTone(string priority)=>priority=="Critical"?Color.Error:priority=="High"?Color.Warning:Color.Default;
+    private static string Background(string tone)=>$"background:var(--{(tone=="danger"?"destructive":tone)})";
+    private async Task Alert(string message)=>await JS.InvokeVoidAsync("alert",message);
+    // August/Create project have no original handlers. Task checkboxes are independent local choices.
+}
+

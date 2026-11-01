@@ -1,0 +1,157 @@
+﻿@page "/dashboards/saas"
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+@inject RynzoAppearance Appearance
+@implements IDisposable
+<PageTitle>SaaS growth center — Rynzo</PageTitle>
+<div class="saas-dashboard">
+    <DashboardPageHeader Title="SaaS growth center" Description="Recurring revenue, customer health and product adoption in one operating view.">
+        <Actions><div class="saas-actions">
+            <MudSelect T="string" @bind-Value="_period" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true" Class="saas-period" aria-label="Reporting period">@foreach (var period in Periods) { <MudSelectItem Value="@period">@period</MudSelectItem> }</MudSelect>
+            <MudButton Size="Size.Small" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export</MudButton>
+            <MudButton Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" OnClick="Invite">Invite customer</MudButton>
+        </div></Actions>
+    </DashboardPageHeader>
+
+    <section class="saas-revenue-layout" aria-label="Revenue performance and growth metrics">
+        <DashboardCard Title="MRR movement" Description="@($"{_period} · expansion is offsetting churn")" Class="saas-revenue-card">
+            <Actions><span class="saas-status"><i></i>Forecast on track</span></Actions>
+            <ChildContent>
+                <div class="saas-movement">@foreach (var item in _data.Movement) { <div><span>@item[0]</span><strong style="@Tone(item[2])">@item[1]</strong></div> }</div>
+                <DashboardChart @key="ChartAppearance" Data="_data" OptionsModule="./saas-options.js" Kind="revenue" Height="300" Label="Monthly recurring revenue and target from March to August, in thousands of dollars" />
+                <div class="saas-chart-note"><span>Recurring revenue vs target</span><span>Mar – Aug · USD, thousands</span></div>
+            </ChildContent>
+        </DashboardCard>
+        <div class="saas-stats" aria-label="SaaS key performance indicators">@foreach (var stat in _data.Stats) { <GrowthStat Stat="stat" /> }</div>
+    </section>
+
+    <MudCard Class="saas-forecast rynzo-widget-card" aria-label="Growth forecast" Elevation="0" Outlined="true" data-widget-element="section">
+        <div class="saas-forecast-title"><span class="saas-feature-icon"><MudIcon Icon="@RynzoIcons.Get("Rocket")" /></span><div><h2>Growth forecast</h2><p>Expected month-end outcome</p></div></div>
+        <div class="saas-projection"><span>Projected MRR</span><strong>$197.2K</strong><small>106.8% of August target</small></div>
+        <div class="saas-forecast-detail"><span>Expansion pipeline</span><strong>$28.4K</strong><span class="saas-forecast-risk">At-risk MRR <b>$7.9K</b></span></div>
+        <MudButton Size="Size.Small" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("ArrowUpRight")" OnClick="Forecast">Review forecast</MudButton>
+    </MudCard>
+
+    <section id="saas-customer-portfolio" aria-label="Customer portfolio">
+        <DashboardCard Title="Customer portfolio" Description="Accounts that need attention and accounts ready to grow" Class="saas-table-card">
+            <Actions><MudSelect T="string" @bind-Value="_segment" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true" Class="saas-segment" aria-label="Customer segment">@foreach (var segment in Segments) { <MudSelectItem Value="@segment">@segment</MudSelectItem> }</MudSelect></Actions>
+            <ChildContent>
+                <MudTable T="SaasAccount" Items="_data.Accounts" Breakpoint="Breakpoint.None" Elevation="0" Class="saas-table" aria-label="Customer portfolio">
+                    <HeaderContent><MudTh>Account</MudTh><MudTh>Plan</MudTh><MudTh>Monthly revenue</MudTh><MudTh>Account health</MudTh><MudTh>Owner</MudTh></HeaderContent>
+                    <RowTemplate>
+                        <MudTd><div class="saas-account"><img class="saas-account-mark" src="@OwnerImage(context.Owner)" alt="" width="36" height="36" /><span><b>@context.Name</b><small>Last active today</small></span></div></MudTd>
+                        <MudTd><MudChip T="string" Size="Size.Small" Color="@(context.Plan == "Enterprise" ? Color.Primary : Color.Info)">@context.Plan</MudChip></MudTd>
+                        <MudTd><b class="saas-account-revenue">@context.Mrr</b><small>per month</small></MudTd>
+                        <MudTd><div class="saas-account-health"><span class="saas-health-label @(context.Health == "Watch" ? "watch" : "healthy")"><i></i>@context.Health <b>@context.Score</b></span><div class="saas-health-track" aria-hidden="true"><span style="@($"width:{context.Score}%;background:var(--{(context.Health == "Watch" ? "warning" : "success")})")"></span></div></div></MudTd>
+                        <MudTd><img class="saas-owner" src="@OwnerImage(context.Owner)" alt="@($"Account owner {context.Owner}")" title="@context.Owner" width="32" height="32" /></MudTd>
+                    </RowTemplate>
+                </MudTable>
+                <div class="saas-table-footer"><span>@_data.Accounts.Length accounts in your portfolio</span><span>Customer success · Revenue operations</span></div>
+            </ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="saas-lifecycle-layout" aria-label="Customer activation and retention">
+        <DashboardCard Title="Activation journey" Description="New workspace progress over the last 30 days" Class="saas-activation-card">
+            <Actions><span class="saas-tag">Onboarding</span></Actions>
+            <ChildContent>
+                <ol class="saas-activation">@for (var i = 0; i < _data.Activation.Length; i++) { var step = _data.Activation[i];
+                    <li class="saas-step"><span class="saas-step-number">@((i + 1).ToString("D2"))</span><div><div class="saas-step-heading"><b>@step[0]</b><strong>@step[1]</strong><span>@step[2]</span></div><div class="saas-progress"><span style="@($"width:{step[2]};background:var(--{step[3][3..]})")"></span></div></div></li>
+                }</ol>
+                <MudCard Class="saas-insight rynzo-widget-card" Elevation="0" Outlined="true"><MudIcon Icon="@RynzoIcons.Get("Sparkles")" Size="Size.Small" /><div><b>Activation insight</b><p>Teams that invite 3+ members in week one convert 2.4 more often.</p></div></MudCard>
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Retention cohorts" Description="Percentage of customers active after joining" Class="saas-retention-card">
+            <Actions><span class="saas-tag">Customer retention</span></Actions>
+            <ChildContent>
+                <DashboardChart @key="ChartAppearance" Data="_data" OptionsModule="./saas-options.js" Kind="cohort" Height="300" Label="Customer retention by cohort and month" />
+                <div class="saas-cohort-key"><span><i class="saas-cohort-low"></i>0–60%</span><span><i class="saas-cohort-mid"></i>61–80%</span><span><i class="saas-cohort-high"></i>81–100%</span></div>
+            </ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="saas-extra-widgets" aria-label="Revenue mix and customer opportunities">
+        <DashboardCard Title="Revenue by plan" Description="Monthly revenue from the four listed accounts" Class="saas-plan-widget">
+            <Actions><span class="saas-tag">Portfolio mix</span></Actions>
+            <ChildContent>
+                <div class="saas-widget-total"><strong>@PortfolioRevenue.ToString("C0", UsCulture)</strong><span>Listed account MRR</span></div>
+                <div class="saas-plan-list">
+                    @foreach (var plan in _data.Accounts.GroupBy(account => account.Plan).OrderByDescending(group => group.Sum(AccountRevenue)))
+                    {
+                        var revenue = plan.Sum(AccountRevenue);
+                        var share = PortfolioRevenue == 0 ? 0 : revenue / PortfolioRevenue * 100;
+                        <div class="saas-plan-row"><div><b>@plan.Key</b><span>@revenue.ToString("C0", UsCulture)</span></div><div class="saas-plan-track"><span style="@($"width:{share.ToString(System.Globalization.CultureInfo.InvariantCulture)}%")"></span></div><small>@plan.Count() @(plan.Count() == 1 ? "account" : "accounts") · @share.ToString("0.0", UsCulture)% of listed revenue</small></div>
+                    }
+                </div>
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Account watchlist" Description="Listed customers with a Watch health status" Class="saas-watch-widget">
+            <Actions><span class="saas-tag">Customer success</span></Actions>
+            <ChildContent>
+                <div class="saas-watch-summary"><span class="saas-watch-icon"><MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" /></span><div><strong>@WatchAccounts.Length</strong><span>@(WatchAccounts.Length == 1 ? "account needs attention" : "accounts need attention")</span></div></div>
+                @foreach (var account in WatchAccounts)
+                {
+                    <div class="saas-watch-account"><div><b>@account.Name</b><small>@account.Plan · Owner @account.Owner</small></div><span>@account.Mrr<small>monthly revenue</small></span></div>
+                    <div class="saas-watch-score"><span>Health score</span><b>@account.Score / 100</b></div>
+                    <div class="saas-progress"><span style="@($"width:{account.Score}%;background:var(--warning)")"></span></div>
+                }
+                @if (WatchAccounts.Length == 0) { <p class="saas-watch-empty">No listed accounts currently have Watch status.</p> }
+                <div class="saas-watch-link"><MudButton Href="#saas-customer-portfolio" Variant="Variant.Outlined" Size="Size.Small" EndIcon="@RynzoIcons.Get("ArrowUpRight")">Review customer portfolio</MudButton></div>
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Activation drop-off" Description="Workspace count difference between consecutive steps" Class="saas-dropoff-widget">
+            <Actions><span class="saas-tag">Last 30 days</span></Actions>
+            <ChildContent><ol class="saas-dropoff-list">
+                @for (var i = 1; i < _data.Activation.Length; i++)
+                {
+                    var previous = _data.Activation[i - 1];
+                    var current = _data.Activation[i];
+                    var gap = ActivationCount(previous) - ActivationCount(current);
+                    <li><span class="saas-dropoff-number">@i.ToString("D2")</span><div><b>@current[0]</b><small>From @previous[0].ToLowerInvariant()</small></div><span class="saas-dropoff-gap">@gap.ToString("N0", UsCulture)<small>workspaces</small></span></li>
+                }
+            </ol><div class="saas-dropoff-note">Use the activation journey above to compare each stage's completion rate.</div></ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section aria-label="Product health">
+        <DashboardCard Title="Product health" Description="Signals from the active customer base" Class="saas-health-card">
+            <Actions><span class="saas-tag">Product operations</span></Actions>
+            <ChildContent>
+                <div class="saas-health">@for (var i = 0; i < _data.Health.Length; i++) { var item = _data.Health[i];
+                    <div class="saas-health-metric"><div class="saas-health-metric-label"><MudIcon Icon="@RynzoIcons.Get(HealthIcons[i % HealthIcons.Length])" Size="Size.Small" /><span>@item[0]</span></div><strong>@item[1]</strong><small style="@Tone(item[3])">@item[2]</small></div>
+                }</div>
+                <MudCard Class="saas-platform rynzo-widget-card" Elevation="0" Outlined="true"><MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" Color="Color.Success" /><div><b>Platform status</b><small>All core systems operational</small></div><span class="saas-status"><i></i>99.99%</span></MudCard>
+            </ChildContent>
+        </DashboardCard>
+    </section>
+</div>
+@code {
+    private readonly SaasData _data = SaasData.Load();
+    private static string OwnerImage(string owner) => owner switch
+    {
+        "JM" => "assets/images/users/user-2.jpg",
+        "AK" => "assets/images/users/user-1.jpg",
+        "RL" => "assets/images/users/user-3.jpg",
+        "SD" => "assets/images/users/user-4.jpg",
+        _ => "assets/images/users/user-1.jpg"
+    };
+    private static readonly System.Globalization.CultureInfo UsCulture = System.Globalization.CultureInfo.GetCultureInfo("en-US");
+    private static decimal AccountRevenue(SaasAccount account) => decimal.Parse(account.Mrr, System.Globalization.NumberStyles.Currency, UsCulture);
+    private decimal PortfolioRevenue => _data.Accounts.Sum(AccountRevenue);
+    private SaasAccount[] WatchAccounts => _data.Accounts.Where(account => account.Health == "Watch").ToArray();
+    private static int ActivationCount(string[] step) => int.Parse(step[1], System.Globalization.NumberStyles.AllowThousands, UsCulture);
+    private string _period = "This month", _segment = "All customers";
+    private static readonly string[] Periods = ["This month", "Last quarter", "Year to date"], Segments = ["All customers", "Enterprise", "Growth", "At risk"];
+    private static readonly string[] HealthIcons = ["UsersRound", "Gauge", "MessageSquare", "ShieldCheck"];
+    private string ChartAppearance => $"{Appearance.Skin}-{Appearance.IsDark}";
+    protected override void OnInitialized() => Appearance.Changed += RefreshAppearance;
+    private void RefreshAppearance() => _ = InvokeAsync(StateHasChanged);
+    public void Dispose() => Appearance.Changed -= RefreshAppearance;
+    private static string Tone(string tone) => tone switch { "success" => "color:var(--success)", "danger" => "color:var(--destructive)", "warning" => "color:var(--warning)", "info" => "color:var(--info)", _ => "" };
+    // Preserve source notifications and selection-only controls; no backing services exist.
+    private void Export() => Snackbar.Add("Revenue report exported", Severity.Success);
+    private void Invite() => Snackbar.Add("Customer invite ready", Severity.Success);
+    private void Forecast() => Snackbar.Add("Forecast assumptions opened", Severity.Info);
+}

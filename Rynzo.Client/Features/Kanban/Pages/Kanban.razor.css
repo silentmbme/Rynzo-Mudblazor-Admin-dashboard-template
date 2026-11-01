@@ -1,0 +1,133 @@
+.kanban-app {
+  min-height: calc(100vh - 160px);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  box-shadow: 0 1px 2px #0000000d;
+  color: var(--foreground);
+}
+.board-heading {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.board-heading p {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.kanban-app ::deep .mud-button {
+  font-size: var(--rynzo-font-caption);
+  text-transform: none;
+}
+.board-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0;
+}
+.board-filters ::deep .mud-input-control {
+  margin: 0;
+  min-width: 192px;
+  flex: 1;
+}
+.board-filters ::deep .board-priority-filter {
+  min-width: 0;
+  width: 100px;
+  flex: 0 0 100px;
+}
+.board-filters ::deep .mud-input {
+  background: var(--background);
+  font-size: var(--rynzo-font-body1);
+  border-radius: 6px;
+}
+.board-filters ::deep input {
+  padding-block: 8px;
+}
+.board-filters ::deep .mud-select-input {
+  padding-block: 2px;
+  min-height: 12px;
+  font-size: var(--rynzo-font-caption);
+}
+.board-summary {
+  margin-top: 12px;
+}
+.board-summary span {
+  margin-inline: 8px;
+}
+.board-scroll {
+  overflow-x: auto;
+  padding: 16px;
+  background: color-mix(in srgb, var(--muted) 20%, transparent);
+}
+.board-columns {
+  display: flex;
+  min-height: 620px;
+  min-width: max-content;
+  gap: 12px;
+}
+.board-columns > section {
+  display: flex;
+  flex-direction: column;
+  width: 288px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--card) 80%, transparent);
+}
+.board-columns > section.board-dragging {
+  outline: 1px dashed color-mix(in srgb, var(--primary) 50%, transparent);
+}
+.board-columns > section > header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  padding: 12px;
+}
+.board-columns > section > header > b {
+  font-size: var(--rynzo-font-body1);
+  font-weight: 700;
+}
+.board-columns > section > header > span {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--muted);
+  font-size: var(--rynzo-font-caption);
+}
+.board-columns > section > header ::deep .mud-icon-button {
+  width: 22px;
+  height: 22px;
+  padding: 4px;
+  border-radius: 4px;
+}
+.board-columns > section > header ::deep .mud-icon-button:first-of-type {
+  margin-inline-start: auto;
+}
+.board-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  padding: 8px;
+}
+.board-columns ::deep .board-column-add {
+  margin: 8px;
+  padding: 8px;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  justify-content: flex-start;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.board-columns ::deep .board-column-add svg {
+  width: 12px;
+  height: 12px;
+}
+.board-columns ::deep .board-add-column {
+  height: 48px;
+  width: 176px;
+  flex-shrink: 0;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  font-size: var(--rynzo-font-body1);
+  color: var(--muted-foreground);
+}

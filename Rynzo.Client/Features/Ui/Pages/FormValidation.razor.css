@@ -1,0 +1,115 @@
+.validation-page {
+  min-width: 0;
+  padding-bottom: 24px;
+  color: var(--foreground);
+}
+.validation-section + .validation-section {
+  margin-top: 32px;
+}
+.validation-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 19px;
+}
+.validation-heading > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--primary);
+}
+.validation-heading > span ::deep svg {
+  width: 18px;
+  height: 18px;
+}
+.validation-heading h2 {
+  margin: 0;
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+}
+.validation-heading p {
+  margin: 3px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.validation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.validation-stack {
+  display: grid;
+  gap: 20px;
+}
+.validation-stack + ::deep .mud-button {
+  margin-top: 23px;
+}
+.validation-success,
+.validation-summary,
+.validation-empty {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 23px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+}
+.validation-success ::deep svg {
+  width: 20px;
+  height: 20px;
+  color: var(--success);
+  flex-shrink: 0;
+}
+.validation-success b,
+.validation-summary b {
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+}
+.validation-success p,
+.validation-summary p,
+.validation-empty p {
+  margin: 5px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.7;
+}
+.validation-summary.is-valid {
+  background: color-mix(in srgb, var(--success) 5%, var(--card));
+  border-color: color-mix(in srgb, var(--success) 25%, var(--border));
+}
+.validation-summary.is-valid ::deep svg {
+  color: var(--success);
+}
+.validation-summary.is-invalid {
+  background: color-mix(in srgb, var(--destructive) 4%, var(--card));
+  border-color: color-mix(in srgb, var(--destructive) 25%, var(--border));
+}
+.validation-summary.is-invalid ::deep svg {
+  color: var(--destructive);
+}
+.validation-empty {
+  min-height: 115px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+.validation-empty ::deep svg {
+  width: 26px;
+  height: 26px;
+  color: var(--muted-foreground);
+}
+.validation-empty p {
+  margin: 0;
+}
+@media (max-width: 850px) {
+  .validation-grid {
+    grid-template-columns: 1fr;
+  }
+}

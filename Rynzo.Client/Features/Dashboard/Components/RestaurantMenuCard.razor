@@ -1,0 +1,5 @@
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Services
+@using Rynzo.Client.Theme
+<MudCard Outlined="true" Elevation="0" Class="pos-menu-card rynzo-widget-card"><div class="pos-food-photo"><img src="@Item.Image" alt="@Item.Name" loading="lazy" width="640" height="640" /><span style="@($"color:var({Item.Color})")">@Item.Category</span>@if(Quantity>0){<b>@Quantity in order</b>}</div><div class="pos-food-detail"><h3>@Item.Name</h3><p>@Item.Description</p><footer><div><strong>@RestaurantPosState.Money(Item.Price)</strong><small>Per serving</small></div><MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@RynzoIcons.Get("Plus")" Style="@($"color:var({Item.Color});border-color:color-mix(in oklch,var({Item.Color}) 25%,var(--border));background:color-mix(in oklch,var({Item.Color}) 8%,var(--card))")" aria-label="@($"Add {Item.Name}")" OnClick="@(() => Add.InvokeAsync(Item.Id))">Add</MudButton></footer></div></MudCard>
+@code{[Parameter,EditorRequired]public RestaurantMenuItem Item{get;set;}=null!;[Parameter]public int Quantity{get;set;}[Parameter]public EventCallback<string> Add{get;set;}}

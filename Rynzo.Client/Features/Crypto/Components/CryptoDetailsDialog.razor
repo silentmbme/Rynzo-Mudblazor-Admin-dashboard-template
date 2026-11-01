@@ -1,0 +1,27 @@
+@using Rynzo.Client.Features.Crypto.Models
+@using Rynzo.Client.Features.Dashboard.Models
+@using System.Globalization
+<MudDialog>
+    <TitleContent><MudText Typo="Typo.h6">@(Preview ? "Review exchange estimate" : Activity is not null ? "Transaction details" : Asset!.Name+" / "+Asset.Symbol)</MudText></TitleContent>
+    <DialogContent>
+        @if(Preview){<p>Estimate only. No order is placed or balance changed.</p><MudPaper Class="pa-5 my-4" Outlined="true"><p>@Pay</p><p>↓</p><MudText Typo="Typo.h5">@Receive</MudText></MudPaper><p>Includes a sample fee of @Money(Fee).</p>}
+        else if(Activity is { } r){<p>@r.Id / Sample record, not an on-chain transaction</p><MudPaper Class="pa-5 my-4" Outlined="true"><StatusBadge Text="@r.Status" Tone="@(r.Status=="Completed"?"success":"warning")"/><MudText Typo="Typo.h4">@r.Amount @r.Asset</MudText><p>@Money(r.Amount*Asset!.Price) at current sample price</p></MudPaper><MudGrid Class="mb-4"><MudItem xs="6">Type<p>@r.Type</p></MudItem><MudItem xs="6">Date<p>@r.Date</p></MudItem><MudItem xs="6">Asset<p>@Asset!.Name</p></MudItem><MudItem xs="6">Reference<p>@r.Id</p></MudItem></MudGrid><p>USD values use fixed sample prices, not historical execution prices. No wallet address or transaction hash is connected.</p>}
+        else if(Asset is { } a){<p>@(Wallet?"Sample balance and cost basis. No connected wallet.":"Illustrative asset details. No live market feed.")</p><MudPaper Class="pa-5 my-4" Outlined="true">Sample price<MudText Typo="Typo.h4">@Money(a.Price)</MudText></MudPaper><MudGrid>@foreach(var field in AssetFields){<MudItem xs="6"><MudText Typo="Typo.caption">@field.Item1</MudText><p>@field.Item2</p></MudItem>}</MudGrid>}
+    </DialogContent>
+    <DialogActions><MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Dialog.Close(DialogResult.Ok(true)))">@(Preview?"Close preview":Activity is not null?"Close details":Wallet?"Close balance details":"View price chart")</MudButton></DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter]public IMudDialogInstance Dialog{get;set;}=null!;
+    [Parameter]public CryptoAsset? Asset{get;set;}
+    [Parameter]public CryptoActivity? Activity{get;set;}
+    [Parameter]public bool Wallet{get;set;}
+    [Parameter]public bool Preview{get;set;}
+    [Parameter]public double Total{get;set;}
+    [Parameter]public string Pay{get;set;}="";
+    [Parameter]public string Receive{get;set;}="";
+    [Parameter]public double Fee{get;set;}
+    private static string Money(double n)=>n.ToString("C2",CultureInfo.GetCultureInfo("en-US"));
+    private IEnumerable<(string,string)> AssetFields {
+        get {var a=Asset!;yield return("24h change",a.Change+"%");yield return("Market cap",(a.MarketCap*1e6).ToString("N0",CultureInfo.GetCultureInfo("en-US")));yield return("24h volume",(a.Volume*1e6).ToString("N0",CultureInfo.GetCultureInfo("en-US")));yield return("Sample holdings",a.Holding+" "+a.Symbol);if(Wallet){yield return("Holding value",Money(a.Holding*a.Price));yield return("Cost basis",Money(a.Holding*a.Entry));yield return("Portfolio share",(a.Holding*a.Price/Total*100).ToString("F1",CultureInfo.InvariantCulture)+"%");yield return("Unrealized gain / loss",Money(a.Holding*(a.Price-a.Entry)));}}
+    }
+}

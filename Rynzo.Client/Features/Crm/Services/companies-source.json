@@ -1,0 +1,297 @@
+{
+  "owners": [
+    "Sophia Carter",
+    "Daniel Lee",
+    "Olivia Smith",
+    "Emma Wilson"
+  ],
+  "companies": [
+    {
+      "id": 1,
+      "name": "CloudAxis",
+      "domain": "cloudaxis.com",
+      "industry": "SaaS",
+      "size": "201-500",
+      "revenue": 48000000,
+      "status": "Customer",
+      "owner": "Sophia Carter",
+      "country": "United States",
+      "contacts": 18,
+      "deals": 3,
+      "pipeline": 284000,
+      "activity": "Proposal viewed",
+      "days": 0,
+      "followUp": "Aug 28",
+      "tags": [
+        "Enterprise",
+        "Strategic"
+      ],
+      "notes": [
+        "Expansion proposal received positive feedback."
+      ],
+      "tasks": [
+        "Confirm procurement review"
+      ],
+      "initials": "CA"
+    },
+    {
+      "id": 2,
+      "name": "Vertex Labs",
+      "domain": "vertexlabs.com",
+      "industry": "Technology",
+      "size": "51-200",
+      "revenue": 22000000,
+      "status": "Prospect",
+      "owner": "Daniel Lee",
+      "country": "United Kingdom",
+      "contacts": 12,
+      "deals": 2,
+      "pipeline": 142000,
+      "activity": "Demo completed",
+      "days": 2,
+      "followUp": "Aug 30",
+      "tags": [
+        "High Growth",
+        "Technical Buyer"
+      ],
+      "notes": [
+        "Security review is the next decision gate."
+      ],
+      "tasks": [
+        "Share security documentation"
+      ],
+      "initials": "VL"
+    },
+    {
+      "id": 3,
+      "name": "Rynzo Systems",
+      "domain": "rynzosystems.com",
+      "industry": "Software",
+      "size": "501-1000",
+      "revenue": 96000000,
+      "status": "Customer",
+      "owner": "Olivia Smith",
+      "country": "Canada",
+      "contacts": 24,
+      "deals": 5,
+      "pipeline": 486000,
+      "activity": "Deal moved to Negotiation",
+      "days": 1,
+      "followUp": "Today",
+      "tags": [
+        "Enterprise",
+        "Renewal",
+        "VIP"
+      ],
+      "notes": [
+        "Renewal and rollout deals are progressing."
+      ],
+      "tasks": [
+        "Prepare renewal options"
+      ],
+      "initials": "NS"
+    },
+    {
+      "id": 4,
+      "name": "BrightWorks",
+      "domain": "brightworks.io",
+      "industry": "Professional Services",
+      "size": "51-200",
+      "revenue": 18000000,
+      "status": "At Risk",
+      "owner": "Emma Wilson",
+      "country": "Germany",
+      "contacts": 8,
+      "deals": 1,
+      "pipeline": 64000,
+      "activity": "No activity",
+      "days": 46,
+      "followUp": "Overdue",
+      "tags": [
+        "At Risk"
+      ],
+      "notes": [
+        "Budget review delayed buying decision."
+      ],
+      "tasks": [
+        "Re-engage account owner"
+      ],
+      "initials": "BW"
+    },
+    {
+      "id": 5,
+      "name": "Acme Inc.",
+      "domain": "acmeinc.com",
+      "industry": "Finance",
+      "size": "1000+",
+      "revenue": 180000000,
+      "status": "Partner",
+      "owner": "Sophia Carter",
+      "country": "India",
+      "contacts": 32,
+      "deals": 4,
+      "pipeline": 320000,
+      "activity": "Contact added",
+      "days": 6,
+      "followUp": "Sep 02",
+      "tags": [
+        "Partner",
+        "Enterprise"
+      ],
+      "notes": [],
+      "tasks": [
+        "Plan partner webinar"
+      ],
+      "initials": "AI"
+    }
+  ],
+  "tones": {
+    "Active": "success",
+    "Prospect": "primary",
+    "Customer": "success",
+    "Partner": "info",
+    "At Risk": "warning",
+    "Inactive": "warning",
+    "Archived": "muted"
+  },
+  "blank": {
+    "name": "",
+    "domain": "",
+    "industry": "SaaS",
+    "size": "51-200",
+    "revenue": "0",
+    "status": "Prospect",
+    "owner": "Sophia Carter",
+    "country": "United States",
+    "tags": "",
+    "notes": ""
+  },
+  "formOptions": {
+    "industry": [
+      "Technology",
+      "SaaS",
+      "Finance",
+      "Healthcare",
+      "Retail",
+      "Manufacturing",
+      "Professional Services",
+      "Education",
+      "Media"
+    ],
+    "size": [
+      "1-10",
+      "11-50",
+      "51-200",
+      "201-500",
+      "501-1000",
+      "1000+"
+    ],
+    "status": [
+      "Active",
+      "Prospect",
+      "Customer",
+      "Partner",
+      "At Risk",
+      "Inactive",
+      "Archived"
+    ],
+    "owner": [
+      "Sophia Carter",
+      "Daniel Lee",
+      "Olivia Smith",
+      "Emma Wilson"
+    ],
+    "country": [
+      "United States",
+      "United Kingdom",
+      "Germany",
+      "India",
+      "Canada",
+      "Australia"
+    ]
+  },
+  "filters": [
+    [
+      "All industries",
+      "Technology",
+      "SaaS",
+      "Finance",
+      "Healthcare",
+      "Retail",
+      "Manufacturing",
+      "Professional Services",
+      "Education",
+      "Media"
+    ],
+    [
+      "All sizes",
+      "1-10",
+      "11-50",
+      "51-200",
+      "201-500",
+      "501-1000",
+      "1000+"
+    ],
+    [
+      "All revenue",
+      "Under $1M",
+      "$1M-$10M",
+      "$10M-$50M",
+      "$50M-$100M",
+      "$100M+"
+    ],
+    [
+      "All statuses",
+      "Active",
+      "Prospect",
+      "Customer",
+      "Partner",
+      "At Risk",
+      "Inactive",
+      "Archived"
+    ],
+    [
+      "All owners",
+      "Sophia Carter",
+      "Daniel Lee",
+      "Olivia Smith",
+      "Emma Wilson"
+    ],
+    [
+      "All regions",
+      "United States",
+      "United Kingdom",
+      "Germany",
+      "India",
+      "Canada",
+      "Australia"
+    ],
+    [
+      "All tags",
+      "Enterprise",
+      "Strategic",
+      "Renewal",
+      "High Growth",
+      "Partner",
+      "High Intent"
+    ],
+    [
+      "Any activity",
+      "Today",
+      "Last 7 Days",
+      "Last 30 Days",
+      "No Activity",
+      "Overdue Follow-up"
+    ],
+    [
+      "Recently Added",
+      "Recently Updated",
+      "Company A-Z",
+      "Highest Revenue",
+      "Largest Company",
+      "Highest Pipeline Value",
+      "Most Contacts",
+      "Last Activity"
+    ]
+  ]
+}

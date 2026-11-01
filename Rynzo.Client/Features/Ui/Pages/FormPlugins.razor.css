@@ -1,0 +1,452 @@
+.form-plugins-page {
+  min-width: 0;
+  padding-bottom: 24px;
+  color: var(--foreground);
+  font-size: var(--rynzo-font-body2);
+}
+.plugin-section + .plugin-section {
+  margin-top: 32px;
+}
+.plugin-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 19px;
+}
+.plugin-section-heading > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--primary);
+}
+.plugin-section-heading > span ::deep svg {
+  width: 18px;
+  height: 18px;
+}
+.plugin-section-heading h2 {
+  margin: 0;
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+}
+.plugin-section-heading p {
+  margin: 3px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.plugin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.plugin-content-grid {
+  grid-template-columns: 0.9fr 1.1fr;
+}
+.form-plugins-page ::deep :is(input, select, textarea) {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit;
+  font-size: var(--rynzo-font-caption);
+}
+.form-plugins-page ::deep :is(input, select) {
+  height: 20px;
+  padding: 9px 12px;
+}
+
+.form-plugins-page ::deep select {
+  padding-right: 26px;
+}
+.form-plugins-page ::deep textarea {
+  min-height: 130px;
+  padding: 13px;
+  resize: vertical;
+  border: 0;
+  border-radius: 0;
+}
+.plugin-date-grid,
+.plugin-time-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.plugin-date-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 17px;
+  margin-top: 23px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+}
+.plugin-date-summary > span,
+.plugin-upload > span {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--primary);
+}
+.plugin-date-summary > div {
+  flex: 1;
+}
+.plugin-date-summary small {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-overline);
+}
+.plugin-date-summary b {
+  display: block;
+  margin-top: 5px;
+  font-size: var(--rynzo-font-caption);
+}
+.plugin-time-note {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 23px;
+  padding: 15px 16px;
+  border-left: 3px solid var(--primary);
+  background: color-mix(in srgb, var(--primary) 4%, var(--background));
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.plugin-range {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 104px;
+  gap: 17px;
+  align-items: center;
+}
+.form-plugins-page .plugin-range input {
+  height: auto;
+  padding: 0;
+  accent-color: var(--primary);
+}
+.plugin-range output {
+  padding: 11px 12px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--primary) 7%, var(--card));
+  color: var(--primary);
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+  text-align: center;
+}
+.plugin-range-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-overline);
+}
+.plugin-caption {
+  margin: 18px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+}
+.plugin-color-layout {
+  display: grid;
+  grid-template-columns: 106px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+}
+.plugin-color-swatch {
+  display: grid;
+  place-items: center;
+  width: 106px;
+  height: 106px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--plugin-color) 10%, var(--background));
+  cursor: pointer;
+}
+.plugin-color-swatch input,
+.plugin-upload ::deep input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.plugin-color-swatch span {
+  width: 66px;
+  height: 66px;
+  border-radius: 12px;
+  background: var(--plugin-color);
+}
+.plugin-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 187px;
+  padding: 22px;
+  border: 1px dashed color-mix(in srgb, var(--primary) 40%, var(--border));
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--primary) 3%, var(--background));
+  text-align: center;
+}
+.plugin-upload > span {
+  margin-bottom: 13px;
+}
+.plugin-upload b {
+  font-size: var(--rynzo-font-caption);
+}
+.plugin-upload small {
+  margin-top: 7px;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-overline);
+}
+.plugin-file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.plugin-file-row > span {
+  flex: 1;
+  font-size: var(--rynzo-font-caption);
+}
+.plugin-file-row button,
+.plugin-editor-toolbar button {
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+.plugin-editor {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.plugin-editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+}
+.plugin-editor-toolbar button {
+  width: 29px;
+  height: 29px;
+}
+.plugin-editor-toolbar span {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+  margin: 0 4px;
+}
+.plugin-editor-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-overline);
+}
+.plugin-password,
+.plugin-search,
+.plugin-token-entry {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.plugin-password input,
+.plugin-search input,
+.plugin-token-entry input {
+  padding-right: 42px;
+}
+.plugin-password button {
+  position: absolute;
+  right: 9px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+.plugin-search > ::deep svg {
+  position: absolute;
+  left: 12px;
+  width: 17px;
+  height: 17px;
+  color: var(--muted-foreground);
+  pointer-events: none;
+}
+.plugin-search input {
+  padding-left: 38px;
+}
+.plugin-strength {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 16px;
+}
+.plugin-strength > div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  flex: 1;
+}
+.plugin-strength i {
+  height: 5px;
+  border-radius: 99px;
+  background: var(--border);
+}
+.plugin-strength i.is-active {
+  background: var(--primary);
+}
+.plugin-strength span {
+  min-width: 108px;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+  text-align: end;
+}
+.plugin-suggestions {
+  margin-top: 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.plugin-suggestions button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 13px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit;
+  font-size: var(--rynzo-font-caption);
+  text-align: start;
+  cursor: pointer;
+}
+.plugin-suggestions button:last-child {
+  border: 0;
+}
+.plugin-suggestions button:hover,
+.plugin-suggestions button.is-selected {
+  background: color-mix(in srgb, var(--primary) 5%, var(--card));
+}
+.plugin-suggestions button span {
+  flex: 1;
+}
+.plugin-suggestions p {
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.plugin-rating {
+  display: flex;
+  gap: 8px;
+}
+.plugin-rating button {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+.plugin-rating button.is-active {
+  border-color: color-mix(in srgb, var(--warning) 45%, var(--border));
+  background: color-mix(in srgb, var(--warning) 10%, var(--card));
+  color: var(--warning);
+}
+.plugin-rating-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 17px;
+  border-top: 1px solid var(--border);
+  font-size: var(--rynzo-font-caption);
+}
+.plugin-rating-summary span {
+  color: var(--muted-foreground);
+}
+.plugin-token-entry {
+  gap: 10px;
+}
+.plugin-token-entry input {
+  padding-right: 12px;
+}
+.plugin-token-list {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+}
+.plugin-token-list ::deep .mud-chip {
+  margin: 0;
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+  color: var(--primary);
+  font-size: var(--rynzo-font-caption);
+}
+.plugin-token-list > span {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+@media (max-width: 850px) {
+  .plugin-grid,
+  .plugin-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 540px) {
+  .plugin-section + .plugin-section {
+    margin-top: 28px;
+  }
+  .plugin-date-grid,
+  .plugin-time-grid,
+  .plugin-color-layout {
+    grid-template-columns: 1fr;
+  }
+  .plugin-color-swatch {
+    width: 100%;
+    height: 88px;
+  }
+  .plugin-range {
+    grid-template-columns: 1fr;
+  }
+  .plugin-range output {
+    justify-self: start;
+  }
+  .plugin-strength span {
+    min-width: auto;
+  }
+  .plugin-rating {
+    gap: 6px;
+  }
+  .plugin-rating button {
+    width: 38px;
+    height: 38px;
+  }
+}

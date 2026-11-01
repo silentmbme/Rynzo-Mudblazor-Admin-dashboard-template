@@ -1,0 +1,8 @@
+<span class="ui-loading-indicator" role="status" aria-label="@Label" style="@($"--loader-size:{Pixels}px")">
+    <MudProgressCircular Indeterminate="true" Color="Color" Size="Size.Small" StrokeWidth="3" />
+</span>
+@code {
+    [Parameter] public int Pixels {get;set;}=24;
+    [Parameter] public Color Color {get;set;}=Color.Primary;
+    [Parameter] public string Label {get;set;}="Loading";
+}

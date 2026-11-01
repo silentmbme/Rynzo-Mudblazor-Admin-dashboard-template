@@ -1,0 +1,119 @@
+﻿@page "/charts/pie"
+@using Rynzo.Client.Features.Dashboard.Components
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>Pie &amp; Donut Analytics | Rynzo</PageTitle>
+<div class="pie-charts-page">
+    <DashboardPageHeader Title="Pie &amp; Donut Analytics" Description="Understand the mix. Explore the segments, allocations, and shifts behind your business.">
+        <Actions>
+            <MudSelect T="string" Value="Period" ValueChanged="ChangePeriod" Variant="Variant.Outlined" Margin="Margin.Dense" Class="pie-control" aria-label="Reporting period">@foreach(var value in Periods){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudSelect T="string" @bind-Value="Category" Variant="Variant.Outlined" Margin="Margin.Dense" Class="pie-control" aria-label="Chart category">@foreach(var value in Categories){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudButton Variant="Variant.Outlined" OnClick="Refresh" StartIcon="@Icons.Material.Filled.Refresh">Refresh</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Export" StartIcon="@Icons.Material.Filled.FileDownload">Export CSV</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    <div class="pie-context"><span><i></i> COMPOSITION INTELLIGENCE <span>/</span> @Period</span><span>Illustrative data · @Updated</span></div>
+    <section class="pie-kpis" aria-label="Composition overview">
+        @foreach(var kpi in Kpis){<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><div><span>@kpi.Title</span><MudIcon Icon="@kpi.Icon" Size="Size.Small" /></div><strong>@kpi.Value</strong><p>@kpi.Change</p><small>@kpi.Detail</small></MudCard>}
+    </section>
+    <section class="pie-chart-grid" aria-label="Interactive pie and donut analytics">
+        @foreach(var card in Cards.Where(c=>Category=="All Charts"||c.Category==Category))
+        {
+            <MudCard Class="@((($"pie-card {card.Kind}")) + " rynzo-widget-card")" @key="card.Kind" Elevation="0" Outlined="true" data-widget-element="article">
+                <header><div><span class="pie-kicker">@card.Number / @card.Type</span><h2>@card.Title</h2><p>@card.Description</p></div><span class="pie-badge">@card.Category</span></header>
+                @if(card.Kind=="revenue")
+                {
+                    <div class="revenue-composition"><div><DashboardChart Data="@Data" OptionsModule="./pie-chart-options.js" Kind="revenue" Height="350" Label="Revenue by operating region donut" /></div><aside><span class="pie-kicker">THE REVENUE LANDSCAPE</span><h3>One portfolio.<br />A world of opportunity.</h3><p>@Group("revenue").Labels[TopRegion] leads the mix with @Share(Group("revenue"),TopRegion).ToString("0.0")% of revenue. Compare each region’s contribution below.</p><div class="featured-stats"><div><span>Total recognized</span><b>@Money(Total("revenue"))</b></div><div><span>Previous period</span><b>@Money(Group("revenue").Previous.Sum())</b></div></div></aside></div>
+                }
+                else if(card.Kind=="fulfillment")
+                {
+                    <div class="region-multiples">@for(var i=0;i<4;i++){var region=Group("region"+i);<section><div class="region-title"><h3>@RegionNames[i]</h3><b>@Share(region,0).ToString("0.0")%<small> delivered</small></b></div><DashboardChart Data="@Data" OptionsModule="./pie-chart-options.js" Kind="@region.Kind" Height="205" Label="@(RegionNames[i]+" order status donut")" /></section>}</div>
+                    <div class="status-key">@for(var i=0;i<4;i++){var index=i;var key="fulfillment"+i;<button class="@(Hidden.Contains(key)?"inactive":"")" aria-pressed="@(!Hidden.Contains(key))" @onclick="()=>Toggle(key)"><i></i>@Group("region0").Labels[index]</button>}</div>
+                }
+                else if(card.Kind=="comparison")
+                {
+                    <div class="comparison-summary"><div><span class="pie-kicker">THE SHIFT IN SHARE</span><strong>@Growth(Comparison=="Year ago"?Group("revenue").YearAgo.Sum():Group("revenue").Previous.Sum()).ToString("+0.0;-0.0;0.0")%</strong><p>Revenue growth against the selected baseline.</p></div><label>Compare with<select value="@Comparison" @onchange="ChangeComparison"><option>Previous period</option><option>Year ago</option></select></label></div>
+                    <div class="comparison-charts"><div><h3>@Period</h3><DashboardChart Data="@Data" OptionsModule="./pie-chart-options.js" Kind="comparison-current" Height="265" Label="Current revenue composition" /></div><div><h3>@Comparison</h3><DashboardChart Data="@Data" OptionsModule="./pie-chart-options.js" Kind="comparison-baseline" Height="265" Label="Baseline revenue composition" /></div></div>
+                    <div class="share-shifts">@for(var i=0;i<4;i++){var index=i;var group=Group("revenue");var baseline=Comparison=="Year ago"?group.YearAgo:group.Previous;<div><span>@group.Labels[index]</span><b>@((Share(group,index)-baseline[index]/baseline.Sum()*100).ToString("+0.0;-0.0;0.0")) pp</b><small>change in revenue share</small></div>}</div>
+                }
+                else
+                {
+                    @if(card.Kind=="renewal"){<div class="renewal-callout"><strong>@Share(Group("renewal"),0).ToString("0.0")<small>%</small></strong><span>renewed contracts<br /><b>@Group("renewal").Values[0].ToString("N0") of @Total("renewal").ToString("N0")</b></span></div>}
+                    <DashboardChart Data="@Data" OptionsModule="./pie-chart-options.js" Kind="@card.Kind" Height="@(card.Kind=="budget"?255:card.Kind=="renewal"?260:300)" Label="@card.Title" />
+                }
+                @if(card.Kind!="fulfillment"&&card.Kind!="comparison")
+                {
+                    var group=Group(card.Kind);
+                    <div class="pie-legend @card.Kind" aria-label="Toggle chart segments">
+                        @for(var i=0;i<group.Values.Length;i++){var index=i;var key=card.Kind+index;<button class="@(Hidden.Contains(key)?"inactive":"")" aria-pressed="@(!Hidden.Contains(key))" @onclick="()=>Toggle(key)" style="--slice-color:var(--chart-@(index+1))"><i></i><span>@group.Labels[index]</span><b>@Format(group,group.Values[index])</b><small>@Share(group,index).ToString("0.0")%</small></button>}
+                    </div>
+                }
+                <footer><span>@card.Note</span><b>@Insight(card.Kind)</b></footer>
+            </MudCard>
+        }
+    </section>
+    <p class="pie-help">Click legend items to toggle segments and click slices to expand them. Legend percentages use the complete dataset; chart percentages use the visible selection. All monetary values are USD.</p>
+</div>
+@code {
+    private static readonly string[] Periods=["7 Days","30 Days","90 Days","This Year"];
+    private static readonly string[] Categories=["All Charts","Revenue","Customers","Marketing","Operations"];
+    private static readonly string[] RegionNames=["North America","Europe","Asia Pacific","Latin America"];
+    private string Period="30 Days",Category="All Charts",Comparison="Previous period",Updated="Ready to explore";
+    private readonly HashSet<string> Hidden=[];
+    private Snapshot Data=null!;
+    private IJSObjectReference? Module;
+    private sealed record Distribution(string Kind,string Category,string[] Labels,double[] Values,double[] Previous,double[] YearAgo,string Unit);
+    private sealed record Snapshot(Distribution[] Groups,string[] Hidden,string Baseline);
+    private sealed record Card(string Number,string Kind,string Title,string Category,string Type,string Description,string Note);
+    private static readonly Card[] Cards=[
+        new("01","revenue","Revenue portfolio","Revenue","FEATURED ALLOCATION","A geographic perspective on recognized revenue and regional contribution.","Regional revenue adds up to the recognized revenue total."),
+        new("02","leads","Lead source mix","Marketing","SOURCE PIE","Where qualified opportunities enter the pipeline.","Sources are mutually exclusive; each lead is counted once."),
+        new("03","customers","Customer segmentation","Customers","THIN-RING PROFILE","See the balance between entry plans and high-value accounts.","Active customers grouped by their primary subscription tier."),
+        new("04","budget","Operating cost allocation","Operations","SEMI-DONUT","How operating spend is distributed across business priorities.","Operating spend represents 60% of recognized revenue."),
+        new("05","devices","Device distribution","Customers","DEVICE PIE","Understand the devices behind your customer sessions.","Sessions are classified by the device used for each visit."),
+        new("06","renewal","Subscription health","Customers","RENEWAL RING","Renewed, pending, and lost contracts in a single view.","Renewal rate = renewed contracts / all contracts due this period."),
+        new("07","fulfillment","Regional order fulfillment","Operations","SMALL MULTIPLES","Compare delivery outcomes across four operating regions.","Shared status colors across all four charts. Totals reflect regional order volumes."),
+        new("08","campaigns","Campaign investment","Marketing","INVESTMENT PIE","Follow the distribution of the marketing investment portfolio.","Campaign spend is 12% of recognized revenue and is included in operating costs."),
+        new("09","time","Team time allocation","Operations","ACTIVITY DONUT","A representative working week, divided into distinct activities.","Categories total 40 hours per week and do not overlap."),
+        new("10","comparison","Revenue mix comparison","Revenue","DUAL DONUT","Track changes in regional share alongside revenue growth.","Matching category colors support comparison. Each donut shows its own period total.")];
+    private Distribution Group(string kind)=>Data.Groups.First(g=>g.Kind==kind);
+    private double Total(string kind)=>Group(kind).Values.Sum();
+    private static double Share(Distribution group,int index)=>group.Values[index]/group.Values.Sum()*100;
+    private int TopRegion=>Array.IndexOf(Group("revenue").Values,Group("revenue").Values.Max());
+    private double Growth(double baseline)=>(Total("revenue")/baseline-1)*100;
+    private static string Money(double value)=>value.ToString("C0",System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+    private static string Format(Distribution group,double value)=>group.Unit=="USD"?Money(value):group.Unit=="hours / week"?$"{value:0.#}h":value.ToString("N0");
+    private IEnumerable<(string Title,string Value,string Change,string Detail,string Icon)> Kpis=>[
+        ("Total revenue",Money(Total("revenue")),$"{Growth(Group("revenue").Previous.Sum()):+0.0;-0.0}% vs. previous period","Across four operating regions",Icons.Material.Filled.AccountBalanceWallet),
+        ("Active customers",Total("customers").ToString("N0"),$"{Total("customers")-Group("customers").Previous.Sum():+0;-0} vs. previous period","Four primary subscription tiers",Icons.Material.Filled.Groups),
+        ("Renewal rate",$"{Share(Group("renewal"),0):0.0}%",$"{Share(Group("renewal"),0)-Group("renewal").Previous[0]/Group("renewal").Previous.Sum()*100:+0.0;-0.0} pp vs. previous","Contracts renewed / contracts due",Icons.Material.Filled.Autorenew),
+        ("Leading region share",$"{Share(Group("revenue"),TopRegion):0.0}%",$"{Share(Group("revenue"),TopRegion)-Group("revenue").Previous[TopRegion]/Group("revenue").Previous.Sum()*100:+0.0;-0.0} pp vs. previous",Group("revenue").Labels[TopRegion],Icons.Material.Filled.Public)];
+    protected override void OnInitialized()=>Rebuild();
+    private void ChangePeriod(string value){Period=value;Rebuild();}
+    private void ChangeComparison(ChangeEventArgs e){Comparison=e.Value?.ToString()??"Previous period";Data=Data with {Baseline=Comparison};}
+    private void Refresh(){Updated="Refreshed just now";Rebuild();}
+    private void Toggle(string key){if(!Hidden.Add(key))Hidden.Remove(key);Data=Data with {Hidden=Hidden.ToArray()};}
+    private void Rebuild()
+    {
+        var index=Array.IndexOf(Periods,Period);var factor=new double[]{.24,1,3.1,12.4}[index];
+        double[] Allocate(double total,double[] weights){total=Math.Round(total);var values=weights.Select(w=>Math.Round(total*w/weights.Sum())).ToArray();values[^1]=total-values.Take(values.Length-1).Sum();return values;}
+        var revenue=Math.Round(516000*factor);var prior=Math.Round(revenue/1.16);var yearAgo=Math.Round(revenue/1.32);
+        var groups=new List<Distribution>();
+        void Add(string kind,string category,string[] labels,string unit,double total,double[] weights,double previousTotal,double[] previousWeights,double? annualTotal=null){groups.Add(new(kind,category,labels,Allocate(total,weights),Allocate(previousTotal,previousWeights),Allocate(annualTotal??previousTotal/1.15,previousWeights),unit));}
+        groups.Add(new("revenue","Revenue",RegionNames,Allocate(revenue,[38+index,27,22-index*.5,13-index*.5]),Allocate(prior,[37+index*.4,28,22,13-index*.4]),Allocate(yearAgo,[35,29,23,13]),"USD"));
+        Add("leads","Marketing",["Organic search","Referrals","Paid search","Social","Partners"],"leads",6240*factor,[32+index,23,21-index,14,10],5700*factor,[31,22,23,14,10]);
+        Add("customers","Customers",["Starter","Professional","Business","Enterprise"],"customers",8400*factor,[48-index,30,16+index*.5,6+index*.5],8400*factor/1.08,[49,30,15,6]);
+        Add("budget","Operations",["People","Infrastructure","Marketing","Customer success","Administration"],"USD",revenue*.6,[46,16,20,11,7],prior*.6,[47,16,20,10,7],yearAgo*.6);
+        Add("devices","Customers",["Desktop","Mobile","Tablet"],"sessions",48200*factor,[55-index,37+index,8],43000*factor,[57,35,8]);
+        Add("renewal","Customers",["Renewed","Pending","Not renewed"],"contracts",8500*factor,[89+index,8-index*.5,3-index*.5],7900*factor,[88+index,8-index*.5,4-index*.5]);
+        Add("campaigns","Marketing",["Search","Social","Content","Partners","Lifecycle"],"USD",revenue*.12,[31,24-index,18+index,15,12],prior*.12,[33,25,16,14,12],yearAgo*.12);
+        groups.Add(new("time","Operations",["Product work","Meetings","Learning","Administration","Unallocated"],[16+index,8-index*.5,8,5,3-index*.5],[15,9,7,5,4],[14,10,6,6,4],"hours / week"));
+        for(var i=0;i<4;i++)Add("region"+i,"Operations",["Delivered","In transit","Processing","Returned"],"orders",(1800-i*280)*factor,[83+i+index,10-i,5-index*.5,2-index*.5],(1650-i*250)*factor,[82+i,11-i,5,2]);
+        Data=new(groups.ToArray(),Hidden.ToArray(),Comparison);
+    }
+    private string Insight(string kind)=>kind switch{"revenue"=>$"{Growth(Group("revenue").Previous.Sum()):+0.0;-0.0}% revenue growth","renewal"=>$"{Group(kind).Values[1]:N0} pending","budget"=>Money(Total(kind))+" total spend","time"=>"40h weekly capacity","fulfillment"=>$"{Data.Groups.Where(g=>g.Kind.StartsWith("region")).Sum(g=>g.Values.Sum()):N0} orders","comparison"=>"Share changes in percentage points",_=>Format(Group(kind),Total(kind))+" total"};
+    private async Task Export(){Module??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/pie-chart-options.js");await Module.InvokeVoidAsync("exportCsv",Data,Period,Category);}
+    public async ValueTask DisposeAsync(){if(Module is not null){try{await Module.DisposeAsync();}catch(JSDisconnectedException){}}}
+}
+

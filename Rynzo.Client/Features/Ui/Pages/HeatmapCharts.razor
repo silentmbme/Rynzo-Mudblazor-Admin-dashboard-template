@@ -1,0 +1,118 @@
+﻿@page "/charts/heatmap"
+@using Rynzo.Client.Features.Dashboard.Components
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>Heatmap Analytics | Rynzo</PageTitle>
+<div class="heatmap-page">
+    <DashboardPageHeader Title="Heatmap Analytics" Description="Find the patterns. Explore intensity, performance, and change across every dimension.">
+        <Actions>
+            <MudSelect T="string" Value="Period" ValueChanged="ChangePeriod" Variant="Variant.Outlined" Margin="Margin.Dense" Class="heat-control" aria-label="Reporting period">@foreach(var value in Periods){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudSelect T="string" @bind-Value="Category" Variant="Variant.Outlined" Margin="Margin.Dense" Class="heat-control" aria-label="Chart category">@foreach(var value in Categories){<MudSelectItem Value="@value">@value</MudSelectItem>}</MudSelect>
+            <MudButton Variant="Variant.Outlined" OnClick="Refresh" StartIcon="@Icons.Material.Filled.Refresh">Refresh</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Export" StartIcon="@Icons.Material.Filled.FileDownload">Export CSV</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    <div class="heat-context"><span><i></i> PATTERN INTELLIGENCE <span>/</span> @Period</span><span>Illustrative data · @Updated</span></div>
+    <section class="heat-kpis" aria-label="Heatmap performance overview">
+        @foreach(var kpi in Kpis){<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><div><span>@kpi.Title</span><MudIcon Icon="@kpi.Icon" Size="Size.Small" /></div><strong>@kpi.Value</strong><p>@kpi.Change</p><small>@kpi.Detail</small></MudCard>}
+    </section>
+    <div class="heat-reading"><span><MudIcon Icon="@Icons.Material.Filled.TouchApp" Size="Size.Small" /> Hover for details or select a cell to pin its value.</span><label><input type="checkbox" checked="@ShowValues" @onchange="ToggleValues" /> Show cell values</label></div>
+    <section class="heat-grid" aria-label="Interactive heatmap analysis">
+        @foreach(var card in Cards.Where(c=>Category=="All Charts"||c.Category==Category))
+        {
+            var matrix=Matrix(card.Kind);
+            <MudCard Class="@((($"heat-card {card.Kind}")) + " rynzo-widget-card")" @key="card.Kind" Elevation="0" Outlined="true" data-widget-element="article">
+                <header><div><span class="heat-kicker">@card.Number / @card.Category</span><h2>@card.Title</h2><p>@card.Description</p></div><span class="heat-badge">@card.Badge</span></header>
+                @if(card.Kind=="activity")
+                {
+                    <div class="activity-layout"><div><DashboardChart Data="@Data" OptionsModule="./heatmap-chart-options.js" Kind="activity" Height="355" Label="Activity events by weekday and two-hour window" /></div><aside><span class="heat-kicker">WHEN YOUR BUSINESS MOVES</span><h3>Every cell.<br />A signal worth seeing.</h3><p>Weekday and two-hour windows reveal the recurring rhythms behind engagement.</p><div class="peak-cell"><span>Highest activity window</span><b>@PeakActivity</b><small>@Cells("activity").Max().ToString("N0") events in this reporting period</small></div></aside></div>
+                }
+                else
+                {
+                    @if(card.Kind=="capacity"){<label class="chart-control">Alert threshold<select value="@Threshold" @onchange="ChangeThreshold"><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option></select></label>}
+                    @if(card.Kind=="retention"){<div class="retention-note">Each cohort starts at 100%. Blank cells are future ages, not zero retention.</div>}
+                    <DashboardChart Data="@Data" OptionsModule="./heatmap-chart-options.js" Kind="@card.Kind" Height="@(card.Kind=="delta"?350:330)" Label="@card.Title" />
+                }
+                <div class="heat-selection" role="status" aria-live="polite">Select a cell to pin its details here.</div>
+                @if(card.Kind=="delta")
+                {
+                    <div class="delta-summary"><span>Previous revenue<b>@Money(PreviousCells("sales").Sum())</b></span><span>Current revenue<b>@Money(Cells("sales").Sum())</b></span><span>Net growth<b>@((100*(Cells("sales").Sum()/PreviousCells("sales").Sum()-1)).ToString("+0.0;-0.0;0.0"))%</b></span></div>
+                }
+                <footer><span>@card.Note</span><b>@Insight(card.Kind)</b></footer>
+            </MudCard>
+        }
+    </section>
+    <details class="heat-method"><summary>How to read the color scales</summary><p>Every chart uses a single scale across all rows; colors are never normalized separately by row. Count and currency charts scale to their own displayed maximum, so compare numbers rather than colors across different charts. Performance and retention scores use a fixed 0–100 scale. Lower latency, utilization, and risk exposure are preferable. Revenue change uses a symmetric diverging scale around zero and is calculated from the regional revenue matrix. Cohort retention is retained members divided by the cohort’s original size at each observed age; future ages remain blank. Conversion is converted leads divided by eligible leads. Activity windows are local two-hour intervals. Cell values hide on compact layouts; tooltips and cell selection remain available. Samples are deterministic for a selected period.</p></details>
+</div>
+@code {
+    private static readonly string[] Periods=["7 Days","30 Days","90 Days","This Year"];
+    private static readonly string[] Categories=["All Charts","Revenue","Customers","Marketing","Teams","Operations","Risk"];
+    private string Period="30 Days",Category="All Charts",Updated="Ready to explore";
+    private bool ShowValues=true;
+    private double Threshold=80;
+    private Snapshot Data=null!;
+    private IJSObjectReference? Module;
+    private sealed record MatrixData(string Kind,string Category,string[] Rows,string[] Columns,double?[][] Values,double?[][] Previous,string Unit,string Direction,double[][]? Numerators=null,double[][]? Denominators=null);
+    private sealed record Snapshot(MatrixData[] Matrices,bool ShowValues,double Threshold,int[] CohortSizes);
+    private sealed record Card(string Number,string Kind,string Title,string Category,string Description,string Badge,string Note);
+    private static readonly Card[] Cards=[
+        new("01","activity","Business activity rhythm","Customers","See how engagement concentrates across weekdays and local time windows.","Events · higher intensity","Events are aggregated within each weekday and two-hour window over the selected period."),
+        new("02","sales","Regional revenue performance","Revenue","Compare recognized revenue across regions and reporting buckets.","Recognized USD","Rows and columns reconcile to the recognized revenue total."),
+        new("03","retention","Cohort retention","Customers","Follow customer cohorts as they progress through monthly ages.","Higher is better","Monthly cohort history is sampled as of the selected reporting window. Future ages are unobserved."),
+        new("04","performance","Team performance profile","Teams","Compare five normalized dimensions across five business teams.","Score / 100","All dimensions are standardized 0–100 score indices, not mixed raw units."),
+        new("05","traffic","Acquisition channel rhythm","Marketing","Find the weekday patterns behind channel-level website traffic.","Sessions","Channels are mutually exclusive; cells count sessions within the selected period."),
+        new("06","latency","Service response latency","Operations","Identify slow service windows across the operating day.","P95 seconds · lower is better","Each cell is a P95 latency sample; percentile values are not added together."),
+        new("07","capacity","Infrastructure utilization","Operations","Identify resource pressure before it becomes a bottleneck.","Utilization · lower is better","Fixed 0–100% scale. The alert threshold changes the high-utilization color band."),
+        new("08","conversion","Campaign conversion profile","Marketing","Compare campaign conversion rates using their actual lead volumes.","Conversion %","Cell conversion = converted leads / eligible leads. Tooltips preserve both counts."),
+        new("09","risk","Risk exposure matrix","Risk","Locate concentrated exposure across departments and risk domains.","Exposure / 100 · lower is better","Low <25, moderate 25–49, elevated 50–74, high ≥75. Scores are normalized risk indices."),
+        new("10","delta","Regional revenue change","Revenue","Separate growing and declining pockets of revenue against the previous period.","Signed change %","Each cell is (current − previous) / previous × 100, using the regional revenue dataset.")];
+    private MatrixData Matrix(string kind)=>Data.Matrices.First(m=>m.Kind==kind);
+    private IEnumerable<double> Cells(string kind)=>Matrix(kind).Values.SelectMany(row=>row).Where(v=>v.HasValue).Select(v=>v!.Value);
+    private IEnumerable<double> PreviousCells(string kind)=>Matrix(kind).Previous.SelectMany(row=>row).Where(v=>v.HasValue).Select(v=>v!.Value);
+    private static string Money(double value)=>value.ToString("C0",System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+    private static string ShortMoney(double value)=>value>=1000000?$"${value/1000000:0.00}m":Money(value);
+    private static string ShortCount(double value)=>value>=1000000?$"{value/1000000:0.00}m":value.ToString("N0");
+    private string PeakActivity{get{var m=Matrix("activity");var value=Cells("activity").Max();for(var r=0;r<m.Rows.Length;r++)for(var c=0;c<m.Columns.Length;c++)if(m.Values[r][c]==value)return m.Rows[r]+" · "+m.Columns[c];return "";}}
+    private IEnumerable<(string Title,string Value,string Change,string Detail,string Icon)> Kpis=>[
+        ("Activity events",ShortCount(Cells("activity").Sum()),$"{100*(Cells("activity").Sum()/PreviousCells("activity").Sum()-1):+0.0;-0.0}% vs. previous",$"{Cells("activity").Sum():N0} events across 42 windows",Icons.Material.Filled.GridView),
+        ("Recognized revenue",ShortMoney(Cells("sales").Sum()),$"{100*(Cells("sales").Sum()/PreviousCells("sales").Sum()-1):+0.0;-0.0}% vs. previous",$"Across four regions · {Money(Cells("sales").Sum())}",Icons.Material.Filled.AccountBalanceWallet),
+        ("Mean team score",$"{Cells("performance").Average():0.0}",$"{Cells("performance").Average()-PreviousCells("performance").Average():+0.0;-0.0} points vs. previous","Equal-weight mean of 25 normalized scores",Icons.Material.Filled.Groups),
+        ("Peak utilization",$"{Cells("capacity").Max():0.0}%",$"{Cells("capacity").Max()-PreviousCells("capacity").Max():+0.0;-0.0;0.0} pp vs. previous",$"{Cells("capacity").Count(v=>v>=Threshold)} cells at or above {Threshold:0}%",Icons.Material.Filled.Speed)];
+    protected override void OnInitialized()=>Rebuild();
+    private void ChangePeriod(string value){Period=value;Rebuild();}
+    private void Refresh(){Updated="Refreshed just now";Rebuild();}
+    private void ToggleValues(ChangeEventArgs e){ShowValues=e.Value is bool value&&value;Data=Data with {ShowValues=ShowValues};}
+    private void ChangeThreshold(ChangeEventArgs e){if(double.TryParse(e.Value?.ToString(),out var value)){Threshold=value;Data=Data with {Threshold=value};}}
+    private void Rebuild()
+    {
+        var index=Array.IndexOf(Periods,Period);var scale=new double[]{.23,1,3.1,12.2}[index];
+        string[][] buckets=[["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],["01–05","06–10","11–15","16–20","21–25","26–30"],["Weeks 1–2","Weeks 3–4","Weeks 5–6","Weeks 7–8","Weeks 9–10","Weeks 11–13"],["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]];
+        string[] days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],hours=["08–10","10–12","12–14","14–16","16–18","18–20"];
+        var matrices=new List<MatrixData>();
+        double?[][] Build(int rows,int cols,Func<int,int,double?> value)=>Enumerable.Range(0,rows).Select(r=>Enumerable.Range(0,cols).Select(c=>value(r,c)).ToArray()).ToArray();
+        void Add(string kind,string category,string[] rows,string[] columns,string unit,string direction,Func<int,int,double> current,Func<int,int,double> previous)=>matrices.Add(new(kind,category,rows,columns,Build(rows.Length,columns.Length,(r,c)=>current(r,c)),Build(rows.Length,columns.Length,(r,c)=>previous(r,c)),unit,direction));
+        Add("activity","Customers",days,hours,"events","volume",(r,c)=>Math.Round((180+(r<5?260:35)+c*45+((r*13+c*17)%110))*scale),(r,c)=>Math.Round((180+(r<5?260:35)+c*45+((r*13+c*17)%110))*scale*.89));
+        var salesScale=index==3?6:scale;string[] regions=["North America","Europe","Asia Pacific","Latin America"];
+        double PriorSale(int r,int c)=>Math.Round((18000-r*3100+c*900+((r+c)%3)*500)*salesScale);
+        double CurrentSale(int r,int c)=>Math.Round(PriorSale(r,c)*(1+new double[]{-.07,.12,.18,-.03,.22,.08}[c%6]+r*.01+index*.006));
+        Add("sales","Revenue",regions,buckets[index],"USD","volume",CurrentSale,PriorSale);
+        var sizes=Enumerable.Range(0,6).Select(r=>(int)Math.Round((360+r*60)*Math.Max(.4,scale))).ToArray();
+        double? Retention(int r,int c,bool previous){if(c>5-r)return null;var rate=c==0?1:Math.Max(.4,1-c*(.045+r*.003)-(previous ? .012:0));return Math.Round(Math.Floor(sizes[r]*rate)/sizes[r]*100,2);}
+        matrices.Add(new("retention","Customers",["Cohort A","Cohort B","Cohort C","Cohort D","Cohort E","Cohort F"],["Month 0","Month 1","Month 2","Month 3","Month 4","Month 5"],Build(6,6,(r,c)=>Retention(r,c,false)),Build(6,6,(r,c)=>Retention(r,c,true)),"%","higher"));
+        Add("performance","Teams",["Marketing","Sales","Finance","Operations","Support"],["Quality","Productivity","Efficiency","Collaboration","Completion"],"score / 100","higher",(r,c)=>Math.Min(99,68+((r*7+c*9)%27)+index),(r,c)=>Math.Min(99,64+((r*7+c*9)%27)+index));
+        Add("traffic","Marketing",["Organic","Paid","Referral","Direct"],days.Select(d=>d[..3]).ToArray(),"sessions","volume",(r,c)=>Math.Round((900-r*130+(c<5?400:80)+((r*23+c*71)%350))*scale),(r,c)=>Math.Round((900-r*130+(c<5?400:80)+((r*23+c*71)%350))*scale*.9));
+        Add("latency","Operations",["API gateway","Authentication","Payments","Search","Reporting"],hours,"seconds","lower",(r,c)=>Math.Round(.6+r*.32+((r*7+c*5)%13)*.14+index*.04,2),(r,c)=>Math.Round(.8+r*.32+((r*7+c*5)%13)*.14+index*.04,2));
+        Add("capacity","Operations",["Compute A","Compute B","Database","Cache","Workers"],hours,"%","lower",(r,c)=>Math.Min(99,38+((r*13+c*9)%58)+index),(r,c)=>Math.Min(99,41+((r*13+c*9)%58)+index));
+        var denominators=Enumerable.Range(0,5).Select(r=>Enumerable.Range(0,buckets[index].Length).Select(c=>(double)Math.Round((700+r*120+c*55)*Math.Max(.4,salesScale))).ToArray()).ToArray();
+        var numerators=denominators.Select((row,r)=>row.Select((v,c)=>Math.Round(v*(.022+r*.005+(c%4)*.003+index*.001))).ToArray()).ToArray();
+        matrices.Add(new("conversion","Marketing",["Search","Social","Email","Partners","Display"],buckets[index],Build(5,buckets[index].Length,(r,c)=>numerators[r][c]/denominators[r][c]*100),Build(5,buckets[index].Length,(r,c)=>Math.Max(0,numerators[r][c]/denominators[r][c]*100-.25)),"%","rate",numerators,denominators));
+        Add("risk","Risk",["Finance","Operations","Security","Vendors","Product"],["Compliance","Security","Budget","Delivery","Market","Reliability"],"exposure / 100","lower",(r,c)=>Math.Max(0,16+((r*19+c*13)%73)-index),(r,c)=>Math.Max(0,20+((r*19+c*13)%73)-index));
+        matrices.Add(new("delta","Revenue",regions,buckets[index],Build(4,buckets[index].Length,(r,c)=>(CurrentSale(r,c)/PriorSale(r,c)-1)*100),Build(4,buckets[index].Length,(_,_)=>null),"% vs. previous","signed"));
+        Data=new(matrices.ToArray(),ShowValues,Threshold,sizes);
+    }
+    private string Insight(string kind)=>kind switch{"activity"=>$"{Cells(kind).Sum():N0} events","sales"=>ShortMoney(Cells(kind).Sum())+" recognized","retention"=>"Future cells stay blank","performance"=>$"{Cells(kind).Average():0.0} / 100 average","traffic"=>$"{Cells(kind).Sum():N0} sessions","latency"=>$"{Cells(kind).Max():0.00}s slowest cell","capacity"=>$"{Cells(kind).Count(v=>v>=Threshold)} alert cells","conversion"=>$"{100*Matrix(kind).Numerators!.Sum(row=>row.Sum())/Matrix(kind).Denominators!.Sum(row=>row.Sum()):0.00}% weighted rate","risk"=>$"{Cells(kind).Count(v=>v>=75)} high-exposure cells",_=>"Centered on zero"};
+    private async Task Export(){Module??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/heatmap-chart-options.js");await Module.InvokeVoidAsync("exportCsv",Data,Period,Category);}
+    public async ValueTask DisposeAsync(){if(Module is not null){try{await Module.DisposeAsync();}catch(JSDisconnectedException){}}}
+}
+

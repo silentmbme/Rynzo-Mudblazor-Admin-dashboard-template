@@ -1,0 +1,69 @@
+@inherits LayoutComponentBase
+@implements IAsyncDisposable
+@using Rynzo.Client.Theme
+@inject NavigationManager Navigation
+@inject RynzoAppearance Appearance
+@inject IJSRuntime JS
+@inject ISnackbar Snackbar
+<MudRTLProvider RightToLeft="@(Appearance.Direction == "rtl")">
+    <MudThemeProvider Theme="Appearance.Theme" IsDarkMode="Appearance.IsDark" />
+    <MudPopoverProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
+    <MudBreakpointProvider OnBreakpointChanged="OnBreakpointChanged" />
+    <MudLayout Class="@($"rynzo-layout {(Appearance.LayoutWidth == "boxed" ? "rynzo-layout-boxed" : "")} {(_desktop && Appearance.Collapsed ? "sidebar-collapsed" : "")} header-{Appearance.Header}")">
+        <AppHeader OnOpenMobile="OpenMobileNavigation" OnOpenCustomizer="@(() => _customizerOpen = true)" />
+        <MudDrawer Open="@(_desktop || _navigationOpen)" OpenChanged="SetNavigation" Anchor="@(Appearance.Direction == "rtl" ? Anchor.Right : Anchor.Left)"
+                   Variant="@(_desktop ? DrawerVariant.Persistent : DrawerVariant.Temporary)" Elevation="0"
+                   Width="@(_desktop && Appearance.Collapsed ? "80px" : "264px")" Class="@($"rynzo-sidebar {(Appearance.DarkSidebar ? "dark-sidebar" : "")}")" aria-label="Main navigation">
+            <AppSidebar Collapsed="@(_desktop && Appearance.Collapsed)" DarkSurface="Appearance.DarkSidebar" Path="@_path" OnNavigate="CloseMobileNavigation" />
+        </MudDrawer>
+        <MudMainContent>
+            <MudContainer MaxWidth="MaxWidth.False" Class="rynzo-content">
+                <ErrorBoundary @ref="_errorBoundary">
+                    <ChildContent>@Body</ChildContent>
+                    <ErrorContent><MudAlert Severity="Severity.Error">This page could not load.</MudAlert><MudButton OnClick="Reload">Reload Rynzo</MudButton></ErrorContent>
+                </ErrorBoundary>
+            </MudContainer>
+            <AppFooter />
+        </MudMainContent>
+        <ThemeCustomizer @bind-Open="_customizerOpen" />
+    </MudLayout>
+</MudRTLProvider>
+<div id="blazor-error-ui" role="alert" data-nosnippet>Rynzo could not continue. <a href="" class="reload">Reload</a></div>
+@code {
+    private bool _navigationOpen, _desktop, _customizerOpen;
+    private string _path = "/";
+    private ErrorBoundary? _errorBoundary;
+    protected override void OnInitialized()
+    {
+        _path = new Uri(Navigation.Uri).AbsolutePath;
+        Appearance.Changed += Refresh; Navigation.LocationChanged += LocationChanged;
+        Snackbar.Configuration.PositionClass = MudBlazor.Defaults.Classes.Position.TopRight;
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await Appearance.InitializeAsync(); await JS.InvokeVoidAsync("rynzoLayout.connect");
+    }
+    private void Refresh()
+    {
+        Snackbar.Configuration.PositionClass = Appearance.Direction == "rtl" ? MudBlazor.Defaults.Classes.Position.TopLeft : MudBlazor.Defaults.Classes.Position.TopRight;
+        _ = InvokeAsync(StateHasChanged);
+    }
+    private void LocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs args)
+    {
+        _path = new Uri(args.Location).AbsolutePath; _navigationOpen = false;
+        _errorBoundary?.Recover(); Refresh();
+    }
+    private void OnBreakpointChanged(Breakpoint breakpoint) { _desktop = breakpoint is Breakpoint.Lg or Breakpoint.Xl or Breakpoint.Xxl; if (_desktop) _navigationOpen = false; }
+    private void SetNavigation(bool open) => _navigationOpen = open;
+    private void OpenMobileNavigation() => _navigationOpen = true;
+    private void CloseMobileNavigation() => _navigationOpen = false;
+    private void Reload() => Navigation.NavigateTo("/", forceLoad: true);
+    public async ValueTask DisposeAsync()
+    {
+        Appearance.Changed -= Refresh; Navigation.LocationChanged -= LocationChanged;
+        try { await JS.InvokeVoidAsync("rynzoLayout.disconnect"); } catch (JSDisconnectedException) { }
+    }
+}

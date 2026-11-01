@@ -1,0 +1,13 @@
+<div class="ui-progress-meter">
+    @if(!string.IsNullOrWhiteSpace(Label)){<div class="ui-progress-label"><span>@Label</span>@if(!Indeterminate&&ShowValue){<b>@SafeValue%</b>}</div>}
+    <MudProgressLinear Value="SafeValue" Color="Color" Indeterminate="Indeterminate" Striped="Striped" Rounded="true" Size="Size.Small" aria-label="@(Label??"Progress")" />
+</div>
+@code {
+ [Parameter] public string? Label {get;set;}
+ [Parameter] public double Value {get;set;}
+ [Parameter] public Color Color {get;set;}=Color.Primary;
+ [Parameter] public bool Striped {get;set;}
+ [Parameter] public bool Indeterminate {get;set;}
+ [Parameter] public bool ShowValue {get;set;}=true;
+ private double SafeValue=>Math.Clamp(Value,0,100);
+}

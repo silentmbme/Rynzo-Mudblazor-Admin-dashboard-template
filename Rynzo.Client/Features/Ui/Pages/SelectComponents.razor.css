@@ -1,0 +1,425 @@
+.select-components-page {
+  min-width: 0;
+  color: var(--foreground);
+  font-size: var(--rynzo-font-body2);
+  padding-bottom: 24px;
+}
+.select-section + .select-section {
+  margin-top: 32px;
+}
+.select-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 19px;
+}
+.select-section-heading > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.select-section-heading > span ::deep svg {
+  height: 18px;
+  width: 18px;
+}
+.select-section-heading h2 {
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0;
+}
+.select-section-heading p {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin: 3px 0 0;
+}
+.select-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.select-rich-grid {
+  grid-template-columns: 1.1fr 1fr;
+}
+.select-components-page ::deep select,
+.select-components-page ::deep input {
+  width: 100%;
+  min-width: 0;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 9px 12px;
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit;
+  font-size: var(--rynzo-font-caption);
+  box-sizing: border-box;
+}
+.select-components-page ::deep select {
+  cursor: pointer;
+  padding-right: 26px;
+}
+.select-components-page ::deep input::placeholder {
+  color: var(--muted-foreground);
+  opacity: 0.8;
+}
+.select-components-page ::deep :is(select, input):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--primary) 25%, transparent);
+  outline-offset: 2px;
+  border-color: var(--primary);
+}
+.select-components-page ::deep select:disabled {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+.select-components-page ::deep input[readonly] {
+  background: var(--background);
+}
+.select-workspace-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--primary) 3%, var(--card));
+  margin-top: 24px;
+}
+.select-workspace-preview > span {
+  height: 36px;
+  width: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.select-workspace-preview > span ::deep svg {
+  width: 18px;
+  height: 18px;
+}
+.select-workspace-preview > div {
+  flex: 1;
+}
+.select-workspace-preview small {
+  display: block;
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+}
+.select-workspace-preview strong {
+  display: block;
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-top: 5px;
+  color: var(--primary);
+}
+.select-location-note {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+  padding: 18px;
+  margin-top: 24px;
+}
+.select-location-note ::deep svg {
+  height: 17px;
+  width: 17px;
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.select-location-note b {
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+}
+.select-location-note p {
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin: 6px 0 0;
+}
+.select-search {
+  position: relative;
+}
+.select-search > ::deep svg {
+  position: absolute;
+  top: 13px;
+  left: 12px;
+  height: 16px;
+  width: 16px;
+  color: var(--muted-foreground);
+  pointer-events: none;
+}
+.select-components-page .select-search input {
+  padding-left: 38px;
+}
+.select-people-list {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: auto;
+  max-height: 288px;
+  margin-top: 16px;
+  scrollbar-width: thin;
+}
+.select-people-list button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  text-align: start;
+  cursor: pointer;
+  font: inherit;
+}
+.select-people-list button:last-child {
+  border-bottom: 0;
+}
+.select-people-list button > span {
+  flex: 1;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+}
+.select-people-list button.is-selected {
+  background: color-mix(in srgb, var(--primary) 4%, var(--card));
+}
+.select-people-list button:hover {
+  background: var(--background);
+}
+.select-people-list button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -3px;
+}
+.select-people-list button > ::deep svg {
+  height: 17px;
+  width: 17px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.select-no-matches {
+  padding: 34px 20px;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+.select-no-matches ::deep svg {
+  height: 24px;
+  width: 24px;
+  margin-bottom: 10px;
+}
+.select-no-matches p {
+  font-size: var(--rynzo-font-caption);
+  margin: 0;
+  line-height: 1.8;
+}
+.select-caption {
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin: 17px 0 0;
+}
+.select-caption b {
+  font-weight: 500;
+  color: var(--foreground);
+}
+.select-destination {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--background);
+  margin-top: 24px;
+}
+.select-destination-icon {
+  height: 42px;
+  width: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--card);
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+.select-destination-icon ::deep svg {
+  height: 21px;
+  width: 21px;
+}
+.select-destination > small {
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+}
+.select-destination h3 {
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 7px 0 13px;
+}
+.select-destination p {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.9;
+  margin: 18px 0 0;
+}
+.select-tags-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--rynzo-font-caption);
+  margin-bottom: 14px;
+}
+.select-tags-heading > span:first-child {
+  font-weight: 500;
+}
+.select-tags-heading > span:last-child {
+  color: var(--muted-foreground);
+}
+.select-tag-values {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  min-height: 73px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+  padding: 16px;
+}
+.select-tag-values ::deep .mud-chip {
+  font-size: var(--rynzo-font-caption);
+  border-radius: 7px;
+  margin: 0;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+  height: auto;
+  min-height: 28px;
+  padding: 5px 9px;
+}
+.select-tag-values ::deep .mud-chip-close-button {
+  width: 16px;
+  height: 16px;
+  margin-left: 7px;
+}
+.select-tag-values ::deep .mud-chip-close-button svg {
+  width: 12px;
+  height: 12px;
+}
+.select-tag-values > .select-caption {
+  margin: 0;
+}
+.select-tag-suggestions {
+  margin-top: 22px;
+}
+.select-tag-suggestions > span {
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+}
+.select-tag-suggestions > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 12px;
+}
+.select-tag-suggestions ::deep .mud-button {
+  font-size: var(--rynzo-font-caption);
+  border-style: dashed;
+  border-color: var(--border);
+  border-radius: 7px;
+  color: var(--muted-foreground);
+}
+.select-tag-suggestions ::deep svg {
+  width: 14px;
+  height: 14px;
+}
+.select-state-stack {
+  display: grid;
+  gap: 23px;
+}
+.select-invalid,
+.select-loading {
+  position: relative;
+}
+.select-components-page .select-invalid select {
+  border-color: var(--destructive);
+  padding-right: 54px;
+}
+.select-invalid > ::deep svg {
+  height: 16px;
+  width: 16px;
+  position: absolute;
+  top: 13px;
+  right: 30px;
+  color: var(--destructive);
+  pointer-events: none;
+}
+.select-error-message {
+  font-size: var(--rynzo-font-overline);
+  line-height: 1.8;
+  color: var(--destructive);
+  margin: 8px 0 0;
+}
+.select-loading > ::deep .ui-loading-indicator {
+  position: absolute;
+  right: 13px;
+  top: 13px;
+}
+.select-components-page .select-loading input {
+  padding-right: 40px;
+}
+@media (max-width: 850px) {
+  .select-grid,
+  .select-rich-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 540px) {
+  .select-grid {
+    gap: 18px;
+  }
+  .select-section + .select-section {
+    margin-top: 28px;
+  }
+  .select-workspace-preview,
+  .select-location-note {
+    padding: 16px 14px;
+  }
+  .select-people-list button {
+    padding: 13px 12px;
+  }
+  .select-destination {
+    padding: 20px 16px;
+  }
+  .select-tag-values {
+    padding: 14px;
+  }
+}
+@media print {
+  .select-grid {
+    display: block;
+  }
+  .select-components-page ::deep .form-element-card {
+    break-inside: avoid;
+    margin-bottom: 20px;
+  }
+  .select-people-list {
+    max-height: none;
+    overflow: visible;
+  }
+}

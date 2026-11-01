@@ -1,0 +1,15 @@
+<MudTooltip Text="@Text" Placement="Placement" Delay="Delay" Color="Color.Transparent" Style="padding:0;background:transparent;box-shadow:none" Arrow="false" ShowOnFocus="true" ShowOnHover="true" ShowOnClick="true">
+    <ChildContent>@ChildContent</ChildContent>
+    <TooltipContent><div class="ui-hint-surface @(Light?"is-light":"") @(Color==Color.Default?"is-neutral":"")" style="@($"--hint-tone:{Tone};--hint-contrast:{Contrast}")">@if(Content is not null){<div class="ui-hint-rich">@Content</div>}else{<span class="ui-hint-text">@Text</span>}</div></TooltipContent>
+</MudTooltip>
+@code {
+ [Parameter] public string? Text {get;set;}
+ [Parameter] public Placement Placement {get;set;}=Placement.Top;
+ [Parameter] public double Delay {get;set;}=250;
+ [Parameter] public RenderFragment? ChildContent {get;set;}
+ [Parameter] public RenderFragment? Content {get;set;}
+ [Parameter] public Color Color {get;set;}=Color.Default;
+ [Parameter] public bool Light {get;set;}
+ private string Tone=>Color switch{Color.Primary=>"var(--primary)",Color.Secondary=>"var(--secondary-foreground)",Color.Success=>"var(--success)",Color.Warning=>"var(--warning)",Color.Error=>"var(--destructive)",Color.Info=>"var(--info)",_=>"var(--foreground)"};
+ private string Contrast=>Color switch{Color.Primary=>"var(--primary-foreground)",Color.Success=>"var(--mud-palette-success-text)",Color.Warning=>"var(--mud-palette-warning-text)",Color.Error=>"var(--mud-palette-error-text)",Color.Info=>"var(--mud-palette-info-text)",Color.Secondary=>"var(--card)",_=>"var(--background)"};
+}

@@ -1,0 +1,48 @@
+::deep .board-card{cursor: grab}::deep .board-card:active{cursor: grabbing}::deep .board-card:focus-visible{outline: 2px solid var(--ring);outline-offset: 2px}.board-card > b{
+  display: block;
+  font-size: var(--rynzo-font-body1);
+  font-weight: 700;
+}.board-card > p{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-top: 4px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.board-card-labels{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}.board-card-labels > span{
+  border-radius: 4px;
+  background: var(--muted);
+  padding: 2px 6px;
+  font-size: var(--rynzo-font-overline);
+}.board-card-labels .board-priority{
+  font-weight: 500;
+  color: var(--priority-tone);
+  background: color-mix(in srgb, var(--priority-tone) 14%, transparent);
+}.board-card-assignees{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+}footer{
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+}footer > span{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}footer ::deep svg{
+  width: 12px;
+  height: 12px;
+}

@@ -1,0 +1,157 @@
+@using System.Globalization
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Theme
+<div class="executive-dashboard">
+    <header class="executive-page-heading">
+        <div class="executive-heading-main">
+            <div class="executive-heading-title">
+                <h1>Executive overview</h1>
+                <p>Company-wide performance for August 2026</p>
+            </div>
+            <div class="executive-actions">
+                <span class="executive-period"><MudIcon Icon="@RynzoIcons.Get("Calendar")" />August 2026</span>
+                <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@RynzoIcons.Get("Download")">Export</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" StartIcon="@RynzoIcons.Get("Plus")">New report</MudButton>
+            </div>
+        </div>
+    </header>
+
+    <section class="executive-kpis" aria-label="Executive metrics">
+        @for (var i = 0; i < _data.ExecutiveKpis.Length; i++)
+        {
+            var index = i;
+            var kpi = _data.ExecutiveKpis[i];
+            <MudCard Outlined="true" Elevation="0" Class="@((($"executive-kpi executive-kpi-{index}")) + " rynzo-widget-card")">
+                <div class="executive-metric-label"><span class="executive-metric-icon"><MudIcon Icon="@RynzoIcons.Get(kpi.Icon)" /></span><h2>@kpi.Label</h2></div>
+                <div class="executive-metric-body"><strong>@kpi.Value</strong><div class="executive-spark"><ExecutiveChart Kind="spark" Data="_data" Index="index" Height="52" Label="@(kpi.Label + " trend")" /></div></div>
+                <div class="executive-metric-footer"><DashboardDelta Value="kpi.Delta" Caption="@kpi.Caption" /></div>
+            </MudCard>
+        }
+    </section>
+
+    <section class="executive-revenue-layout" aria-label="Revenue and quarterly targets">
+        <DashboardCard Title="Revenue overview" Description="Revenue vs operating expenses, in thousands" Class="executive-revenue-card">
+            <Actions><span class="executive-card-tag">FY 2026</span></Actions>
+            <ChildContent>
+                <div class="executive-revenue-summary">
+                    @for (var i = 0; i < _data.RevenueSeries.Length; i++)
+                    {
+                        var series = _data.RevenueSeries[i];
+                        <div><span><i style="--series-tone:var(--chart-@(i + 1))"></i>@series.Name</span><strong>@Money(series.Data.Sum() * 1000)</strong></div>
+                    }
+                </div>
+                <ExecutiveChart Kind="revenue" Data="_data" Height="280" Label="Revenue and expenses by month" />
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Quarterly targets" Description="Progress against your growth objectives" Class="executive-goals-card">
+            <ChildContent><div class="executive-targets"><DashboardTarget Label="Q3 revenue" Value="$1.86M" Target="$2.40M" Progress="78" ProgressColor="Color.Primary" /><DashboardTarget Label="Net retention" Value="112%" Target="120%" Progress="64" ProgressColor="Color.Success" /><DashboardTarget Label="Enterprise expansion" Value="$684K" Target="$900K" Progress="76" ProgressColor="Color.Warning" /></div></ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="executive-performance-layout" aria-label="Profit and regional sales">
+        <DashboardCard Title="Profit overview" Description="Gross margin by month" Class="executive-profit-card">
+            <ChildContent><ExecutiveChart Kind="profit" Data="_data" Height="300" Label="Gross margin by month" /></ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Sales by region" Description="Closed-won revenue by territory" Class="executive-region-card">
+            <ChildContent><ExecutiveChart Kind="region" Data="_data" Height="300" Label="Closed-won revenue by territory" /></ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="executive-activity-section" aria-label="Company activity">
+        <DashboardCard Title="Activity feed" Description="Company updates from the last 24 hours" Class="executive-activity-card">
+            <Actions><span class="executive-section-icon"><MudIcon Icon="@RynzoIcons.Get("Activity")" /></span></Actions>
+            <ChildContent>
+                <ol class="executive-feed">
+                    @foreach (var item in _data.ActivityFeed)
+                    {
+                        <li style="--feed-tone:var(--@item.Tone)"><time>@item.Time</time><span class="executive-feed-marker"></span><div class="executive-feed-copy"><h3>@item.Title</h3><p>@item.Detail</p></div></li>
+                    }
+                </ol>
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Revenue mix" Description="Product contribution this month" Class="executive-revenue-mix-card">
+            <Actions><span class="executive-section-icon"><MudIcon Icon="@RynzoIcons.Get("Package")" /></span></Actions>
+            <ChildContent>
+                <div class="executive-mix-total"><span>Total product revenue</span><strong>@Money(_data.TopProducts.Sum(product => ProductRevenue(product.Revenue)))</strong></div>
+                <div class="executive-mix-allocation" role="img" aria-label="Product revenue contribution">
+                    @for (var i = 0; i < _data.TopProducts.Length; i++)
+                    {
+                        var product = _data.TopProducts[i];
+                        var share = ProductRevenue(product.Revenue) / _data.TopProducts.Sum(item => ProductRevenue(item.Revenue)) * 100;
+                        <span style="flex-grow:@share.ToString(CultureInfo.InvariantCulture);--mix-tone:var(--chart-@(i + 1))" title="@($"{product.Name}: {share.ToString("0.#", CultureInfo.InvariantCulture)}%")"></span>
+                    }
+                </div>
+                <ul class="executive-mix-list">
+                    @for (var i = 0; i < _data.TopProducts.Length; i++)
+                    {
+                        var product = _data.TopProducts[i];
+                        var share = ProductRevenue(product.Revenue) / _data.TopProducts.Sum(item => ProductRevenue(item.Revenue)) * 100;
+                        <li style="--mix-tone:var(--chart-@(i + 1))"><span class="executive-mix-key"></span><span class="executive-mix-product">@product.Name<small>@product.Revenue</small></span><strong>@share.ToString("0.#", CultureInfo.InvariantCulture)%</strong></li>
+                    }
+                </ul>
+            </ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="executive-team-layout" aria-label="Team performance and deal contribution">
+        <DashboardCard Title="Team performance" Description="Quota attainment this quarter" Class="executive-team-card">
+            <ChildContent>
+                <ul class="executive-team">
+                    @for (var i = 0; i < _data.TeamPerformance.Length; i++)
+                    {
+                        var member = _data.TeamPerformance[i]; var index = i;
+                        <li>
+                            <div class="executive-team-person"><MudAvatar Size="Size.Medium"><MudImage Src="@Avatar(member.Initials)" Alt="@(member.Name + " profile")" /></MudAvatar><div><strong>@member.Name</strong><small>@member.Role</small></div><span class="executive-team-quota">@member.Quota<small>%</small></span></div>
+                            <div class="executive-team-progress"><MudProgressLinear Value="member.Quota" Color="@TeamColor(index)" Rounded="true" aria-label="@($"{member.Name} quota attainment")" /><span>@member.Deals deals</span></div>
+                        </li>
+                    }
+                </ul>
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Deal contribution" Description="Team share of closed deals this quarter" Class="executive-team-contribution-card">
+            <Actions><span class="executive-card-tag">Q3</span></Actions>
+            <ChildContent>
+                <div class="executive-deals-summary"><div><span>Closed deals</span><strong>@_data.TeamPerformance.Sum(member => member.Deals)</strong></div><div><span>Average quota attainment</span><strong>@_data.TeamPerformance.Average(member => member.Quota).ToString("0.#", CultureInfo.InvariantCulture)<small>%</small></strong></div></div>
+                <div class="executive-deal-chart" role="img" aria-label="@("Closed deals: " + string.Join("; ", _data.TeamPerformance.Select(member => $"{member.Name}, {member.Deals} deals")))">
+                    @foreach (var member in _data.TeamPerformance)
+                    {
+                        <div class="executive-deal-column"><strong>@member.Deals</strong><div class="executive-deal-track"><span style="height:@((member.Deals / (double)_data.TeamPerformance.Max(item => item.Deals) * 100).ToString(CultureInfo.InvariantCulture))%"></span></div><span>@member.Name.Split(' ')[0]</span></div>
+                    }
+                </div>
+                <div class="executive-deals-caption">@_data.TeamPerformance.Length team members<span>Quarterly deal distribution</span></div>
+            </ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="executive-register-layout" aria-label="Products and transactions">
+        <DashboardCard Title="Top products" Description="Ranked by revenue this month" Class="executive-table-card executive-product-card">
+            <Actions><MudIconButton Icon="@RynzoIcons.Get("MoreHorizontal")" aria-label="Product options" /></Actions>
+            <ChildContent>
+                <MudTable T="ExecutiveProduct" Items="_data.TopProducts" Breakpoint="Breakpoint.None" Elevation="0" Class="executive-products" aria-label="Top products">
+                    <HeaderContent><MudTh>Product</MudTh><MudTh Class="executive-number">Units</MudTh><MudTh Class="executive-number">Revenue</MudTh><MudTh Class="executive-number">Growth</MudTh></HeaderContent>
+                    <RowTemplate><MudTd><div class="executive-product-name"><span class="executive-product-symbol"><MudIcon Icon="@RynzoIcons.Get("Package")" /></span><div><strong>@context.Name</strong><small>@context.Sku</small></div></div></MudTd><MudTd Class="executive-number">@context.Units.ToString("N0", CultureInfo.GetCultureInfo("en-US"))</MudTd><MudTd Class="executive-number"><strong>@context.Revenue</strong></MudTd><MudTd Class="executive-number"><DashboardDelta Value="context.Growth" /></MudTd></RowTemplate>
+                </MudTable>
+                <div class="executive-table-caption">@_data.TopProducts.Length products <span>Revenue ranking · August 2026</span></div>
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Recent transactions" Description="Latest payment activity across accounts" Class="executive-table-card executive-transaction-card">
+            <Actions><span class="executive-card-tag">@_data.RecentTransactions.Length transactions</span></Actions>
+            <ChildContent>
+                <MudTable T="ExecutiveTransaction" Items="_data.RecentTransactions" Breakpoint="Breakpoint.None" Elevation="0" Class="executive-transactions" aria-label="Recent transactions">
+                    <HeaderContent><MudTh>Transaction</MudTh><MudTh>Method</MudTh><MudTh>Date</MudTh><MudTh Class="executive-number">Amount</MudTh><MudTh>Status</MudTh></HeaderContent>
+                    <RowTemplate><MudTd><strong>@context.Customer</strong><small>@context.Id</small></MudTd><MudTd><span class="executive-payment-method"><MudIcon Icon="@RynzoIcons.Get("CreditCard")" />@context.Method</span></MudTd><MudTd>@context.Date</MudTd><MudTd Class="executive-number"><strong>@context.Amount</strong></MudTd><MudTd><span class="executive-payment-status status-@context.Status.ToLowerInvariant()"><i></i>@context.Status</span></MudTd></RowTemplate>
+                </MudTable>
+                <div class="executive-table-caption">@_data.RecentTransactions.Length recent transactions <span>All payment methods</span></div>
+            </ChildContent>
+        </DashboardCard>
+    </section>
+
+</div>
+@code {
+    private readonly ExecutiveData _data = ExecutiveData.Load();
+    private static Color TeamColor(int index) => index switch { 0 => Color.Primary, 1 => Color.Info, 2 => Color.Success, _ => Color.Warning };
+    private static string Avatar(string initials) => $"assets/images/users/user-{(initials == "DR" ? 2 : initials == "LM" ? 4 : 1)}.jpg";
+    private static string Money(double value) => value.ToString("C0", CultureInfo.GetCultureInfo("en-US"));
+    private static double ProductRevenue(string value) => double.Parse(value, NumberStyles.Currency, CultureInfo.GetCultureInfo("en-US"));
+    // Existing Export, New report, and Product options controls have no handlers. Preserve their presentation-only behavior.
+}

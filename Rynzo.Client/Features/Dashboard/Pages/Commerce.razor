@@ -1,0 +1,83 @@
+@page "/dashboards/ecommerce"
+@implements IAsyncDisposable
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@using Rynzo.Client.Features.Ecommerce.Models
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+<PageTitle>Commerce — Rynzo</PageTitle>
+<div class="commerce-dashboard">
+    <DashboardPageHeader Title="Commerce" Description="A hands-on workspace for merchandising, order operations and customer purchase behavior." ><Actions><div class="commerce-actions"><MudButton Size="Size.Small" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("SlidersHorizontal")" OnClick="StoreControls">Store controls</MudButton><MudButton Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Gift")" OnClick="CreateCollection">Create collection</MudButton></div></Actions></DashboardPageHeader>
+    <section class="commerce-grid commerce-opening">
+        <MudCard Elevation="0" Class="commerce-hero commerce-seven rynzo-widget-card" Outlined="true"><div class="commerce-hero-content"><div><span class="commerce-spotlight"><MudIcon Icon="@RynzoIcons.Get("Sparkles")" Size="Size.Small" />Merchandising spotlight</span><p class="commerce-featured">This week’s featured collection</p><h2>Desk setups that work harder.</h2><p>The Workspace Edit is outperforming the homepage average.</p></div><div class="commerce-collection-metrics"><div><span>Conversion rate</span><strong>6.8<small>%</small></strong></div><div><span>Basket value</span><strong>$182</strong></div></div><div class="commerce-hero-actions"><MudButton Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@RynzoIcons.Get("ArrowRight")" OnClick="EditCollection">Edit collection</MudButton><span>+28% conversion since feature</span></div></div></MudCard>
+        <DashboardCard Title="The order tape" Description="Every paid order entering the store now" Class="commerce-five commerce-order-card"><Actions><MudChip T="string" Size="Size.Small" Color="Color.Success">Live orders</MudChip></Actions><ChildContent><CommerceOrderTape Orders="_orders" Complete="CompleteOrder" /></ChildContent></DashboardCard>
+    </section>
+    <section class="commerce-grid">
+        <DashboardCard Title="Margin momentum" Description="Gross margin performance against the store target" Class="commerce-seven"><Actions><MudChip T="string" Size="Size.Small" Color="Color.Success">$96.4K gross profit</MudChip></Actions><ChildContent><DashboardChart Data="_data" OptionsModule="./commerce-options.js" Kind="margin" Height="280" Label="Gross margin and target throughout August" /><p class="commerce-cue"><b>Merchandising cue:</b> gross margin is now 8 points above target, led by bundle sales and accessory attach rate.</p></ChildContent></DashboardCard>
+        <DashboardCard Title="Basket composer" Description="What customers are adding together" Class="commerce-five"><DashboardChart Data="_data" OptionsModule="./commerce-options.js" Kind="basket" Height="220" Label="Order basket size composition" /><div class="commerce-baskets">@for(var i=0;i<_data.Baskets.Length;i++){var basket=_data.Baskets[i];<p><i style="background:var(--chart-@(i+1))"></i><span>@basket[0]</span><b>@basket[1]</b></p>}</div></DashboardCard>
+    </section>
+    <DashboardCard Title="Fulfillment control tower" Description="Today’s order handoff, warehouse pace and carrier capacity." Class="commerce-tower"><Actions><MudChip T="string" Color="Color.Warning" Size="Size.Small">Next carrier cutoff in 41 min</MudChip></Actions><ChildContent>
+        <div class="commerce-warehouse"><div class="commerce-stage-panel"><div class="commerce-stages">@foreach(var stage in _data.Stages){<div class="commerce-stage" style="--stage-tone:var(--@(stage[3][3..]))"><div class="commerce-stage-top"><span class="commerce-dot" style="@Background(stage[3])"></span><span>@stage[4]</span></div><strong>@stage[1]</strong><h3>@stage[0]</h3><p>@stage[2]</p><footer><MudButton Size="Size.Small" Color="Color.Primary" OnClick="@(() => OpenStage(stage[0]))">Open</MudButton></footer></div>}</div><div class="commerce-sla"><span><b>SLA forecast: 96% on time</b><small>Two express orders need a scan before the 13:30 pickup.</small></span><MudButton Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@RynzoIcons.Get("PackageOpen")" OnClick="PickList">Create pick list</MudButton></div></div>
+        <aside class="commerce-carriers"><h3>Carrier capacity</h3><div class="commerce-carrier-list">@foreach(var carrier in _data.Carriers){<div><p><span><b>@carrier[0]</b><small>Pickup @carrier[1]</small></span><b>@carrier[2]</b></p><FinanceProgress Value="double.Parse(carrier[2].TrimEnd('%'), System.Globalization.CultureInfo.InvariantCulture)" Tone="@carrier[3][3..]" /></div>}</div><MudButton Variant="Variant.Outlined" Class="commerce-exceptions" FullWidth="true" EndIcon="@RynzoIcons.Get("ChevronRight")" OnClick="Exceptions"><span><b>3 exceptions</b><small>Address and payment reviews</small></span></MudButton></aside></div>
+    </ChildContent></DashboardCard>
+    <section class="commerce-grid">
+        <DashboardCard Title="Promotion test bench" Description="A single promotion with its actual trading impact" Class="commerce-five commerce-promotion-card"><div class="commerce-promo"><div><span><small>Active code</small><h3>AURORA20</h3><span class="commerce-promo-state">@(_promoLive ? "Active promotion" : "Paused promotion")</span></span><MudIconButton Icon="@RynzoIcons.Get("Copy")" Color="Color.Warning" aria-label="Copy promotion code" OnClick="CopyCode" /></div><p>20% off selected audio. Ends Sunday at 23:59.</p></div><div class="commerce-promo-stats"><span><b>184</b>Uses</span><span><b>$8.4K</b>Revenue</span><span><b class="commerce-success">3.9</b>Return</span></div><div class="commerce-promo-actions"><MudButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" StartIcon="@RynzoIcons.Get(_promoLive ? "Undo2" : "Play")" OnClick="@(() => _promoLive = !_promoLive)">@(_promoLive ? "Pause code" : "Resume code")</MudButton><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="CopyCode">@(_copied ? "Copied" : "Copy")</MudButton></div></DashboardCard>
+        <DashboardCard Title="Commerce signals" Description="A short list of decisions worth making today" Class="commerce-seven"><div class="commerce-signals">@foreach(var signal in _data.Signals){<article><div class="commerce-signal-icon"><MudIcon Icon="@RynzoIcons.Get(signal[4])" Color="@SignalColor(signal[2])" /></div><div class="commerce-signal-copy"><h3>@signal[0]</h3><p>@signal[1]</p><MudChip T="string" Size="Size.Small" Color="@SignalColor(signal[2])">@signal[2]</MudChip></div></article>}</div></DashboardCard>
+    </section>
+    <section class="commerce-grid">
+        <DashboardCard Title="Cart recovery workbench" Description="The current abandoned-cart sequence and its payoff" Class="commerce-five"><ol class="commerce-recovery">@foreach(var step in _data.Recovery){<li><small>@step[0]</small><div><span><b>@step[1]</b><small>@step[2]</small></span><MudChip T="string" Size="Size.Small" Color="Color.Success">@step[3]</MudChip></div></li>}</ol><MudButton FullWidth="true" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" StartIcon="@RynzoIcons.Get("Play")" Class="mt-5" OnClick="Recovery">Edit recovery sequence</MudButton></DashboardCard>
+        <DashboardCard Title="Returns intelligence" Description="Why customers are sending items back" Class="commerce-four commerce-returns-card"><div class="commerce-returns">@foreach(var item in _data.Returns){<div><span class="commerce-dot" style="@Background(item[3])"></span><span><b>@item[0]</b><small>@item[2]</small></span><b>@item[1]</b><div class="commerce-return-track"><span style="width:@item[1];@Background(item[3])"></span></div></div>}</div><MudButton Color="Color.Primary" Size="Size.Small" EndIcon="@RynzoIcons.Get("ChevronRight")" Class="mt-5" OnClick="Returns">Open return report</MudButton></DashboardCard>
+        <DashboardCard Title="Customer loop" Description="From first order to loyal buyer" Class="commerce-three commerce-customer-card"><ol class="commerce-customers">@for(var i=0;i<_data.Customers.Length;i++){var customer=_data.Customers[i];<li><span class="commerce-rank">@(i+1)</span><span><b>@customer[0]</b><small>@customer[1] customers</small></span><strong>@customer[2]</strong></li>}</ol><p class="commerce-retention"><b>Retention win:</b> loyalty members reorder 21 days sooner.</p></DashboardCard>
+    </section>
+    <section class="commerce-product-layout" aria-label="Product performance and inventory">
+        <DashboardCard Title="Best-selling products" Description="Top items by units sold in the sample catalog" Class="commerce-bestsellers">
+            <Actions><MudButton Href="/ecommerce/products" Size="Size.Small" EndIcon="@RynzoIcons.Get("ArrowRight")">View catalog</MudButton></Actions>
+            <ChildContent><div class="commerce-product-grid">
+                @foreach (var product in _catalog.OrderByDescending(product => ProductNumber(product.Sold)).Take(3))
+                {
+                    <article><div class="commerce-product-image"><img src="@product.Image" alt="@product.Name" loading="lazy" /></div><small>@product.Category</small><h3>@product.Name</h3><div class="commerce-product-price"><strong>@product.Price</strong><span>@product.Rating / 5</span></div><p>@product.Sold units sold</p></article>
+                }
+            </div></ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Inventory watch" Description="Products with five or fewer units available" Class="commerce-inventory-watch">
+            <Actions><span class="commerce-inventory-count">@_catalog.Count(product => product.LowStock) items</span></Actions>
+            <ChildContent><ul class="commerce-stock-list">
+                @foreach (var product in _catalog.Where(product => product.LowStock).OrderBy(product => ProductNumber(product.Stock)))
+                {
+                    <li><img src="@product.Image" alt="@product.Name" loading="lazy" /><div><strong>@product.Name</strong><small>@product.Sku</small></div><span class="@(product.Stock == "0" ? "out-of-stock" : "low-stock")">@(product.Stock == "0" ? "Out of stock" : product.Stock + " left")</span></li>
+                }
+            </ul><MudButton Href="/ecommerce/products" FullWidth="true" Variant="Variant.Outlined" Size="Size.Small" Class="mt-4">Manage inventory</MudButton></ChildContent>
+        </DashboardCard>
+    </section>
+</div>
+@code {
+    private readonly CatalogProduct[] _catalog = CatalogProduct.Load();
+    private static int ProductNumber(string value) => int.Parse(value, System.Globalization.NumberStyles.AllowThousands, System.Globalization.CultureInfo.InvariantCulture);
+    private readonly CommerceData _data = CommerceData.Load();
+    private List<string[]> _orders = [];
+    private bool _promoLive = true, _copied;
+    private IJSObjectReference? _clipboard;
+    private static readonly BreadcrumbItem[] Breadcrumbs = [new("Rynzo", null), new("Dashboards", null), new("eCommerce", null, true)];
+    protected override void OnInitialized() => _orders = [.. _data.Orders];
+    private static string Background(string color) => $"background:var(--{color[3..]})";
+    private static Color SignalColor(string tag) => tag switch { "Positive" => Color.Success, "Action needed" => Color.Warning, _ => Color.Primary };
+    private void CompleteOrder(string id) { _orders.RemoveAll(order => order[1] == id); Snackbar.Add($"{id} sent to fulfillment", Severity.Success); }
+    private async Task CopyCode()
+    {
+        _copied = true;
+        _clipboard ??= await JS.InvokeAsync<IJSObjectReference>("import", "./theme/commerce-clipboard.js");
+        var copied = await _clipboard.InvokeAsync<bool>("copyPromotion");
+        Snackbar.Add(copied ? "Promo code copied" : "Clipboard unavailable. Promotion code: AURORA20", copied ? Severity.Success : Severity.Warning);
+    }
+    private void StoreControls() => Snackbar.Add("Store settings opened", Severity.Info);
+    private void CreateCollection() => Snackbar.Add("New collection draft created", Severity.Success);
+    private void EditCollection() => Snackbar.Add("Collection editor opened", Severity.Info);
+    private void OpenStage(string stage) => Snackbar.Add($"{stage} opened", Severity.Info);
+    private void PickList() => Snackbar.Add("Priority pick list created", Severity.Success);
+    private void Exceptions() => Snackbar.Add("3 fulfillment exceptions need review", Severity.Warning);
+    private void Recovery() => Snackbar.Add("Recovery sequence opened for editing", Severity.Success);
+    private void Returns() => Snackbar.Add("Returns report opened", Severity.Info);
+    public async ValueTask DisposeAsync() { if(_clipboard is not null) try { await _clipboard.DisposeAsync(); } catch(JSDisconnectedException) { } }
+}
+

@@ -1,0 +1,68 @@
+@using Rynzo.Client.Theme
+@inject NavigationManager Navigation
+<MudDialog Class="rynzo-command-dialog" aria-label="Search workspace">
+    <DialogContent>
+        <div class="rynzo-command-input">
+            <MudTextField T="string" Value="_query" ValueChanged="Search" Immediate="true" AutoFocus="true"
+                          Placeholder="Where would you like to go?" Variant="Variant.Text" Underline="false"
+                          Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")"
+                          OnKeyDown="KeyDown" aria-label="Search pages and applications" />
+            <button type="button" class="rynzo-command-close" @onclick="Dialog.Cancel" aria-label="Close search">Esc</button>
+        </div>
+        <div class="rynzo-command-section"><span>@(string.IsNullOrWhiteSpace(_query) ? "QUICK NAVIGATION" : "SEARCH RESULTS")</span><span role="status">@_results.Length results</span></div>
+        <div class="rynzo-command-results">
+            @for (var index = 0; index < _results.Length; index++)
+            {
+                var result = _results[index];
+                <button type="button" class="rynzo-command-result @(index == _selected ? "is-selected" : "")" @onclick="@(() => Open(result.Href))">
+                    <span class="rynzo-command-result-icon"><MudIcon Icon="@RynzoIcons.Get("ArrowUpRight")" /></span>
+                    <span><strong>@result.Label</strong><small>@result.Href</small></span>
+                    <MudIcon Icon="@RynzoIcons.Get("ChevronRight")" Size="Size.Small" />
+                </button>
+            }
+            @if (_results.Length == 0)
+            {
+                <div class="rynzo-command-empty"><MudIcon Icon="@RynzoIcons.Get("Search")" /><strong>No matching pages</strong><span>Try orders, calendar, or analytics.</span></div>
+            }
+        </div>
+        <div class="rynzo-command-footer"><span><kbd>↑</kbd><kbd>↓</kbd> to navigate <kbd>Enter</kbd> to open</span><span>Workspace search</span></div>
+    </DialogContent>
+</MudDialog>
+@code {
+    [CascadingParameter] private IMudDialogInstance Dialog { get; set; } = null!;
+    private sealed record SearchResult(string Label, string Href, string Terms);
+    private string _query = "";
+    private int _selected;
+    private SearchResult[] _catalog = [];
+    private SearchResult[] _results = [];
+    protected override void OnInitialized()
+    {
+        var routes = typeof(HeaderSearchDialog).Assembly.GetTypes()
+            .SelectMany(type => type.GetCustomAttributes(typeof(RouteAttribute), false).Cast<RouteAttribute>())
+            .Select(route => route.Template.TrimEnd('/')).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        _catalog = LayoutCatalog.Data.Search.Where(target => routes.Contains(target.Href.TrimEnd('/'))).GroupBy(target => target.Href)
+            .Select(group => new SearchResult(
+                LayoutCatalog.Trail(group.Key).LastOrDefault()?.Label ?? System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(group.First().Term),
+                group.Key, string.Join(' ', group.Select(target => target.Term))))
+            .ToArray();
+        Search("");
+    }
+    private void Search(string value)
+    {
+        _query = value;
+        _selected = 0;
+        var query = value.Trim();
+        _results = _catalog.Where(result => query.Length == 0 || result.Label.Contains(query, StringComparison.OrdinalIgnoreCase)
+            || result.Href.Contains(query, StringComparison.OrdinalIgnoreCase)
+            || result.Terms.Split(' ', StringSplitOptions.RemoveEmptyEntries).Any(term => term.Contains(query, StringComparison.OrdinalIgnoreCase)
+                || query.Contains(term, StringComparison.OrdinalIgnoreCase))).Take(8).ToArray();
+    }
+    private void KeyDown(KeyboardEventArgs args)
+    {
+        if (_results.Length == 0) return;
+        if (args.Key == "ArrowDown") _selected = (_selected + 1) % _results.Length;
+        else if (args.Key == "ArrowUp") _selected = (_selected + _results.Length - 1) % _results.Length;
+        else if (args.Key == "Enter") Open(_results[_selected].Href);
+    }
+    private void Open(string href) { Dialog.Close(); Navigation.NavigateTo(href); }
+}

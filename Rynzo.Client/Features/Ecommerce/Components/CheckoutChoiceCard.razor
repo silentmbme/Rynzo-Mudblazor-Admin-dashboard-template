@@ -1,0 +1,2 @@
+<button type="button" class="checkout-choice @(Active?"active":"")" aria-pressed="@(Active?"true":"false")" @onclick="@(() => Select.InvokeAsync())"><i>@if(Active){<span></span>}</i><span><b>@Title</b><small>@Detail</small></span>@if(Price is not null){<b>@Price</b>}</button>
+@code{[Parameter]public bool Active{get;set;}[Parameter]public string Title{get;set;}="";[Parameter]public string Detail{get;set;}="";[Parameter]public string? Price{get;set;}[Parameter]public EventCallback Select{get;set;}}

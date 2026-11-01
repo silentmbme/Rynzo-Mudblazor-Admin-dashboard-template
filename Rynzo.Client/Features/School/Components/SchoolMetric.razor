@@ -1,0 +1,3 @@
+@using Rynzo.Client.Theme
+<div class="rynzo-widget-host"><MudCard Class="metric rynzo-widget-card" Elevation="0" Outlined="true"><MudCard Outlined="true" Class="rynzo-widget-card" Elevation="0"><div class="metric-heading"><small>@Label</small><span style="@($"--tone:var(--{Tone})")"><MudIcon Icon="@RynzoIcons.Get(Icon)" /></span></div><strong>@Value</strong>@if(Caption is not null){<small>@Caption</small>}</MudCard></MudCard></div>
+@code{[Parameter]public string Label{get;set;}="";[Parameter]public string Value{get;set;}="";[Parameter]public string Icon{get;set;}="Users";[Parameter]public string Tone{get;set;}="primary";[Parameter]public string? Caption{get;set;}}

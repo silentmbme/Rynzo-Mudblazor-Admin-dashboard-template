@@ -1,0 +1,63 @@
+@page "/ui/breadcrumbs"
+@using Rynzo.Client.Features.Ui.Components
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+<PageTitle>Breadcrumbs | Rynzo</PageTitle>
+<div class="breadcrumbs-page">
+    <DashboardPageHeader Title="Breadcrumbs" Description="Show hierarchy and location while preserving clear navigation context.">
+        <Actions><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Print">Export</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("FilePlus2")">Create report</MudButton></Actions>
+    </DashboardPageHeader>
+    <MudCard Class="breadcrumbs-intro rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><span class="breadcrumbs-intro-icon"><MudIcon Icon="@RynzoIcons.Get("Route")" /></span><div><small>Component library / Navigation</small><h2>Every location, in context.</h2><p>Give nested spaces a clear hierarchy without competing with the page itself.</p></div><span class="breadcrumbs-intro-note">Hierarchy <MudIcon Icon="@RynzoIcons.Get("ChevronRight")" /> Location <MudIcon Icon="@RynzoIcons.Get("ChevronRight")" /> Clarity</span></MudCard>
+    <div class="breadcrumbs-grid">
+        <ButtonShowcaseCard Id="basic" Title="Basic breadcrumbs" Description="A familiar path through a nested project workspace." Code="@BasicCode">
+            <span class="breadcrumbs-eyebrow">Project workspace</span><div class="breadcrumbs-demo-surface"><UiBreadcrumbTrail Items="BasicPath" Label="Basic breadcrumb" /></div><p class="breadcrumbs-caption">The current page stays visually distinct from its parent locations.</p>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="home-icon" Title="With home icon" Description="A recognizable starting point with less visual weight." Code="@HomeCode">
+            <span class="breadcrumbs-eyebrow">Product catalog</span><div class="breadcrumbs-demo-surface"><UiBreadcrumbTrail Items="ProductPath" HomeIcon="true" Label="Home icon breadcrumb" /></div><p class="breadcrumbs-caption">The icon keeps its accessible Home label for assistive technology.</p>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="separators" Title="Custom separators" Description="A subtle slash for settings and workspace hierarchies." Code="@SeparatorCode">
+            <div class="breadcrumbs-settings-heading"><span><MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" /></span><div><h3>Workspace settings</h3><p>Account protection and access</p></div></div><div class="breadcrumbs-demo-surface"><UiBreadcrumbTrail Items="SettingsPath" Slash="true" Label="Slash separator breadcrumb" /></div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="collapsed" Title="Collapsed path" Description="Keep deep hierarchies concise, with ancestors a click away." Code="@CollapsedCode">
+            <span class="breadcrumbs-eyebrow">Component library</span><div class="breadcrumbs-demo-surface"><UiBreadcrumbTrail Items="DeepPath" Collapsed="true" Label="Collapsed breadcrumb" /></div><p class="breadcrumbs-caption">Select the ellipsis to reveal the hidden parent locations.</p>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="dropdown" Title="Dropdown crumb" Description="Offer sibling locations within an intermediate crumb." Code="@DropdownCode">
+            <span class="breadcrumbs-eyebrow">Project navigation</span><div class="breadcrumbs-demo-surface"><UiBreadcrumbTrail Items="BasicPath" ActionLabel="Projects" Label="Dropdown breadcrumb"><ItemAction><UiDropdown Label="Projects" Variant="Variant.Text" Color="Color.Default" AccessibleLabel="Project breadcrumb options" Size="Size.Small">@foreach(var item in ProjectOptions){<MudMenuItem>@item</MudMenuItem>}</UiDropdown></ItemAction></UiBreadcrumbTrail></div><p class="breadcrumbs-caption">Open Projects to explore all, active, and archived project collections.</p>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="responsive" Title="Responsive pattern" Description="A shorter path that keeps the current page visible." Code="@ResponsiveCode">
+            <div class="breadcrumbs-responsive-heading"><span class="breadcrumbs-eyebrow">Adaptive hierarchy</span><MudButton Size="Size.Small" Variant="Variant.Outlined" OnClick="ToggleShort">@(ShortPath?"Full path":"Compact")</MudButton></div><div class="breadcrumbs-responsive-surface"><MudIconButton Size="Size.Small" Variant="Variant.Outlined" Icon="@RynzoIcons.Get("ChevronLeft")" aria-label="Back" OnClick="ToggleShort" /><UiBreadcrumbTrail Items="@(ShortPath?ShortProductPath:ResponsivePath)" Label="Responsive breadcrumb" /></div><p class="breadcrumbs-caption">Switch between the full hierarchy and its compact alternative.</p>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="interactive" Title="Interactive location" Description="Bind the current location to local navigation state." Code="@InteractiveCode">
+            <div class="breadcrumbs-location-heading"><span><MudIcon Icon="@RynzoIcons.Get("MapPin")" /></span><div><small>Current location</small><h3 aria-live="polite">@Current</h3></div><UiStatusChip Color="Color.Primary">Preview</UiStatusChip></div>
+            <div class="breadcrumbs-demo-surface"><UiBreadcrumbTrail Items="InteractivePath" Label="Interactive breadcrumb" /></div>
+            <div class="breadcrumbs-location-controls" role="group" aria-label="Choose current location">@foreach(var location in Locations){<MudButton Size="Size.Small" Variant="@(Current==location?Variant.Filled:Variant.Outlined)" Color="@(Current==location?Color.Primary:Color.Default)" aria-pressed="@(Current==location?"true":"false")" OnClick="@(()=>Current=location)">@location</MudButton>}</div>
+        </ButtonShowcaseCard>
+        <ButtonShowcaseCard Id="context" Title="In context" Description="Pair a compact hierarchy with the page title and delivery status." Code="@ContextCode">
+            <div class="breadcrumbs-context"><UiBreadcrumbTrail Items="BasicPath" HomeIcon="true" Label="Project context breadcrumb" /><div class="breadcrumbs-context-divider"></div><div class="breadcrumbs-context-heading"><span class="breadcrumbs-project-icon"><MudIcon Icon="@RynzoIcons.Get("FolderOpen")" /></span><div><h3>Website Redesign</h3><p>Project overview and delivery plan</p></div></div><div class="breadcrumbs-context-footer"><span>Project workspace</span><UiStatusChip Color="Color.Success" Dot="true">On track</UiStatusChip></div></div>
+        </ButtonShowcaseCard>
+    </div>
+</div>
+@code {
+    private bool ShortPath;
+    private string Current="Product details";
+    private static readonly string[] BasicPath=["Home","Projects","Website Redesign"];
+    private static readonly string[] ProductPath=["Home","eCommerce","Products","Aperture Desk Lamp"];
+    private static readonly string[] SettingsPath=["Workspace","Settings","Security"];
+    private static readonly string[] DeepPath=["Home","Workspace","Components","Design system","Buttons"];
+    private static readonly string[] ResponsivePath=["Home","eCommerce","Products","Desk Lamp"];
+    private static readonly string[] ShortProductPath=["Products","Desk Lamp"];
+    private static readonly string[] ProjectOptions=["All projects","Active projects","Archived projects"];
+    private static readonly string[] Locations=["Product details","Inventory","Reviews"];
+    private IReadOnlyList<string> InteractivePath=>["eCommerce","Products",Current];
+    private void ToggleShort()=>ShortPath=!ShortPath;
+    private async Task Print()=>await JS.InvokeVoidAsync("print");
+    private const string BasicCode="<UiBreadcrumbTrail Items=\"BasicPath\" />\n// Home > Projects > Website Redesign";
+    private const string HomeCode="<UiBreadcrumbTrail Items=\"ProductPath\" HomeIcon=\"true\" />";
+    private const string SeparatorCode="<UiBreadcrumbTrail Items=\"SettingsPath\" Slash=\"true\" />";
+    private const string CollapsedCode="<UiBreadcrumbTrail Items=\"DeepPath\" Collapsed=\"true\" />\n// A keyboard-accessible expander reveals hidden ancestors.";
+    private const string DropdownCode="<UiBreadcrumbTrail Items=\"BasicPath\" ActionLabel=\"Projects\">\n    <ItemAction><UiDropdown Label=\"Projects\">...</UiDropdown></ItemAction>\n</UiBreadcrumbTrail>";
+    private const string ResponsiveCode="<UiBreadcrumbTrail Items=\"@(ShortPath ? ShortPathItems : FullPathItems)\" />\n<MudButton OnClick=\"ToggleShort\">Compact</MudButton>";
+    private const string InteractiveCode="<UiBreadcrumbTrail Items=\"InteractivePath\" />\n// Update the current item from local navigation state.";
+    private const string ContextCode="<UiBreadcrumbTrail Items=\"BasicPath\" HomeIcon=\"true\" />\n<h3>Website Redesign</h3>\n<UiStatusChip Color=\"Color.Success\">On track</UiStatusChip>";
+}

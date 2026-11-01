@@ -1,0 +1,153 @@
+.ui-empty-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 290px;
+  padding: 28px 22px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--empty-tone) 3%, var(--card)),
+    var(--card)
+  );
+  gap: 20px;
+}
+.ui-empty-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 72px;
+  flex-shrink: 0;
+}
+.ui-empty-art > span {
+  height: 62px;
+  width: 62px;
+  border: 1px solid color-mix(in srgb, var(--empty-tone) 18%, var(--border));
+  border-radius: 18px;
+  background: var(--card);
+  color: var(--empty-tone);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 5px 0 color-mix(in srgb, var(--empty-tone) 5%, transparent);
+}
+.ui-empty-art ::deep svg {
+  height: 28px;
+  width: 28px;
+}
+.ui-empty-art i {
+  height: 6px;
+  width: 6px;
+  border: 1px solid color-mix(in srgb, var(--empty-tone) 30%, var(--border));
+  border-radius: 2px;
+  transform: rotate(20deg);
+}
+.ui-empty-art i:last-child {
+  height: 9px;
+  width: 9px;
+  border-radius: 50%;
+  transform: none;
+  align-self: start;
+  margin-top: 12px;
+}
+.ui-empty-copy {
+  max-width: 330px;
+}
+.ui-empty-copy h3 {
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--foreground);
+}
+.ui-empty-copy p {
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.9;
+  color: var(--muted-foreground);
+  margin: 9px 0 0;
+}
+.ui-empty-copy small {
+  display: block;
+  font-size: var(--rynzo-font-overline);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin-top: 12px;
+}
+.ui-empty-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.ui-empty-actions ::deep .mud-button {
+  font-size: var(--rynzo-font-caption);
+  border-radius: 8px;
+  padding: 7px 13px;
+}
+.ui-empty-actions ::deep svg {
+  height: 15px;
+  width: 15px;
+}
+.is-compact {
+  min-height: 0;
+  flex-direction: row;
+  text-align: start;
+  padding: 22px;
+  gap: 16px;
+  justify-content: start;
+}
+.is-compact .ui-empty-art {
+  height: 42px;
+  gap: 0;
+}
+.is-compact .ui-empty-art i {
+  display: none;
+}
+.is-compact .ui-empty-art > span {
+  height: 42px;
+  width: 42px;
+  border-radius: 11px;
+  box-shadow: none;
+}
+.is-compact .ui-empty-art ::deep svg {
+  height: 21px;
+  width: 21px;
+}
+.is-compact .ui-empty-copy {
+  flex: 1;
+  max-width: none;
+}
+.is-compact .ui-empty-copy h3 {
+  font-size: var(--rynzo-font-body2);
+}
+.is-compact .ui-empty-copy p {
+  margin-top: 5px;
+}
+.is-compact .ui-empty-actions {
+  flex-shrink: 0;
+}
+.ui-empty-panel.upload-panel {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--primary) 30%, var(--border));
+  background: color-mix(in srgb, var(--primary) 3%, var(--card));
+}
+@media (max-width: 540px) {
+  .ui-empty-panel {
+    padding: 24px 16px;
+  }
+  .is-compact {
+    flex-wrap: wrap;
+    gap: 13px;
+    padding: 18px 14px;
+  }
+  .is-compact .ui-empty-copy {
+    min-width: 160px;
+  }
+  .is-compact .ui-empty-actions {
+    margin-left: 55px;
+  }
+}

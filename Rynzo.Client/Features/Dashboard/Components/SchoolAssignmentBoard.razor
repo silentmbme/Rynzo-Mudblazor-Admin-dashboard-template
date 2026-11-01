@@ -1,0 +1,27 @@
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Theme
+<div class="assignment-workspace">
+    <div class="assignment-overview"><span class="assignment-overview-icon"><MudIcon Icon="@RynzoIcons.Get("ClipboardCheck")" /></span><div><h3>Classroom feedback</h3><p>@Assignments.Count(a=>a.Done) completed / @Assignments.Length in this view</p></div><dl><div><dt>To review</dt><dd>@Assignments.Count(a=>!a.Done)</dd></div><div><dt>Reviewed</dt><dd>@Assignments.Count(a=>a.Done)</dd></div></dl></div>
+    <div class="assignment-lanes">
+        @foreach(var done in new[]{false,true})
+        {
+            var tasks=Assignments.Where(a=>a.Done==done).ToArray();
+            <section class="assignment-lane @(done?"is-reviewed":"is-pending")" aria-label="@(done?"Reviewed assignments":"Assignments needing review")">
+                <header class="assignment-lane-heading"><span class="assignment-state-dot"></span><h3>@(done?"Reviewed":"Needs review")</h3><span class="assignment-lane-count">@tasks.Length</span><small>@(done?"Feedback complete":"Ready for feedback")</small></header>
+                <div class="assignment-items">
+                    @foreach(var task in tasks)
+                    {
+                        var teacher=Teachers.Single(t=>t.Grade==task.Grade);
+                        <article @key="task.Title"><div class="assignment-item-top"><span class="assignment-subject"><MudIcon Icon="@RynzoIcons.Get(task.Subject=="Mathematics"?"GraduationCap":task.Subject=="Science"?"Layers3":"BookOpen")" Size="Size.Small" />@task.Subject</span><span class="assignment-grade">@task.Grade</span></div><h4>@task.Title</h4><div class="assignment-item-bottom"><span class="assignment-teacher"><img src="@SchoolClassroomAgenda.Portrait(teacher.Name)" alt="" /><span><small>Class teacher</small><b>@teacher.Name</b></span></span><MudButton Variant="@(done?Variant.Outlined:Variant.Filled)" Color="@(done?Color.Default:Color.Primary)" Size="Size.Small" EndIcon="@RynzoIcons.Get(done?"RotateCcw":"ArrowUpRight")" aria-label="@($"{(done?"Reopen":"Review")} {task.Title}")" OnClick="@(() => Toggle.InvokeAsync(task.Title))">@(done?"Reopen":"Review")</MudButton></div><span class="assignment-item-status"><MudIcon Icon="@RynzoIcons.Get(done?"CheckCheck":"Clock3")" Size="Size.Small" />@(done?"Reviewed":"Awaiting feedback")</span></article>
+                    }
+                    @if(tasks.Length==0){<div class="assignment-empty"><MudIcon Icon="@RynzoIcons.Get(done?"ClipboardCheck":"CheckCheck")" /><h4>@(done?"No reviewed work yet":"All caught up")</h4><p>@(done?"Reviewed assignments will appear here.":"No assignments waiting in this view.")</p></div>}
+                </div>
+            </section>
+        }
+    </div>
+</div>
+@code {
+    [Parameter,EditorRequired] public SchoolAssignment[] Assignments { get; set; } = [];
+    [Parameter,EditorRequired] public SchoolTeacher[] Teachers { get; set; } = [];
+    [Parameter] public EventCallback<string> Toggle { get; set; }
+}

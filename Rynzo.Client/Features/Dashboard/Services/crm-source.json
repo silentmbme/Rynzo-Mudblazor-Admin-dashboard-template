@@ -1,0 +1,283 @@
+{
+  "priorityDeals": [
+    {
+      "name": "Northstar expansion",
+      "company": "Northstar Labs",
+      "value": "$84K",
+      "likelihood": "High confidence",
+      "due": "Close Sep 12",
+      "next": "Send executive recap",
+      "color": "bg-primary"
+    },
+    {
+      "name": "Automation rollout",
+      "company": "Vertex Labs",
+      "value": "$42K",
+      "likelihood": "Needs attention",
+      "due": "Close Sep 18",
+      "next": "Complete security review",
+      "color": "bg-warning"
+    },
+    {
+      "name": "Platform upgrade",
+      "company": "Rynzo Systems",
+      "value": "$128K",
+      "likelihood": "Decision pending",
+      "due": "Close Sep 05",
+      "next": "Confirm legal approver",
+      "color": "bg-info"
+    }
+  ],
+  "meetings": [
+    [
+      "09:30",
+      "Discovery call",
+      "Kinetic Systems",
+      "Phone"
+    ],
+    [
+      "11:00",
+      "Proposal review",
+      "Northstar Labs",
+      "Video"
+    ],
+    [
+      "14:30",
+      "Security follow-up",
+      "Vertex Labs",
+      "Video"
+    ],
+    [
+      "16:00",
+      "Renewal check-in",
+      "Harbor Health",
+      "Email"
+    ]
+  ],
+  "signals": [
+    [
+      "Northstar Labs",
+      "Executive sponsor engaged",
+      "Positive",
+      "success"
+    ],
+    [
+      "Vertex Labs",
+      "Security review delayed",
+      "Needs attention",
+      "warning"
+    ],
+    [
+      "Harbor Health",
+      "Usage fell 18%",
+      "At risk",
+      "danger"
+    ],
+    [
+      "Rynzo Systems",
+      "Legal review started",
+      "Progressing",
+      "info"
+    ]
+  ],
+  "mapSeries": [
+    {
+      "name": "Enterprise",
+      "data": [
+        {
+          "x": 76,
+          "y": 84,
+          "z": 42
+        },
+        {
+          "x": 88,
+          "y": 128,
+          "z": 58
+        },
+        {
+          "x": 61,
+          "y": 72,
+          "z": 32
+        }
+      ]
+    },
+    {
+      "name": "Mid-market",
+      "data": [
+        {
+          "x": 68,
+          "y": 42,
+          "z": 24
+        },
+        {
+          "x": 54,
+          "y": 64,
+          "z": 29
+        },
+        {
+          "x": 82,
+          "y": 38,
+          "z": 19
+        }
+      ]
+    },
+    {
+      "name": "SMB",
+      "data": [
+        {
+          "x": 42,
+          "y": 18,
+          "z": 14
+        },
+        {
+          "x": 36,
+          "y": 24,
+          "z": 17
+        },
+        {
+          "x": 72,
+          "y": 28,
+          "z": 18
+        }
+      ]
+    }
+  ],
+  "pipeline": [
+    [
+      "Discovery",
+      "42 deals",
+      "$286K",
+      "2.1"
+    ],
+    [
+      "Proposal",
+      "34 deals",
+      "$354K",
+      "2.7"
+    ],
+    [
+      "Negotiation",
+      "21 deals",
+      "$282K",
+      "2.3"
+    ],
+    [
+      "Contract",
+      "9 deals",
+      "$178K",
+      "1.8"
+    ]
+  ],
+  "conversations": [
+    [
+      "Northstar Labs",
+      "Proposal reopened twice after the executive recap.",
+      "Strong intent",
+      "Send mutual action plan",
+      "success",
+      "09:12"
+    ],
+    [
+      "Vertex Labs",
+      "Security owner asked for an architecture review.",
+      "Technical blocker",
+      "Book solution engineer",
+      "warning",
+      "10:40"
+    ],
+    [
+      "Rynzo Systems",
+      "Legal approval received from the procurement lead.",
+      "Ready to close",
+      "Confirm signature date",
+      "info",
+      "12:15"
+    ]
+  ],
+  "committee": [
+    [
+      "Northstar expansion",
+      "4 of 5 stakeholders",
+      "Economic buyer missing",
+      "warning"
+    ],
+    [
+      "Platform upgrade",
+      "5 of 5 stakeholders",
+      "Full committee mapped",
+      "success"
+    ],
+    [
+      "Automation rollout",
+      "3 of 5 stakeholders",
+      "Champion needs support",
+      "info"
+    ],
+    [
+      "Workspace consolidation",
+      "2 of 5 stakeholders",
+      "Multi-thread this week",
+      "danger"
+    ]
+  ],
+  "routing": [
+    [
+      "Under 5 minutes",
+      "84%",
+      "428 leads",
+      "bg-success"
+    ],
+    [
+      "530 minutes",
+      "11%",
+      "56 leads",
+      "bg-warning"
+    ],
+    [
+      "Over 30 minutes",
+      "5%",
+      "24 leads",
+      "bg-destructive"
+    ]
+  ],
+  "renewals": [
+    [
+      "Harbor Health",
+      "$36K",
+      "Sep 03",
+      "warning"
+    ],
+    [
+      "BrightWorks",
+      "$28K",
+      "Sep 11",
+      "info"
+    ],
+    [
+      "Cedar & Co.",
+      "$18K",
+      "Sep 19",
+      "success"
+    ]
+  ],
+  "coaching": [
+    [
+      "Follow-up gap",
+      "9 high-value deals have had no activity for 5+ days.",
+      "Schedule next steps",
+      "warning"
+    ],
+    [
+      "Call quality",
+      "Discovery calls with 3+ questions have a 22% higher proposal rate.",
+      "Share playbook",
+      "success"
+    ],
+    [
+      "Single-threaded risk",
+      "6 opportunities rely on just one contact.",
+      "Map stakeholders",
+      "danger"
+    ]
+  ]
+}

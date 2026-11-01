@@ -1,0 +1,34 @@
+[
+  {
+    "index": 0,
+    "sender": "Sophia Carter",
+    "subject": "Q3 Design Review",
+    "preview": "I have attached the revised prototype and notes for review.",
+    "time": "2 min ago",
+    "initials": "SC"
+  },
+  {
+    "index": 1,
+    "sender": "Billing Team",
+    "subject": "Your August invoice is ready",
+    "preview": "Invoice INV-20482 is now available in your billing portal.",
+    "time": "10:42 AM",
+    "initials": "BT"
+  },
+  {
+    "index": 2,
+    "sender": "Daniel Lee",
+    "subject": "Updated project timeline",
+    "preview": "The revised delivery plan is ready for your feedback.",
+    "time": "Yesterday",
+    "initials": "DL"
+  },
+  {
+    "index": 3,
+    "sender": "Support Desk",
+    "subject": "Your support request has been resolved",
+    "preview": "We have completed the requested account update.",
+    "time": "Yesterday",
+    "initials": "SD"
+  }
+]

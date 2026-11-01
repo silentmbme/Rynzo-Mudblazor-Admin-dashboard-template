@@ -1,0 +1,13 @@
+@using Rynzo.Client.Theme
+<div class="inline-row">
+    <span class="inline-row-label">@Label</span>
+    @if (Editing)
+    {
+        <div class="inline-row-editor">@Editor</div><div class="inline-row-actions"><MudIconButton Icon="@RynzoIcons.Get("Check")" Color="Color.Primary" OnClick="OnSave" /><MudIconButton Icon="@RynzoIcons.Get("X")" OnClick="OnCancel" /></div>
+    }
+    else
+    {
+        <b>@Value</b><MudIconButton Icon="@RynzoIcons.Get("Pencil")" OnClick="OnEdit" />
+    }
+</div>
+@code {[Parameter] public string Label {get;set;}="";[Parameter] public string Value {get;set;}="";[Parameter] public bool Editing {get;set;}[Parameter] public EventCallback OnEdit {get;set;}[Parameter] public EventCallback OnCancel {get;set;}[Parameter] public EventCallback OnSave {get;set;}[Parameter] public RenderFragment? Editor {get;set;}}

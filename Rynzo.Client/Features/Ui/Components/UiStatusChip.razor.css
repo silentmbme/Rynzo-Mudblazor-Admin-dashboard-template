@@ -1,0 +1,57 @@
+.ui-status-host {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  vertical-align: middle;
+}
+::deep .ui-status-chip {
+  margin: 0;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.5;
+  height: 27px;
+  padding-inline: 10px;
+  box-shadow: none;
+}
+::deep .ui-status-chip.is-soft {
+  color: var(--chip-tone);
+  background: color-mix(in srgb, var(--chip-tone) 10%, var(--card));
+  border: 1px solid transparent;
+}
+::deep .ui-status-chip.is-outline {
+  color: var(--chip-tone);
+  background: var(--card);
+  border-color: color-mix(in srgb, var(--chip-tone) 30%, var(--border));
+}
+::deep .ui-status-chip.is-dot {
+  color: var(--foreground);
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+.ui-status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--chip-tone);
+  margin-right: 7px;
+  flex-shrink: 0;
+}
+::deep .ui-status-chip.size-small {
+  height: 22px;
+  padding-inline: 8px;
+  font-size: var(--rynzo-font-overline);
+}
+::deep .ui-status-chip.size-large {
+  height: 32px;
+  padding-inline: 13px;
+  font-size: var(--rynzo-font-body2);
+}
+::deep .ui-status-chip .mud-chip-close-button {
+  height: 18px;
+  width: 18px;
+  font-size: 14px;
+  margin-left: 5px;
+  color: inherit;
+}

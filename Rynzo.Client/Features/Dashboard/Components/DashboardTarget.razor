@@ -1,0 +1,12 @@
+<MudPaper Outlined="true" Elevation="0" Class="executive-target">
+    <MudText>@Label</MudText><div><strong>@Value</strong> <small>of @Target</small></div>
+    <MudProgressLinear Value="Progress" Color="ProgressColor" Rounded="true" Class="my-4" />
+    <small>@Progress% of quarterly target</small>
+</MudPaper>
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public string Target { get; set; } = "";
+    [Parameter] public double Progress { get; set; }
+    [Parameter] public Color ProgressColor { get; set; } = Color.Primary;
+}

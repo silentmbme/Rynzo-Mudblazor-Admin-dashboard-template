@@ -1,0 +1,2 @@
+<span class="source-status-badge" style="@Style">@Text</span>
+@code{[Parameter]public string Text{get;set;}="";[Parameter]public string Tone{get;set;}="muted";private string Token=>Tone=="danger"?"destructive":Tone=="muted"?"muted-foreground":Tone;private string Style=>$"--status-tone:var(--{Token});--status-bg:"+(Tone=="muted"?"var(--muted)":$"color-mix(in srgb,var(--{Token}) {(Tone=="warning"?16:Tone is "primary" or "danger"?12:14)}%,transparent)");}

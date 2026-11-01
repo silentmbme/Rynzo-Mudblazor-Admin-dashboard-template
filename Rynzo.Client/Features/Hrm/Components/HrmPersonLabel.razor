@@ -1,0 +1,8 @@
+@using Rynzo.Client.Features.Hrm.Models
+@using Rynzo.Client.Assets
+<MudStack Row="true" AlignItems="AlignItems.Center" Spacing="3">
+    <MudAvatar><MudImage Src="@SourceUserImages.Get(Person.Name)" Alt="@Person.Name" /></MudAvatar>
+    <div><MudText Typo="Typo.body2"><b>@Person.Name</b></MudText><MudText Typo="Typo.caption" Color="Color.Secondary">@Person.Role</MudText></div>
+</MudStack>
+@code { [Parameter, EditorRequired] public HrmPerson Person { get; set; } = null!; }
+

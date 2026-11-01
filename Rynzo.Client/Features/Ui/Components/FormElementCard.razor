@@ -1,0 +1,7 @@
+<div class="rynzo-widget-host"><MudCard Class="form-element-card rynzo-widget-card" id="@Id" Elevation="0" Outlined="true" data-widget-element="section"><header><h3>@Title</h3><p>@Description</p></header><div class="form-element-content">@ChildContent</div></MudCard></div>
+@code {
+    [Parameter] public string? Id {get;set;}
+    [Parameter] public string Title {get;set;}="";
+    [Parameter] public string Description {get;set;}="";
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+}

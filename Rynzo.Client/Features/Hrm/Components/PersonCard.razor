@@ -1,0 +1,4 @@
+﻿@using Rynzo.Client.Features.Hrm.Models
+<MudStack Row="true" AlignItems="AlignItems.Center" Spacing="3"><MudAvatar Size="Size.Large"><MudImage Src="@Employee.Photo" Alt="@Employee.Person.Name" /></MudAvatar><div><MudText Typo="Typo.subtitle2">@Employee.Person.Name</MudText><MudText Typo="Typo.caption" Color="Color.Secondary">@Employee.Person.Id / @Employee.Person.Role</MudText></div></MudStack>
+@code { [Parameter,EditorRequired]public DirectoryEmployee Employee{get;set;}=null!; }
+

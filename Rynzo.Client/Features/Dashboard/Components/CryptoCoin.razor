@@ -1,0 +1,3 @@
+@using Rynzo.Client.Features.Dashboard.Models
+<span class="crypto-coin" aria-hidden="true" style="@($"--coin-color:var({Asset.Color});width:{(Small?32:44)}px;height:{(Small?32:44)}px;font-size:{(Small?18:24)}px")">@Asset.Mark</span>
+@code { [Parameter,EditorRequired] public CryptoAsset Asset { get; set; }=null!;[Parameter] public bool Small { get; set; } }

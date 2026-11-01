@@ -1,0 +1,103 @@
+.icons-page {
+  min-width: 0;
+  padding-bottom: 24px;
+  color: var(--foreground);
+}
+.icons-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 360px) 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.icons-toolbar ::deep .mud-input-control {
+  margin: 0;
+}
+.icons-filter {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.icons-filter ::deep .mud-button {
+  border-radius: 8px;
+  font-size: var(--rynzo-font-caption);
+}
+.icons-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.icons-summary b {
+  color: var(--foreground);
+}
+.icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  gap: 12px;
+}
+.icon-card {
+  display: flex;
+  min-height: 126px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--foreground);
+  text-align: start;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    transform 0.15s;
+}
+.icon-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+.icon-card > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: auto;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--primary) 7%, var(--card));
+  color: var(--primary);
+}
+.icon-card svg {
+  width: 19px;
+  height: 19px;
+}
+.icon-card b {
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+}
+.icon-card small {
+  margin-top: 4px;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-overline);
+}
+@media (max-width: 700px) {
+  .icons-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .icons-filter {
+    justify-content: flex-start;
+  }
+  .icons-summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .icons-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

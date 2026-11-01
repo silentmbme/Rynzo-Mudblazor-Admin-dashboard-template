@@ -1,0 +1,233 @@
+{
+  "stats": [
+    {
+      "label": "Monthly recurring revenue",
+      "value": "$184.6K",
+      "delta": 9.4,
+      "note": "net growth this month",
+      "icon": "CreditCard",
+      "color": "bg-primary/12 text-primary"
+    },
+    {
+      "label": "Net revenue retention",
+      "value": "116.8%",
+      "delta": 4.2,
+      "note": "above 110% target",
+      "icon": "ArrowUpRight",
+      "color": "bg-success/14 text-success"
+    },
+    {
+      "label": "Active subscriptions",
+      "value": "8,462",
+      "delta": 6.8,
+      "note": "258 net new accounts",
+      "icon": "UsersRound",
+      "color": "bg-info/14 text-info"
+    },
+    {
+      "label": "Account health score",
+      "value": "88.4",
+      "delta": 2.1,
+      "note": "portfolio average",
+      "icon": "Gauge",
+      "color": "bg-warning/16 text-warning"
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Northstar Labs",
+      "plan": "Enterprise",
+      "mrr": "$8,400",
+      "health": "Excellent",
+      "score": 94,
+      "owner": "JM"
+    },
+    {
+      "name": "Cedar & Co.",
+      "plan": "Growth",
+      "mrr": "$3,200",
+      "health": "Growing",
+      "score": 82,
+      "owner": "AK"
+    },
+    {
+      "name": "Atlas Studio",
+      "plan": "Business",
+      "mrr": "$2,880",
+      "health": "Watch",
+      "score": 61,
+      "owner": "RL"
+    },
+    {
+      "name": "Kinetic Systems",
+      "plan": "Enterprise",
+      "mrr": "$12,400",
+      "health": "Excellent",
+      "score": 96,
+      "owner": "SD"
+    }
+  ],
+  "movement": [
+    [
+      "Starting MRR",
+      "$161.3K",
+      "neutral"
+    ],
+    [
+      "New business",
+      "+$18.4K",
+      "success"
+    ],
+    [
+      "Expansion",
+      "+$12.9K",
+      "success"
+    ],
+    [
+      "Churn & contraction",
+      "-$8.0K",
+      "danger"
+    ]
+  ],
+  "revenueSeries": [
+    {
+      "name": "MRR",
+      "type": "column",
+      "data": [
+        131,
+        141,
+        148,
+        158,
+        169,
+        184.6
+      ]
+    },
+    {
+      "name": "MRR target",
+      "type": "area",
+      "data": [
+        132,
+        140,
+        149,
+        160,
+        171,
+        184
+      ]
+    }
+  ],
+  "activation": [
+    [
+      "Trial created",
+      "1,284",
+      "100%",
+      "bg-primary"
+    ],
+    [
+      "Team invited",
+      "1,068",
+      "83%",
+      "bg-info"
+    ],
+    [
+      "First workflow",
+      "864",
+      "67%",
+      "bg-success"
+    ],
+    [
+      "Core feature adopted",
+      "618",
+      "48%",
+      "bg-warning"
+    ],
+    [
+      "Converted to paid",
+      "509",
+      "40%",
+      "bg-chart-3"
+    ]
+  ],
+  "cohortSeries": [
+    {
+      "name": "Mar cohort",
+      "data": [
+        100,
+        94,
+        90,
+        88,
+        87,
+        86
+      ]
+    },
+    {
+      "name": "Apr cohort",
+      "data": [
+        100,
+        93,
+        89,
+        87,
+        85,
+        0
+      ]
+    },
+    {
+      "name": "May cohort",
+      "data": [
+        100,
+        95,
+        91,
+        89,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Jun cohort",
+      "data": [
+        100,
+        94,
+        92,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Jul cohort",
+      "data": [
+        100,
+        96,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "health": [
+    [
+      "Weekly active teams",
+      "4,982",
+      "+11.2%",
+      "success"
+    ],
+    [
+      "Feature adoption",
+      "72.4%",
+      "+5.1 pts",
+      "success"
+    ],
+    [
+      "Support response",
+      "8 min",
+      "within SLA",
+      "info"
+    ],
+    [
+      "Open incidents",
+      "2",
+      "being resolved",
+      "warning"
+    ]
+  ]
+}

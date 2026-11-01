@@ -1,0 +1,124 @@
+﻿@page "/dashboards/marketing"
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+@inject RynzoAppearance Appearance
+@implements IDisposable
+<PageTitle>Marketing command center — Rynzo</PageTitle>
+<div class="marketing-dashboard">
+    <DashboardPageHeader Title="Marketing command center" Description="Plan campaigns, measure demand, and turn attention into qualified pipeline.">
+        <Actions><div class="marketing-actions">
+            <MudSelect T="string" @bind-Value="_period" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true" Class="marketing-period" aria-label="Reporting period">
+                @foreach (var period in Periods) { <MudSelectItem Value="@period">@period</MudSelectItem> }
+            </MudSelect>
+            <MudButton Size="Size.Small" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export</MudButton>
+            <MudButton Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@RynzoIcons.Get("Plus")" OnClick="Create">Create campaign</MudButton>
+        </div></Actions>
+    </DashboardPageHeader>
+
+    <section aria-label="Growth scoreboard" class="marketing-scoreboard-section">
+        <div class="marketing-scoreboard">
+            @for (var i = 0; i < _data.Scoreboard.Length; i++)
+            {
+                var item = _data.Scoreboard[i]; var widgetIndex=i;
+                <MudCard Class="marketing-metric rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article">
+                    <div class="marketing-metric-top"><span>@item[0]</span><span class="marketing-metric-icon"><MudIcon Icon="@RynzoIcons.Get(MetricIcons[widgetIndex % MetricIcons.Length])" Size="Size.Small" /></span></div>
+                    <strong>@item[1]</strong>
+                    <div class="marketing-metric-bottom"><span class="marketing-delta" style="@($"--delta-tone:var(--{item[3][5..]})")">@item[2]</span><small>vs previous period</small></div>
+                </MudCard>
+            }
+        </div>
+    </section>
+
+    <section class="marketing-overview" aria-label="Demand performance and campaign focus">
+        <DashboardCard Title="Demand momentum" Description="Qualified demand across acquisition and nurture programs" Class="marketing-demand">
+            <Actions><span class="marketing-tag">August · USD, thousands</span></Actions>
+            <ChildContent>
+                <DashboardChart @key="ChartAppearance" Data="_data" OptionsModule="./marketing-options.js" Kind="demand" Height="310" Label="Pipeline influenced and media spend throughout August, in thousands of dollars" />
+                <div class="marketing-chart-caption"><span>Pipeline influenced vs media spend</span><span>Acquisition + nurture</span></div>
+            </ChildContent>
+        </DashboardCard>
+        <aside class="marketing-focus-panel">
+            <span class="marketing-eyebrow"><MudIcon Icon="@RynzoIcons.Get("Sparkles")" Size="Size.Small" /> Campaign focus</span>
+            <div class="marketing-focus-copy"><span class="marketing-focus-kicker">AUTUMN PRODUCT LAUNCH</span><h2>The autumn launch is building momentum.</h2><p>Audience engagement is 18% above plan. Move the best-performing social segment into the retargeting workflow today.</p></div>
+            <div class="marketing-focus-lift"><strong>18<span>%</span></strong><div>Above engagement plan<small>Audience engagement</small></div></div>
+            <div class="marketing-focus-actions">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Megaphone")" OnClick="@(() => _campaignLive = !_campaignLive)" aria-pressed="@_campaignLive">@(_campaignLive ? "Campaign live" : "Resume campaign")</MudButton>
+                <MudButton Variant="Variant.Text" StartIcon="@RynzoIcons.Get("Copy")" OnClick="Copy">Copy brief</MudButton>
+            </div>
+        </aside>
+    </section>
+
+    <section class="marketing-acquisition" aria-label="Acquisition and conversion">
+        <DashboardCard Title="Channel quality" Description="Where qualified demand begins" Class="marketing-channel">
+            <Actions><span class="marketing-tag">Lead mix</span></Actions>
+            <ChildContent><DashboardChart @key="ChartAppearance" Data="_data" OptionsModule="./marketing-options.js" Kind="channel" Height="300" Label="Qualified leads by paid social, organic, email, partners and direct" /></ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Conversion ladder" Description="The journey from attention to revenue" Class="marketing-conversion">
+            <Actions><span class="marketing-tag">Share of visits</span></Actions>
+            <ChildContent><DashboardChart @key="ChartAppearance" Data="_data" OptionsModule="./marketing-options.js" Kind="conversion" Height="270" Label="Visits, engagement, leads, meetings and won conversions" /><div class="marketing-chart-caption"><span>From first visit to closed-won</span><span>Conversion by stage</span></div></ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Audience signals" Description="Segments worth activating now" Class="marketing-signals">
+            <ChildContent><div class="marketing-audiences">
+                @foreach (var audience in _data.Audiences)
+                {
+                    <MudButton Variant="Variant.Text" Class="marketing-audience" OnClick="@(() => OpenAudience(audience[0]))">
+                        <span class="marketing-audience-icon"><MudIcon Icon="@RynzoIcons.Get(audience[4])" Size="Size.Small" /></span>
+                        <span class="marketing-audience-copy"><b>@audience[0]</b><small>@audience[1]</small><span class="marketing-signal-status @audience[3]">@audience[2]</span></span>
+                        <MudIcon Icon="@RynzoIcons.Get("ArrowRight")" Size="Size.Small" />
+                    </MudButton>
+                }
+            </div></ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section aria-label="Campaign portfolio">
+        <DashboardCard Title="Campaign portfolio" Description="Revenue contribution and next optimization action" Class="marketing-portfolio-card">
+            <Actions><span class="marketing-tag">@_data.Campaigns.Length campaigns</span></Actions>
+            <ChildContent>
+                <div class="marketing-portfolio-head" aria-hidden="true"><span>Campaign / channels</span><span>Pipeline</span><span>ROI</span><span>Status</span><span></span></div>
+                <div class="marketing-portfolio">@foreach (var campaign in _data.Campaigns) { <MarketingCampaign Campaign="campaign" Open="OpenCampaign" /> }</div>
+                <div class="marketing-portfolio-footer"><span>Paid, owned &amp; partner programs</span><span>Open a campaign to review its performance <span aria-hidden="true">↗</span></span></div>
+            </ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="marketing-planning" aria-label="Content performance and upcoming checkpoints">
+        <DashboardCard Title="Content pulse" Description="Assets moving prospects forward" Class="marketing-content-card">
+            <Actions><span class="marketing-tag">Engagement</span></Actions>
+            <ChildContent><div class="marketing-content">
+                @for (var i = 0; i < _data.Content.Length; i++)
+                {
+                    var content = _data.Content[i];
+                    <div class="marketing-content-item"><span class="marketing-content-index">@((i + 1).ToString("D2"))</span><div class="marketing-content-detail"><div><strong>@content[0].GetString()</strong><b>@content[2]%</b></div><small>@content[1].GetString()</small><FinanceProgress Value="content[2].GetDouble()" /></div></div>
+                }
+            </div></ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Next marketing moments" Description="Important campaign checkpoints" Class="marketing-moments-card">
+            <Actions><span class="marketing-calendar-icon"><MudIcon Icon="@RynzoIcons.Get("Calendar")" Size="Size.Small" /></span></Actions>
+            <ChildContent><ol class="marketing-moments">
+                @foreach (var moment in _data.Moments) { <li><span class="marketing-moment-date">@moment[0]</span><div><b>@moment[1]</b><span>@moment[2]</span></div></li> }
+            </ol></ChildContent>
+        </DashboardCard>
+    </section>
+</div>
+@code {
+    private readonly MarketingData _data = MarketingData.Load();
+    private string _period = "This month";
+    private bool _campaignLive = true;
+    private static readonly string[] MetricIcons = ["Target", "UsersRound", "MousePointer2", "TrendingUp"];
+    private static readonly string[] Periods = ["This month", "Last month", "Quarter to date"];
+    // Recreate this page's chart hosts when the palette changes to avoid overlapping
+    // ApexCharts renders during a simultaneous layout resize and appearance switch.
+    private string ChartAppearance => $"{Appearance.Skin}-{Appearance.IsDark}";
+    protected override void OnInitialized() => Appearance.Changed += RefreshAppearance;
+    private void RefreshAppearance() => _ = InvokeAsync(StateHasChanged);
+    public void Dispose() => Appearance.Changed -= RefreshAppearance;
+    // Preserve the source's local notifications without file, clipboard, or API side effects.
+    private void Export() => Snackbar.Add("Marketing report exported", Severity.Success);
+    private void Create() => Snackbar.Add("Campaign draft created", Severity.Success);
+    private void Copy() => Snackbar.Add("Campaign brief copied", Severity.Info);
+    private void OpenCampaign(string name) => Snackbar.Add($"{name} opened", Severity.Info);
+    private void OpenAudience(string name) => Snackbar.Add($"{name} audience opened", Severity.Info);
+}

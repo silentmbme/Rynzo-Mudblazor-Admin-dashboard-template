@@ -1,0 +1,11 @@
+.order-badge {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  color: var(--order-tone);
+  background: color-mix(in srgb, var(--order-tone) 14%, transparent);
+}

@@ -1,0 +1,223 @@
+{
+  "departments": [
+    {
+      "name": "General Medicine",
+      "beds": 48,
+      "occupied": 37,
+      "visits": 286,
+      "color": "--primary"
+    },
+    {
+      "name": "Cardiology",
+      "beds": 24,
+      "occupied": 20,
+      "visits": 164,
+      "color": "--chart-2"
+    },
+    {
+      "name": "Orthopedics",
+      "beds": 20,
+      "occupied": 14,
+      "visits": 138,
+      "color": "--chart-3"
+    },
+    {
+      "name": "Neurology",
+      "beds": 18,
+      "occupied": 13,
+      "visits": 92,
+      "color": "--chart-4"
+    },
+    {
+      "name": "Pediatrics",
+      "beds": 20,
+      "occupied": 12,
+      "visits": 181,
+      "color": "--chart-5"
+    },
+    {
+      "name": "ICU",
+      "beds": 12,
+      "occupied": 10,
+      "visits": 42,
+      "color": "--warning"
+    }
+  ],
+  "doctors": [
+    {
+      "id": "dr-01",
+      "name": "Dr. Amelia Brooks",
+      "initials": "AB",
+      "image": "assets/images/doctors/amelia-brooks.jpg",
+      "department": "General Medicine",
+      "role": "Consultant physician",
+      "patients": 12,
+      "available": true,
+      "tone": "bg-primary/10 text-primary"
+    },
+    {
+      "id": "dr-02",
+      "name": "Dr. Daniel Chen",
+      "initials": "DC",
+      "image": "assets/images/doctors/daniel-chen.jpg",
+      "department": "Cardiology",
+      "role": "Cardiology consultant",
+      "patients": 8,
+      "available": true,
+      "tone": "bg-info/10 text-info"
+    },
+    {
+      "id": "dr-03",
+      "name": "Dr. Maya Patel",
+      "initials": "MP",
+      "image": "assets/images/doctors/maya-patel.jpg",
+      "department": "Pediatrics",
+      "role": "Pediatric specialist",
+      "patients": 10,
+      "available": true,
+      "tone": "bg-success/10 text-success"
+    },
+    {
+      "id": "dr-04",
+      "name": "Dr. James Wilson",
+      "initials": "JW",
+      "image": "assets/images/doctors/james-wilson.jpg",
+      "department": "Orthopedics",
+      "role": "Orthopedic surgeon",
+      "patients": 6,
+      "available": false,
+      "tone": "bg-warning/10 text-warning"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "APT-2101",
+      "patient": "Olivia Bennett",
+      "age": 34,
+      "doctorId": "dr-01",
+      "department": "General Medicine",
+      "date": "2026-10-09",
+      "time": "09:00",
+      "type": "Consultation",
+      "status": "Completed"
+    },
+    {
+      "id": "APT-2102",
+      "patient": "Liam Carter",
+      "age": 58,
+      "doctorId": "dr-02",
+      "department": "Cardiology",
+      "date": "2026-10-09",
+      "time": "09:30",
+      "type": "Follow-up",
+      "status": "Checked in"
+    },
+    {
+      "id": "APT-2103",
+      "patient": "Emma Davis",
+      "age": 8,
+      "doctorId": "dr-03",
+      "department": "Pediatrics",
+      "date": "2026-10-09",
+      "time": "10:00",
+      "type": "Consultation",
+      "status": "Scheduled"
+    },
+    {
+      "id": "APT-2104",
+      "patient": "Noah Williams",
+      "age": 42,
+      "doctorId": "dr-04",
+      "department": "Orthopedics",
+      "date": "2026-10-09",
+      "time": "10:30",
+      "type": "Follow-up",
+      "status": "Scheduled"
+    },
+    {
+      "id": "APT-2105",
+      "patient": "Sophia Miller",
+      "age": 29,
+      "doctorId": "dr-01",
+      "department": "General Medicine",
+      "date": "2026-10-09",
+      "time": "11:00",
+      "type": "Consultation",
+      "status": "Scheduled"
+    },
+    {
+      "id": "APT-2106",
+      "patient": "Ethan Reed",
+      "age": 63,
+      "doctorId": "dr-02",
+      "department": "Cardiology",
+      "date": "2026-10-09",
+      "time": "11:30",
+      "type": "Follow-up",
+      "status": "Scheduled"
+    }
+  ],
+  "supplies": [
+    {
+      "name": "Examination gloves",
+      "remaining": 1240,
+      "target": 2000,
+      "unit": "pairs"
+    },
+    {
+      "name": "Disposable masks",
+      "remaining": 860,
+      "target": 1200,
+      "unit": "units"
+    },
+    {
+      "name": "PPE kits",
+      "remaining": 42,
+      "target": 200,
+      "unit": "kits"
+    },
+    {
+      "name": "Sterile dressing packs",
+      "remaining": 68,
+      "target": 300,
+      "unit": "packs"
+    }
+  ],
+  "activities": [
+    {
+      "title": "Morning ward review completed",
+      "text": "Capacity and staffing reviewed across all six departments.",
+      "time": "09:15",
+      "icon": "HeartPulse",
+      "tone": "bg-primary/10 text-primary"
+    },
+    {
+      "title": "Supply stock review",
+      "text": "PPE kits and dressing packs marked for replenishment.",
+      "time": "09:40",
+      "icon": "Package",
+      "tone": "bg-warning/10 text-warning"
+    },
+    {
+      "title": "Afternoon clinic schedule ready",
+      "text": "Available doctors are accepting sample appointment bookings.",
+      "time": "10:00",
+      "icon": "Clock3",
+      "tone": "bg-success/10 text-success"
+    },
+    {
+      "title": "Bed allocation updated",
+      "text": "Available beds confirmed with ward coordinators for incoming patients.",
+      "time": "10:20",
+      "icon": "BedDouble",
+      "tone": "bg-info/10 text-info"
+    },
+    {
+      "title": "Staff handover completed",
+      "text": "The afternoon team received appointment and department updates.",
+      "time": "10:45",
+      "icon": "UsersRound",
+      "tone": "bg-primary/10 text-primary"
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+﻿@page "/apps/chat"
+@implements IAsyncDisposable
+@using Rynzo.Client.Features.Chat.Models
+@using Rynzo.Client.Features.Chat.Services
+@using Rynzo.Client.Features.Chat.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+<PageTitle>Messages | Rynzo</PageTitle>
+<PageHeader Title="Messages" Description="A focused space for your team, ideas, and everyday conversations.">
+    <Actions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("SquarePen")"
+                   OnClick="New">New conversation</MudButton>
+    </Actions>
+</PageHeader>
+<div class="conversation-app">
+    <aside class="conversation-desktop">
+        <ConversationList State="_state" Changed="Refresh" Open="Open" New="New" />
+    </aside>
+    <main>@if(_state.Active is { } active){
+        <header>
+            <div>
+                <MudIconButton Icon="@RynzoIcons.Get("Menu")" aria-label="Open conversations"
+                               Class="conversation-mobile-toggle" OnClick="@(() => _mobile=true)" />
+                <ConversationPortrait Name="@active.Name" Status="@active.Status" />
+                <div>
+                    <h2>@active.Name</h2>
+                    <p>@(active.Status == "online" ? "Online now" : active.Status == "away" ? "Away" : "Last seen recently")</p>
+                </div>
+            </div>
+            <nav>
+                <MudIconButton Icon="@RynzoIcons.Get("Phone")" aria-label="Call" Class="conversation-desktop-action"
+                               OnClick="@(() => Call(false))" />
+                <MudIconButton Icon="@RynzoIcons.Get("Video")" aria-label="Video call"
+                               Class="conversation-desktop-action" OnClick="@(() => Call(true))" />
+                <MudIconButton Icon="@RynzoIcons.Get("Search")" aria-label="Search conversation"
+                               Class="conversation-desktop-action" />
+                <MudIconButton Icon="@RynzoIcons.Get("PanelRight")" aria-label="Conversation info"
+                               OnClick="@(() => _info=true)" />
+            </nav>
+        </header>
+        <div class="conversation-context"><span>
+            <MudIcon Icon="@RynzoIcons.Get("MessageSquare")" Size="Size.Small" />Team conversation
+        </span><span>Messages and shared files, together</span></div>
+        <section class="conversation-messages" role="log" aria-label="Messages">@foreach(var message in
+            active.Messages){
+                <ConversationBubble SenderName="@active.Name" Message="message" Reply="@(() => Reply(message))"
+                                    Edit="@(() => Edit(message))" Delete="@(() => Modal("delete",message))"
+                                    Pin="@(() => Modal("pin",message))" React="@((string emoji) => _state.React(message.Id,emoji))"
+                                    Image="@(() => Modal("image",message))" />
+            }
+            @if (active.Status == "online")
+            {
+                <div
+                    class="conversation-typing"><span><i></i><i></i><i></i></span>@active.Name.Split(' ')[0] is typing...
+                </div>
+            }
+        </section>
+        <footer>@if(_state.Reply is not null||_state.Editing is not null){
+            <div class="conversation-draft-notice">
+                <span><b>@(_state.Editing is not null ? "Editing message" : $"Replying to               {(_state.Reply?.Author == "me" ? "You" : active.Name)}")</b>
+                    @Truncate(_state.Editing?.Text ?? _state.Reply?.Text ?? "")</span>
+                    <MudIconButton Icon="@RynzoIcons.Get("X")" aria-label="Cancel" Size="Size.Small" OnClick="Cancel" />
+                </div>
+            }
+            @if (_state.Attachment is { } attachment)
+            {
+                <div class="conversation-draft-notice"><span>
+                    <MudIcon Icon="@RynzoIcons.Get(attachment.Type == "image" ? "Image" : "File")" Color="Color.Primary"
+                             Size="Size.Small" />@attachment.Name
+                </span>
+                <MudIconButton Icon="@RynzoIcons.Get("X")" aria-label="Remove attachment" Size="Size.Small"
+                               OnClick="@(() => _state.Attachment=null)" />
+            </div>
+        }
+        <div class="conversation-composer"><input type="file" id="@_fileId" hidden @onchange="Attachment" />
+            <MudIconButton Icon="@RynzoIcons.Get("Paperclip")" aria-label="Attach file" OnClick="Choose" />
+            <MudTextField T="string" @bind-Value="_state.Draft" Immediate="true"
+                          Placeholder="@(_state.Editing is not null?"Edit message":"Write a message")"
+                          aria-label="Write a message" Variant="Variant.Outlined" Lines="1" Sizing="InputSizing.Auto"
+                          Class="conversation-draft" />
+            <MudIconButton Icon="@RynzoIcons.Get("Smile")" aria-label="Add emoji"
+                           OnClick="@(() => _state.Draft+=" 😊")" />
+            <MudIconButton Icon="@RynzoIcons.Get("Send")" aria-label="Send message" Variant="Variant.Filled"
+                           Color="Color.Primary" OnClick="Send" />
+        </div>
+        <div class="conversation-composer-caption"><span>
+            <MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" Size="Size.Small" />Local conversation workspace
+        </span><span>Enter to send · Shift + Enter for a new line</span></div>
+    </footer>
+}else
+{
+
+    <div class="conversation-no-active">
+        <p>No conversations found.</p>
+        <MudButton Color="Color.Primary" OnClick="New">New chat</MudButton>
+    </div>
+}
+</main>
+</div>
+<MudOverlay Visible="@(_mobile || _info)" AutoClose="true" DarkBackground="true" ZIndex="1399" LockScroll="true"
+            OnClosed="@(() => {_mobile=false;_info=false;})" />
+<MudDrawer Open="_mobile" OpenChanged="@((bool open) => _mobile = open)" Anchor="Anchor.Left"
+           Variant="DrawerVariant.Temporary" Width="320px" Overlay="false" Elevation="0"
+           Style="z-index:1400;max-width:88vw;background:var(--card)">
+    <MudFocusTrap Disabled="@(!_mobile)">
+        <MudIconButton Icon="@RynzoIcons.Get("X")" aria-label="Close conversations" OnClick="@(() => _mobile = false)" />
+        <ConversationList State="_state" Changed="Refresh" Open="Open" New="New" />
+    </MudFocusTrap>
+</MudDrawer>
+<MudDrawer Open="_info" OpenChanged="@((bool open) => _info = open)" Anchor="Anchor.Right"
+           Variant="DrawerVariant.Temporary" Width="448px" Overlay="false" Elevation="0"
+           Style="z-index:1400;max-width:100%;background:var(--card);overflow-y:auto" Class="conversation-info-drawer">
+    <MudFocusTrap Disabled="@(!_info)">@if(_state.Active is { } details){
+        <ConversationInfo Active="details" Close="@(() => _info = false)" Call="Call" Mute="Mute" Add="Members"
+                          Delete="@(() => Modal("conversation-delete"))" Image="@((ConversationMessage m) => Modal("image",m))" />
+    }
+</MudFocusTrap>
+</MudDrawer>
+@code {
+    private readonly ChatState _state = new();
+    private readonly string _fileId = "conversation-file-" + Guid.NewGuid().ToString("N");
+    private bool _info, _mobile;
+    private IJSObjectReference? _module;
+    private DotNetObjectReference<Chat>? _receiver;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await
+JS.InvokeAsync<IJSObjectReference>("import", "./theme/conversation-browser.js"); _receiver = DotNetObjectReference.Create(this); await
+_module.InvokeVoidAsync("connect", _fileId, _receiver);
+        }
+    }
+    private static string Truncate(string value) => value.Length > 56 ? value[..56] : value;
+    private void Refresh() => StateHasChanged();
+    private void Open(string id) { _state.Open(id); _mobile = false; }
+    private void Reply(ConversationMessage message) { _state.Reply = message; _state.Editing = null; }
+    private void Edit(ConversationMessage message) { _state.Editing = message; _state.Draft = message.Text; _state.Reply = null; }
+    private void Cancel() { _state.Reply = null; _state.Editing = null; _state.Draft = ""; }
+    private void Send() { var editing = _state.Editing is not null; if (_state.Send()) Snackbar.Add(editing ? "Message updated" : "Message sent", Severity.Success); }
+    [JSInvokable] public void SendFromKeyboard() { Send(); StateHasChanged(); }
+    private async Task Choose() { if (_module is not null) await _module.InvokeVoidAsync("choose", _fileId); }
+    private async Task Attachment()
+    {
+        if (_module is not null) _state.Attachment = await
+_module.InvokeAsync<ConversationAttachment?>("attachment", _fileId);
+    }
+    private void Mute()
+    {
+        var muted = _state.Active?.Muted ?? false; _state.UpdateActive(c => c
+with
+        { Muted = !c.Muted }); Snackbar.Add(muted ? "Conversation unmuted" : "Conversation muted", Severity.Success);
+    }
+    private void Call(bool video) => Snackbar.Add(video ? "Video call started" : "Voice call started", Severity.Info);
+    private Task New() => Modal("new");
+    private Task Members() { _state.SelectedContacts.Clear(); return Modal("add"); }
+    private async Task Modal(string mode, ConversationMessage? message = null)
+    {
+        var dialog = await
+Dialogs.ShowAsync<ConversationDialog>("", new
+DialogParameters<ConversationDialog> { { d => d.State, _state }, { d => d.Mode, mode }, { d => d.Message, message } }, new
+DialogOptions
+{ CloseButton = true, CloseOnEscapeKey = true, FullWidth = true, MaxWidth = mode == "image" ? MaxWidth.Medium : MaxWidth.Small }); var
+result = await dialog.Result; if (result is not { Canceled: false }) return; if (mode == "new")
+        {
+            if (result.Data is string
+action && action == "create") await Modal("create");
+            else _mobile = false; return;
+        }
+        if (mode == "conversation-delete") _info = false; var
+toast = mode switch { "create" => "Group created", "add" => "Members added", "rename" => "Group renamed", "leave" => "You left the group", "pin" => "Message pinned", "delete" => "Message deleted", "conversation-delete" => "Conversation deleted", _ => null }; if (toast is not null) Snackbar.Add(toast, Severity.Success);
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null) try
+            {
+                await
+_module.InvokeVoidAsync("disconnect", _fileId); await
+_module.DisposeAsync();
+            }
+            catch (JSDisconnectedException) { }
+        _receiver?.Dispose();
+    }
+}
+
+
+
+

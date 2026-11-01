@@ -1,0 +1,62 @@
+@page "/dashboards/crm"
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+<PageTitle>CRM Dashboard | Rynzo</PageTitle>
+<div class="crm-dashboard">
+    <DashboardPageHeader Title="CRM Dashboard" Description="A focused sales workspace for the conversations and decisions that move revenue today." ><Actions><div class="crm-actions"><MudButton Size="Size.Small" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Mail")" OnClick="Share">Share brief</MudButton><MudButton Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" OnClick="NewDeal">New deal</MudButton></div></Actions></DashboardPageHeader>
+    <section class="crm-revenue-grid"><MudCard Elevation="0" Class="crm-hero rynzo-widget-card" Outlined="true"><div><span class="crm-brief"><MudIcon Icon="@RynzoIcons.Get("Sparkles")" Size="Size.Small" />Today’s revenue brief</span><h2><strong>$254K</strong><span>can move forward this week.</span></h2><p>Three high-value opportunities are waiting on a clear next action. Start with the executive recap for Northstar.</p><div class="crm-hero-actions"><MudButton Size="Size.Small" Variant="Variant.Outlined" EndIcon="@RynzoIcons.Get("ArrowRight")" OnClick="Priority">Open priority deal</MudButton><MudButton Size="Size.Small" Variant="Variant.Outlined" OnClick="Risk">View risks</MudButton></div></div></MudCard><div class="crm-summaries"><MudButton Class="crm-summary" OnClick="Decision"><MudIcon Icon="@RynzoIcons.Get("Sparkles")" Color="Color.Primary" /><p>Decision to unlock</p><b>Northstar Labs</b><small>Executive recap due today</small></MudButton><MudButton Class="crm-summary" OnClick="Stakeholders"><MudIcon Icon="@RynzoIcons.Get("UserRoundCheck")" Color="Color.Success" /><p>Relationship coverage</p><strong>4 / 5</strong><small>Stakeholders mapped</small></MudButton><MudButton Class="crm-summary" OnClick="Risk"><MudIcon Icon="@RynzoIcons.Get("CircleAlert")" Color="Color.Warning" /><p>Revenue needing action</p><strong>$72K</strong><small>Two deals need next steps</small></MudButton></div></section>
+    <section class="crm-deal-desk"><DashboardCard Title="Priority deal desk" Description="The next best action for your highest-impact conversations" Class="crm-desk"><Actions><div class="crm-tabs">@foreach(var focus in FocusOptions){<MudButton Size="Size.Small" Variant="@(_focus==focus?Variant.Filled:Variant.Text)" aria-pressed="@(_focus==focus?"true":"false")" OnClick="@(() => _focus=focus)">@focus</MudButton>}</div></Actions><ChildContent><div class="crm-priorities">@foreach(var deal in _data.PriorityDeals){<CrmPriorityCard Deal="deal" Done="_done.Contains(deal.Name)" Complete="MarkDone" />}</div></ChildContent></DashboardCard></section>
+    <section class="crm-analysis-grid"><DashboardCard Title="Opportunity map" Description="Bubble size indicates deal size; position shows confidence and value" Class="crm-map"><DashboardChart Data="_data" OptionsModule="./crm-dashboard-options.js" Height="325" Label="Opportunity confidence, value and size by customer segment" /></DashboardCard><DashboardCard Title="Pipeline check" Description="Deal volume, value, and coverage across sales stages" Class="crm-pipeline-card"><div class="crm-pipeline-labels"><span>Stage / deals</span><span>Value</span><span>Coverage</span></div><div class="crm-pipeline">@foreach(var stage in _data.Pipeline){<div><span><b>@stage[0]</b><small>@stage[1]</small></span><b>@stage[2]</b><MudChip T="string" Size="Size.Small" Color="@(stage[3]=="1.8"?Color.Warning:Color.Success)">@stage[3]</MudChip></div>}</div></DashboardCard></section>
+    <section class="crm-relationship-grid"><DashboardCard Title="Relationship signals" Description="Accounts changing in health this week" Class="crm-signal-card"><div class="crm-signals">@foreach(var signal in _data.Signals){<div><span class="crm-dot" style="@Background(signal[3])"></span><span><b>@signal[0]</b><small>@signal[1]</small></span><MudChip T="string" Color="@Tone(signal[3])" Size="Size.Small">@signal[2]</MudChip></div>}</div></DashboardCard><DashboardCard Title="Today’s calendar" Description="Keep the right conversations moving" Class="crm-calendar"><Actions><MudIcon Icon="@RynzoIcons.Get("CalendarDays")" Size="Size.Small" /></Actions><ChildContent><ol class="crm-meetings">@foreach(var meeting in _data.Meetings){<li><time>@meeting[0]</time><i></i><div><p><b>@meeting[1]</b><MudIcon Icon="@RynzoIcons.Get(meeting[3]=="Video"?"Video":meeting[3]=="Phone"?"Phone":"Mail")" Size="Size.Small" /></p><small>@meeting[2]</small></div></li>}</ol><MudButton FullWidth="true" Size="Size.Small" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("CalendarDays")" Class="mt-4" OnClick="Calendar">Open full calendar</MudButton></ChildContent></DashboardCard><DashboardCard Title="Renewal watch" Description="Accounts up for renewal next" Class="crm-renewal-card"><div class="crm-renewals">@foreach(var renewal in _data.Renewals){<MudButton Variant="Variant.Outlined" Class="crm-renewal" OnClick="@(() => Info(renewal[0]+" renewal opened"))"><span class="crm-dot" style="@Background(renewal[3])"></span><span><b>@renewal[0]</b><small>Renewal @renewal[2]</small></span><b>@renewal[1]</b></MudButton>}</div></DashboardCard></section>
+    <section class="crm-conversation-row">
+        <DashboardCard Title="Conversation intelligence" Description="Account signals and the next action to take" Class="crm-intelligence">
+            <Actions><span class="crm-signal-count">@_data.Conversations.Length signals today</span></Actions>
+            <ChildContent>
+                <div class="crm-insight-feed">
+                    @foreach (var conversation in _data.Conversations)
+                    {
+                        <article>
+                            <header><span class="crm-account-mark" style="@($"--signal-color:var(--{(conversation[4]=="danger"?"destructive":conversation[4])})")">@string.Concat(conversation[0].Split(' ').Take(2).Select(part=>part[..1]))</span><div><h3>@conversation[0]</h3><span>@conversation[2]</span></div><time>@conversation[5]</time></header>
+                            <p>@conversation[1]</p>
+                            <MudButton Size="Size.Small" Color="Color.Primary" EndIcon="@RynzoIcons.Get("ArrowUpRight")" OnClick="@(() => Success(conversation[3]+" task created"))">@conversation[3]</MudButton>
+                        </article>
+                    }
+                </div>
+                <aside class="crm-next-play"><div><MudIcon Icon="@RynzoIcons.Get("Sparkles")" Size="Size.Small" /><h3>Suggested play</h3></div><p>Northstar is showing high buying intent. Send a mutual action plan before tomorrow&#8217;s stakeholder review.</p><MudButton Size="Size.Small" Variant="Variant.Outlined" Color="Color.Primary" EndIcon="@RynzoIcons.Get("ChevronRight")" OnClick="Draft">Draft plan</MudButton></aside>
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Conversation-linked pipeline" Description="Opportunity value behind the current account signals" Class="crm-conversation-chart">
+            <div class="crm-linked-summary"><div><strong>@LinkedPipelineValue</strong><span>Linked opportunity value</span></div><span>@_data.PriorityDeals.Count(deal=>_data.Conversations.Any(c=>c[0]==deal.Company)) accounts</span></div>
+            <DashboardChart Data="_data" OptionsModule="./crm-dashboard-options.js" Kind="conversations" Height="310" Label="Combined bar and area chart showing account deal values and percentage share of linked pipeline" />
+            <p class="crm-linked-note"><MudIcon Icon="@RynzoIcons.Get("MessageSquare")" Size="Size.Small" />Bars show deal value; the area shows each account share of the linked pipeline.</p>
+        </DashboardCard>
+    </section>   <section class="crm-coverage-grid"><DashboardCard Title="Buying committee coverage" Description="Stakeholders mapped across your priority opportunities" Class="crm-committee-card"><div class="crm-committee">@foreach(var committee in _data.Committee){var count=committee[0] switch{"Platform upgrade"=>5,"Northstar expansion"=>4,"Automation rollout"=>3,_=>2};<div><p><span><b>@committee[0]</b><small>@committee[1]</small></span><MudChip T="string" Color="@Tone(committee[3])" Size="Size.Small">@committee[2]</MudChip></p><div class="crm-people">@for(var i=0;i<PersonLabels.Length;i++){<span class="@(i<count?"mapped":"")">@PersonLabels[i]</span>}</div></div>}</div></DashboardCard><DashboardCard Title="Lead routing quality" Description="How quickly new demand reaches the right owner" Class="crm-routing-card"><div class="crm-routing">@foreach(var routing in _data.Routing){<div><p><span><b>@routing[0]</b><small>@routing[2]</small></span><b>@routing[1]</b></p><FinanceProgress Value="double.Parse(routing[1].TrimEnd('%'),System.Globalization.CultureInfo.InvariantCulture)" Tone="@routing[3][3..]" /></div>}</div><p class="crm-routing-win"><b>Routing win:</b> response time improved by 7 minutes after territory automation.</p><MudButton Size="Size.Small" Variant="Variant.Outlined" FullWidth="true" StartIcon="@RynzoIcons.Get("UserRoundCheck")" Class="mt-4" OnClick="Routing">Review routing rules</MudButton></DashboardCard></section>
+    <MudCard Outlined="true" Elevation="0" Class="crm-coaching rynzo-widget-card"><div class="crm-coaching-heading"><div><h2>Sales coaching moments</h2><p>Behavior signals that help the team convert the right conversations.</p></div><MudButton Size="Size.Small" Color="Color.Primary" EndIcon="@RynzoIcons.Get("ChevronRight")" OnClick="Coaching">Open coaching</MudButton></div><div class="crm-coaching-cards">@foreach(var coaching in _data.Coaching){<article><MudIcon Icon="@RynzoIcons.Get("CircleAlert")" Color="@Tone(coaching[3])" /><h3>@coaching[0]</h3><p>@coaching[1]</p><MudButton Size="Size.Small" Color="Color.Primary" EndIcon="@RynzoIcons.Get("ChevronRight")" OnClick="@(() => Success(coaching[2]+" started"))">@coaching[2]</MudButton></article>}</div></MudCard>
+</div>
+@code{
+    private readonly CrmDashboardData _data=CrmDashboardData.Load();
+    private readonly HashSet<string> _done=[];
+    private string _focus="Pipeline";
+    private static readonly string[] FocusOptions=["Pipeline","At risk","Closing soon"],PersonLabels=["EB","CH","IT","FN","LG"];
+    private static readonly BreadcrumbItem[] Breadcrumbs=[new("Rynzo",null),new("Dashboards",null),new("CRM",null,true)];
+    private static Color Tone(string tone)=>tone switch{"success"=>Color.Success,"warning"=>Color.Warning,"danger"=>Color.Error,"info"=>Color.Info,_=>Color.Primary};
+    private static string Background(string tone)=>$"background:var(--{(tone=="danger"?"destructive":tone)})";
+    private string LinkedPipelineValue => "$" + _data.PriorityDeals.Where(deal=>_data.Conversations.Any(c=>c[0]==deal.Company)).Sum(deal=>decimal.Parse(deal.Value.Trim((char)36,'K'),System.Globalization.CultureInfo.InvariantCulture)).ToString("0.#",System.Globalization.CultureInfo.InvariantCulture) + "K";
+    private void Success(string message)=>Snackbar.Add(message,Severity.Success);
+    private void Info(string message)=>Snackbar.Add(message,Severity.Info);
+    private void MarkDone(string name){if(_done.Add(name))Success("Next step completed");}
+    private void Risk()=>_focus="At risk";
+    private void Share()=>Success("Daily brief shared");
+    private void NewDeal()=>Success("Deal created");
+    private void Priority()=>Info("Northstar deal opened");
+    private void Decision()=>Info("Northstar decision path opened");
+    private void Stakeholders()=>Info("Stakeholder map opened");
+    private void Calendar()=>Success("Calendar opened");
+    private void Draft()=>Success("Mutual action plan drafted");
+    private void Routing()=>Info("Lead routing rules opened");
+    private void Coaching()=>Info("Coaching workspace opened");
+    // Focus only changes the selected tab in React; it does not filter priority deals.
+    // Notifications are source-local: no real deal/task/share or navigation service exists.
+}

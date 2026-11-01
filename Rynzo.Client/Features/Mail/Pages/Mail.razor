@@ -1,0 +1,72 @@
+﻿@page "/apps/email"
+@using Rynzo.Client.Features.Mail.Models
+@using Rynzo.Client.Features.Mail.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+<PageTitle>Mail | Rynzo</PageTitle>
+<div class="mail-app">
+    <PageHeader Title="Mail" Description="Your conversations, organized. Stay focused on what matters."><Actions><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("PenLine")" OnClick="Compose">Compose message</MudButton></Actions></PageHeader>
+    <div class="mail-workspace">
+        <aside class="mail-sidebar">
+            <div class="mail-workspace-brand"><span><MudIcon Icon="@RynzoIcons.Get("Mail")" /></span><div><b>Team mailbox</b><small>avery@rynzo.example</small></div></div>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" StartIcon="@RynzoIcons.Get("Plus")" OnClick="Compose" Class="mail-sidebar-compose">New message</MudButton>
+            <span class="mail-nav-caption">WORKSPACE</span>
+            <nav aria-label="Mailboxes">
+                @foreach (var folder in Folders)
+                {
+                    <MudButton Variant="Variant.Text" StartIcon="@RynzoIcons.Get(folder.Icon)" Class="@(_folder == folder.Name ? "mail-folder-active" : "")" OnClick="@(() => SetFolder(folder.Name))" aria-current="@(_folder == folder.Name ? "page" : null)"><span>@folder.Name</span>@if (FolderCount(folder.Name) > 0) { <b>@FolderCount(folder.Name)</b> }</MudButton>
+                }
+            </nav>
+            <section class="mail-labels"><header><h2>LABELS</h2><MudButton Variant="Variant.Text" Size="Size.Small" OnClick="@(() => _activeLabel = "")" Disabled="@(string.IsNullOrEmpty(_activeLabel))">Clear</MudButton></header>
+                @foreach (var label in Labels)
+                {
+                    <MudButton Variant="Variant.Text" Class="@(_activeLabel == label.Name ? "mail-label-active" : "")" OnClick="@(() => _activeLabel = _activeLabel == label.Name ? "" : label.Name)"><i style="@($"background:var(--{label.Tone})")"></i><span>@label.Name</span><b>@_messages.Count(m => Label(m) == label.Name)</b></MudButton>
+                }
+            </section>
+            <div class="mail-local-note"><MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" Size="Size.Small" /><div><b>A focused workspace</b><p>Sample messages. Changes stay in this page session.</p></div></div>
+        </aside>
+        <section class="mail-inbox" aria-label="Mail messages">
+            <header class="mail-inbox-heading"><div><span class="mail-eyebrow">YOUR MAILBOX</span><h2>@_folder <span>@FolderCount(_folder)</span></h2><p>@(_folder == "Inbox" ? "Keep the conversation moving forward." : $"Messages in your {_folder.ToLowerInvariant()} view.")</p></div>
+            <div class="mail-toolbar"><div class="mail-tabs" role="group" aria-label="Message view">@foreach (var view in Views) { <button type="button" class="@(_view == view ? "active" : "")" aria-pressed="@(_view == view)" @onclick="@(() => _view = view)">@view</button> }</div><MudTextField T="string" @bind-Value="_query" Immediate="true" Placeholder="Search your messages" aria-label="Search mail" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" Class="mail-search" /></div></header>
+            <div class="mail-list-caption"><span>@(string.IsNullOrEmpty(_activeLabel) ? "All conversations" : _activeLabel + " conversations")</span><span>@Visible.Count() messages</span></div>
+            <div class="mail-message-list">
+                @foreach (var message in Visible)
+                {
+                    <article class="mail-message-row @(!_read.Contains(message.Index) ? "is-unread" : "")">
+                        <button type="button" class="mail-open-message" aria-label="@($"Read {message.Subject} from {message.Sender}")" @onclick="@(() => Open(message.Index))">
+                            <span class="mail-sender-avatar"><img src="@message.Portrait" alt="" width="42" height="42" />@if (!_read.Contains(message.Index)) { <i></i> }</span>
+                            <span class="mail-message-copy"><span class="mail-message-top"><b>@message.Sender</b><time>@message.Time</time></span><strong>@message.Subject</strong><small>@message.Preview</small><span class="mail-message-meta"><span class="mail-message-label">@Label(message)</span>@if (message.Index == 0) { <span class="mail-attachment-hint"><MudIcon Icon="@RynzoIcons.Get("Paperclip")" Size="Size.Small" />q3-design-review.pdf</span> }</span></span>
+                        </button>
+                        <button type="button" class="mail-row-star @(_stars.Contains(message.Index) ? "is-starred" : "")" aria-label="@($"{(_stars.Contains(message.Index) ? "Unstar" : "Star")} {message.Subject}")" aria-pressed="@_stars.Contains(message.Index)" @onclick="@(() => ToggleStar(message.Index))"><MudIcon Icon="@RynzoIcons.Get("Star")" Size="Size.Small" /></button>
+                    </article>
+                }
+                @if (!Visible.Any()) { <div class="mail-empty"><span><MudIcon Icon="@RynzoIcons.Get("Inbox")" /></span><h3>No messages here</h3><p>@(_query.Length > 0 ? "Try another sender, subject, or keyword." : "Choose another folder or message view.")</p><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="ResetView">Back to inbox</MudButton></div> }
+            </div>
+            <footer class="mail-list-footer"><span>@Visible.Count() of @_messages.Length sample messages</span><span><MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" Size="Size.Small" />Your team, connected</span></footer>
+            <div class="mail-inbox-tip"><MudIcon Icon="@RynzoIcons.Get("Sparkles")" /><div><b>Make space for focused work</b><p>Star conversations to revisit them, or use the unread view to find your next reply.</p></div></div>
+        </section>
+    </div>
+</div>
+<MudOverlay Visible="_previewOpen" DarkBackground="true" AutoClose="true" LockScroll="true" ZIndex="1399" OnClosed="Close" />
+<MudDrawer Open="_previewOpen" OpenChanged="PreviewChanged" Anchor="Anchor.Right" Variant="DrawerVariant.Temporary" Overlay="false" Elevation="0" Width="680px" Style="z-index:1400;max-width:100vw;background:var(--card)" Class="mail-detail-drawer"><MudFocusTrap><MailDetails Message="@_messages[_active]" Starred="@_stars.Contains(_active)" QuickReply="@_quickReply" QuickReplyChanged="@((string value) => _quickReply=value)" ToggleStar="@(() => ToggleStar(_active))" Close="Close" Compose="Compose" /></MudFocusTrap></MudDrawer>
+@code {
+    private readonly MailMessage[] _messages = MailMessage.Load();
+    private readonly HashSet<int> _read = [], _stars = [];
+    private int _active;
+    private string _query = "", _quickReply = "", _activeLabel = "", _folder = "Inbox", _view = "All messages";
+    private bool _previewOpen;
+    private static readonly string[] Views = ["All messages", "Unread", "Starred"];
+    private static readonly (string Name, string Icon)[] Folders = [("Inbox", "Inbox"), ("Starred", "Star"), ("Sent", "Send"), ("Drafts", "FilePenLine"), ("Important", "BadgeAlert"), ("Spam", "OctagonAlert"), ("Trash", "Trash2")];
+    private static readonly (string Name, string Tone)[] Labels = [("Work", "info"), ("Finance", "warning"), ("Support", "success"), ("Social", "chart-3")];
+    private static string Label(MailMessage message) => message.Index switch { 1 => "Finance", 3 => "Support", _ => "Work" };
+    private IEnumerable<MailMessage> Visible => _messages.Where(m => (_folder == "Inbox" || _folder == "Starred" && _stars.Contains(m.Index)) && (_view != "Unread" || !_read.Contains(m.Index)) && (_view != "Starred" || _stars.Contains(m.Index)) && (string.IsNullOrEmpty(_activeLabel) || Label(m) == _activeLabel) && $"{m.Sender} {m.Subject} {m.Preview}".Contains(_query, StringComparison.OrdinalIgnoreCase));
+    private int FolderCount(string folder) => folder == "Inbox" ? _messages.Length : folder == "Starred" ? _stars.Count : 0;
+    private void SetFolder(string folder) { _folder = folder; _view = "All messages"; _activeLabel = ""; }
+    private void ResetView() { SetFolder("Inbox"); _query = ""; }
+    private void ToggleStar(int index) { if (!_stars.Add(index)) _stars.Remove(index); }
+    private void Open(int index) { _active = index; _read.Add(index); _previewOpen = true; }
+    private void Close() => _previewOpen = false;
+    private void PreviewChanged(bool open) => _previewOpen = open;
+    private async Task Compose() { var dialog = await Dialogs.ShowAsync<MailComposeDialog>("New message", new DialogOptions { CloseButton = false, CloseOnEscapeKey = false, BackdropClick = false, FullWidth = true, MaxWidth = MaxWidth.Small }); await dialog.Result; }
+}
+

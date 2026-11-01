@@ -1,0 +1,17 @@
+@using Rynzo.Client.Theme
+@inject RynzoAppearance Appearance
+<section class="rynzo-customizer-section">
+    <MudText Typo="Typo.overline">@Title</MudText>
+    <div class="rynzo-segments">
+        @foreach (var option in Options)
+        {
+            <MudButton Size="Size.Small" Class="@(Value == option.Value ? "selected" : "")" OnClick="@(() => Appearance.SetOptionAsync(Setting, option.Value))" aria-pressed="@(Value == option.Value)">@option.Label</MudButton>
+        }
+    </div>
+</section>
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Setting { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public (string Value, string Label)[] Options { get; set; } = [];
+}

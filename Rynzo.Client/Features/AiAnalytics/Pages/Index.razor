@@ -1,0 +1,9 @@
+﻿@page "/ai-analytics"
+@inject NavigationManager Navigation
+
+@code {
+    // React's index route only redirects; it has no page UI, data, or child components.
+    // Replace history so Back does not return to the redirect entry.
+    protected override void OnInitialized() => Navigation.NavigateTo("/ai-analytics/insights", replace: true);
+}
+

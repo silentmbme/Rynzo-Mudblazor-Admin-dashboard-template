@@ -1,0 +1,296 @@
+.sample-dialog-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.sample-dialog-icon {
+  height: 42px;
+  width: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.sample-dialog-icon.danger {
+  color: var(--destructive);
+  background: color-mix(in srgb, var(--destructive) 8%, var(--card));
+}
+.sample-dialog-icon ::deep svg {
+  height: 21px;
+  width: 21px;
+}
+.sample-dialog-heading small {
+  display: block;
+  font-size: var(--rynzo-font-overline);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted-foreground);
+  margin-bottom: 5px;
+}
+.sample-dialog-body {
+  font-size: var(--rynzo-font-body2);
+  color: var(--foreground);
+}
+.sample-dialog-body p {
+  font-size: var(--rynzo-font-body2);
+  color: var(--muted-foreground);
+  line-height: 1.85;
+  margin: 0 0 18px;
+}
+.sample-dialog-body h3 {
+  font-size: var(--rynzo-font-subtitle1);
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+.sample-fields {
+  display: grid;
+  gap: 20px;
+}
+.sample-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+}
+.sample-fields input,
+.sample-fields select,
+.sample-fields textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit;
+  font-size: var(--rynzo-font-body2);
+  resize: vertical;
+}
+.sample-fields input:focus,
+.sample-fields select:focus,
+.sample-fields textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--primary) 20%, transparent);
+  border-color: var(--primary);
+}
+.sample-callout {
+  padding: 18px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.85;
+  margin-bottom: 18px;
+  color: var(--muted-foreground);
+}
+.sample-callout.danger {
+  border-color: color-mix(in srgb, var(--destructive) 20%, var(--border));
+  background: color-mix(in srgb, var(--destructive) 5%, var(--card));
+}
+.sample-callout.success {
+  background: color-mix(in srgb, var(--success) 6%, var(--card));
+  border-color: color-mix(in srgb, var(--success) 20%, var(--border));
+}
+.sample-callout > ::deep svg {
+  height: 24px;
+  width: 24px;
+  color: var(--success);
+  margin-bottom: 15px;
+}
+.sample-callout p:last-child {
+  margin-bottom: 0;
+}
+.sample-steps {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.sample-steps > span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.sample-steps b {
+  height: 25px;
+  width: 25px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--muted);
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+}
+.sample-steps .active {
+  color: var(--primary);
+}
+.sample-steps .active b {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.sample-commands {
+  display: grid;
+  gap: 6px;
+  margin-top: 20px;
+}
+.sample-commands ::deep .mud-button {
+  justify-content: start;
+  font-size: var(--rynzo-font-body2);
+  padding: 12px;
+}
+.sample-commands ::deep svg {
+  width: 17px;
+  height: 17px;
+}
+.sample-project {
+  padding: 20px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  margin-bottom: 20px;
+}
+.sample-project > span {
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+  letter-spacing: 0.07em;
+}
+.sample-project h3 {
+  margin: 9px 0 14px;
+}
+.sample-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.sample-detail-grid > div {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  background: var(--card);
+  min-width: 0;
+}
+.sample-detail-grid small {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.sample-detail-grid b {
+  display: block;
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  margin-top: 9px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.sample-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.sample-releases {
+  max-height: 52vh;
+  overflow-y: auto;
+  display: grid;
+  gap: 14px;
+  padding-right: 6px;
+}
+.sample-releases article {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+}
+.sample-releases small {
+  font-size: var(--rynzo-font-overline);
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.sample-releases h3 {
+  margin-top: 9px;
+}
+.sample-releases p {
+  font-size: var(--rynzo-font-caption);
+  margin: 0;
+}
+.sample-full-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 24px;
+  background: var(--background);
+  padding: 24px;
+  border-radius: 12px;
+  min-height: 65vh;
+}
+.sample-full-layout aside,
+.sample-full-layout section {
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--card);
+  padding: 24px;
+}
+.sample-full-layout aside p {
+  font-size: var(--rynzo-font-caption);
+}
+.sample-full-layout .active {
+  color: var(--primary);
+  font-weight: 500;
+}
+.sample-focus {
+  background: linear-gradient(120deg, var(--primary), var(--info));
+  border-radius: 12px;
+  padding: 32px;
+  color: var(--primary-foreground);
+}
+.sample-focus h2 {
+  font-size: var(--rynzo-font-h4);
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 20px 0 10px;
+}
+.sample-focus p {
+  color: inherit;
+  margin: 0;
+  font-size: var(--rynzo-font-caption);
+}
+@media (max-width: 600px) {
+  .sample-detail-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .sample-full-layout {
+    grid-template-columns: 1fr;
+    padding: 14px;
+    gap: 14px;
+  }
+  .sample-steps {
+    gap: 7px;
+  }
+  .sample-steps > span {
+    gap: 5px;
+    font-size: var(--rynzo-font-overline);
+  }
+  .sample-focus {
+    padding: 22px;
+  }
+  .sample-focus h2 {
+    font-size: var(--rynzo-font-h5);
+  }
+}
+
+::deep .sample-side-sheet {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  margin: 0 !important;
+  height: 100dvh;
+  max-height: 100dvh !important;
+  max-width: min(480px, 100vw) !important;
+  width: 100%;
+  border-radius: 0 !important;
+}

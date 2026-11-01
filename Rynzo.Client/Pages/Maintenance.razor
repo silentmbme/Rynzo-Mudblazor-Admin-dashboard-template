@@ -1,0 +1,57 @@
+@page "/auth/errors/maintenance"
+@layout MainLayout
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+<PageTitle>Maintenance | Rynzo</PageTitle>
+<main class="maintenance-page" aria-labelledby="maintenance-title">
+    <section class="maintenance-hero">
+        <div class="hero-copy">
+            <span class="maintenance-badge"><MudIcon Icon="@Icons.Material.Outlined.Build" />SCHEDULED MAINTENANCE</span>
+            <h1 id="maintenance-title">We're Making<br />Things <em>Better</em></h1>
+            <p>We're performing some improvements to make your experience faster, smoother, and more reliable. We'll be back as soon as possible.</p>
+            <section class="maintenance-countdown" aria-label="Maintenance countdown">
+                <span class="countdown-label">ESTIMATED RETURN</span>
+                <div class="countdown-digits" role="timer" aria-live="off" aria-label="Time remaining until 1 January 2027, midnight India Standard Time">
+                    <div class="countdown-unit"><strong data-countdown-days>@((_remainingSeconds / 86400).ToString("D2"))</strong><span>Days</span></div><span class="countdown-separator" aria-hidden="true">:</span>
+                    <div class="countdown-unit"><strong data-countdown-hours>@(((_remainingSeconds / 3600) % 24).ToString("D2"))</strong><span>Hours</span></div><span class="countdown-separator" aria-hidden="true">:</span>
+                    <div class="countdown-unit"><strong data-countdown-minutes>@(((_remainingSeconds / 60) % 60).ToString("D2"))</strong><span>Minutes</span></div><span class="countdown-separator" aria-hidden="true">:</span>
+                    <div class="countdown-unit"><strong data-countdown-seconds>@((_remainingSeconds % 60).ToString("D2"))</strong><span>Seconds</span></div>
+                </div>
+                <p class="countdown-deadline">1 January 2027 <span aria-hidden="true">·</span> 12:00 AM IST</p>
+                @if(_remainingSeconds==0){<p class="countdown-finished" role="status">The estimated return time has arrived. Check again for access.</p>}
+            </section>
+            <div class="maintenance-actions"><MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CheckAgain" Disabled="@_checking" StartIcon="@Icons.Material.Outlined.Refresh">@(_checking?"Checking…":"Check Again")</MudButton><MudButton Href="/" Variant="Variant.Outlined" StartIcon="@Icons.Material.Outlined.Home">Return to Home</MudButton></div>
+            @if(_feedback.Length>0){<p class="action-feedback" role="status">@_feedback</p>}
+            <span class="retry-note">Check Again reloads this page.</span>
+        </div>
+        <div class="infrastructure-art" aria-hidden="true">
+            <div class="art-glow"></div><div class="art-grid"></div>
+            <svg class="connections" viewBox="0 0 500 420" fill="none"><path d="M100 108H193V175M365 99H305V175M253 277V345H380M253 315H100V269" /><circle cx="100" cy="108" r="4"/><circle cx="365" cy="99" r="4"/><circle cx="380" cy="345" r="4"/></svg>
+            <div class="server-platform"><div class="platform-top"></div><div class="server-tower"><header><MudIcon Icon="@Icons.Material.Outlined.Dns" /><span>INFRASTRUCTURE</span></header>@for(var i=0;i<3;i++){<div class="server-module"><span class="module-number">0@(i+1)</span><div class="module-slots"><i></i><i></i><i></i><i></i><i></i></div><b></b><b></b></div>}<footer><span></span><i></i><i></i></footer></div><div class="maintenance-tool"><MudIcon Icon="@Icons.Material.Outlined.Settings" /></div></div>
+            <div class="node-card cloud-node"><span class="node-icon"><MudIcon Icon="@Icons.Material.Outlined.CloudSync" /></span><div><b>Cloud workspace</b><span>Built for what's next</span></div></div>
+            <div class="node-card shield-node"><span class="node-icon"><MudIcon Icon="@Icons.Material.Outlined.VerifiedUser" /></span><div><b>Reliability first</b><span>Care in every update</span></div></div>
+            <div class="database-node"><MudIcon Icon="@Icons.Material.Outlined.Storage" /><span>DATA LAYER</span></div>
+            <span class="art-caption">TUNING THE ENGINE BEHIND YOUR WORK</span>
+        </div>
+    </section>
+    <footer class="maintenance-footer"><span>Thanks for giving us a moment to improve your workspace.</span><MudLink Href="/pages/faq">Contact Support <MudIcon Icon="@Icons.Material.Outlined.ArrowOutward" Size="Size.Small" /></MudLink></footer>
+</main>
+@code {
+    private static readonly DateTimeOffset CompletionTime = new(2027, 1, 1, 0, 0, 0, TimeSpan.FromHours(5.5));
+    private readonly CancellationTokenSource _countdownLifetime = new();
+    private Task? _countdownTask;
+    private long _remainingSeconds;
+    protected override void OnInitialized(){UpdateRemaining();_countdownTask=RunCountdownAsync();}
+    private void UpdateRemaining()=>_remainingSeconds=Math.Max(0,(long)Math.Ceiling((CompletionTime-DateTimeOffset.UtcNow).TotalSeconds));
+    private async Task RunCountdownAsync()
+    {
+        using var timer=new PeriodicTimer(TimeSpan.FromSeconds(1));
+        try{while(_remainingSeconds>0 && await timer.WaitForNextTickAsync(_countdownLifetime.Token)){await InvokeAsync(()=>{UpdateRemaining();StateHasChanged();});}}
+        catch(OperationCanceledException) when(_countdownLifetime.IsCancellationRequested){}
+    }
+    private bool _checking;
+    private string _feedback="";
+    private IJSObjectReference? _module;
+    private async Task CheckAgain(){if(_checking)return;_checking=true;_feedback="Reloading this page…";try{_module??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/error-recovery.js");await _module.InvokeVoidAsync("retry");}catch(JSException){_checking=false;_feedback="Please refresh the page using your browser.";}}
+    public async ValueTask DisposeAsync(){await _countdownLifetime.CancelAsync();if(_countdownTask is not null)await _countdownTask;_countdownLifetime.Dispose();if(_module is not null)try{await _module.DisposeAsync();}catch(JSDisconnectedException){}}
+}

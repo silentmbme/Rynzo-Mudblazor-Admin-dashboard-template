@@ -1,0 +1,65 @@
+.hr-register {
+  min-width: 0;
+}
+.heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+}
+.filters {
+  display: grid;
+  grid-template-columns: minmax(220px, 384px) 200px 180px;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.feedback {
+  min-height: 40px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.review-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  background: var(--mud-palette-background-grey);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+.review-meta small,
+.review-meta b {
+  display: block;
+}
+.review-meta small {
+  color: var(--mud-palette-text-secondary);
+  font-size: var(--rynzo-font-overline);
+}
+.review-meta b {
+  font-size: var(--rynzo-font-caption);
+  margin-top: 4px;
+}
+@media (max-width: 700px) {
+  .heading {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  .filters {
+    grid-template-columns: 1fr;
+  }
+  .review-meta {
+    min-width: 0;
+  }
+}
+.register-card-heading {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.register-card-heading ::deep .mud-typography-caption {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}

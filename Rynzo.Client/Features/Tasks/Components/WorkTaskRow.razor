@@ -1,0 +1,25 @@
+﻿@using Rynzo.Client.Features.Tasks.Models
+@using Rynzo.Client.Theme
+<div class="work-task-row @(Selected ? "work-task-selected" : "")" draggable="true" @ondragstart="@(() => Drag.InvokeAsync())">
+    <div class="work-task-controls">
+        <MudIconButton Icon="@RynzoIcons.Get(Selected ? "Check" : "Minus")" Size="Size.Small" Class="work-task-select" aria-label="@(Selected ? $"Remove {Task.Title} from selection" : $"Select {Task.Title}")" aria-pressed="@Selected" OnClick="@(() => Select.InvokeAsync())" />
+        <MudIconButton Icon="@RynzoIcons.Get("CircleCheck")" Size="Size.Small" Color="@(Task.Status == "Completed" ? Color.Success : Color.Default)" Class="work-task-complete" aria-label="@(Task.Status == "Completed" ? $"Reopen {Task.Title}" : $"Mark {Task.Title} complete")" OnClick="@(() => Complete.InvokeAsync())" />
+    </div>
+    <button type="button" class="work-task-open" @onclick="@(() => Open.InvokeAsync())">
+        <b class="@(Task.Status == "Completed" ? "completed" : "")">@Task.Title</b>
+        <span class="work-task-meta"><span class="work-task-project"><MudIcon Icon="@RynzoIcons.Get("Folder")" Size="Size.Small" />@Task.Project</span><span class="work-task-subtasks"><MudIcon Icon="@RynzoIcons.Get("ListTodo")" Size="Size.Small" />@Task.Subtasks.Count(s => s.Done)/@Task.Subtasks.Length subtasks</span></span>
+        @if (Task.Tags.Length > 0) { <span class="work-task-tags">@foreach (var tag in Task.Tags) { <i>@tag</i> }</span> }
+    </button>
+    <div class="work-task-badges"><span style="@($"--badge-tone:var(--{Task.PriorityTone})")"><i></i>@Task.Priority</span><span style="@($"--badge-tone:var(--{Task.StatusTone})")">@Task.Status</span></div>
+    <div class="work-task-trailing"><span class="work-task-assignees">@foreach(var person in Task.Assignees.Take(2)){<img src="@Rynzo.Client.Features.Tasks.Services.TasksState.Portrait(person)" alt="@person" title="@person" width="26" height="26" />}</span><span class="work-task-due"><MudIcon Icon="@RynzoIcons.Get("CalendarDays")" Size="Size.Small" /><time datetime="@Task.Due">@DueLabel</time></span></div>
+</div>
+@code {
+    [Parameter, EditorRequired] public WorkTask Task { get; set; } = null!;
+    [Parameter] public bool Selected { get; set; }
+    [Parameter] public EventCallback Select { get; set; }
+    [Parameter] public EventCallback Complete { get; set; }
+    [Parameter] public EventCallback Open { get; set; }
+    [Parameter] public EventCallback Drag { get; set; }
+    private string DueLabel => DateOnly.TryParse(Task.Due, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var date) ? date.ToString("MMM d", System.Globalization.CultureInfo.GetCultureInfo("en-US")) : Task.Due;
+}
+

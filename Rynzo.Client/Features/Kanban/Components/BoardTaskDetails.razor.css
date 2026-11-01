@@ -1,0 +1,90 @@
+.board-task-details {
+  padding: 24px;
+  color: var(--foreground);
+}
+header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+h2 {
+  font-size: var(--rynzo-font-h5);
+  font-weight: 600;
+}
+header p {
+  font-size: var(--rynzo-font-body1);
+  color: var(--muted-foreground);
+  margin-top: 6px;
+}
+header + div {
+  margin-top: 20px;
+  font-size: var(--rynzo-font-body1);
+}
+header + div > p > span {
+  margin-inline-start: 12px;
+}
+section {
+  margin-top: 20px;
+}
+h3 {
+  font-size: var(--rynzo-font-caption);
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--muted-foreground);
+}
+section ::deep .mud-input-control {
+  margin-top: 8px;
+}
+section ::deep .mud-select-input {
+  padding-block: 8px;
+  min-height: 20px;
+}
+section ::deep .mud-checkbox {
+  margin-top: 8px;
+}
+section ::deep .mud-checkbox-label {
+  font-size: var(--rynzo-font-body1);
+}
+.board-comment {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  background: var(--muted);
+}
+.board-no-comments {
+  margin-top: 8px;
+  color: var(--muted-foreground);
+}
+.board-attachment {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.board-attachment ::deep svg {
+  width: 16px;
+  height: 16px;
+}
+footer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 20px;
+}
+footer ::deep .mud-button:last-child {
+  grid-column: span 2;
+}
+footer ::deep .mud-button {
+  font-size: var(--rynzo-font-caption);
+  text-transform: none;
+}
+.board-move-native {
+  display: block;
+  width: 100%;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--background);
+  padding-inline: 8px;
+  margin-top: 8px;
+}

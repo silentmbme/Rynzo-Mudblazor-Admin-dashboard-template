@@ -1,0 +1,74 @@
+[
+  {
+    "id": "SHP-1001",
+    "customer": "Northstar Retail",
+    "origin": "Mumbai",
+    "destination": "Pune",
+    "status": "In transit",
+    "weight": 240,
+    "driver": "Daniel Lee",
+    "vehicle": "TRK-01",
+    "eta": "October 10, 2026",
+    "progress": 65
+  },
+  {
+    "id": "SHP-1002",
+    "customer": "Greenfield Foods",
+    "origin": "Bengaluru",
+    "destination": "Chennai",
+    "status": "Delivered",
+    "weight": 180,
+    "driver": "Sophia Carter",
+    "vehicle": "TRK-02",
+    "eta": "October 9, 2026",
+    "progress": 100
+  },
+  {
+    "id": "SHP-1003",
+    "customer": "Atlas Supplies",
+    "origin": "Delhi",
+    "destination": "Jaipur",
+    "status": "Pending",
+    "weight": 360,
+    "driver": "James Wilson",
+    "vehicle": "TRK-03",
+    "eta": "October 11, 2026",
+    "progress": 0
+  },
+  {
+    "id": "SHP-1004",
+    "customer": "Urban Living",
+    "origin": "Hyderabad",
+    "destination": "Vijayawada",
+    "status": "Delayed",
+    "weight": 120,
+    "driver": "Maya Patel",
+    "vehicle": "TRK-04",
+    "eta": "October 11, 2026",
+    "progress": 40
+  },
+  {
+    "id": "SHP-1005",
+    "customer": "Summit Electronics",
+    "origin": "Mumbai",
+    "destination": "Nashik",
+    "status": "In transit",
+    "weight": 210,
+    "driver": "Olivia Smith",
+    "vehicle": "TRK-05",
+    "eta": "October 10, 2026",
+    "progress": 80
+  },
+  {
+    "id": "SHP-1006",
+    "customer": "Cedar Trading",
+    "origin": "Delhi",
+    "destination": "Agra",
+    "status": "Delivered",
+    "weight": 150,
+    "driver": "Noah Williams",
+    "vehicle": "TRK-06",
+    "eta": "October 9, 2026",
+    "progress": 100
+  }
+]

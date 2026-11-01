@@ -1,0 +1,137 @@
+.chat-message {
+  display: flex;
+  gap: 12px;
+}
+.chat-message.chat-user {
+  flex-direction: row-reverse;
+}
+.chat-avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--info) 10%, transparent);
+  color: var(--info);
+}
+.chat-user .chat-avatar {
+  background: var(--muted);
+  color: var(--foreground);
+}
+.chat-avatar ::deep svg {
+  width: 16px;
+  height: 16px;
+}
+.chat-message > div {
+  min-width: 0;
+  max-width: 85%;
+}
+.chat-sender {
+  font-size: var(--rynzo-font-overline);
+  font-weight: 600;
+  color: var(--muted-foreground);
+  margin-bottom: 4px;
+}
+.chat-user .chat-sender {
+  text-align: end;
+}
+.chat-bubble {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  font-size: var(--rynzo-font-body1);
+  line-height: 24px;
+  background: color-mix(in srgb, var(--muted) 20%, transparent);
+}
+.chat-user .chat-bubble {
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 15%, transparent);
+}
+.chat-message-attachment {
+  margin-top: 12px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--foreground);
+}
+.chat-message-attachment img {
+  max-height: 192px;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.chat-message-attachment a {
+  display: block;
+  word-break: break-all;
+  font-size: var(--rynzo-font-caption);
+  color: var(--primary);
+  text-decoration: underline;
+}
+.chat-message ::deep .mud-button {
+  margin-top: 4px;
+  height: 28px;
+  font-size: var(--rynzo-font-overline);
+  text-transform: none;
+}
+.chat-message ::deep .mud-button svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Refined message surfaces for the assistant workspace. */
+.chat-message {
+  gap: 14px;
+}
+.chat-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--primary) 7%, var(--card));
+  color: var(--primary);
+}
+.chat-sender {
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+.chat-bubble {
+  font-size: 13px;
+  line-height: 1.9;
+  border-radius: 4px 14px 14px 14px;
+  background: var(--card);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+}
+.chat-user .chat-bubble {
+  border-radius: 14px 4px 14px 14px;
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+}
+@media (max-width: 479px) {
+  .chat-message {
+    gap: 8px;
+  }
+  .chat-message > div {
+    max-width: calc(100% - 42px);
+  }
+  .chat-bubble {
+    padding: 12px;
+    font-size: 12px;
+  }
+}
+
+.chat-user .chat-avatar {
+  overflow: hidden;
+  padding: 0;
+}
+.chat-user .chat-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

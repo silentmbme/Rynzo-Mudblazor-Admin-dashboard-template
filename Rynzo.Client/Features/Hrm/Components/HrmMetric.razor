@@ -1,0 +1,15 @@
+﻿@using Rynzo.Client.Theme
+<div class="metric-root"><MudCard Outlined="true" Class="@(((Compact?"hr-metric hr-metric-compact":"hr-metric")) + " rynzo-widget-card")" Elevation="0">
+    <div class="metric-heading"><span class="metric-icon" style="@($"--metric-tone:var(--{Tone})")"><MudIcon Icon="@RynzoIcons.Get(Icon)" /></span><small>@Label</small></div>
+    <strong>@Value</strong>
+    @if(Caption is not null){<p>@Caption</p>}
+</MudCard></div>
+@code{
+    [Parameter]public string Label{get;set;}="";
+    [Parameter]public string Value{get;set;}="";
+    [Parameter]public string Icon{get;set;}="Users";
+    [Parameter]public string Tone{get;set;}="primary";
+    [Parameter]public string? Caption{get;set;}
+    [Parameter]public bool Compact{get;set;}
+}
+

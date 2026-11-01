@@ -1,0 +1,30 @@
+@using Rynzo.Client.Theme
+@using Microsoft.AspNetCore.Components.Web
+<span class="ui-dropdown-host @(Soft?"is-soft":"") @(Pill?"is-pill":"") @Class" style="@($"--dropdown-tone:{Tone}")" @onkeydown="HandleKey">
+    <MudMenu @ref="Menu" Label="@Label" Icon="@Icon" StartIcon="@StartIcon" EndIcon="@(string.IsNullOrWhiteSpace(Icon)?RynzoIcons.Get("ChevronDown"):null)" Variant="@(Soft?Variant.Text:Variant)" Color="Color" Size="Size" Dense="true" AnchorOrigin="@(AlignEnd?Origin.BottomRight:Origin.BottomLeft)" TransformOrigin="@(AlignEnd?Origin.TopRight:Origin.TopLeft)" aria-label="@(AccessibleLabel??Label)">
+        <div class="ui-dropdown-content @(TintedMenu?"is-tinted":"")" style="@($"--dropdown-tone:{Tone}")" @onkeydown="HandleKey">
+            @if(!string.IsNullOrWhiteSpace(Heading)){<div class="ui-dropdown-heading"><b>@Heading</b>@if(!string.IsNullOrWhiteSpace(Description)){<small>@Description</small>}</div>}
+            @ChildContent
+        </div>
+    </MudMenu>
+</span>
+@code {
+    private MudMenu? Menu;
+    private async Task HandleKey(KeyboardEventArgs args){if(args.Key=="Escape"&&Menu is not null)await Menu.CloseMenuAsync();}
+    [Parameter] public string? Label {get;set;}
+    [Parameter] public string? Icon {get;set;}
+    [Parameter] public string? StartIcon {get;set;}
+    [Parameter] public string? Heading {get;set;}
+    [Parameter] public string? Description {get;set;}
+    [Parameter] public string? AccessibleLabel {get;set;}
+    [Parameter] public string? Class {get;set;}
+    [Parameter] public bool AlignEnd {get;set;}
+    [Parameter] public bool Soft {get;set;}
+    [Parameter] public bool Pill {get;set;}
+    [Parameter] public bool TintedMenu {get;set;}
+    [Parameter] public Size Size {get;set;}=Size.Medium;
+    [Parameter] public Variant Variant {get;set;}=Variant.Outlined;
+    [Parameter] public Color Color {get;set;}=Color.Primary;
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+    private string Tone=>Color switch{Color.Success=>"var(--success)",Color.Warning=>"var(--warning)",Color.Error=>"var(--destructive)",Color.Info=>"var(--info)",Color.Secondary=>"var(--secondary-foreground)",Color.Default=>"var(--muted-foreground)",_=>"var(--primary)"};
+}

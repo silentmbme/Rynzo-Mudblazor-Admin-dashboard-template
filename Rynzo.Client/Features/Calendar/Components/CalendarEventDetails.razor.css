@@ -1,0 +1,54 @@
+.calendar-details {
+  padding-top: 24px;
+}
+.calendar-details header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.calendar-category {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  color: var(--event-tone);
+  background: color-mix(in srgb, var(--event-tone) 12%, transparent);
+}
+h2 {
+  font-size: var(--rynzo-font-h5);
+  font-weight: 600;
+  margin-top: 12px;
+}
+.calendar-detail-fields {
+  display: grid;
+  gap: 16px;
+  font-size: var(--rynzo-font-body1);
+}
+.calendar-detail-fields p {
+  display: flex;
+  gap: 12px;
+}
+.calendar-detail-fields p ::deep svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: var(--muted-foreground);
+}
+.calendar-detail-fields .calendar-description {
+  padding: 12px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 50%, transparent);
+  color: var(--muted-foreground);
+  line-height: 24px;
+  white-space: pre-wrap;
+}
+footer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 28px;
+}

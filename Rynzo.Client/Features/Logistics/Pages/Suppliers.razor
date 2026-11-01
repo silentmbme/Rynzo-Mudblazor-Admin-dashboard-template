@@ -1,0 +1,200 @@
+@page "/logistics/suppliers"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+<PageTitle>Suppliers | Rynzo</PageTitle>
+<div class="suppliers-page">
+    <DashboardPageHeader Title="Suppliers"
+                         Description="Organize supplier contacts, categories, and sourcing relationships.">
+        <Actions>
+            <div>
+                <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export
+                    suppliers</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")"
+                               OnClick="OpenCreate">Add supplier</MudButton>
+                </div>
+            </Actions>
+        </DashboardPageHeader>
+        <section Class="su-summary rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section">
+            @foreach (var metric in new[] { ("Suppliers", SupplierRecords.Count, "Building2"), ("Active partners", SupplierRecords.Count(s => s.Active), "Check"), ("On hold", SupplierRecords.Count(s => !s.Active), "Clock3"), ("Categories", SupplierRecords.Select(s => s.Category).Distinct().Count(), "Layers") })
+            {
+                <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span>
+                    <MudIcon Icon="@RynzoIcons.Get(metric.Item3)" />@metric.Item1
+                </span><strong>@metric.Item2</strong><small>Sample supplier directory</small></MudCard>
+            }
+        </section>
+        <p class="su-notice">
+            <MudIcon Icon="@RynzoIcons.Get("Info")" />Fictional supplier records. Edits last for this page session and do
+            not update purchase orders or contact suppliers.
+        </p>
+        @if (Notice.Length > 0)
+        {
+            <MudAlert Severity="Severity.Success" role="status" Class="mb-5">@Notice</MudAlert>
+        }
+        <section>
+            <div class="su-heading"><span class="su-eyebrow">Sourcing network</span>
+                <h2>Supplier directory <small>@Visible.Count()</small></h2>
+                <p>Find the right contact and review your sample supplier relationships.</p>
+            </div>
+            <div class="su-toolbar">
+                <div class="su-tabs">@foreach(var status in new[]{"All","Active","On hold"}){
+                    <button type="button"
+                            class="@(Status == status ? "selected" : "")" aria-pressed="@(Status == status)"
+                            @onclick="@(() => Status = status)">@status<span>@SupplierRecords.Count(s => status == "All" || (status == "Active" ? s.Active : !s.Active))</span></button>
+                }
+            </div>
+            <MudTextField T="string" @bind-Value="Query" Immediate="true" aria-label="Search suppliers"
+                          Placeholder="Search supplier, contact, or category..." Variant="Variant.Outlined" Margin="Margin.Dense"
+                          Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" /><select
+            aria-label="Supplier category" @bind="Category">
+            <option value="All">All categories</option>@foreach(var category in
+            SupplierRecords.Select(s => s.Category).Distinct()){
+                <option>@category</option>
+            }
+        </select>
+    </div>
+    <div class="su-grid">@foreach(var supplier in Visible){
+        <MudCard Class="su-card rynzo-widget-card" Elevation="0"
+                 Outlined="true" data-widget-element="article">
+            <div class="su-card-top"><span class="su-company-icon">
+                <MudIcon Icon="@RynzoIcons.Get("Building2")" />
+            </span><span
+            class="su-status @(supplier.Active ? "active" : "hold")"><i></i>@(supplier.Active ? "Active" : "On hold")</span></div><span class="su-eyebrow">@supplier.Id</span>
+            <h3>@supplier.Name</h3><span class="su-category">@supplier.Category</span>
+            <div class="su-contact">
+                <div>
+                    <MudIcon Icon="@RynzoIcons.Get("UserRound")" /><span><small>Primary
+                    contact</small><b>@supplier.Contact</b></span>
+                </div>
+                <div>
+                    <MudIcon Icon="@RynzoIcons.Get("Mail")" />
+                    <span><small>Email</small><b>@supplier.Email</b></span>
+                </div>
+                <div>
+                    <MudIcon Icon="@RynzoIcons.Get("MapPin")" />
+                    <span><small>Location</small><b>@supplier.Location</b></span>
+                </div>
+            </div>
+            <div class="su-card-footer"><span>Sample sourcing partner</span>
+                <MudButton Size="Size.Small" EndIcon="@RynzoIcons.Get("ArrowUpRight")"
+                           aria-label="@($"Supplier {supplier.Id}")" OnClick="@(() => SelectedId = supplier.Id)">View profile
+                </MudButton>
+            </div>
+        </MudCard>
+    }
+</div>@if(!Visible.Any()){
+<div class="su-empty">
+    <h3>No matching suppliers</h3>
+    <p>Try another contact, category, or status.</p>
+    <MudButton Variant="Variant.Outlined" OnClick="Reset">Reset filters</MudButton>
+</div>
+            }
+<div class="su-footer">Showing @Visible.Count() of @SupplierRecords.Count sample suppliers
+    <span>Page-session directory</span></div>
+</section>
+</div>
+<MudDialog Visible="@(Selected is not null)" VisibleChanged="@(v => { if (!v) SelectedId = null; })" Options="Options">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Supplier profile</MudText>
+    </TitleContent>
+    <DialogContent>@if(Selected is {} supplier){
+        <div class="su-detail"><span class="su-eyebrow">@supplier.Id / Sample
+            supplier</span>
+            <h2>@supplier.Name</h2><span
+            class="su-status @(supplier.Active ? "active" : "hold")"><i></i>@(supplier.Active ? "Active" : "On hold")</span>
+            <dl>@foreach(var field in new[]{("Category",supplier.Category),("Primary contact",supplier.Contact),("Email",supplier.Email),("Location",supplier.Location)}){
+                <div>
+                    <dt>@field.Item1</dt>
+                    <dd>@field.Item2</dd>
+                </div>
+            }
+        </dl>
+        <p>Status changes affect this directory only. No supplier notification is sent and purchase orders are
+            unchanged.</p>
+        </div>
+    }
+</DialogContent>
+<DialogActions>
+    <MudButton OnClick="@(() => SelectedId = null)">Close</MudButton>
+    <MudButton Variant="Variant.Outlined" OnClick="Toggle">@(Selected?.Active == true ? "Place on hold" : "Mark active")
+    </MudButton>
+</DialogActions>
+</MudDialog>
+<MudDialog @bind-Visible="Creating" Options="Options">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Add supplier</MudText>
+    </TitleContent>
+    <DialogContent>
+        <div class="su-form">
+            <p>Create a fictional supplier in this page session.</p><label>Supplier name</label>
+            <MudTextField T="string" @bind-Value="Name" Immediate="true" aria-label="Supplier name"
+                          Variant="Variant.Outlined" Margin="Margin.Dense" MaxLength="100" /><label>Category</label>
+            <MudTextField T="string" @bind-Value="NewCategory" Immediate="true" aria-label="New supplier category"
+                          Variant="Variant.Outlined" Margin="Margin.Dense" MaxLength="80" /><label>Primary contact</label>
+            <MudTextField T="string" @bind-Value="Contact" Immediate="true" aria-label="Supplier contact"
+                          Variant="Variant.Outlined" Margin="Margin.Dense" MaxLength="100" /><label>Email</label>
+            <MudTextField T="string" @bind-Value="Email" Immediate="true" aria-label="Supplier email"
+                          Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Email" MaxLength="120" />
+            <label>Location</label>
+            <MudTextField T="string" @bind-Value="Location" Immediate="true" aria-label="Supplier location"
+                          Variant="Variant.Outlined" Margin="Margin.Dense" MaxLength="100" />@if(Error.Length>0){
+            <MudAlert
+            Severity="Severity.Error" role="alert" Class="mt-4">@Error</MudAlert>
+        }
+    </div>
+</DialogContent>
+<DialogActions>
+    <MudButton OnClick="@(() => Creating = false)">Cancel</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save">Save supplier</MudButton>
+</DialogActions>
+</MudDialog>
+@code {
+    private sealed record Supplier(string Id, string Name, string Category, string Contact, string Email, string Location, bool
+   Active);
+    private readonly List<Supplier> SupplierRecords = [new("SUP-101", "Atlas Packaging", "Packaging", "Alex Morgan", "atlas@example.com", "Mumbai", true), new("SUP-102", "Northstar Supplies", "Consumables", "Jordan Lee", "northstar@example.com", "Delhi", true), new("SUP-103", "Cedar Trading", "Warehouse supplies", "Casey Taylor", "cedar@example.com", "Bengaluru", false)]; private string
+   Query = "", Status = "All", Category = "All", Notice = "", Error = "", Name = "", NewCategory = "", Contact = "", Email = "", Location = ""; private
+   bool Creating; private string? SelectedId; private IJSObjectReference? Download; private static readonly DialogOptions
+   Options = new() { MaxWidth = MaxWidth.Small, FullWidth = true }; private Supplier?
+   Selected => SupplierRecords.FirstOrDefault(s => s.Id == SelectedId); private IEnumerable<Supplier>
+   Visible => SupplierRecords.Where(s => $"{s.Name} {s.Contact} {s.Category} {s.Email} {s.Id}".Contains(Query.Trim(), StringComparison.OrdinalIgnoreCase) && (Category == "All" || s.Category == Category) && (Status == "All" || (Status == "Active" ? s.Active : !s.Active)));
+    private void Reset() { Query = ""; Status = Category = "All"; }
+    private void
+   OpenCreate()
+    { Name = NewCategory = Contact = Email = Location = Error = ""; Creating = true; }
+    private void Toggle()
+    {
+        if (Selected is not { }
+   supplier) return; SupplierRecords[SupplierRecords.FindIndex(s => s.Id == supplier.Id)] = supplier
+   with
+   { Active = !supplier.Active }; Notice = $"{supplier.Name} status updated locally.";
+    }
+    private void
+   Save()
+    {
+        if (new[] { Name, NewCategory, Contact, Location }.Any(string.IsNullOrWhiteSpace)) { Error = "Enter the supplier name, category, contact, and location."; return; }
+        if (!System.Net.Mail.MailAddress.TryCreate(Email.Trim(), out _)) { Error = "Enter a valid email."; return; }
+        if (SupplierRecords.Any(s => s.Email.Equals(Email.Trim(), StringComparison.OrdinalIgnoreCase))) { Error = "A supplier with this email already exists."; return; }
+        var
+   id = $"SUP-{SupplierRecords.Max(s => int.Parse(s.Id[4..])) + 1}"; SupplierRecords.Add(new(id, Name.Trim(), NewCategory.Trim(), Contact.Trim(), Email.Trim(), Location.Trim(), true)); Creating = false; Notice = $"{id} added to the sample directory.";
+    }
+    private async Task Export()
+    {
+        static string Cell(string value) => "\"" + value.Replace("\"", "\"\"") + "\""; var
+   rows = new[] { new[] { "Reference", "Supplier", "Category", "Contact", "Email", "Location", "Status" } }.Concat(Visible.Select(s => new[] { s.Id, s.Name, s.Category, s.Contact, s.Email, s.Location, s.Active ? "Active" : "On hold" })); var csv = string.Join("\r\n", rows.Select(r => string.Join(",", r.Select(Cell)))); Download ??= await
+   JS.InvokeAsync<IJSObjectReference>("import", "./theme/ai-workspace-download.js"); await
+   Download.InvokeVoidAsync("download", "sample-suppliers.csv", csv, "text/csv;charset=utf-8"); Notice = "Filtered sample suppliers exported.";
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (Download is not null)
+        {
+            try
+            {
+                await
+   Download.DisposeAsync();
+            }
+            catch (JSDisconnectedException) { }
+        }
+    }
+}

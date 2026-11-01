@@ -1,0 +1,5 @@
+@using Rynzo.Client.Features.Ecommerce.Models
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+<div class="product-media-gallery"><label class="product-cover" for="@_input"><InputFile id="@_input" OnChange="Upload" multiple accept="image/*" style="display:none" /><img src="@Draft.Media[0]" alt="Product preview" /><span><MudIcon Icon="@RynzoIcons.Get("UploadCloud")" Color="Color.Primary" /></span><b>Drop images here or browse</b><small>PNG, JPG or WEBP up to 10 MB</small></label><div>@for(var index=0;index<ProductDraft.Gallery.Length;index++){var image=ProductDraft.Gallery[index];<button type="button" @onclick="@(() => Draft.Cover(image))"><img src="@image" alt="@($"Product image {index+2}")" />@if(index==0){<span>Set as cover</span>}</button>}</div></div>
+@code{[Parameter,EditorRequired]public ProductDraft Draft{get;set;}=null!;private readonly string _input="product-media-"+Guid.NewGuid().ToString("N");private void Upload(InputFileChangeEventArgs e){var count=e.GetMultipleFiles(int.MaxValue).Count;Draft.AddMedia(count);if(count>0)Snackbar.Add($"{count} image{(count>1?"s":"")} added",Severity.Success);}}

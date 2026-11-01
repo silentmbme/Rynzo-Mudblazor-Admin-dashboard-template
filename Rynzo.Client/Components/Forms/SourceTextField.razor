@@ -1,0 +1,13 @@
+<div class="rynzo-source-field">
+    <label for="@_id">@Label</label>
+    <MudTextField T="string" InputId="@_id" Value="@Value" ValueChanged="ValueChanged" Placeholder="@Placeholder"
+                  Lines="@Lines" Variant="Variant.Outlined" Margin="Margin.Dense" />
+</div>
+@code {
+    private readonly string _id = $"rynzo-field-{Guid.NewGuid():N}";
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string Placeholder { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public int Lines { get; set; } = 1;
+}

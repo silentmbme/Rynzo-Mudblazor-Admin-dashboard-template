@@ -1,0 +1,26 @@
+@using Microsoft.AspNetCore.Components.Web
+<span class="ui-action-host @(FullWidth?"full-width":"")">
+<MudButton Variant="@(Soft?Variant.Text:Gradient?Variant.Filled:Variant)" Color="Color" Size="Size" Disabled="@(Disabled||Loading)" FullWidth="FullWidth" StartIcon="@(Loading?null:StartIcon)" EndIcon="@EndIcon" OnClick="OnClick" Class="@CssClass" Style="@($"--button-tone:{Tone}")" UserAttributes="UserAttributes">
+    @if(Loading){<MudProgressCircular Indeterminate="true" Size="Size.Small" Class="ui-action-spinner" />}
+    @ChildContent
+</MudButton>
+</span>
+@code {
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+    [Parameter] public Variant Variant {get;set;}=Variant.Filled;
+    [Parameter] public Color Color {get;set;}=Color.Primary;
+    [Parameter] public Size Size {get;set;}=Size.Medium;
+    [Parameter] public bool Soft {get;set;}
+    [Parameter] public bool Gradient {get;set;}
+    [Parameter] public bool Pill {get;set;}
+    [Parameter] public bool Loading {get;set;}
+    [Parameter] public bool Disabled {get;set;}
+    [Parameter] public bool FullWidth {get;set;}
+    [Parameter] public string? StartIcon {get;set;}
+    [Parameter] public string? EndIcon {get;set;}
+    [Parameter] public string? Class {get;set;}
+    [Parameter] public EventCallback<MouseEventArgs> OnClick {get;set;}
+    [Parameter(CaptureUnmatchedValues=true)] public Dictionary<string,object>? UserAttributes {get;set;}
+    private string CssClass=>$"ui-action {(Soft?"ui-action-soft":"")} {(Gradient?"ui-action-gradient":"")} {(Pill?"ui-action-pill":"")} {Class}";
+    private string Tone=>Color switch{Color.Success=>"var(--success)",Color.Warning=>"var(--warning)",Color.Error=>"var(--destructive)",Color.Info=>"var(--info)",Color.Secondary=>"var(--mud-palette-secondary)",_=>"var(--primary)"};
+}

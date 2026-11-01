@@ -1,0 +1,15 @@
+<MudLink Href="/" aria-label="Rynzo home" Class="rynzo-brand" data-dark-surface="@(DarkSurface ? "true" : "false")">
+    @if (IconOnly)
+    {
+        <img src="assets/images/logos/rynzo-icon.png" alt="" aria-hidden="true" class="brand-logo brand-logo-icon" />
+    }
+    else
+    {
+        <img src="assets/images/logos/rynzo-logo-light.png" alt="" aria-hidden="true" class="brand-logo brand-logo-full brand-logo-light" />
+        <img src="assets/images/logos/rynzo-logo-dark.png" alt="" aria-hidden="true" class="brand-logo brand-logo-full brand-logo-dark" />
+    }
+</MudLink>
+@code {
+    [Parameter] public bool DarkSurface { get; set; }
+    [Parameter] public bool IconOnly { get; set; }
+}

@@ -1,0 +1,108 @@
+/* Global type roles and semantic colors shared by native HTML, feature pages, and MudBlazor. */
+.rynzo-theme[data-skin][data-theme="light"] {
+  --radius: 8px;
+  --success: #0aa884;
+  --success-foreground: #ffffff;
+  --warning: #e7a136;
+  --warning-foreground: #ffffff;
+  --destructive: #ef5b78;
+  --destructive-foreground: #ffffff;
+  --info: #4195dc;
+  --info-foreground: #ffffff;
+  --background: #f5f7fc;
+  --foreground: #273a5c;
+  --card: #ffffff;
+  --muted: #f2f5fa;
+  --muted-foreground: #7e8da6;
+  --border: #e5eaf2;
+  --input: #d9e1ed;
+}
+.rynzo-theme[data-skin][data-theme="dark"] {
+  --radius: 8px;
+  --success: #57d3b2;
+  --success-foreground: #062c24;
+  --warning: #ffd071;
+  --warning-foreground: #372503;
+  --destructive: #ff9aae;
+  --destructive-foreground: #3b0f1b;
+  --info: #88c9ff;
+  --info-foreground: #09263d;
+  --background: #111827;
+  --foreground: #eef4ff;
+  --card: #172235;
+  --muted: #1e2d45;
+  --muted-foreground: #a8b6cc;
+  --border: #2b3b55;
+  --input: #40516b;
+}
+.rynzo-theme body {
+  font-family: var(--rynzo-font-family);
+  font-size: var(--rynzo-font-default);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+}
+.rynzo-theme :where(button, input, select, textarea) {
+  font-family: inherit;
+}
+.rynzo-theme
+  :where(
+    button,
+    input,
+    select,
+    textarea,
+    .mud-input,
+    .mud-button-root,
+    .mud-chip,
+    .mud-alert,
+    .mud-table
+  ) {
+  font-size: inherit;
+}
+.rynzo-theme :where(h1, h2, h3, h4, h5, h6),
+.rynzo-theme
+  :is(
+    .mud-typography-h1,
+    .mud-typography-h2,
+    .mud-typography-h3,
+    .mud-typography-h4,
+    .mud-typography-h5,
+    .mud-typography-h6
+  ) {
+  font-family: var(--rynzo-heading-font-family);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+.rynzo-theme :where(h1) {
+  font-size: var(--rynzo-font-h4);
+}
+.rynzo-theme :where(h2) {
+  font-size: var(--rynzo-font-h5);
+}
+.rynzo-theme :where(h3) {
+  font-size: var(--rynzo-font-h6);
+}
+.rynzo-theme :where(h4, h5, h6) {
+  font-size: var(--rynzo-font-subtitle1);
+}
+.rynzo-theme :where(p, li, td, th, label) {
+  font-size: var(--rynzo-font-body2);
+}
+.rynzo-theme :where(small) {
+  font-size: var(--rynzo-font-caption);
+}
+.rynzo-theme :where(table, .mud-table, .executive-kpi, .dashboard-metric) {
+  font-variant-numeric: tabular-nums;
+}
+.rynzo-theme :where(code, pre, kbd, samp) {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+@media (max-width: 639px) {
+  .rynzo-theme .mud-typography-h1 {
+    font-size: var(--rynzo-font-h2);
+  }
+  .rynzo-theme .mud-typography-h2 {
+    font-size: var(--rynzo-font-h3);
+  }
+}

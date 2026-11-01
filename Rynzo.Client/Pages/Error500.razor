@@ -1,0 +1,14 @@
+@page "/auth/errors/500"
+@layout MainLayout
+@using Rynzo.Client.Theme
+<PageTitle>500 · Server error | Rynzo</PageTitle>
+<main class="system-error" aria-labelledby="system-title">
+    <span class="eyebrow">AN UNEXPECTED INTERRUPTION</span>
+    <div class="system-stage" aria-hidden="true">
+        <div class="system-grid"></div><div class="system-code">500</div><div class="system-halo"></div>
+        <div class="server-stack"><div class="server-top"><MudIcon Icon="@Icons.Material.Outlined.Dns" /><span>System interruption</span><i></i></div>@for(var i=0;i<3;i++){<div class="server-unit"><span class="drive"></span><div class="vents"><i></i><i></i><i></i><i></i><i></i></div><span class="indicator"></span><span class="indicator muted"></span></div>}<div class="server-base"></div></div>
+        <div class="glitch-chip chip-left">&lt;/&gt;</div><div class="glitch-chip chip-right"><MudIcon Icon="@Icons.Material.Outlined.PowerOff" /></div>
+        <svg class="circuit" viewBox="0 0 600 280" fill="none"><path d="M30 190H130L165 155H210M390 110H450L475 85H565M140 40V75H195" stroke="currentColor" stroke-width="1.5"/><circle cx="30" cy="190" r="4"/><circle cx="565" cy="85" r="4"/></svg>
+    </div>
+    <section class="system-copy"><span class="error-label">500 / INTERNAL SERVER ERROR</span><h1 id="system-title">Something Went Wrong on Our Side</h1><p>An unexpected server error occurred. Please try again in a moment.</p><Rynzo.Client.Components.Common.ErrorRecoveryActions Code="500" /><div class="system-note">If the problem continues, contact your workspace administrator.</div></section>
+</main>

@@ -1,0 +1,166 @@
+@page "/tables/basic"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+
+<PageTitle>Basic Table | Rynzo</PageTitle>
+
+<div class="basic-table-page">
+    <DashboardPageHeader Title="Basic Table" Description="Clear, practical data tables for everyday operational work.">
+        <Actions>
+            <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" OnClick="AddMember">Add member</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+
+    <section class="table-overview" aria-label="Table overview">
+        <div class="overview-copy">
+            <span class="overview-icon"><MudIcon Icon="@RynzoIcons.Get("Table")" /></span>
+            <div>
+                <span class="overview-eyebrow">Component library / Tables</span>
+                <h2>Information, made easy to scan.</h2>
+                <p>Use purposeful hierarchy, compact metadata, and clear row actions to make large records feel effortless.</p>
+            </div>
+        </div>
+        <div class="overview-metrics">
+            <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true"><span>Members</span><b>@Members.Length</b><small>in this workspace</small></MudCard>
+            <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true"><span>Active</span><b>@Members.Count(member => member.Status == "Active")</b><small>ready to contribute</small></MudCard>
+            <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true"><span>Updates</span><b>12</b><small>since last week</small></MudCard>
+        </div>
+    </section>
+
+    <MudCard Class="table-workspace rynzo-widget-card" aria-labelledby="directory-heading" Elevation="0" Outlined="true" data-widget-element="section">
+        <div class="table-workspace-header">
+            <div>
+                <span class="section-kicker">Team directory</span>
+                <h2 id="directory-heading">Workspace members</h2>
+                <p>Each row keeps the essential identity, role, activity, and status in one place.</p>
+            </div>
+            <span class="record-count" aria-live="polite">@VisibleMembers.Count() of @Members.Length members</span>
+        </div>
+
+        <div class="table-controls">
+            <MudTextField T="string" @bind-Value="Search" @bind-Value:event="oninput" Immediate="true" Placeholder="Search people, roles, or teams" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" Variant="Variant.Outlined" Margin="Margin.Dense" aria-label="Search workspace members" />
+            <MudSelect T="string" @bind-Value="RoleFilter" Variant="Variant.Outlined" Margin="Margin.Dense" Label="Role" aria-label="Filter by role">
+                <MudSelectItem Value="@("All roles")">All roles</MudSelectItem>
+                @foreach (var role in Roles)
+                {
+                    <MudSelectItem Value="@role">@role</MudSelectItem>
+                }
+            </MudSelect>
+            <MudButton Variant="Variant.Text" Size="Size.Small" Disabled="@(Search.Length == 0 && RoleFilter == "All roles")" OnClick="Reset">Reset</MudButton>
+        </div>
+
+        <MudTable T="WorkspaceMember" Items="VisibleMembers" Hover="true" Elevation="0" Breakpoint="Breakpoint.Sm" Class="directory-table" aria-label="Workspace members">
+            <HeaderContent>
+                <MudTh>Member</MudTh>
+                <MudTh>Role</MudTh>
+                <MudTh>Team</MudTh>
+                <MudTh>Last active</MudTh>
+                <MudTh>Status</MudTh>
+                <MudTh><span class="visually-hidden">Actions</span></MudTh>
+            </HeaderContent>
+            <RowTemplate Context="member">
+                <MudTd DataLabel="Member">
+                    <div class="member-cell">
+                        <MudAvatar Size="Size.Medium" Color="@AvatarColor(member.Name)">@Initials(member.Name)</MudAvatar>
+                        <span><b>@member.Name</b><small>@member.Email</small></span>
+                    </div>
+                </MudTd>
+                <MudTd DataLabel="Role"><span class="role-label">@member.Role</span></MudTd>
+                <MudTd DataLabel="Team"><span class="team-label">@member.Team</span></MudTd>
+                <MudTd DataLabel="Last active"><span class="activity-label">@member.LastActive</span></MudTd>
+                <MudTd DataLabel="Status"><MudChip T="string" Size="Size.Small" Color="@StatusColor(member.Status)" Class="status-chip">@member.Status</MudChip></MudTd>
+                <MudTd DataLabel="Actions"><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => OpenMember(member))" EndIcon="@RynzoIcons.Get("ArrowRight")">View</MudButton></MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <div class="table-empty"><MudIcon Icon="@RynzoIcons.Get("Search")" /><b>No members found</b><span>Try changing the search or role filter.</span></div>
+            </NoRecordsContent>
+        </MudTable>
+        <footer class="table-footer"><span>Showing @VisibleMembers.Count() records</span><span>Updated just now</span></footer>
+    </MudCard>
+
+    <section class="table-patterns" aria-label="Basic table patterns">
+        <MudCard Class="pattern-card rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article">
+            <div class="pattern-heading"><span class="pattern-icon revenue"><MudIcon Icon="@RynzoIcons.Get("ReceiptText")" /></span><div><span class="section-kicker">Amounts</span><h2>Recent invoices</h2></div><MudChip T="string" Size="Size.Small" Color="Color.Success">Healthy</MudChip></div>
+            <div class="compact-table-wrap"><table class="compact-table"><thead><tr><th>Invoice</th><th>Client</th><th class="number">Amount</th></tr></thead><tbody>@foreach(var invoice in Invoices){<tr><td><b>@invoice.Id</b><small>@invoice.Date</small></td><td>@invoice.Client</td><td class="number"><b>@invoice.Amount</b><small class="paid">@invoice.Status</small></td></tr>}</tbody></table></div>
+            <p class="pattern-note">Align numerical data to the right for fast comparison.</p>
+        </MudCard>
+        <MudCard Class="pattern-card rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article">
+            <div class="pattern-heading"><span class="pattern-icon activity"><MudIcon Icon="@RynzoIcons.Get("ListChecks")" /></span><div><span class="section-kicker">Status</span><h2>Release checklist</h2></div><span class="pattern-progress">3 of 4</span></div>
+            <ul class="checklist-table">@foreach(var task in Tasks){<li><span class="task-check @(task.Done ? "done" : "")"><MudIcon Icon="@RynzoIcons.Get(task.Done ? "Check" : "Circle")" /></span><span><b>@task.Name</b><small>@task.Owner</small></span><MudChip T="string" Size="Size.Small" Color="@TaskColor(task.Tone)">@task.Tone</MudChip></li>}</ul>
+            <p class="pattern-note">A compact row pattern works well when actions are secondary.</p>
+        </MudCard>
+    </section>
+
+    <section class="table-style-gallery" aria-label="Table color and border styles">
+        <div class="gallery-heading"><div><span class="section-kicker">Table styles</span><h2>Use color only where it adds meaning.</h2><p>Choose from quiet, bordered, striped, and contextual table treatments without changing the content structure.</p></div></div>
+        <div class="style-grid">
+            <MudCard Class="style-card rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><h3>Borderless table</h3><p>For lightweight summaries inside a larger card.</p><table class="style-table is-borderless"><thead><tr><th>Channel</th><th class="number">Leads</th></tr></thead><tbody>@foreach(var row in SampleRows.Take(3)){<tr><td>@row.Label</td><td class="number">@row.Value</td></tr>}</tbody></table></MudCard>
+            <MudCard Class="style-card rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><h3>Primary border</h3><p>Use a focused border for the current working set.</p><table class="style-table is-bordered border-primary"><thead><tr><th>Campaign</th><th>Status</th></tr></thead><tbody>@foreach(var row in SampleRows.Take(3)){<tr><td>@row.Label</td><td><span class="table-dot primary"></span>@row.Status</td></tr>}</tbody></table></MudCard>
+            <MudCard Class="style-card rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><h3>Secondary border</h3><p>A softer accent for supporting information.</p><table class="style-table is-bordered border-secondary"><thead><tr><th>Campaign</th><th>Status</th></tr></thead><tbody>@foreach(var row in SampleRows.Take(3)){<tr><td>@row.Label</td><td><span class="table-dot secondary"></span>@row.Status</td></tr>}</tbody></table></MudCard>
+            <MudCard Class="style-card rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><h3>Success border</h3><p>Use green framing for confirmed outcomes.</p><table class="style-table is-bordered border-success"><thead><tr><th>Campaign</th><th>Status</th></tr></thead><tbody>@foreach(var row in SampleRows.Take(3)){<tr><td>@row.Label</td><td><span class="table-dot success"></span>@row.Status</td></tr>}</tbody></table></MudCard>
+            <MudCard Class="style-card rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><h3>Striped rows</h3><p>Improves tracking across compact data sets.</p><table class="style-table is-striped"><thead><tr><th>Channel</th><th class="number">Leads</th></tr></thead><tbody>@foreach(var row in SampleRows){<tr><td>@row.Label</td><td class="number">@row.Value</td></tr>}</tbody></table></MudCard>
+            <MudCard Class="style-card rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><h3>Colored columns</h3><p>Compare emphasis levels vertically.</p><table class="style-table is-columns"><thead><tr><th>Metric</th><th>Current</th><th>Goal</th></tr></thead><tbody><tr><td>Qualified leads</td><td>842</td><td>1,000</td></tr><tr><td>Conversion</td><td>7.2%</td><td>8.0%</td></tr><tr><td>Pipeline</td><td>$42k</td><td>$50k</td></tr></tbody></table></MudCard>
+        </div>
+        <div class="context-grid">
+            <article class="context-table primary-table"><h3>Primary table</h3><table><thead><tr><th>Task</th><th>Owner</th></tr></thead><tbody><tr><td>Plan launch</td><td>Sophia</td></tr><tr><td>Review copy</td><td>Daniel</td></tr></tbody></table></article>
+            <article class="context-table secondary-table"><h3>Secondary table</h3><table><thead><tr><th>Task</th><th>Owner</th></tr></thead><tbody><tr><td>Check assets</td><td>Emma</td></tr><tr><td>Confirm scope</td><td>Noah</td></tr></tbody></table></article>
+            <article class="context-table warning-table"><h3>Warning table</h3><table><thead><tr><th>Task</th><th>Owner</th></tr></thead><tbody><tr><td>Resolve blocker</td><td>Olivia</td></tr><tr><td>Approve budget</td><td>Sophia</td></tr></tbody></table></article>
+        </div>
+    </section>
+
+    <section class="table-variations" aria-label="Additional table styles">
+        <MudCard Class="variation-card variation-performance rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article">
+            <div class="pattern-heading"><span class="pattern-icon performance"><MudIcon Icon="@RynzoIcons.Get("TrendingUp")" /></span><div><span class="section-kicker">Striped rows</span><h2>Product performance</h2></div><MudButton Variant="Variant.Text" Size="Size.Small" OnClick="@(() => Snackbar.Add("Performance report opened", Severity.Info))">View report</MudButton></div>
+            <div class="striped-table-wrap"><table class="striped-table"><thead><tr><th>Product</th><th>Category</th><th class="number">Sales</th><th class="number">Change</th></tr></thead><tbody>@foreach(var product in Products){<tr><td><span class="product-name"><i>@product.Initial</i><b>@product.Name</b></span></td><td>@product.Category</td><td class="number"><b>@product.Sales</b></td><td class="number"><span class="trend @(product.Positive ? "positive" : "negative")">@(product.Positive ? "+" : string.Empty)@product.Change</span></td></tr>}</tbody></table></div>
+            <p class="pattern-note">Subtle stripes preserve row tracking in compact, numeric tables.</p>
+        </MudCard>
+        <MudCard Class="variation-card variation-approvals rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article">
+            <div class="pattern-heading"><span class="pattern-icon approvals"><MudIcon Icon="@RynzoIcons.Get("CircleCheck")" /></span><div><span class="section-kicker">Actionable rows</span><h2>Approval queue</h2></div><span class="pattern-progress">2 waiting</span></div>
+            <div class="approval-table">@foreach(var approval in Approvals){<div class="approval-row"><MudAvatar Size="Size.Small" Color="@AvatarColor(approval.Person)">@Initials(approval.Person)</MudAvatar><div><b>@approval.Title</b><small>@approval.Person · @approval.Submitted</small></div><MudChip T="string" Size="Size.Small" Color="@StatusColor(approval.Status)">@approval.Status</MudChip><MudIconButton Size="Size.Small" Icon="@RynzoIcons.Get("ArrowRight")" aria-label="@($"Open {approval.Title}")" OnClick="@(() => Snackbar.Add($"Opening {approval.Title}", Severity.Info))" /></div>}</div>
+            <p class="pattern-note">Keep the primary action at the end of an operational row.</p>
+        </MudCard>
+        <MudCard Class="variation-card variation-comparison rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article">
+            <div class="pattern-heading"><span class="pattern-icon comparison"><MudIcon Icon="@RynzoIcons.Get("Layers")" /></span><div><span class="section-kicker">Comparison</span><h2>Plan access matrix</h2></div></div>
+            <div class="matrix-wrap"><table class="matrix-table"><thead><tr><th>Capability</th><th>Starter</th><th class="featured">Growth</th><th>Scale</th></tr></thead><tbody>@foreach(var capability in Capabilities){<tr><td><b>@capability.Name</b></td><td>@MatrixValue(capability.Starter)</td><td class="featured">@MatrixValue(capability.Growth)</td><td>@MatrixValue(capability.Scale)</td></tr>}</tbody></table></div>
+            <p class="pattern-note">Highlight one column to guide comparison without overwhelming the table.</p>
+        </MudCard>
+    </section>
+</div>
+
+@code {
+    private string Search { get; set; } = string.Empty;
+    private string RoleFilter { get; set; } = "All roles";
+    private static readonly string[] Roles = ["Product Manager", "Product Designer", "Frontend Engineer", "Data Analyst"];
+    private static readonly WorkspaceMember[] Members = [
+        new("Sophia Carter", "sophia.carter@rynzoadmin.com", "Product Manager", "Product", "8 minutes ago", "Active"),
+        new("Daniel Lee", "daniel.lee@rynzoadmin.com", "Frontend Engineer", "Engineering", "34 minutes ago", "Active"),
+        new("Emma Wilson", "emma.wilson@rynzoadmin.com", "Product Designer", "Design", "2 hours ago", "Away"),
+        new("Noah Williams", "noah.williams@rynzoadmin.com", "Data Analyst", "Insights", "Yesterday", "Active"),
+        new("Olivia Martinez", "olivia.martinez@rynzoadmin.com", "Product Manager", "Product", "Yesterday", "Invited")
+    ];
+    private static readonly Invoice[] Invoices = [new("INV-2048", "CloudAxis", "$8,420", "Oct 09", "Paid"), new("INV-2049", "Vertex Labs", "$4,860", "Oct 08", "Paid"), new("INV-2050", "Nexora", "$12,640", "Oct 07", "Sent")];
+    private static readonly ChecklistTask[] Tasks = [new("Review desktop states", "Sophia Carter", "Complete", true), new("Check payment errors", "Daniel Lee", "Complete", true), new("Confirm responsive layout", "Emma Wilson", "In review", true), new("Publish release notes", "Noah Williams", "Pending", false)];
+    private static readonly Product[] Products = [new("Analytics Pro", "Reports", "1,284", "18.4%", true, "A"), new("Team Workspace", "Collaboration", "942", "12.1%", true, "T"), new("Automation Kit", "Workflow", "618", "4.8%", false, "W"), new("Client Portal", "Experience", "391", "8.6%", true, "C")];
+    private static readonly Approval[] Approvals = [new("Quarterly campaign budget", "Sophia Carter", "Submitted today", "Review"), new("Mobile release checklist", "Daniel Lee", "Submitted yesterday", "Approved"), new("Research participant incentive", "Emma Wilson", "Submitted Oct 07", "Review")];
+    private static readonly Capability[] Capabilities = [new("Workspace members", "5", "25", "Unlimited"), new("Automations", "—", "Included", "Included"), new("Audit history", "7 days", "1 year", "Unlimited")];
+    private static readonly TableSample[] SampleRows = [new("Paid search", "428", "On track"), new("Lifecycle email", "318", "On track"), new("Partner webinar", "196", "Review"), new("Community", "114", "Planned")];
+    private IEnumerable<WorkspaceMember> VisibleMembers => Members.Where(member => (RoleFilter == "All roles" || member.Role == RoleFilter) && ($"{member.Name} {member.Email} {member.Role} {member.Team}").Contains(Search, StringComparison.OrdinalIgnoreCase));
+    private void Reset(){ Search = string.Empty; RoleFilter = "All roles"; }
+    private void Export()=>Snackbar.Add("Member directory exported", Severity.Success);
+    private void AddMember()=>Snackbar.Add("Add member flow opened", Severity.Info);
+    private void OpenMember(WorkspaceMember member)=>Snackbar.Add($"Opening {member.Name}", Severity.Info);
+    private static string Initials(string name)=>string.Concat(name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(part => part[0]));
+    private static Color AvatarColor(string name)=>name switch { "Sophia Carter" => Color.Primary, "Daniel Lee" => Color.Info, "Emma Wilson" => Color.Secondary, "Noah Williams" => Color.Warning, _ => Color.Tertiary };
+    private static Color StatusColor(string status)=>status switch { "Active" => Color.Success, "Away" => Color.Warning, _ => Color.Info };
+    private static Color TaskColor(string tone)=>tone switch { "Complete" => Color.Success, "In review" => Color.Info, _ => Color.Warning };
+    private static string MatrixValue(string value)=>value == "Included" ? "✓" : value;
+    private sealed record WorkspaceMember(string Name, string Email, string Role, string Team, string LastActive, string Status);
+    private sealed record Invoice(string Id, string Client, string Amount, string Date, string Status);
+    private sealed record ChecklistTask(string Name, string Owner, string Tone, bool Done);
+    private sealed record Product(string Name, string Category, string Sales, string Change, bool Positive, string Initial);
+    private sealed record Approval(string Title, string Person, string Submitted, string Status);
+    private sealed record Capability(string Name, string Starter, string Growth, string Scale);
+    private sealed record TableSample(string Label, string Value, string Status);
+}

@@ -1,0 +1,540 @@
+.predictions-view{
+  color: var(--foreground);
+  min-width: 0;
+  width: 100%;
+  padding-bottom: 12px;
+}.predictions-view ::deep .mud-button{
+  text-transform: none;
+  font-size: var(--rynzo-font-caption);
+  border-radius: 7px;
+}.prediction-metrics{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}.prediction-metrics > div{
+  min-width: 0;
+}::deep .prediction-stat{position: relative;height: 100%}.prediction-icon{
+  position: absolute;
+  top: 18px;
+  width: 32px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--primary) 7%, transparent);
+  color: var(--primary);
+}.prediction-icon ::deep svg{
+  width: 17px;
+  height: 17px;
+}.prediction-icon.success{
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 8%, transparent);
+}.prediction-icon.info{
+  color: var(--info);
+  background: color-mix(in srgb, var(--info) 8%, transparent);
+}.prediction-icon.warning{
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 8%, transparent);
+}.prediction-stat ::deep > .mud-typography-caption:first-of-type{
+  display: block;
+  max-width: calc(100% - 38px);
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.7;
+  color: var(--muted-foreground);
+}.prediction-stat ::deep > .mud-typography-h4{
+  font-size: var(--rynzo-font-h3) !important;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  margin-top: 14px;
+}.prediction-stat ::deep > .mud-typography-caption:last-child{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  margin-top: 10px;
+  color: var(--muted-foreground);
+}.prediction-actions{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0 0 20px;
+}.prediction-notice{
+  margin-bottom: 20px;
+}.outlook-grid{
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 1fr);
+  gap: 22px;
+  align-items: start;
+  margin-bottom: 28px;
+}.outlook-grid > div{
+  min-width: 0;
+}::deep .outlook-card{min-width: 0}::deep .side-card{min-width: 0}.panel-heading{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 22px;
+}.panel-heading ::deep .mud-typography-h6{
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.5;
+}.side-card ::deep > .mud-typography-h6{
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.5;
+}.panel-heading ::deep .mud-typography-caption{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin-top: 7px;
+}.panel-heading ::deep .mud-chip{
+  font-size: var(--rynzo-font-caption) !important;
+  border-radius: 5px !important;
+  padding: 4px 7px !important;
+  flex-shrink: 0;
+}.outlook-controls{
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 10px;
+  padding: 16px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  margin-bottom: 24px;
+}.pf-field{
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}.pf-field > span{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.pf-field select{
+  height: 36px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--foreground);
+  background: var(--card);
+  width: 100%;
+  min-width: 0;
+}.pf-category{
+  height: 36px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--foreground);
+  background: var(--card);
+  width: 100%;
+  min-width: 0;
+}.projected-heading{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}.projected-heading ::deep .mud-typography-caption{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.projected-heading ::deep .mud-typography-h3{
+  font-size: var(--rynzo-font-h2);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.3;
+  margin-top: 8px;
+}.projected-heading ::deep .mud-chip{
+  font-size: var(--rynzo-font-caption) !important;
+  padding: 5px 8px !important;
+  border-radius: 5px !important;
+}.outlook-card ::deep .chart-note{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.9;
+  color: var(--muted-foreground);
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  margin-top: 15px;
+}.side-stack{
+  display: grid;
+  gap: 20px;
+}.side-card ::deep > .mud-typography-caption{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.9;
+  color: var(--muted-foreground);
+  margin-top: 7px;
+}.scenario-list{
+  display: grid;
+  gap: 9px;
+  margin: 20px 0;
+}.scenario-option{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: start;
+  color: var(--foreground);
+  background: transparent;
+  width: 100%;
+  min-width: 0;
+}.scenario-option.active{
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+  background: color-mix(in srgb, var(--primary) 4%, var(--card));
+}.scenario-option > span{
+  min-width: 0;
+}.scenario-option b{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+}.scenario-option small{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin-top: 5px;
+}.scenario-option strong{
+  font-size: var(--rynzo-font-body1);
+  font-weight: 600;
+  color: var(--primary);
+  white-space: nowrap;
+}.driver-icon{
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 38px;
+  background: color-mix(in srgb, var(--primary) 7%, transparent);
+  color: var(--primary);
+  border-radius: 9px;
+  margin-bottom: 16px;
+}.driver-icon ::deep svg{
+  width: 18px;
+  height: 18px;
+}.side-card ::deep > .mud-typography-subtitle2{
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  margin-top: 18px;
+}.side-card ::deep > .mud-typography-body2{
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.9;
+  color: var(--muted-foreground);
+  margin-top: 10px;
+}.side-card ::deep > .mud-button{
+  margin-top: 20px;
+  font-size: var(--rynzo-font-caption);
+}.side-card ::deep > .mud-button svg{
+  width: 13px;
+  height: 13px;
+  margin-inline-start: 6px;
+}.library-heading{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}.library-heading ::deep .mud-typography-h6{
+  font-size: var(--rynzo-font-h5);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}.library-heading ::deep .mud-typography-caption{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  margin-top: 6px;
+}.library-filters{
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  flex: 0 1 460px;
+}.library-filters ::deep .mud-input-control{
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}.library-filters ::deep .mud-input{
+  font-size: var(--rynzo-font-caption);
+  border-radius: 8px;
+  background: var(--card);
+}.library-filters ::deep input{
+  padding-block: 10px;
+}.library-filters ::deep .mud-input-adornment svg{
+  width: 17px;
+  height: 17px;
+}.pf-category{
+  width: 150px;
+  flex-shrink: 0;
+  font-size: var(--rynzo-font-caption);
+  height: 38px;
+}.forecast-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}.forecast-grid > div{
+  min-width: 0;
+}.forecast-card{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--card);
+  min-width: 0;
+}.forecast-card.selected{
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+}.forecast-card-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}.forecast-card-top ::deep .mud-chip{
+  font-size: var(--rynzo-font-caption) !important;
+  border-radius: 5px !important;
+  padding: 3px 7px !important;
+}.forecast-card-top ::deep .mud-typography-caption{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.forecast-card ::deep > .mud-typography-h6{
+  font-size: var(--rynzo-font-body1);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}.forecast-card ::deep > .mud-typography-h3{
+  font-size: var(--rynzo-font-h2);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  margin-top: 14px;
+  line-height: 1.4;
+}.change-line{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}.change-line ::deep .mud-chip{
+  font-size: var(--rynzo-font-caption) !important;
+  border-radius: 4px !important;
+  padding: 3px 6px !important;
+}.change-line ::deep .mud-typography-caption{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.confidence-line{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 17px;
+  border-top: 1px solid var(--border);
+  margin-top: 22px;
+}.confidence-line ::deep .mud-typography-caption{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.confidence-line b{
+  color: var(--foreground);
+  font-weight: 500;
+}.forecast-card ::deep > .mud-typography-caption{
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin-top: 14px;
+  display: block;
+  margin-bottom: 18px;
+}.forecast-card ::deep > .mud-button{
+  margin-top: auto;
+  font-size: var(--rynzo-font-caption);
+  min-height: 33px;
+}.forecast-card ::deep > .mud-button svg{
+  width: 13px;
+  height: 13px;
+  margin-inline-start: 6px;
+}.prediction-empty{
+  display: grid;
+  justify-items: center;
+  gap: 15px;
+  padding: 45px 20px;
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: 11px;
+  color: var(--muted-foreground);
+}.detail-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  border-radius: 9px;
+  margin: 22px 0;
+}.detail-grid small{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.detail-grid b{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  margin-top: 7px;
+}button:focus-visible{
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}select:focus-visible{
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+@media (max-width: 1200px) {.outlook-grid{
+    grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  }.forecast-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.prediction-metrics{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.outlook-controls{
+    grid-template-columns: 1fr 1fr;
+  }.pf-field:first-child{
+    grid-column: 1/-1;
+  }
+}
+@media (max-width: 950px) {.outlook-grid{
+    grid-template-columns: minmax(0, 1fr);
+  }.side-stack{
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }.outlook-controls{
+    grid-template-columns: 1.3fr 1fr 1fr;
+  }.pf-field:first-child{
+    grid-column: auto;
+  }
+}
+@media (max-width: 650px) {.prediction-metrics{
+    gap: 10px;
+    margin-bottom: 18px;
+  }.prediction-icon{
+    width: 26px;
+    height: 29px;
+    top: 14px;
+    inset-inline-end: 12px;
+  }.prediction-icon ::deep svg{
+    width: 14px;
+    height: 14px;
+  }.prediction-stat ::deep > .mud-typography-caption:first-of-type{
+    font-size: var(--rynzo-font-caption);
+    max-width: calc(100% - 30px);
+  }.prediction-stat ::deep > .mud-typography-h4{
+    font-size: var(--rynzo-font-h4) !important;
+    margin-top: 13px;
+  }.prediction-stat ::deep > .mud-typography-caption:last-child{
+    font-size: var(--rynzo-font-caption);
+    line-height: 1.7;
+  }.prediction-actions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }.prediction-actions ::deep .mud-button{
+    font-size: var(--rynzo-font-caption);
+  }.panel-heading{
+    align-items: flex-start;
+  }.panel-heading ::deep .mud-typography-h6{
+    font-size: var(--rynzo-font-h6);
+  }.outlook-controls{
+    grid-template-columns: 1fr 1fr;
+    padding: 13px;
+  }.pf-field:first-child{
+    grid-column: 1/-1;
+  }.pf-field select{
+    font-size: var(--rynzo-font-caption);
+  }.projected-heading{
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }.projected-heading ::deep .mud-typography-h3{
+    font-size: var(--rynzo-font-h2);
+  }.side-stack{
+    grid-template-columns: minmax(0, 1fr);
+  }.library-heading{
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+  }.library-filters{
+    flex: auto;
+  }.library-filters ::deep .mud-input{
+    font-size: var(--rynzo-font-caption);
+  }.pf-category{
+    width: 125px;
+    font-size: var(--rynzo-font-caption);
+  }.forecast-grid{
+    grid-template-columns: minmax(0, 1fr);
+  }.forecast-card{
+    padding: 22px 20px;
+  }.forecast-card ::deep > .mud-typography-h3{
+    font-size: var(--rynzo-font-h2);
+  }
+}/* Use the shared type scale for every prediction surface. */
+.predictions-view{
+  font-family: var(--rynzo-font-family, inherit);
+  font-size: var(--rynzo-font-body2);
+  line-height: 1.6;
+}.panel-heading ::deep .mud-typography-h6{
+  font-family: var(--rynzo-heading-font-family);
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  letter-spacing: normal;
+}.side-card ::deep > .mud-typography-h6{
+  font-family: var(--rynzo-heading-font-family);
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  letter-spacing: normal;
+}.forecast-card ::deep > .mud-typography-h6{
+  font-family: var(--rynzo-heading-font-family);
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  letter-spacing: normal;
+}.library-heading ::deep .mud-typography-h6{
+  font-family: var(--rynzo-heading-font-family);
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  letter-spacing: normal;
+}.library-heading ::deep .mud-typography-h6{
+  font-size: var(--rynzo-font-h5);
+}.scenario-option b{
+  font-size: var(--rynzo-font-body2);
+}.pf-field > span{
+  font-size: var(--rynzo-font-body2);
+}.scenario-option strong{
+  font-size: var(--rynzo-font-h6);
+}.scenario-option small{
+  font-size: var(--rynzo-font-body2);
+  line-height: 1.7;
+}.side-card ::deep > .mud-typography-body2{
+  font-size: var(--rynzo-font-body2);
+  line-height: 1.7;
+}.forecast-card ::deep > .mud-typography-h3{
+  font-family: var(--rynzo-heading-font-family);
+  font-size: var(--rynzo-font-h2);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}.projected-heading ::deep .mud-typography-h3{
+  font-family: var(--rynzo-heading-font-family);
+  font-size: var(--rynzo-font-h2);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}.prediction-stat ::deep > .mud-typography-h4{
+  font-size: var(--rynzo-font-h3) !important;
+  line-height: 1.3;
+}.pf-field select{
+  font-size: var(--rynzo-font-body2);
+}.pf-category{
+  font-size: var(--rynzo-font-body2);
+}.library-filters ::deep .mud-input{
+  font-size: var(--rynzo-font-body2);
+}.detail-grid b{
+  font-size: var(--rynzo-font-body2);
+}

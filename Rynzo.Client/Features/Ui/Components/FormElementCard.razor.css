@@ -1,0 +1,33 @@
+::deep .form-element-card{min-width: 0;overflow: hidden}.form-element-card h3{
+  font-size: var(--rynzo-font-body2);
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--foreground);
+}.form-element-card header p{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin: 6px 0 0;
+}.form-element-content{
+  padding: 24px;
+}.form-element-content ::deep .mud-input-control{
+  margin: 0;
+}.form-element-content ::deep .mud-input.mud-input-outlined{
+  min-height: 16px;
+  border-radius: 8px;
+}.form-element-content ::deep .mud-input-outlined-border{
+  border-radius: 8px;
+}.form-element-content ::deep .mud-input-slot{
+  min-height: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+}.form-element-content ::deep .mud-select-input{
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 540px) {.form-element-content{
+    padding: 20px;
+  }
+}

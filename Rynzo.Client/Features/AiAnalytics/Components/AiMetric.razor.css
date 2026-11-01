@@ -1,0 +1,28 @@
+.ai-metric-root{
+  height: 100%;
+}.ai-metric-root ::deep .ai-source-metric{height: 100%}.ai-source-metric-heading{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}.ai-source-metric-heading span{
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) 10%, transparent);
+}.ai-source-metric-heading ::deep svg{
+  width: 20px;
+  height: 20px;
+}small{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}strong{
+  display: block;
+  font-size: var(--rynzo-font-h2);
+  line-height: 36px;
+  font-weight: 600;
+  margin: 12px 0 8px;
+}

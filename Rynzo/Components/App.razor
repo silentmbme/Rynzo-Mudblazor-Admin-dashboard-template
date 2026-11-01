@@ -1,0 +1,50 @@
+@using Rynzo.Client.Infrastructure.Http
+@using Microsoft.Extensions.Options
+@inject IOptions<ExpressApiOptions> ApiOptions
+<!DOCTYPE html>
+<html lang="en" class="rynzo-theme" data-skin="multicolor" data-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <script src="@Assets["theme/theme-bootstrap.js"]"></script>
+    <ResourcePreloader />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <link href="@Assets["_content/MudBlazor/MudBlazor.min.css"]" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" />
+    <link rel="stylesheet" href="@Assets["theme/design-tokens.css"]" />
+    <link rel="stylesheet" href="@Assets["theme/design-system.css"]" />
+    <link rel="stylesheet" href="@Assets["theme/rynzo-components.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["theme/layout.css"]" />
+    <link rel="stylesheet" href="@Assets["Rynzo.styles.css"]" />
+    <link rel="stylesheet" href="@Assets["theme/typography.css"]" />
+    <link rel="stylesheet" href="@Assets["theme/header.css"]" />
+    <link rel="stylesheet" href="@Assets["theme/sidebar.css"]" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" type="image/png" sizes="256x256" href="favicon.png" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <ImportMap />
+    <HeadOutlet @rendermode="new InteractiveWebAssemblyRenderMode(prerender: false)" />
+</head>
+<body>
+    <div id="rynzo-startup" role="status" aria-live="polite" style="min-height:100dvh;display:grid;place-items:center;padding:24px;box-sizing:border-box;background:var(--background,#f6f7fb);color:var(--foreground,#172033);font-family:Inter,system-ui,sans-serif">
+        <div style="max-width:360px;text-align:center">
+            <img src="favicon.png" alt="" width="42" height="42" />
+            <h1 style="font-size:20px;font-weight:600;margin:18px 0 8px">Opening Rynzo</h1>
+            <p data-startup-message style="font-size:14px;line-height:1.8;margin:0">Loading your workspace…</p>
+            <button data-startup-reload hidden type="button" style="margin-top:18px;padding:10px 18px;border:1px solid currentColor;border-radius:8px;background:transparent;color:inherit;font:inherit;cursor:pointer">Reload workspace</button>
+        </div>
+    </div>
+    <noscript><p>Enable JavaScript to open the Rynzo workspace.</p></noscript>
+    <Routes ApiOptions="ApiOptions.Value" @rendermode="new InteractiveWebAssemblyRenderMode(prerender: false)" />
+    <script src="@Assets["theme/layout.js"]"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <script src="@Assets["theme/quill-editor.js"]"></script>
+    <script src="@Assets["_content/MudBlazor/MudBlazor.min.js"]"></script>
+    <script src="@Assets["_framework/blazor.web.js"]" autostart="false"></script>
+    <script src="@Assets["theme/app-startup.js"]"></script>
+</body>
+</html>

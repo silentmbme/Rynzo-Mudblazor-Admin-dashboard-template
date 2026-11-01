@@ -1,0 +1,75 @@
+.detail-image-gallery > div {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+.detail-image-gallery > div > span {
+  position: absolute;
+  inset-inline-start: 16px;
+  top: 16px;
+  z-index: 1;
+  border-radius: 999px;
+  background: var(--destructive);
+  color: var(--destructive-foreground);
+  padding: 4px 10px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 700;
+}
+.detail-image-gallery > div ::deep .mud-icon-button {
+  position: absolute;
+  inset-inline-end: 16px;
+  top: 16px;
+  z-index: 1;
+  background: var(--card);
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+.detail-image-gallery > div > img {
+  aspect-ratio: 1;
+  width: 100%;
+  object-fit: cover;
+}
+.detail-image-gallery > nav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.detail-image-gallery nav > button {
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: var(--muted);
+}
+.detail-image-gallery nav > button.active {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 15%, transparent);
+}
+.detail-image-gallery nav img {
+  aspect-ratio: 1;
+  width: 100%;
+  object-fit: cover;
+}
+.detail-image-gallery footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--muted) 35%, transparent);
+  padding: 12px;
+  margin-top: 16px;
+  font-size: var(--rynzo-font-body1);
+}
+.detail-image-gallery footer > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.detail-image-gallery footer ::deep .mud-button {
+  text-transform: none;
+}

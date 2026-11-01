@@ -1,0 +1,18 @@
+@page "/ui/tabs"
+@using Rynzo.Client.Features.Ui.Components
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+<PageTitle>Tabs | Rynzo</PageTitle>
+<div class="tabs-page"><DashboardPageHeader Title="Tabs" Description="Reusable navigation patterns with shared content and accessible state management."><Actions><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Print">Export</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("FilePlus2")">Create report</MudButton></Actions></DashboardPageHeader>
+<MudCard Class="tabs-intro rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><span><MudIcon Icon="@RynzoIcons.Get("PanelTop")" /></span><div><small>Component library / Navigation</small><h2>One space. Different perspectives.</h2><p>Organize related content with clear selection and a consistent interaction model.</p></div></MudCard>
+<div class="tabs-grid">@foreach(var example in Examples){<ButtonShowcaseCard Id="@example.Style" Title="@example.Title" Description="@example.Description" Code="@ExampleCode(example.Style)"><UiWorkspaceTabs Style="@example.Style" Icons="@(example.Style=="icons")" /></ButtonShowcaseCard>}
+<div class="tabs-wide"><ButtonShowcaseCard Id="controlled" Title="Controlled" Description="External buttons and tabs share the same selected panel." Code="@ControlledCode"><div class="tabs-controls"><span>External controls</span>@for(var i=0;i<3;i++){var index=i;<MudButton Size="Size.Small" Variant="@(Controlled==index?Variant.Filled:Variant.Outlined)" Color="Color.Primary" aria-pressed="@(Controlled==index?"true":"false")" OnClick="@(()=>Controlled=index)">@Labels[index]</MudButton>}<small>These buttons and the tabs share one state.</small></div><UiWorkspaceTabs Style="segmented" @bind-ActiveIndex="Controlled" /><p class="tabs-selection" role="status">Selected panel: @Labels[Controlled]</p></ButtonShowcaseCard></div></div></div>
+@code {
+ private int Controlled;
+ private static readonly string[] Labels=["Overview","Activity","Settings"];
+ private static readonly (string Style,string Title,string Description)[] Examples=[("underline","Underline","A sliding indicator for a familiar navigation pattern."),("pills","Pills","A solid capsule highlights the selected tab."),("segmented","Segmented","A compact selection on a muted track."),("boxed","Boxed","Card-top tabs merge into the content panel."),("vertical","Vertical","Column navigation beside the active panel."),("icons","Icons & badges","Icons identify each section, with an alert count in its panel."),("colored","Colored navigation","A solid color track with a contrasting selected tab."),("soft","Soft navigation","Light-tint icon tabs with quiet active emphasis."),("outlined","Outlined tabs","Individual bordered tabs with a clear selected state."),("icon-only","Icon-only navigation","Compact icon tabs with accessible section labels."),("cards","Navigation cards","Spacious icon cards for prominent section navigation."),("connected","Connected navigation","Joined segments with distinct boundaries and active fill.")];
+ private async Task Print()=>await JS.InvokeVoidAsync("print");
+ private static string ExampleCode(string style)=>$"<UiWorkspaceTabs Style=\"{style}\"{(style=="icons"?" Icons=\"true\"":"")} />";
+ private const string ControlledCode="<MudButton OnClick=\"@(() => Controlled = 1)\">Activity</MudButton>\n<UiWorkspaceTabs Style=\"segmented\" @bind-ActiveIndex=\"Controlled\" />";
+}

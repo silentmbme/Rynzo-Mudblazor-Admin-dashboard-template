@@ -1,0 +1,8 @@
+﻿@using Rynzo.Client.Features.Notes.Models
+@using Rynzo.Client.Theme
+<MudDialog>
+    <TitleContent><div class="note-delete-title"><span><MudIcon Icon="@RynzoIcons.Get("Trash2")" /></span><div><small>MANAGE YOUR NOTES</small><MudText Typo="Typo.h6" HtmlTag="h2">Delete note?</MudText></div></div></TitleContent>
+    <DialogContent><div class="note-delete-content"><p>This note will be removed from your workspace for this session.</p><div class="note-delete-preview"><MudIcon Icon="@RynzoIcons.Get("NotebookPen")" /><div><small>Selected note</small><b>@Note.Title</b></div></div><p class="note-delete-warning">You can cancel to keep this note.</p></div></DialogContent>
+    <DialogActions><div class="note-delete-actions"><MudButton Variant="Variant.Outlined" OnClick="@(() => Dialog.Cancel())">Keep note</MudButton><MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@RynzoIcons.Get("Trash2")" OnClick="@(() => Dialog.Close(DialogResult.Ok(true)))">Delete note</MudButton></div></DialogActions>
+</MudDialog>
+@code { [Parameter, EditorRequired] public NoteEntry Note { get; set; } = null!; [CascadingParameter] public IMudDialogInstance Dialog { get; set; } = null!; }

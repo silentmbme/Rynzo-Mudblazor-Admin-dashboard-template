@@ -1,0 +1,41 @@
+::deep .hr-metric{height: 100%}.metric-heading{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}.metric-icon{
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--metric-tone) 10%, transparent);
+  color: var(--metric-tone);
+  flex: none;
+}.metric-icon ::deep svg{
+  width: 20px;
+  height: 20px;
+}.metric-heading small{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}strong{
+  display: block;
+  font-size: var(--rynzo-font-h2);
+  line-height: 36px;
+  font-weight: 600;
+  margin-top: 16px;
+}p{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  margin: 8px 0 0;
+}::deep .hr-metric-compact .metric-heading{
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}::deep .hr-metric-compact .metric-icon{
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}::deep .hr-metric-compact strong{
+  font-size: var(--rynzo-font-h4);
+  line-height: 32px;
+  margin-top: 12px;
+}

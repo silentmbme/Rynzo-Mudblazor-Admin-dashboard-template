@@ -1,0 +1,43 @@
+@page "/forms/date-pickers"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Features.Ui.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+@inject ISnackbar Snackbar
+<PageTitle>Date pickers | Rynzo</PageTitle>
+
+<div class="date-pickers-page">
+    <DashboardPageHeader Title="Date pickers" Description="MudBlazor date and time patterns for scheduling, planning, and availability.">
+        <Actions><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Print">Export</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Save")" OnClick="Save">Save schedule</MudButton></Actions>
+    </DashboardPageHeader>
+
+    <section class="date-section"><header class="date-section-heading"><span><MudIcon Icon="@RynzoIcons.Get("Calendar")" /></span><div><h2>Single dates</h2><p>Choose a clear date with supporting context and feedback.</p></div></header><div class="date-grid">
+        <FormElementCard Id="basic-date" Title="Basic date" Description="A compact picker for one planned date."><UiFormField Id="date-basic" Label="Publish date"><MudDatePicker @bind-Date="PublishDate" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField><div class="date-selection"><span><MudIcon Icon="@RynzoIcons.Get("CalendarDays")" /></span><div><small>Scheduled for</small><b aria-live="polite">@FormatDate(PublishDate)</b></div><UiStatusChip Color="Color.Primary">Planned</UiStatusChip></div></FormElementCard>
+        <FormElementCard Id="restricted-date" Title="Availability date" Description="Use constraints to keep selections valid."><UiFormField Id="date-restricted" Label="Delivery date" Hint="Weekdays only, starting tomorrow."><MudDatePicker @bind-Date="DeliveryDate" MinDate="@DateTime.Today.AddDays(1)" IsDateDisabledFunc="IsWeekend" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField><div class="date-note"><MudIcon Icon="@RynzoIcons.Get("CircleCheck")" /><span>Next available delivery: @NextDelivery.ToString("ddd, dd MMM")</span></div></FormElementCard>
+    </div></section>
+
+    <section class="date-section"><header class="date-section-heading"><span><MudIcon Icon="@RynzoIcons.Get("CalendarRange")" /></span><div><h2>Date ranges</h2><p>Make duration and start/end dates visible in the same decision.</p></div></header><div class="date-grid date-range-grid">
+        <FormElementCard Id="range-date" Title="Project range" Description="A single MudBlazor range picker for a planned phase."><UiFormField Id="date-range" Label="Design sprint"><MudDateRangePicker @bind-DateRange="SprintRange" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField><div class="date-range-summary"><div><span>Starts</span><b>@FormatDate(SprintRange?.Start)</b></div><div><span>Ends</span><b>@FormatDate(SprintRange?.End)</b></div><div><span>Duration</span><b>@RangeDays days</b></div></div></FormElementCard>
+        <FormElementCard Id="presets" Title="Quick ranges" Description="Preset actions for common reporting periods."><div class="date-presets"><MudButton Variant="Variant.Outlined" OnClick="SetThisWeek">This week</MudButton><MudButton Variant="Variant.Outlined" OnClick="SetNextWeek">Next week</MudButton><MudButton Variant="Variant.Outlined" OnClick="SetThisMonth">This month</MudButton></div><div class="date-preset-current"><span><MudIcon Icon="@RynzoIcons.Get("CalendarClock")" /></span><div><small>Active reporting range</small><b>@FormatDate(SprintRange?.Start) – @FormatDate(SprintRange?.End)</b></div></div></FormElementCard>
+    </div></section>
+
+    <section class="date-section"><header class="date-section-heading"><span><MudIcon Icon="@RynzoIcons.Get("Clock3")" /></span><div><h2>Time &amp; states</h2><p>Pair time with timezone context and clear state treatment.</p></div></header><div class="date-grid">
+        <FormElementCard Id="time" Title="Time picker" Description="A focused meeting-time selector."><div class="date-time-grid"><UiFormField Id="meeting-time" Label="Start time"><MudTimePicker @bind-Time="MeetingTime" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField><UiFormField Id="meeting-zone" Label="Timezone"><MudSelect T="string" @bind-Value="Timezone" Variant="Variant.Outlined" Margin="Margin.Dense"><MudSelectItem Value="@("UTC −08:00")">UTC −08:00</MudSelectItem><MudSelectItem Value="@("UTC +00:00")">UTC +00:00</MudSelectItem><MudSelectItem Value="@("UTC +05:30")">UTC +05:30</MudSelectItem></MudSelect></UiFormField></div><div class="date-note"><MudIcon Icon="@RynzoIcons.Get("Globe2")" /><span>@(MeetingTime?.ToString("hh\\:mm") ?? "Select a time") · @Timezone</span></div></FormElementCard>
+        <FormElementCard Id="states" Title="Picker states" Description="Disabled and validation feedback in the shared field style."><div class="date-state-stack"><UiFormField Id="date-disabled" Label="Locked date"><MudDatePicker Date="@DateTime.Today" Disabled="true" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField><UiFormField Id="date-required" Label="Required date"><MudDatePicker Error="true" ErrorText="Choose a valid review date." Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField></div></FormElementCard>
+    </div></section>
+</div>
+
+@code {
+    private DateTime? PublishDate=DateTime.Today.AddDays(8), DeliveryDate=DateTime.Today.AddDays(2);
+    private DateRange? SprintRange=new(DateTime.Today.AddDays(1),DateTime.Today.AddDays(8));
+    private TimeSpan? MeetingTime=new(10,30,0); private string Timezone="UTC −08:00";
+    private DateTime NextDelivery=>DateTime.Today.AddDays(DateTime.Today.DayOfWeek is DayOfWeek.Friday ? 3 : 1);
+    private int RangeDays=>SprintRange?.Start is not null&&SprintRange?.End is not null?Math.Max(0,(SprintRange.End.Value-SprintRange.Start.Value).Days):0;
+    private static bool IsWeekend(DateTime day)=>day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
+    private static string FormatDate(DateTime? date)=>date?.ToString("ddd, dd MMM yyyy")??"Not selected";
+    private void SetThisWeek(){var start=DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek+1);SprintRange=new(start,start.AddDays(6));}
+    private void SetNextWeek(){var start=DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek+8);SprintRange=new(start,start.AddDays(6));}
+    private void SetThisMonth(){var start=new DateTime(DateTime.Today.Year,DateTime.Today.Month,1);SprintRange=new(start,start.AddMonths(1).AddDays(-1));}
+    private void Save()=>Snackbar.Add("Date picker settings saved",Severity.Success);
+    private async Task Print()=>await JS.InvokeVoidAsync("print");
+}

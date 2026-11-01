@@ -1,0 +1,77 @@
+﻿.note-delete-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 0;
+}
+.note-delete-title > span {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  color: var(--destructive);
+  background: color-mix(in srgb, var(--destructive) 8%, var(--card));
+  flex-shrink: 0;
+}
+.note-delete-title small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--muted-foreground);
+  margin-bottom: 4px;
+}
+.note-delete-title ::deep h2 {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.note-delete-content > p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin-bottom: 20px;
+}
+.note-delete-preview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--muted) 40%, var(--card));
+}
+.note-delete-preview ::deep svg {
+  color: var(--muted-foreground);
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
+}
+.note-delete-preview > div {
+  min-width: 0;
+}
+.note-delete-preview small {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: 10px;
+  margin-bottom: 5px;
+}
+.note-delete-preview b {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.note-delete-content > .note-delete-warning {
+  margin: 16px 0 0;
+  font-size: 11px;
+}
+.note-delete-actions {
+  display: flex;
+  gap: 10px;
+  padding: 4px 8px 8px;
+}
+.note-delete-actions ::deep .mud-button {
+  font-size: 12px;
+  min-height: 38px;
+}

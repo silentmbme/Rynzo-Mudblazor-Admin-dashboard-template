@@ -1,0 +1,181 @@
+{
+  "columns": [
+    {
+      "id": "backlog",
+      "name": "Backlog"
+    },
+    {
+      "id": "todo",
+      "name": "Todo"
+    },
+    {
+      "id": "progress",
+      "name": "In Progress"
+    },
+    {
+      "id": "review",
+      "name": "Review"
+    },
+    {
+      "id": "done",
+      "name": "Done"
+    }
+  ],
+  "cards": [
+    {
+      "id": "pay",
+      "title": "Fix checkout payment validation",
+      "description": "Resolve Safari and mobile validation issues.",
+      "column": "progress",
+      "priority": "High",
+      "assignees": [
+        "Sophia",
+        "Daniel"
+      ],
+      "labels": [
+        "Bug",
+        "Frontend"
+      ],
+      "due": "Aug 24",
+      "subtasks": [
+        {
+          "title": "Reproduce Safari issue",
+          "done": true
+        },
+        {
+          "title": "Add validation fix",
+          "done": false
+        },
+        {
+          "title": "QA verification",
+          "done": false
+        }
+      ],
+      "comments": [
+        "Safari logs attached."
+      ],
+      "attachments": [
+        "safari-console.png"
+      ]
+    },
+    {
+      "id": "onboard",
+      "title": "Finalize onboarding illustrations",
+      "description": "Complete visual handoff for the new flow.",
+      "column": "review",
+      "priority": "Medium",
+      "assignees": [
+        "Olivia"
+      ],
+      "labels": [
+        "Design"
+      ],
+      "due": "Aug 25",
+      "subtasks": [
+        {
+          "title": "Review exports",
+          "done": true
+        },
+        {
+          "title": "Send handoff",
+          "done": false
+        }
+      ],
+      "comments": [],
+      "attachments": []
+    },
+    {
+      "id": "crm",
+      "title": "Migrate legacy CRM contacts",
+      "description": "Validate mappings before the final import.",
+      "column": "todo",
+      "priority": "Critical",
+      "assignees": [
+        "Daniel"
+      ],
+      "labels": [
+        "Backend",
+        "Urgent"
+      ],
+      "due": "Aug 23",
+      "subtasks": [
+        {
+          "title": "Validate mapping",
+          "done": true
+        },
+        {
+          "title": "Run import",
+          "done": false
+        }
+      ],
+      "comments": [
+        "Source export is ready."
+      ],
+      "attachments": [
+        "contacts.csv"
+      ]
+    },
+    {
+      "id": "campaign",
+      "title": "Prepare campaign launch assets",
+      "description": "Package approved campaign assets.",
+      "column": "progress",
+      "priority": "High",
+      "assignees": [
+        "Emma",
+        "Mia"
+      ],
+      "labels": [
+        "Marketing"
+      ],
+      "due": "Aug 27",
+      "subtasks": [],
+      "comments": [],
+      "attachments": []
+    },
+    {
+      "id": "export",
+      "title": "Add invoice export option",
+      "description": "Add CSV export to invoice history.",
+      "column": "backlog",
+      "priority": "Low",
+      "assignees": [
+        "Noah"
+      ],
+      "labels": [
+        "Frontend"
+      ],
+      "due": "Sep 01",
+      "subtasks": [],
+      "comments": [],
+      "attachments": []
+    },
+    {
+      "id": "mobile",
+      "title": "QA mobile navigation",
+      "description": "Validate navigation states across mobile breakpoints.",
+      "column": "review",
+      "priority": "Medium",
+      "assignees": [
+        "Olivia",
+        "Emma"
+      ],
+      "labels": [
+        "QA"
+      ],
+      "due": "Aug 26",
+      "subtasks": [
+        {
+          "title": "iOS checks",
+          "done": true
+        },
+        {
+          "title": "Android checks",
+          "done": true
+        }
+      ],
+      "comments": [],
+      "attachments": []
+    }
+  ]
+}

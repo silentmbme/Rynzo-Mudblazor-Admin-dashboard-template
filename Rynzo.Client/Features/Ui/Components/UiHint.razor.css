@@ -1,0 +1,71 @@
+.ui-hint-surface {
+  max-width: min(280px, calc(100vw - 32px));
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: var(--hint-tone);
+  color: var(--hint-contrast);
+  border: 1px solid color-mix(in srgb, var(--hint-tone) 75%, transparent);
+  box-shadow: 0 6px 24px #00000018;
+  text-align: left;
+}
+.ui-hint-surface.is-light {
+  background: color-mix(in srgb, var(--hint-tone) 9%, var(--card));
+  color: var(--hint-tone);
+  border-color: color-mix(in srgb, var(--hint-tone) 23%, var(--border));
+  box-shadow: 0 6px 24px #0000000d;
+}
+.ui-hint-surface.is-neutral.is-light {
+  background: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.ui-hint-text {
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  line-height: 1.8;
+  display: block;
+  white-space: normal;
+}
+.ui-hint-rich {
+  width: 230px;
+  max-width: 100%;
+  padding: 4px 2px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 400;
+  line-height: 1.8;
+}
+.ui-hint-rich ::deep b {
+  display: block;
+  font-size: var(--rynzo-font-body2);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.ui-hint-rich ::deep p {
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.85;
+  margin: 0 0 14px;
+}
+.ui-hint-rich ::deep p:last-child {
+  margin: 0;
+}
+.ui-hint-rich ::deep kbd {
+  display: inline-block;
+  font: inherit;
+  font-size: var(--rynzo-font-overline);
+  padding: 3px 8px;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 5px;
+}
+.ui-hint-rich ::deep .hint-profile-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.ui-hint-rich ::deep .hint-profile-heading b {
+  margin-bottom: 3px;
+}
+.ui-hint-rich ::deep .hint-profile-heading small {
+  font-size: var(--rynzo-font-caption);
+}

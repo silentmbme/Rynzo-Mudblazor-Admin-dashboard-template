@@ -1,0 +1,324 @@
+@page "/dashboards/hospital-management"
+@page "/hospital-management.html"
+@implements IAsyncDisposable
+@using System.Globalization
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Services
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+<PageTitle>Hospital Management | Rynzo</PageTitle>
+<div class="hospital-dashboard">
+    <DashboardPageHeader Title="Hospital Management"
+                         Description="A coordinated view of patients, appointments, and hospital operations.">
+        <Actions>
+            <div class="hospital-actions">
+                <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export
+                    report</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")"
+                               OnClick="@(() => Book())">New appointment</MudButton>
+                </div>
+            </Actions>
+        </DashboardPageHeader>
+        <MudCard Outlined="true" Elevation="0" Class="hospital-banner rynzo-widget-card">
+            <MudIcon Icon="@RynzoIcons.Get("Hospital")" Color="Color.Primary" />
+            <div>
+                <div class="hospital-banner-title">
+                    <h2>Carewell Medical Center</h2>
+                    <MudChip T="string" Color="Color.Primary" Size="Size.Small">Sample data</MudChip>
+                </div>
+                <p>Friday, October 9, 2026 · Hospital operations overview</p>
+            </div>
+            <div class="hospital-banner-filters">
+                <MudSelect T="string" @bind-Value="_department" @bind-Value:after="Refresh" Variant="Variant.Outlined"
+                           Margin="Margin.Dense" Class="hospital-department" aria-label="Hospital department">
+                    <MudSelectItem Value="@("all")">All departments</MudSelectItem>@foreach(var department in
+                    _state.Source.Departments){
+                        <MudSelectItem Value="@department.Name">@department.Name</MudSelectItem>
+                    }
+                </MudSelect>
+                <MudSelect T="int" @bind-Value="_period" @bind-Value:after="Refresh" Variant="Variant.Outlined"
+                           Margin="Margin.Dense" Class="hospital-period" aria-label="Hospital reporting period">
+                    <MudSelectItem Value="7">Last 7 days</MudSelectItem>
+                    <MudSelectItem Value="30">Last 30 days</MudSelectItem>
+                </MudSelect>
+            </div>
+        </MudCard>
+        <section class="hospital-metrics" aria-label="Hospital key metrics">@foreach(var metric in Metrics){
+            <MudCard
+                Class="hospital-metric rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span class="hospital-metric-icon">
+                <MudIcon Icon="@RynzoIcons.Get(metric.Icon)" />
+            </span>
+            <div>
+                <p>@metric.Label</p><strong>@metric.Value</strong><small>@metric.Note</small>
+            </div>
+        </MudCard>
+    }
+</section>
+    <section class="hospital-care-grid">
+        <DashboardCard Title="Patient flow"
+                    Description="@($"Patient arrivals and discharges over the last {_period} days")"
+                    Class="hospital-span-two hospital-flow">
+            <Actions>
+                <MudChip T="string" Color="Color.Primary" Size="Size.Small">@Number(_data.Visits) arrivals</MudChip>
+            </Actions>
+            <ChildContent>
+                <div class="hospital-flow-totals">
+                    <div><b>@Number(_data.Visits)</b><small>Patient arrivals</small></div>
+                    <div><b>@Number(_data.Discharged.Sum())</b><small>Discharged</small></div>
+                </div>
+                <DashboardChart Data="_chartData" OptionsModule="./hospital-dashboard-options.js" Kind="flow"
+                                Height="290" Label="Stepped patient flow trends showing patient arrivals and discharges by date" />
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Bed occupancy" Description="Current capacity in selected departments"
+                    Class="hospital-occupancy">
+            <DashboardChart Data="_chartData" OptionsModule="./hospital-dashboard-options.js" Kind="occupancy"
+                            Height="255" Label="Percentage of hospital beds occupied" />
+            <div class="hospital-bed-totals">@foreach(var total in new[]{("Total beds",_data.Beds),("Occupied",_data.Occupied),("Available",_data.Available)}){
+                <div>
+                    <b>@total.Item2</b><small>@total.Item1</small></div>
+                }
+            </div>
+            <p class="hospital-allocation">
+                <MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" Color="Color.Success" Size="Size.Small" />
+                @_data.Available beds available for allocation
+            </p>
+        </DashboardCard>
+    </section>
+    <aside class="hospital-roster">
+            <div class="hospital-doctor-heading">
+                <h2>Doctor availability</h2><span>@Doctors.Count(d => d.Available) available</span>
+            </div>
+            <section class="hospital-doctors">@foreach(var doctor in Doctors){
+                <MudCard Outlined="true" Elevation="0"
+                        Class="hospital-doctor rynzo-widget-card rynzo-widget-card--structured">
+                    <MudCardContent>
+                        <div class="hospital-doctor-top">
+                            <HospitalDoctorPortrait Doctor="doctor" />
+                            <MudChip T="string" Size="Size.Small"
+                                    Color="@(doctor.Available?Color.Success:Color.Warning)">
+                                @(doctor.Available ? "Available" : "In surgery")</MudChip>
+                            </div>
+                            <h3>@doctor.Name</h3>
+                            <p>@doctor.Department</p><small>@doctor.Role</small>
+                            <div class="hospital-assigned">
+                                <MudIcon Icon="@RynzoIcons.Get("UsersRound")" Size="Size.Small" />@doctor.Patients patients
+                                assigned
+                            </div>
+                            <MudButton Variant="Variant.Outlined" FullWidth="true" Size="Size.Small"
+                                    Disabled="@(!doctor.Available)" StartIcon="@RynzoIcons.Get("CalendarDays")"
+                                    OnClick="@(() => Book(doctor.Id))">Book appointment</MudButton>
+                        </MudCardContent>
+                    </MudCard>
+                }
+                @if (!Doctors.Any())
+                {
+                    <p class="hospital-doctor-empty">No doctors are listed for this
+                        department in the sample roster.</p>
+                    }
+                </section>
+    </aside>
+    <section class="hospital-capacity-grid">
+        <DashboardCard Title="Visits by department" Description="@($"Department activity over {_period} days")"
+                    Class="hospital-department-chart">
+            <DashboardChart Data="_chartData" OptionsModule="./hospital-dashboard-options.js" Kind="department"
+                            Height="285" Label="Patient visits by hospital department" />
+        </DashboardCard>
+        <DashboardCard Title="Ward capacity" Description="Occupied and available beds by ward"
+                    Class="hospital-span-two hospital-capacity">
+            <div class="hospital-wards">@foreach(var ward in _data.Departments){
+                <div>
+                    <p><b>@ward.Name</b><span>@ward.Occupied / @ward.Beds beds</span></p>
+                    <div class="hospital-bed-map" aria-hidden="true">@for(var bed=0;bed<ward.Beds;bed++){
+                        <i
+                        class="@(bed < ward.Occupied ? "occupied" : "")" style="@($"--ward-tone:var({ward.Color})")"></i>
+                    }
+                </div>
+                <div class="hospital-progress" role="progressbar" aria-label="@($"{ward.Name} occupancy")"
+                    aria-valuenow="@ward.Occupied" aria-valuemin="0" aria-valuemax="@ward.Beds"><i
+                    style="@($"width:{Percent(ward.Occupied, ward.Beds)}%;background:var({ward.Color})")"></i>
+                </div><small>@(ward.Beds - ward.Occupied) beds available</small>
+            </div>
+        }
+    </div>
+        </DashboardCard>
+    </section>
+    <DashboardCard Title="Appointments" Description="Manage sample patient visits and check-ins"
+                   Class="hospital-appointments">
+        <Actions>
+            <MudChip T="string" Color="Color.Primary" Size="Size.Small">@Visible.Length appointments</MudChip>
+        </Actions>
+        <ChildContent>
+            <div class="hospital-table-filters">
+                <MudTextField T="string" @bind-Value="_query" @bind-Value:after="UpdateAppointments" Immediate="true"
+                              Placeholder="Search patient, appointment, or department..."
+                              aria-label="Search hospital appointments" Variant="Variant.Outlined" Margin="Margin.Dense"
+                              Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" Class="hospital-search" />
+                <MudSelect T="string" @bind-Value="_status" @bind-Value:after="UpdateAppointments"
+                           Variant="Variant.Outlined" Margin="Margin.Dense" Class="hospital-status"
+                           aria-label="Appointment status">
+                    <MudSelectItem Value="@("all")">All statuses</MudSelectItem>@foreach(var status in
+                    new[] { "Scheduled", "Checked in", "Completed" }){
+                        <MudSelectItem Value="@status">@status</MudSelectItem>
+                    }
+                </MudSelect>
+            </div>
+            <MudTable T="HospitalAppointment" Items="Visible" Breakpoint="Breakpoint.None" Elevation="0"
+                      Class="hospital-table" aria-label="Hospital appointments">
+                <HeaderContent>
+                    <MudTh>Patient</MudTh>
+                    <MudTh>Doctor / department</MudTh>
+                    <MudTh>Appointment</MudTh>
+                    <MudTh>Type</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Actions</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>
+                        <div class="hospital-person">
+                            <MudAvatar Size="Size.Medium" Color="Color.Primary">@Initials(context.Patient)</MudAvatar>
+                            <span><b>@context.Patient</b><small>@context.Id@(context.Age is not null ? $" · {context.Age} years" : "")</small></span>
+                        </div>
+                    </MudTd>
+                    <MudTd>
+                        <div class="hospital-person">
+                            <HospitalDoctorPortrait Doctor="@Doctor(context.DoctorId)" Small="true" /><span>
+                            <p>@Doctor(context.DoctorId).Name</p><small>@context.Department</small>
+                        </span>
+                    </div>
+                </MudTd>
+                <MudTd>
+                    <p>@context.Time</p><small>@context.Date</small>
+                </MudTd>
+                <MudTd>@context.Type</MudTd>
+                <MudTd>
+                    <MudChip T="string" Size="Size.Small" Color="@StatusColor(context.Status)">@context.Status
+                    </MudChip>
+                </MudTd>
+                <MudTd>
+                    <div class="hospital-row-actions">@if(context.Status=="Scheduled"){
+                        <MudButton Size="Size.Small"
+                                   Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Check")"
+                                   Class="hospital-check-in" aria-label="@($"Check in {context.Patient}")"
+                                   OnClick="@(() => CheckIn(context.Id))">Check in</MudButton>
+                    }
+                    <MudIconButton Icon="@RynzoIcons.Get("Eye")" Size="Size.Small"
+                                   aria-label="@($"View {context.Patient} appointment")"
+                                   OnClick="@(() => Details(context))" />
+                </div>
+            </MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText Class="pa-8" Color="Color.Secondary">No appointments match your filters.</MudText>
+        </NoRecordsContent>
+    </MudTable>
+    <p class="hospital-table-footer">Showing @Visible.Length of @DepartmentAppointments.Length appointments ·
+        Changes stay in this demo session</p>
+    </ChildContent>
+    </DashboardCard>
+    <section class="hospital-bottom">
+        <DashboardCard Title="Supply inventory" Description="Stock levels for daily hospital operations"
+                    Class="hospital-supplies">
+            <Actions>
+                <MudIcon Icon="@RynzoIcons.Get("Package")" Size="Size.Small" />
+            </Actions>
+            <ChildContent>
+                <div class="hospital-supply-list">@foreach(var supply in _state.Source.Supplies){var
+                    low = supply.Remaining / (double)supply.Target < .3;
+                    <div>
+                        <p><b>@supply.Name</b>
+                            <MudChip T="string" Size="Size.Small" Color="@(low ? Color.Warning : Color.Success)">@(low ? "Low stock" : "In stock")</MudChip>
+                        </p>
+                        <div class="hospital-progress hospital-supply-progress"><i
+                            style="@($"width:{Percent(supply.Remaining, supply.Target)}%;background:var(--{(low ? "warning" : "primary")})")"></i>
+                        </div><small>@Number(supply.Remaining) of @Number(supply.Target) @supply.Unit</small>
+                    </div>
+                }
+            </div>
+        </ChildContent>
+    </DashboardCard>
+    <DashboardCard Title="Operations activity" Description="Sample updates from the hospital team"
+                Class="hospital-activity">
+        <Actions>
+            <MudIcon Icon="@RynzoIcons.Get("Activity")" Size="Size.Small" />
+        </Actions>
+        <ChildContent>
+            <div class="hospital-activity-list">@foreach(var activity in _state.Source.Activities){var
+                tone = activity.Tone.Split(' ')[1].Replace("text-", "");
+                <div><span class="hospital-activity-icon"
+                        style="@($"--activity-tone:var(--{tone})")">
+                    <MudIcon Icon="@RynzoIcons.Get(activity.Icon)" Size="Size.Small" />
+                </span>
+                <div>
+                    <header>
+                        <h3>@activity.Title</h3><time>@activity.Time</time>
+                    </header>
+                    <p>@activity.Text</p>
+                </div>
+            </div>
+        }
+    </div>
+    </ChildContent>
+    </DashboardCard>
+    </section>
+</div>
+@code {
+    private readonly HospitalDashboardState _state = new();
+    private HospitalOverview _data = null!;
+    private object _chartData = null!;
+    private int _period = 7;
+    private string _department = "all", _query = "", _status = "all";
+    private IJSObjectReference? _download;
+    private static readonly CultureInfo English = CultureInfo.GetCultureInfo("en-US");
+    private static readonly BreadcrumbItem[] Breadcrumbs = [new("Dashboards", null), new("Hospital Management", null, true)];
+    private HospitalAppointment[] DepartmentAppointments = [];
+    private HospitalAppointment[] Visible = [];
+    private IEnumerable<HospitalDoctor>
+Doctors => _state.Source.Doctors.Where(d => _department == "all" || d.Department == _department);
+    private HospitalDoctor Doctor(string id) => _state.Source.Doctors.Single(d => d.Id == id);
+    private static string Initials(string name) => string.Concat(name.Split(' ').Take(2).Select(p => p.Length == 0 ? "" : p[..1]));
+    private static string Number(int value) => value.ToString("N0", English);
+    private static string Percent(int value, int total) => (value / (double)total * 100).ToString(CultureInfo.InvariantCulture);
+    private static Color StatusColor(string status) => status == "Completed" ? Color.Success : status == "Checked in" ? Color.Info : Color.Warning;
+    private (string Label, string Value, string Note, string Icon)[] Metrics => [("Patient visits", Number(_data.Visits), $"Across the last {_period} days", "UsersRound"), ("Appointments", DepartmentAppointments.Length.ToString(), $"{DepartmentAppointments.Count(a => a.Status == "Scheduled")} scheduled · {DepartmentAppointments.Count(a => a.Status == "Checked in")} checked in", "CalendarDays"), ("Available beds", _data.Available.ToString(), $"{_data.Occupied} occupied of {_data.Beds} total beds", "BedDouble"), ("Sample revenue", _data.Revenue.ToString("C0", English), $"Visit revenue over {_period} days", "ClipboardList")];
+    protected override void OnInitialized() => Refresh();
+    private void
+Refresh()
+    { UpdateAppointments(); _data = _state.Overview(_period, _department); _chartData = new { Data = _data, Period = _period }; }
+    private void
+UpdateAppointments()
+    { DepartmentAppointments = _state.DepartmentAppointments(_department); Visible = _state.Filter(_department, _status, _query); }
+    private void CheckIn(string id) { if (_state.CheckIn(id)) { UpdateAppointments(); Snackbar.Add("Sample patient checked in", Severity.Success); } }
+    private static DialogOptions
+Options => new() { CloseButton = true, CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.Small };
+    private async Task Book(string doctorId = "dr-01")
+    {
+        _state.OpenBooking(doctorId); var dialog = await
+Dialogs.ShowAsync<HospitalBookingDialog>("New appointment", new
+DialogParameters<HospitalBookingDialog> { { d => d.State, _state } }, Options); var result = await dialog.Result; if (result is
+{ Canceled: false }) { _department = "all"; _status = "all"; _query = ""; Refresh(); Snackbar.Add("Sample appointment added", Severity.Success); }
+    }
+    private async Task Details(HospitalAppointment appointment) => await
+Dialogs.ShowAsync<HospitalAppointmentDetails>("Appointment details", new
+DialogParameters<HospitalAppointmentDetails> { { d => d.Appointment, appointment }, { d => d.DoctorName, Doctor(appointment.DoctorId).Name } }, Options);
+    private async Task Export()
+    {
+        _download ??= await
+JS.InvokeAsync<IJSObjectReference>("import", "./theme/dashboard-download.js"); await
+_download.InvokeVoidAsync("csv", "hospital-appointments.csv", _state.Csv(Visible));
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (_download is not null) try
+            {
+                await
+_download.DisposeAsync();
+            }
+            catch (JSDisconnectedException) { }
+    }
+}
+
+

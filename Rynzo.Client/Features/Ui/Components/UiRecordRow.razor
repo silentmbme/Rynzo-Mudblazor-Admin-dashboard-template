@@ -1,0 +1,15 @@
+@using Rynzo.Client.Theme
+<li class="ui-record-row @Class" style="@($"--record-tone:{Tone}")">
+    @if(Leading is not null){@Leading}else if(Icon is not null){<span class="ui-record-icon"><MudIcon Icon="@RynzoIcons.Get(Icon)" /></span>}
+    <div class="ui-record-copy"><b>@Title</b><small>@Description</small></div>
+    @if(Actions is not null){<div class="ui-record-actions">@Actions</div>}
+</li>
+@code {
+    [Parameter] public string Title {get;set;}="";
+    [Parameter] public string? Description {get;set;}
+    [Parameter] public string? Icon {get;set;}
+    [Parameter] public string Tone {get;set;}="var(--primary)";
+    [Parameter] public string? Class {get;set;}
+    [Parameter] public RenderFragment? Leading {get;set;}
+    [Parameter] public RenderFragment? Actions {get;set;}
+}

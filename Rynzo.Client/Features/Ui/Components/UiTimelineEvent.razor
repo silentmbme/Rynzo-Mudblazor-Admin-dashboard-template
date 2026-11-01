@@ -1,0 +1,17 @@
+@using Rynzo.Client.Theme
+<li class="ui-timeline-event @(Current?"is-current":"") @(Pending?"is-pending":"")" style="@($"--event-tone:{Tone}")">
+    <span class="ui-timeline-marker">@if(Loading){<UiLoadingIndicator Pixels="15" Label="In progress" />}else if(!Pending){<MudIcon Icon="@RynzoIcons.Get(Icon)" />}</span>
+    <div class="ui-timeline-content"><div class="ui-timeline-heading"><h3>@Title</h3>@if(Time is not null){<small>@Time</small>}@if(Status is not null){@Status}</div>@if(Description is not null){<p>@Description</p>}@ChildContent</div>
+</li>
+@code {
+    [Parameter] public string Title {get;set;}="";
+    [Parameter] public string? Description {get;set;}
+    [Parameter] public string? Time {get;set;}
+    [Parameter] public string Icon {get;set;}="Check";
+    [Parameter] public string Tone {get;set;}="var(--primary)";
+    [Parameter] public bool Current {get;set;}
+    [Parameter] public bool Pending {get;set;}
+    [Parameter] public bool Loading {get;set;}
+    [Parameter] public RenderFragment? Status {get;set;}
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+}

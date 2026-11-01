@@ -1,0 +1,117 @@
+﻿@page "/charts/mixed"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>Mixed Chart Analytics | Rynzo</PageTitle>
+<div class="mixed-charts-page">
+    <DashboardPageHeader Title="Mixed Chart Analytics" Description="Connect volume with value. Explore the relationships behind business performance.">
+        <Actions>
+            <MudSelect T="string" Value="Period" ValueChanged="ChangePeriod" Variant="Variant.Outlined" Margin="Margin.Dense" Class="mixed-control" aria-label="Reporting period">
+                @foreach (var period in Periods) { <MudSelectItem Value="@period">@period</MudSelectItem> }
+            </MudSelect>
+            <MudSelect T="string" @bind-Value="Category" Variant="Variant.Outlined" Margin="Margin.Dense" Class="mixed-control" aria-label="Chart category">
+                @foreach (var category in Categories) { <MudSelectItem Value="@category">@category</MudSelectItem> }
+            </MudSelect>
+            <MudButton Variant="Variant.Outlined" OnClick="Refresh" StartIcon="@Icons.Material.Filled.Refresh">Refresh</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Export" StartIcon="@Icons.Material.Filled.FileDownload">Export CSV</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    <div class="mixed-context"><span><i></i> BUSINESS SIGNALS <span class="context-divider">/</span> @Period</span><span>Illustrative business data · @Updated</span></div>
+    <section class="mixed-kpis" aria-label="Business performance overview">
+        @foreach (var kpi in Kpis)
+        {
+            <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><div class="kpi-heading"><span>@kpi.Label</span><MudIcon Icon="@kpi.Icon" Size="Size.Small" /></div><strong>@kpi.Value</strong><p><b>@kpi.Trend</b> @kpi.Context</p><small>@kpi.Detail</small><div class="kpi-meter"></div></MudCard>
+        }
+    </section>
+    <section class="mixed-grid" aria-label="Combined business metrics">
+        @foreach (var card in Cards.Where(c => Category == "All Charts" || c.Category == Category))
+        {
+            <MudCard Class="@((($"mixed-card {card.Kind}")) + " rynzo-widget-card")" @key="card.Kind" Elevation="0" Outlined="true" data-widget-element="article">
+                <header><div><span class="mixed-eyebrow">@card.Number / @card.Composition</span><h2>@card.Title</h2><p>@card.Description</p></div><span class="mixed-badge">@card.Category</span></header>
+                @if (card.Kind == "revenue")
+                {
+                    <div class="featured-metrics"><div><small>RECOGNIZED REVENUE</small><strong>@Money(TotalRevenue)</strong></div><div><small>PERIOD MOMENTUM</small><b>+18.0%</b><span>vs. previous period</span></div><div><small>LATEST BUCKET</small><b>@Money(Data.Revenue.Last())</b><span>@Data.Labels.Last()</span></div></div>
+                }
+                @if (card.Kind == "product")
+                {
+                    <div class="product-panes"><div><h3>Revenue · USD</h3><DashboardChart Data="@Data" OptionsModule="./mixed-chart-options.js" Kind="product" Height="315" Label="Product revenue horizontal bars" /></div><div><h3>Satisfaction · score / 100</h3><DashboardChart Data="@Data" OptionsModule="./mixed-chart-options.js" Kind="product-satisfaction" Height="315" Label="Product satisfaction scatter plot" /></div></div>
+                }
+                else
+                {
+                    <DashboardChart Data="@Data" OptionsModule="./mixed-chart-options.js" Kind="@card.Kind" Height="@(card.Kind=="revenue"?350:card.Kind=="waterfall"?340:310)" Label="@card.Title" />
+                }
+                @if (card.Kind == "waterfall")
+                {
+                    <div class="waterfall-summary"><span>Opening revenue <b>@Money(Data.OpeningRevenue)</b></span><span>Net movement <b>+@Money(TotalRevenue-Data.OpeningRevenue)</b></span><span>Closing revenue <b>@Money(TotalRevenue)</b></span></div>
+                }
+                <footer><span>@card.Note</span><b>@Insight(card.Kind)</b></footer>
+            </MudCard>
+        }
+    </section>
+    <p class="mixed-help">Hover for details. Use legends to isolate series and the chart toolbar to zoom, pan, or reset. Values are USD unless marked otherwise.</p>
+</div>
+@code {
+    private static readonly string[] Periods = ["7 Days", "30 Days", "90 Days", "This Year"];
+    private static readonly string[] Categories = ["All Charts", "Revenue", "Marketing", "Customers", "Operations", "Finance"];
+    private string Period = "This Year", Category = "All Charts", Updated = "Ready to explore";
+    private IJSObjectReference? Module;
+    private Snapshot Data = null!;
+    private double TotalRevenue => Data.Revenue.Sum();
+    private double ConversionRate => 100d*Data.Conversions.Sum()/Data.Visitors.Sum();
+    private double Roi => 100*(Data.AttributedRevenue.Sum()-Data.Spend.Sum())/Data.Spend.Sum();
+    private double Profit => TotalRevenue-Data.OperatingCosts.Sum()-Data.OtherCosts.Sum();
+    private double ProfitMargin => Profit/TotalRevenue*100;
+    private static string Money(double value) => value.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+    private record Card(string Number,string Kind,string Title,string Category,string Composition,string Description,string Note);
+    private static readonly Card[] Cards = [
+        new("01","revenue","Revenue performance","Revenue","COLUMN + GROWTH LINE","The trajectory of revenue, with the pace of change alongside it.","Growth is calculated against the preceding bucket; first bucket uses the prior closing bucket."),
+        new("02","sales","Sales vs target","Revenue","GROUPED COLUMN + LINE","Actual revenue, planned targets, and achievement in one view.","Markers identify buckets meeting or exceeding target."),
+        new("03","website","Website analytics","Customers","AREA + COLUMN + LINE","From visitors to conversions: follow the complete traffic story.","Volumes share the left axis; conversion rate uses the right axis."),
+        new("04","profitability","Profitability analysis","Finance","STACKED COLUMN + TWO LINES","Understand how cost structure translates into net profit.","Net profit = revenue − operating expenses − other costs."),
+        new("05","marketing","Marketing ROI","Marketing","COLUMN + LINE + SCATTER","Campaign investment, attributed revenue, and the return in between.","ROI = (attributed revenue − spend) / spend. Attribution is a subset of total revenue."),
+        new("06","acquisition","Customer acquisition","Customers","STACKED AREA + TOTAL LINE","See which channels are contributing to customer growth.","Organic + Paid + Referral + Direct equals total acquisitions."),
+        new("07","product","Product performance","Revenue","HORIZONTAL BAR + SCATTER","Compare product revenue alongside customer satisfaction.","Paired product views use independent currency and satisfaction scales."),
+        new("08","operations","Operational efficiency","Operations","COLUMN + STEP LINE","Track delivery volume against planned service levels.","SLA is a completion-rate target, measured on the percentage axis."),
+        new("09","forecast","Financial forecast","Finance","RANGE AREA + TWO LINES","Separate historical performance from the uncertainty ahead.","Shading shows an illustrative forecast range, not a statistical confidence claim."),
+        new("10","waterfall","Business growth overview","Revenue","FLOATING COLUMN + CUMULATIVE LINE","A bridge from opening revenue to the current business position.","Floating bars connect consecutive totals; the line tracks cumulative revenue.")];
+    private IEnumerable<(string Label,string Value,string Trend,string Context,string Detail,string Icon)> Kpis => [
+        ("Total revenue",Money(TotalRevenue),"+18.0%","vs. previous period","Previous: "+Money(Data.OpeningRevenue),Icons.Material.Filled.TrendingUp),
+        ("Conversion rate",$"{ConversionRate:0.00}%","+0.35 pp","vs. previous period",$"{Data.Conversions.Sum():N0} conversions / {Data.Visitors.Sum():N0} visitors",Icons.Material.Filled.TouchApp),
+        ("Average ROI",$"{Roi:0.0}%","Strong return","spend-weighted average",$"Previous ROI: {Roi-12:0.0}% · current +12 pp",Icons.Material.Filled.Campaign),
+        ("Profit margin",$"{ProfitMargin:0.0}%","+2.1 pp","vs. previous period",$"Net profit {Money(Profit)} · previous margin {ProfitMargin-2.1:0.0}%",Icons.Material.Filled.AccountBalanceWallet)];
+    private sealed record Snapshot(string[] Labels,double[] Revenue,double OpeningRevenue,double PriorBucket,double[] SalesTarget,int[] Visitors,int[] Conversions,double[] OperatingCosts,double[] OtherCosts,string[] Campaigns,double[] Spend,double[] AttributedRevenue,int[][] Acquisition,string[] Products,double[] ProductRevenue,double[] Satisfaction,int[] Planned,int[] Completed,double[] Sla,string[] ForecastLabels,double[] Projection,double[] Low,double[] High,string[] GrowthLabels,double[] Contributions);
+    protected override void OnInitialized() => Rebuild();
+    private void ChangePeriod(string value) { Period=value; Rebuild(); }
+    private void Refresh() { Updated="Refreshed just now"; Rebuild(); }
+    private void Rebuild()
+    {
+        var index=Array.IndexOf(Periods,Period);
+        string[][] labels = [["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],["01–05","06–10","11–15","16–20","21–25","26–30"],["Weeks 1–2","Weeks 3–4","Weeks 5–6","Weeks 7–8","Weeks 9–10","Weeks 11–13"],["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]];
+        var names=labels[index]; var n=names.Length;
+        var scale=new double[]{.08,.4,1.2,1}[index];
+        var revenue=Enumerable.Range(0,n).Select(i=>Math.Round((42000+i*2400+(i%3-1)*1800)*scale)).ToArray();
+        var targets=revenue.Select((v,i)=>Math.Round(v/new double[]{.94,1.06,1.02,.98,1.12,1.04}[i%6])).ToArray();
+        var visitors=Enumerable.Range(0,n).Select(i=>(int)Math.Round((24000+i*1100)*scale)).ToArray();
+        var conversions=visitors.Select((v,i)=>(int)Math.Round(v*(.032+index*.001+i*.0005))).ToArray();
+        var costs=revenue.Select((v,i)=>Math.Round(v*(.51+(i%3)*.01))).ToArray();
+        var other=revenue.Select((v,i)=>Math.Round(v*(.17-(i%2)*.01))).ToArray();
+        var total=revenue.Sum();
+        var spend=new double[]{.028,.032,.022,.018,.02}.Select(v=>Math.Round(total*v)).ToArray();
+        var attributed=spend.Select((v,i)=>Math.Round(v*(2.4+i*.32+index*.08))).ToArray();
+        var channels=new int[4][];for(var c=0;c<4;c++) channels[c]=new int[n];
+        for(var i=0;i<n;i++){channels[0][i]=(int)(conversions[i]*.42);channels[1][i]=(int)(conversions[i]*.30);channels[2][i]=(int)(conversions[i]*.18);channels[3][i]=conversions[i]-channels[0][i]-channels[1][i]-channels[2][i];}
+        var productRevenue=new double[]{.32,.26,.19,.14}.Select(v=>Math.Round(total*v)).ToList();productRevenue.Add(total-productRevenue.Sum());
+        var planned=Enumerable.Range(0,n).Select(i=>(int)Math.Round((200+i*12)*(.5+scale*.5))).ToArray();
+        var completed=planned.Select((v,i)=>(int)Math.Round(v*(.86+(i%4)*.025+index*.005))).ToArray();
+        var last=revenue.Last();var projection=new double[]{last,Math.Round(last*1.06),Math.Round(last*1.12),Math.Round(last*1.19)};
+        var low=projection.Select((v,i)=>Math.Round(v*(1-i*.045))).ToArray();var high=projection.Select((v,i)=>Math.Round(v*(1+i*.045))).ToArray();
+        var opening=total/1.18;
+        Data=new(names,revenue,opening,revenue[0]/1.12,targets,visitors,conversions,costs,other,["Search","Social","Email","Partners","Display"],spend,attributed,channels,["Platform","Analytics","Automation","Services","Add-ons"],productRevenue.ToArray(),[92+index,86+index,89+index,83+index,87+index],planned,completed,Enumerable.Range(0,n).Select(i=>i<n/2?88d:92d).ToArray(),names.Concat(new[]{"Forecast +1","Forecast +2","Forecast +3"}).ToArray(),projection,low,high,["Opening","New business","Expansion","Reactivation","Churn","Contraction","Closing"],[opening,opening*.14,opening*.10,opening*.04,-opening*.06,total-opening*1.22,total]);
+    }
+    private string Insight(string kind) => kind switch { "sales"=>$"{TotalRevenue/Data.SalesTarget.Sum()*100:0.0}% achieved", "website"=>$"{ConversionRate:0.00}% conversion", "profitability"=>$"{ProfitMargin:0.0}% margin", "marketing"=>$"{Roi:0.0}% blended ROI", "acquisition"=>$"{Data.Conversions.Sum():N0} new customers", "operations"=>$"{100d*Data.Completed.Sum()/Data.Planned.Sum():0.0}% completion", "waterfall"=>"+18.0% net growth", "forecast"=>"3 buckets ahead", "product"=>"5 product lines", _=>"USD / growth %" };
+    private async Task Export() { Module ??= await JS.InvokeAsync<IJSObjectReference>("import","./theme/mixed-chart-options.js"); await Module.InvokeVoidAsync("exportCsv",Data,Period,Category); }
+    public async ValueTask DisposeAsync() { if(Module is not null) { try { await Module.DisposeAsync(); } catch(JSDisconnectedException) {} } }
+}
+

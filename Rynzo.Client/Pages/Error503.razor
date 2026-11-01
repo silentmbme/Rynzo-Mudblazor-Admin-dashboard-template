@@ -1,0 +1,9 @@
+@page "/auth/errors/503"
+@layout MainLayout
+@using Rynzo.Client.Theme
+<PageTitle>503 · Service unavailable | Rynzo</PageTitle>
+<main class="service-error" aria-labelledby="service-title">
+    <div class="service-art" aria-hidden="true"><div class="service-orbit orbit-one"></div><div class="service-orbit orbit-two"></div><div class="service-cloud"><svg viewBox="0 0 260 160" fill="none"><path d="M63 133C10 133 12 65 58 60C62 6 143 2 160 49C205 32 241 62 233 96C266 124 231 146 207 141H65Z" fill="var(--card)" stroke="currentColor" stroke-width="2"/><path d="M86 91H175M86 106H149" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".25"/><circle cx="174" cy="106" r="4" fill="currentColor"/></svg></div><div class="tool-badge"><MudIcon Icon="@RynzoIcons.Get("Wrench")" /></div><span class="service-node node-one"><MudIcon Icon="@Icons.Material.Outlined.Storage" /></span><span class="service-node node-two"><MudIcon Icon="@RynzoIcons.Get("Globe")" /></span><span class="service-dot"></span></div>
+    <section class="service-copy"><span class="eyebrow">A TEMPORARY PAUSE</span><div class="service-code">503</div><h1 id="service-title">We'll Be Back Shortly</h1><p>Our service is temporarily unavailable. We're working to restore access as quickly as possible.</p></section>
+    <section class="recovery-panel" aria-label="Recovery options"><div class="recovery-information"><span class="recovery-icon"><MudIcon Icon="@RynzoIcons.Get("Info")" /></span><div><h2>Give it a moment</h2><p>Try again when you're ready. A restoration time isn't available.</p></div></div><Rynzo.Client.Components.Common.ErrorRecoveryActions Code="503" /></section>
+</main>

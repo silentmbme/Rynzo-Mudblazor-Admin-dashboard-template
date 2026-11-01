@@ -1,0 +1,3 @@
+@using Rynzo.Client.Theme
+<div class="ai-metric-root"><MudCard Outlined="true" Class="ai-source-metric rynzo-widget-card" Elevation="0"><div class="ai-source-metric-heading"><span style="@($"--tone:var(--{Tone})")"><MudIcon Icon="@RynzoIcons.Get(Icon)" /></span><small>@Label</small></div><strong>@Value</strong><small>@Caption</small></MudCard></div>
+@code{[Parameter]public string Label{get;set;}="";[Parameter]public string Value{get;set;}="";[Parameter]public string Caption{get;set;}="";[Parameter]public string Icon{get;set;}="BrainCircuit";[Parameter]public string Tone{get;set;}="primary";}

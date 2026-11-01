@@ -1,0 +1,42 @@
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+<MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" PopoverClass="rynzo-notification-popover rynzo-header-dropdown" Dense="true">
+    <ActivatorContent>
+        <MudBadge Content="@Unread" Visible="@(Unread > 0)" Overlap="true" Color="Color.Error">
+            <MudIconButton Icon="@RynzoIcons.Get("Bell")" OnClick="@context.ToggleAsync" aria-label="@($"Notifications{(Unread > 0 ? $", {Unread} unread" : "")}")" />
+        </MudBadge>
+    </ActivatorContent>
+    <ChildContent>
+        <div class="rynzo-notifications-heading"><span class="rynzo-notifications-heading-icon" aria-hidden="true"><MudIcon Icon="@RynzoIcons.Get("Bell")" /></span><div><strong>Notifications</strong><span aria-live="polite">@(Unread > 0 ? $"{Unread} unread updates" : "You're all caught up")</span></div><span class="rynzo-notifications-count" aria-label="@($"{Unread} unread notifications")">@Unread</span></div>
+        <div class="rynzo-notifications-toolbar"><div class="rynzo-notification-filters" aria-label="Notification filters"><button type="button" class="@(!_unreadOnly ? "is-active" : "")" aria-pressed="@(!_unreadOnly)" @onclick="@(() => _unreadOnly=false)">All <span>@_items.Count</span></button><button type="button" class="@(_unreadOnly ? "is-active" : "")" aria-pressed="@_unreadOnly" @onclick="@(() => _unreadOnly=true)">Unread <span>@Unread</span></button></div>@if(Unread>0){<MudButton Size="Size.Small" OnClick="MarkAllRead" Class="rynzo-mark-read">Mark all read</MudButton>}</div>
+        <div class="rynzo-notification-list">
+            @if (!VisibleItems.Any())
+            {
+                <div class="rynzo-notification-empty"><span><MudIcon Icon="@RynzoIcons.Get("CheckCheck")" /></span><strong>@(_unreadOnly ? "No unread notifications" : "All caught up")</strong><p>@(_unreadOnly ? "You've read every workspace update." : "New workspace updates will appear here.")</p>@if(_unreadOnly && _items.Count>0){<MudButton Size="Size.Small" OnClick="@(() => _unreadOnly=false)">View all updates</MudButton>}</div>
+            }
+            @foreach (var item in VisibleItems)
+            {
+                <MudMenuItem OnClick="@(() => item.Read = true)" Class="@($"rynzo-notification {(item.Read ? "" : "unread")}")" aria-label="@($"{(item.Read ? "Read" : "Unread")}: {item.Title}. {item.Detail}. {item.Time} ago")">
+                    <span class="rynzo-notification-symbol tone-@item.Tone" aria-hidden="true"><MudIcon Icon="@RynzoIcons.Get(IconFor(item.Tone))" /></span>
+                    <span class="rynzo-notification-copy"><span class="rynzo-notification-title"><strong>@item.Title</strong>@if(!item.Read){<i class="rynzo-notification-unread" aria-hidden="true"></i>}</span><span class="rynzo-notification-detail">@item.Detail</span><span class="rynzo-notification-time">@item.Time ago</span></span>
+                </MudMenuItem>
+            }
+        </div>
+        @if (_items.Count > 0)
+        {
+            <div class="rynzo-notifications-footer"><MudButton Size="Size.Small" OnClick="Clear">Clear all</MudButton><MudLink Href="/apps/tasks">View activity <MudIcon Icon="@Icons.Material.Outlined.ArrowForward" Size="Size.Small" /></MudLink></div>
+        }
+    </ChildContent>
+</MudMenu>
+@code {
+    // These are the original React local presentation records, not a fabricated API response.
+    private readonly List<LayoutNotification> _items = LayoutCatalog.Data.Notifications.Select(n => new LayoutNotification
+        { Id = n.Id, Title = n.Title, Detail = n.Detail, Time = n.Time, Tone = n.Tone, Read = n.Read }).ToList();
+    private bool _unreadOnly;
+    private IEnumerable<LayoutNotification> VisibleItems => _unreadOnly ? _items.Where(item => !item.Read) : _items;
+    private int Unread => _items.Count(n => !n.Read);
+    private static string IconFor(string tone) => tone switch { "success" => "CircleDollarSign", "primary" => "UserRoundPlus", "info" => "Rocket", _ => "HardDrive" };
+    private void MarkAllRead() { _items.ForEach(n => n.Read = true); Snackbar.Add("All notifications marked as read", Severity.Success); }
+    private void Clear() { _items.Clear(); Snackbar.Add("Notifications cleared", Severity.Normal); }
+}
+

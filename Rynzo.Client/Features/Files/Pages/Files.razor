@@ -1,0 +1,80 @@
+﻿@page "/apps/files"
+@using Rynzo.Client.Features.Files.Models
+@using Rynzo.Client.Features.Files.Services
+@using Rynzo.Client.Features.Files.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+@inject ISnackbar Snackbar
+<PageTitle>File Manager | Rynzo</PageTitle>
+<div class="files-page">
+    <PageHeader Title="File Manager" Description="A home for your documents, assets, and shared work.">
+        <Actions>
+            <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("FolderPlus")" OnClick="NewFolder">New folder</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Upload")" HtmlTag="label" for="drive-upload">Upload files</MudButton>
+            <InputFile id="drive-upload" OnChange="Upload" multiple hidden />
+        </Actions>
+    </PageHeader>
+    <div class="files-app">
+        <aside class="files-sidebar">
+            <div class="files-brand"><span><MudIcon Icon="@RynzoIcons.Get("HardDrive")" /></span><div><b>Workspace drive</b><small>Your personal file library</small></div></div>
+            <p class="files-eyebrow">LIBRARY</p>
+            <nav aria-label="File locations">
+                @foreach(var section in Sections){
+                    <MudButton Variant="Variant.Text" StartIcon="@RynzoIcons.Get(section.Icon)" Class="@(_state.Section==section.Name?"files-location-active":"")" aria-pressed="@(_state.Section==section.Name)" OnClick="@(() => _state.Section=section.Name)"><span>@section.Name</span></MudButton>
+                }
+            </nav>
+            <section class="files-storage">
+                <header><MudIcon Icon="@RynzoIcons.Get("Database")" /><h2>Storage overview</h2><b>47%</b></header>
+                <p><strong>9.4 GB</strong> of 20 GB used</p>
+                <MudProgressLinear Value="47" Color="Color.Primary" Rounded="true" aria-label="Sample storage usage" />
+                <div class="files-storage-categories">@foreach(var category in StorageCategories){<div><i style="@($"background:var(--{category.Tone})")"></i><span>@category.Name</span><b>@category.Value</b></div>}</div>
+                <MudButton Variant="Variant.Outlined" FullWidth="true" Color="Color.Primary" Size="Size.Small" OnClick="@(() => Snackbar.Add("Sample storage: 9.4 GB of 20 GB used. File changes last for this session.",Severity.Info))">Manage storage</MudButton>
+            </section>
+            <div class="files-sidebar-note"><MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" /><p>Your workspace, organized.<small>Sample files · session changes</small></p></div>
+        </aside>
+        <div class="files-main">
+            <MudCard Class="files-overview rynzo-widget-card" aria-label="File library overview" Elevation="0" Outlined="true" data-widget-element="section">
+                <div class="files-overview-intro"><span class="files-eyebrow">WORKSPACE OVERVIEW</span><h2>Everything in its place.</h2><p>Keep your next big idea within reach.</p><span class="files-sync-status"><i></i>All workspace changes are saved</span></div>
+                <div class="files-type-stats">
+                    @foreach(var type in new[]{("Documents","FileText","primary"),("Images","Image","info"),("Folders","Folder","warning")}){
+                        <div class="files-type-stat" style="@($"--type-tone:var(--{type.Item3})")"><span><MudIcon Icon="@RynzoIcons.Get(type.Item2)" /></span><div><b>@_state.Items.Count(i=>!i.Trash&&(type.Item1=="Folders"?i.Folder:type.Item1=="Images"?i.Type=="Image":!i.Folder&&i.Type!="Image"))</b><small>@type.Item1</small></div></div>
+                    }
+                </div>
+            </MudCard>
+            <MudCard Class="files-library rynzo-widget-card rynzo-widget-card--structured" Elevation="0" Outlined="true" data-widget-element="section">
+                <header class="files-library-heading"><div><span class="files-eyebrow">OUR LIBRARY</span><h2>@_state.Section <span>@VisibleItems.Length items</span></h2><p>Browse, organize, and share files from one workspace.</p></div><div class="files-library-controls"><span class="files-updated"><MudIcon Icon="@RynzoIcons.Get("RefreshCw")" />Updated just now</span><div class="files-view-switch" role="group" aria-label="File display"><MudIconButton Icon="@RynzoIcons.Get("Grid2X2")" Class="@(_view=="grid"?"is-active":"")" aria-label="Grid view" aria-pressed="@(_view=="grid")" OnClick="@(() => _view="grid")" /><MudIconButton Icon="@RynzoIcons.Get("List")" Class="@(_view=="list"?"is-active":"")" aria-label="List view" aria-pressed="@(_view=="list")" OnClick="@(() => _view="list")" /></div></div></header>
+                <div class="files-search-row"><MudTextField T="string" @bind-Value="_state.Search" Immediate="true" Placeholder="Search by name, type, or owner…" aria-label="Search files and folders" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" /><label class="files-filter"><span>Type</span><select aria-label="Filter files by type" @bind="_typeFilter"><option value="All">All types</option><option value="Documents">Documents</option><option value="Images">Images</option><option value="Spreadsheets">Spreadsheets</option><option value="Presentations">Presentations</option><option value="Design">Design</option></select></label><label class="files-filter files-sort"><span>Sort</span><select aria-label="Sort files" @bind="_sortBy"><option value="Default">Default</option><option value="Name">Name A–Z</option><option value="Type">File type</option></select></label><span>@VisibleItems.Count(i=>i.Folder) folders · @VisibleItems.Count(i=>!i.Folder) files</span></div>
+                @if(_state.Selected.Count>0){<div class="files-selection"><MudIcon Icon="@RynzoIcons.Get("CircleCheck")" /><b>@_state.Selected.Count selected</b><MudButton Variant="Variant.Text" Size="Size.Small" OnClick="@(() => _state.Selected.Clear())">Clear</MudButton><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Star")" Size="Size.Small" OnClick="@(() => _state.StarSelected())">Star</MudButton><MudButton Variant="Variant.Outlined" Color="Color.Error" StartIcon="@RynzoIcons.Get("Trash2")" Size="Size.Small" OnClick="@(() => Trash(_state.Selected))">Move to trash</MudButton></div>}
+                <section class="files-items"><div class="files-section-title"><h3>Folders</h3><span>@VisibleItems.Count(i=>i.Folder)</span></div><div class="@($"files-item-grid files-{_view} files-folders")">
+                    @foreach(var item in VisibleItems.Where(i=>i.Folder)){<DriveItemCard @key="item.Id" Item="item" ListView="@(_view=="list")" Checked="@_state.Selected.Contains(item.Id)" Check="@(() => _state.ToggleSelection(item.Id))" Open="@(() => Snackbar.Add(item.Name+" selected",Severity.Info))" Details="@(() => _detail=item)" />}
+                    @if(!VisibleItems.Any(i=>i.Folder)){<p class="files-empty"><MudIcon Icon="@RynzoIcons.Get("Folder")" />No folders in this location.</p>}
+                </div><div class="files-section-title files-files-heading"><h3>Files</h3><span>@VisibleItems.Count(i=>!i.Folder)</span></div><div class="@($"files-item-grid files-{_view}")">
+                    @foreach(var item in VisibleItems.Where(i=>!i.Folder)){<DriveItemCard @key="item.Id" Item="item" ListView="@(_view=="list")" Checked="@_state.Selected.Contains(item.Id)" Check="@(() => _state.ToggleSelection(item.Id))" Open="@(() => Preview(item))" Details="@(() => _detail=item)" />}
+                    @if(!VisibleItems.Any(i=>!i.Folder)){<p class="files-empty"><MudIcon Icon="@RynzoIcons.Get("Search")" />No files here. Try another location or upload a file.</p>}
+                </div></section>
+            </MudCard>
+        </div>
+    </div>
+</div>
+<MudOverlay Visible="@(_detail is not null)" DarkBackground="true" AutoClose="true" ZIndex="1399" LockScroll="true" OnClosed="@(() => _detail=null)" />
+<MudDrawer Open="@(_detail is not null)" OpenChanged="@((bool open) => {if(!open)_detail=null;})" Anchor="Anchor.Right" Variant="DrawerVariant.Temporary" Overlay="false" Width="420px" Elevation="0" Style="z-index:1400;max-width:100%;background:var(--card);overflow-y:auto" Class="files-details"><MudFocusTrap>@if(_detail is not null){
+    <div class="files-detail-content"><header><div><span class="files-eyebrow">WORKSPACE DRIVE</span><h2>File information</h2></div><MudIconButton Icon="@RynzoIcons.Get("X")" aria-label="Close file details" OnClick="@(() => _detail=null)" /></header><div class="files-detail-preview" style="@($"--detail-tone:var(--{_detail.Tone})")"><MudIcon Icon="@RynzoIcons.Get(_detail.Icon)" /><span>@_detail.Type</span></div><h3>@_detail.Name</h3><p class="files-detail-description">@(_detail.Shared?"Shared with your workspace":"Only visible to you")</p><dl>@foreach(var field in new[]{("Type",_detail.Type),("Size",_detail.Size),("Owner",_detail.Owner),("Modified",_detail.Modified),("Access",_detail.Shared?"Shared":"Private")}){<div><dt>@field.Item1</dt><dd>@field.Item2</dd></div>}</dl><div class="files-detail-actions"><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Pencil")" OnClick="Rename">Rename</MudButton><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Copy")" OnClick="MoveCopy">Move / Copy</MudButton><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Star")" OnClick="@(() => _state.ToggleStar(_detail.Id))">Star</MudButton><MudButton Variant="Variant.Outlined" Color="Color.Error" StartIcon="@RynzoIcons.Get("Trash2")" OnClick="@(() => Trash([_detail.Id]))">Trash</MudButton></div></div>
+}</MudFocusTrap></MudDrawer>
+@code{
+    private readonly FilesState _state=new();
+    private string _view="grid",_renameValue="",_moveValue="",_typeFilter="All",_sortBy="Default";
+    private DriveItem? _detail;
+    private DriveItem[] VisibleItems => (_sortBy switch { "Name" => _state.Shown.OrderBy(i=>i.Name,StringComparer.OrdinalIgnoreCase), "Type" => _state.Shown.OrderBy(i=>i.Type,StringComparer.OrdinalIgnoreCase).ThenBy(i=>i.Name,StringComparer.OrdinalIgnoreCase), _ => _state.Shown.AsEnumerable() }).Where(i=>_typeFilter switch { "Documents" => !i.Folder && (i.Type is "PDF" or "File"), "Images" => !i.Folder && i.Type=="Image", "Spreadsheets" => !i.Folder && i.Type=="Spreadsheet", "Presentations" => !i.Folder && i.Type=="Presentation", "Design" => !i.Folder && i.Type=="Design", _ => true }).ToArray();
+
+    private static readonly (string Name,string Icon)[] Sections=[("My Drive","HardDrive"),("Recent","Clock3"),("Starred","Star"),("Shared with Me","Users"),("Trash","Trash2")];
+    private static readonly (string Name,string Value,string Tone)[] StorageCategories=[("Documents","3.2 GB","primary"),("Images","2.8 GB","info"),("Video","2.1 GB","warning"),("Other","1.3 GB","muted-foreground")];
+    private static DialogOptions Options=>new(){CloseButton=true,CloseOnEscapeKey=true,FullWidth=true,MaxWidth=MaxWidth.Small};
+    private async Task NewFolder(){var dialog=await Dialogs.ShowAsync<DriveNameDialog>("Create New Folder",new DialogParameters<DriveNameDialog>{{d=>d.Title,"Create New Folder"},{d=>d.Name,_state.FolderName},{d=>d.CreateFolder,true},{d=>d.Changed,EventCallback.Factory.Create<string>(this,value=>_state.FolderName=value)},{d=>d.Validate,new Func<string,string?>(value=>{_state.FolderName=value;return _state.AddFolder();})}},Options);var result=await dialog.Result;if(result is {Canceled:false}){_state.FolderName="";Snackbar.Add("Folder created",Severity.Success);}}
+    private void Upload(InputFileChangeEventArgs args){foreach(var file in args.GetMultipleFiles(int.MaxValue))_state.Upload(file.Name,file.ContentType,file.Size);Snackbar.Add("Files uploaded",Severity.Success);}
+    private void Trash(IEnumerable<string> ids){_state.Trash(ids);_detail=null;Snackbar.Add("Moved to trash",Severity.Success);}
+    private async Task Preview(DriveItem item)=>await Dialogs.ShowAsync<DrivePreviewDialog>(item.Name,new DialogParameters<DrivePreviewDialog>{{d=>d.Item,item}},Options);
+    private async Task Rename(){if(_detail is null)return;var item=_detail;var dialog=await Dialogs.ShowAsync<DriveNameDialog>(item.Folder?"Rename folder":"Rename file",new DialogParameters<DriveNameDialog>{{d=>d.Title,item.Folder?"Rename folder":"Rename file"},{d=>d.Name,item.Name},{d=>d.Changed,EventCallback.Factory.Create<string>(this,value=>_renameValue=value)}},Options);var result=await dialog.Result;if(result is {Canceled:false,Data:string name}){_state.Rename(item.Id,_renameValue.Length>0?_renameValue:name);Snackbar.Add("Item renamed",Severity.Success);}}
+    private async Task MoveCopy(){if(_detail is null)return;var dialog=await Dialogs.ShowAsync<DriveNameDialog>("Move or copy item",new DialogParameters<DriveNameDialog>{{d=>d.Title,"Move or copy item"},{d=>d.Name,_detail.Name},{d=>d.Changed,EventCallback.Factory.Create<string>(this,value=>_moveValue=value)}},Options);var result=await dialog.Result;if(result is {Canceled:false})Snackbar.Add("Item copied to My Drive",Severity.Success);}
+}
+
+

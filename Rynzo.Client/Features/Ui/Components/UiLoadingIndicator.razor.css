@@ -1,0 +1,24 @@
+.ui-loading-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--loader-size);
+  height: var(--loader-size);
+}
+.ui-loading-indicator ::deep .mud-progress-circular {
+  width: var(--loader-size) !important;
+  height: var(--loader-size) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-loading-indicator ::deep .mud-progress-circular,
+  .ui-loading-indicator ::deep svg,
+  .ui-loading-indicator ::deep circle {
+    animation: none !important;
+  }
+}
+
+.ui-loading-indicator ::deep .mud-progress-circular svg {
+  width: 100%;
+  height: 100%;
+}

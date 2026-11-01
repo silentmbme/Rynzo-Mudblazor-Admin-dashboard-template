@@ -1,0 +1,15 @@
+<div class="auth-field">
+    <label for="@_id">@Label</label>
+    <MudTextField T="string" InputId="@_id" Value="@Value" ValueChanged="ValueChanged" Placeholder="@Placeholder"
+                  Immediate="true" Variant="Variant.Outlined" Margin="Margin.Dense" autocomplete="@AutoComplete"
+                  Error="@(!string.IsNullOrEmpty(Error))" ErrorText="@Error" />
+</div>
+@code {
+    private readonly string _id = $"auth-field-{Guid.NewGuid():N}";
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string Placeholder { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public string AutoComplete { get; set; } = "";
+    [Parameter] public string? Error { get; set; }
+}

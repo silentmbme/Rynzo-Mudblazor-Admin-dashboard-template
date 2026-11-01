@@ -1,0 +1,20 @@
+@implements IAsyncDisposable
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+<div class="recovery-actions" aria-busy="@_busy">
+    @if(Code is 400 or 404){<MudButton Href="/" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Outlined.Home">Go to Dashboard</MudButton><MudButton OnClick="Back" Disabled="@(!_ready || _busy)" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("ArrowLeft")">Go Back</MudButton>}
+    else{<MudButton OnClick="Retry" Disabled="@(!_ready || _busy)" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@RynzoIcons.Get("RefreshCw")">@(Code==503?"Check Again":"Try Again")</MudButton><MudButton OnClick="Dashboard" Disabled="@(_busy || (Code==503 && !_reachable))" Variant="Variant.Outlined" StartIcon="@Icons.Material.Outlined.Home">Back to Dashboard</MudButton>}
+</div>
+@if(_message.Length>0){<p class="recovery-feedback" role="status">@_message</p>}
+@code {
+    [Parameter] public int Code {get;set;}
+    private IJSObjectReference? _module;
+    private bool _ready,_busy,_reachable,_disposed;
+    private string _message="";
+    protected override async Task OnAfterRenderAsync(bool firstRender){if(!firstRender)return;try{_module=await JS.InvokeAsync<IJSObjectReference>("import","./theme/error-recovery.js");_ready=true;if(Code==503){_message="Checking dashboard availability…";StateHasChanged();_reachable=await _module.InvokeAsync<bool>("dashboardReachable");_message=_reachable?"Dashboard responded. You can try returning to your workspace.":"Dashboard couldn't be reached. Please check again later.";}}catch(JSException){_message="Recovery controls couldn't load. Refresh this page using your browser.";}if(!_disposed)StateHasChanged();}
+    private async Task Back(){if(_module is null)return;_busy=true;try{await _module.InvokeVoidAsync("goBack");}catch(JSException){Navigation.NavigateTo("/");}}
+    private async Task Retry(){if(_module is null||_busy)return;_busy=true;try{await _module.InvokeVoidAsync("retry");}catch(JSException){_busy=false;_message="Please refresh this page using your browser.";}}
+    private async Task Dashboard(){if(_busy)return;if(Code!=503){Navigation.NavigateTo("/");return;}if(_module is null)return;_busy=true;try{_reachable=await _module.InvokeAsync<bool>("dashboardReachable");if(_reachable)Navigation.NavigateTo("/",forceLoad:true);else _message="Dashboard couldn't be reached. Please check again later.";}catch(JSException){_reachable=false;_message="Dashboard availability couldn't be checked.";}finally{_busy=false;}}
+    public async ValueTask DisposeAsync(){_disposed=true;if(_module is not null)try{await _module.DisposeAsync();}catch(JSDisconnectedException){}}
+}

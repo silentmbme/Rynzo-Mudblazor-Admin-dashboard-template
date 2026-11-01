@@ -1,0 +1,33 @@
+::deep .hospital-metric{display: flex;min-height: 116px;align-items: flex-start;justify-content: space-between;gap: 14px}.hospital-metric :deep(.mud-typography-caption){
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  color: var(--muted-foreground);
+}.hospital-metric :deep(.mud-typography-h4){
+  margin-top: 8px;
+  font-size: var(--rynzo-font-h3);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}.hospital-metric-icon{
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}.hospital-metric-icon :deep(.mud-icon-root){
+  width: 18px;
+  height: 18px;
+}.hospital-metric-icon.primary{
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+}.hospital-metric-icon.success{
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, transparent);
+}.hospital-metric-icon.info{
+  color: var(--info);
+  background: color-mix(in srgb, var(--info) 12%, transparent);
+}.hospital-metric-icon.warning{
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 12%, transparent);
+}

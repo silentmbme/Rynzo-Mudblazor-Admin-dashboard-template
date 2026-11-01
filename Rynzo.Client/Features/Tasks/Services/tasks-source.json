@@ -1,0 +1,205 @@
+{
+  "people": [
+    "Sophia Carter",
+    "Daniel Lee",
+    "Olivia Smith",
+    "Ethan Brown",
+    "Emma Wilson",
+    "Noah Williams",
+    "Mia Johnson"
+  ],
+  "statuses": [
+    "Backlog",
+    "Todo",
+    "In Progress",
+    "Review",
+    "Completed"
+  ],
+  "priorities": [
+    "Critical",
+    "High",
+    "Medium",
+    "Low"
+  ],
+  "tasks": [
+    {
+      "id": "payment",
+      "title": "Fix checkout payment validation",
+      "description": "Resolve Safari validation error on the checkout payment form.",
+      "project": "Commerce Platform",
+      "status": "In Progress",
+      "priority": "High",
+      "assignees": [
+        "Sophia Carter",
+        "You"
+      ],
+      "due": "2026-08-24",
+      "tags": [
+        "Bug",
+        "Frontend"
+      ],
+      "subtasks": [
+        {
+          "title": "Reproduce Safari issue",
+          "done": true
+        },
+        {
+          "title": "Add validation fix",
+          "done": true
+        },
+        {
+          "title": "Add unit test",
+          "done": false
+        },
+        {
+          "title": "QA verification",
+          "done": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "c1",
+          "author": "Sophia Carter",
+          "text": "The issue is isolated to the saved-card flow."
+        }
+      ],
+      "attachments": [
+        "safari-console.png",
+        "checkout-spec.pdf"
+      ],
+      "reminder": "30 minutes before",
+      "created": "Aug 18",
+      "updated": "12 min ago"
+    },
+    {
+      "id": "illustrations",
+      "title": "Finalize onboarding illustrations",
+      "description": "Review final illustrations and handoff exports to engineering.",
+      "project": "Website Redesign",
+      "status": "Review",
+      "priority": "Medium",
+      "assignees": [
+        "Olivia Smith"
+      ],
+      "due": "2026-08-25",
+      "tags": [
+        "Design"
+      ],
+      "subtasks": [
+        {
+          "title": "Review illustration set",
+          "done": true
+        },
+        {
+          "title": "Export SVG assets",
+          "done": false
+        }
+      ],
+      "comments": [],
+      "attachments": [
+        "onboarding-assets.zip"
+      ],
+      "reminder": "1 hour before",
+      "created": "Aug 17",
+      "updated": "1 hr ago"
+    },
+    {
+      "id": "crm",
+      "title": "Migrate legacy CRM contacts",
+      "description": "Validate contact mapping and import the final migration batch.",
+      "project": "CRM Migration",
+      "status": "Todo",
+      "priority": "Critical",
+      "assignees": [
+        "Daniel Lee",
+        "Ethan Brown"
+      ],
+      "due": "2026-08-23",
+      "tags": [
+        "Backend",
+        "Urgent"
+      ],
+      "subtasks": [
+        {
+          "title": "Verify field mappings",
+          "done": true
+        },
+        {
+          "title": "Run import",
+          "done": false
+        },
+        {
+          "title": "Review failed records",
+          "done": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "c2",
+          "author": "Daniel Lee",
+          "text": "Waiting on the final source export."
+        }
+      ],
+      "attachments": [
+        "mapping.csv"
+      ],
+      "reminder": "1 day before",
+      "created": "Aug 15",
+      "updated": "Yesterday"
+    },
+    {
+      "id": "campaign",
+      "title": "Prepare campaign launch assets",
+      "description": "Package approved assets for the September campaign launch.",
+      "project": "Marketing Automation",
+      "status": "In Progress",
+      "priority": "High",
+      "assignees": [
+        "Emma Wilson",
+        "Mia Johnson"
+      ],
+      "due": "2026-08-27",
+      "tags": [
+        "Marketing",
+        "Design"
+      ],
+      "subtasks": [
+        {
+          "title": "Approve hero artwork",
+          "done": true
+        },
+        {
+          "title": "Create email variants",
+          "done": false
+        }
+      ],
+      "comments": [],
+      "attachments": [],
+      "reminder": "At due time",
+      "created": "Aug 19",
+      "updated": "2 hrs ago"
+    },
+    {
+      "id": "invoice",
+      "title": "Add invoice export option",
+      "description": "Add a CSV export action to the invoice history table.",
+      "project": "Finance Suite",
+      "status": "Backlog",
+      "priority": "Low",
+      "assignees": [
+        "Noah Williams"
+      ],
+      "due": "2026-09-01",
+      "tags": [
+        "Frontend",
+        "Finance"
+      ],
+      "subtasks": [],
+      "comments": [],
+      "attachments": [],
+      "reminder": "None",
+      "created": "Aug 20",
+      "updated": "Yesterday"
+    }
+  ]
+}

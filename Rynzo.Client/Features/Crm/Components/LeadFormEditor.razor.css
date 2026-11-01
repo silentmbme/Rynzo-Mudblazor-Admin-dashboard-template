@@ -1,0 +1,24 @@
+.lead-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.lead-form-grid > div {
+  display: block;
+  min-width: 0;
+}
+.lead-form-grid ::deep .mud-input-control {
+  margin: 0;
+}
+.lead-form-grid ::deep .mud-input {
+  font-size: 12px;
+  border-radius: 7px;
+}
+.lead-form-notes {
+  grid-column: 1/-1;
+}
+@media (max-width: 500px) {
+  .lead-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

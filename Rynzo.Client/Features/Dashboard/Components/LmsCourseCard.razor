@@ -1,0 +1,23 @@
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Theme
+<div class="rynzo-widget-host"><MudCard Class="lms-course rynzo-widget-card" Style="@($"--course-color:var({Course.Color})")" Elevation="0" Outlined="true" data-widget-element="article">
+    <div class="course-cover">
+        <span class="course-cover-label">@Course.Category</span>
+        <span class="course-status @(Course.Status == "Published" ? "published" : "draft")">@Course.Status</span>
+        <div class="course-art" aria-hidden="true"><span></span><MudIcon Icon="@RynzoIcons.Get(CategoryIcon(Course.Category))" /></div>
+        <span class="course-cover-caption"><MudIcon Icon="@RynzoIcons.Get("BookOpen")" Size="Size.Small" />@Course.Lessons lessons</span>
+    </div>
+    <div class="course-content">
+        <h3>@Course.Title</h3>
+        <div class="course-instructor"><MudAvatar Size="Size.Small"><MudImage Src="@Portrait" Alt="" /></MudAvatar><span>@Instructor.Name</span></div>
+        <div class="course-enrollment"><span><MudIcon Icon="@RynzoIcons.Get("UsersRound")" Size="Size.Small" />@Course.Students enrollments</span><strong>@Course.Completed completed</strong></div>
+        <footer><div><small>Course price</small><b>@Course.Price.ToString("C0",System.Globalization.CultureInfo.GetCultureInfo("en-US"))</b></div><MudButton Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" EndIcon="@RynzoIcons.Get("ArrowUpRight")" aria-label="@($"View {Course.Title}")" OnClick="@(() => View.InvokeAsync(Course))">View course</MudButton></footer>
+    </div>
+</MudCard></div>
+@code {
+    [Parameter, EditorRequired] public LmsCourse Course { get; set; } = null!;
+    [Parameter, EditorRequired] public LmsInstructor Instructor { get; set; } = null!;
+    [Parameter] public EventCallback<LmsCourse> View { get; set; }
+    private string Portrait => Instructor.Id == "sophia" ? "assets/images/users/sophia-carter.jpg" : Instructor.Id == "daniel" ? "assets/images/users/user-4.jpg" : "assets/images/users/user-1.jpg";
+    private static string CategoryIcon(string category) => category switch { "Development" => "Code2", "Design" => "Palette", "Data Science" => "Layers3", _ => "TrendingUp" };
+}

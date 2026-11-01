@@ -1,0 +1,13 @@
+@using Rynzo.Client.Theme
+<MudCard Outlined="true" Elevation="0" Class="@((($"ai-metric {(Compact ? "ai-metric-compact" : "")}")) + " rynzo-widget-card rynzo-widget-card--structured")"><MudCardContent>
+    @if(Compact){<span class="ai-metric-icon"><MudIcon Icon="@RynzoIcons.Get(Icon)" /></span><div><p>@Label</p><strong>@Value</strong><small>@Detail</small></div>}
+    else{<div class="ai-metric-heading"><p>@Label</p><span class="ai-metric-icon"><MudIcon Icon="@RynzoIcons.Get(Icon)" /></span></div><strong>@Value</strong><div class="ai-metric-detail"><span>@Trend</span><small>@Detail</small></div>}
+</MudCardContent></MudCard>
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public string Icon { get; set; } = "";
+    [Parameter] public string Trend { get; set; } = "";
+    [Parameter] public string Detail { get; set; } = "";
+    [Parameter] public bool Compact { get; set; }
+}

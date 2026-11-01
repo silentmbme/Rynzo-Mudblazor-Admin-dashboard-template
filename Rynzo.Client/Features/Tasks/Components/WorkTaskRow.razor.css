@@ -1,0 +1,204 @@
+﻿.work-task-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 110px 90px;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+  cursor: grab;
+  min-width: 0;
+}
+.work-task-row:last-child {
+  border-bottom: 0;
+}
+.work-task-row:hover {
+  background: color-mix(in srgb, var(--muted) 30%, var(--card));
+}
+.work-task-row:active {
+  cursor: grabbing;
+}
+.work-task-row.work-task-selected {
+  background: color-mix(in srgb, var(--primary) 5%, var(--card));
+  box-shadow: inset 3px 0 var(--primary);
+}
+.work-task-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.work-task-controls ::deep .work-task-select {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 3px;
+  color: transparent;
+  background: var(--card);
+  min-height: auto;
+}
+.work-task-controls ::deep .work-task-select:hover {
+  color: var(--muted-foreground);
+}
+.work-task-selected .work-task-controls ::deep .work-task-select {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+}
+.work-task-controls ::deep .work-task-complete {
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+}
+.work-task-open {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  text-align: start;
+  padding: 0;
+}
+.work-task-open > b {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.work-task-open > b.completed {
+  text-decoration: line-through;
+  color: var(--muted-foreground);
+}
+.work-task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 8px;
+  color: var(--muted-foreground);
+  font-size: 10px;
+}
+.work-task-meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.work-task-meta ::deep svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+.work-task-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 9px;
+}
+.work-task-tags i {
+  padding: 2px 7px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--muted);
+  font-size: 9px;
+  font-style: normal;
+  color: var(--muted-foreground);
+}
+.work-task-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+.work-task-badges > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--badge-tone) 9%, var(--card));
+  color: var(--badge-tone);
+  font-size: 10px;
+  white-space: nowrap;
+}
+.work-task-badges i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.work-task-due {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  color: var(--muted-foreground);
+  font-size: 11px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.work-task-due ::deep svg {
+  width: 13px;
+  height: 13px;
+}
+button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+@media (max-width: 767px) {
+  .work-task-row {
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 12px;
+    padding: 18px 14px;
+    align-items: start;
+  }
+  .work-task-controls {
+    gap: 6px;
+    padding-top: 2px;
+  }
+  .work-task-badges {
+    grid-column: 2;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .work-task-trailing {
+    grid-column: 2;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.work-task-trailing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 9px;
+  min-width: 0;
+}
+.work-task-assignees {
+  display: flex;
+  padding-inline-start: 5px;
+}
+.work-task-assignees img {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--card);
+  object-fit: cover;
+  margin-inline-start: -5px;
+}
+.work-task-tags i {
+  background: transparent;
+  border-color: transparent;
+  padding: 0 7px 0 0;
+  color: var(--muted-foreground);
+}
+@media (max-width: 767px) {
+  .work-task-trailing {
+    grid-column: 2;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

@@ -1,0 +1,24 @@
+@using Rynzo.Client.Theme
+<div class="ui-toast-notice @(Preview?"is-preview":"")" style="@($"--toast-tone:{Tone}")" role="@(Preview?null:Severity==Severity.Error?"alert":"status")">
+    <MudPaper Elevation="0" Class="ui-toast-paper">
+        <span class="ui-toast-icon">@if(Loading){<MudProgressCircular Indeterminate="true" Size="Size.Small" Color="Color.Primary" />}else{<MudIcon Icon="@RynzoIcons.Get(Icon??DefaultIcon)" />}</span>
+        <div class="ui-toast-content"><h3>@Title</h3>@if(!string.IsNullOrWhiteSpace(Description)){<p>@Description</p>}
+            @if(OnAction.HasDelegate||!string.IsNullOrWhiteSpace(DismissLabel)){<div class="ui-toast-actions">@if(OnAction.HasDelegate){<MudButton Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" OnClick="OnAction">@ActionLabel</MudButton>}@if(!string.IsNullOrWhiteSpace(DismissLabel)){<MudButton Size="Size.Small" OnClick="OnDismiss">@DismissLabel</MudButton>}</div>}
+        </div>
+        @if(OnDismiss.HasDelegate&&string.IsNullOrWhiteSpace(DismissLabel)){<MudIconButton Class="ui-toast-close" Size="Size.Small" Icon="@RynzoIcons.Get("X")" aria-label="@($"Dismiss {Title}")" OnClick="OnDismiss" />}
+    </MudPaper>
+</div>
+@code {
+    [Parameter] public string Title {get;set;}="";
+    [Parameter] public string? Description {get;set;}
+    [Parameter] public string? Icon {get;set;}
+    [Parameter] public Severity Severity {get;set;}=Severity.Normal;
+    [Parameter] public bool Loading {get;set;}
+    [Parameter] public bool Preview {get;set;}
+    [Parameter] public string? ActionLabel {get;set;}
+    [Parameter] public string? DismissLabel {get;set;}
+    [Parameter] public EventCallback OnAction {get;set;}
+    [Parameter] public EventCallback OnDismiss {get;set;}
+    private string Tone=>Severity switch{Severity.Success=>"var(--success)",Severity.Warning=>"var(--warning)",Severity.Error=>"var(--destructive)",Severity.Info=>"var(--info)",_=>"var(--primary)"};
+    private string DefaultIcon=>Severity switch{Severity.Success=>"CircleCheck",Severity.Warning=>"TriangleAlert",Severity.Error=>"CircleAlert",Severity.Info=>"Info",_=>"Bell"};
+}

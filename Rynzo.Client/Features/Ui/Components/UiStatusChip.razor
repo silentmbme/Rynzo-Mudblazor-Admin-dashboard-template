@@ -1,0 +1,16 @@
+<span class="ui-status-host" style="@($"--chip-tone:{Tone}")">
+    @if(OnRemove.HasDelegate){<MudChip T="string" Color="Color" Size="Size" Variant="@(Outline?Variant.Outlined:Variant.Filled)" Class="@CssClass" OnClose="Remove">@if(Dot){<i class="ui-status-dot" aria-hidden="true"></i>}@ChildContent</MudChip>}
+    else{<MudChip T="string" Color="Color" Size="Size" Variant="@(Outline?Variant.Outlined:Variant.Filled)" Class="@CssClass">@if(Dot){<i class="ui-status-dot" aria-hidden="true"></i>}@ChildContent</MudChip>}
+</span>
+@code {
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+    [Parameter] public Color Color {get;set;}=Color.Default;
+    [Parameter] public Size Size {get;set;}=Size.Medium;
+    [Parameter] public bool Solid {get;set;}
+    [Parameter] public bool Outline {get;set;}
+    [Parameter] public bool Dot {get;set;}
+    [Parameter] public EventCallback OnRemove {get;set;}
+    private Task Remove(MudChip<string> chip)=>OnRemove.InvokeAsync();
+    private string CssClass=>$"ui-status-chip {(Dot?"is-dot":Outline?"is-outline":Solid?"is-solid":"is-soft")} size-{Size.ToString().ToLowerInvariant()}";
+    private string Tone=>Color switch{Color.Primary=>"var(--primary)",Color.Success=>"var(--success)",Color.Warning=>"var(--warning)",Color.Error=>"var(--destructive)",Color.Info=>"var(--info)",_=>"var(--muted-foreground)"};
+}

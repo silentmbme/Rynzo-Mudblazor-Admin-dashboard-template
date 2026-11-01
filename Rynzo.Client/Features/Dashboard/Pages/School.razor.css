@@ -1,0 +1,968 @@
+.school-dashboard{
+  min-width: 0;
+  color: var(--foreground);
+}.school-heading{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}.school-heading ::deep .page-header{
+  margin-bottom: 0;
+}.school-actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}.school-dashboard ::deep .mud-button{
+  font-size: var(--rynzo-font-caption);
+  text-transform: none;
+}.school-dashboard ::deep .mud-input-control{
+  margin-top: 0;
+}.school-dashboard ::deep .mud-input-outlined{
+  font-size: var(--rynzo-font-body1);
+  background: var(--card);
+}.school-dashboard ::deep .mud-select-input{
+  padding-block: 0px;
+  min-height: 16px;
+}.school-metrics{
+  display: grid;
+  gap: 16px;
+  margin-bottom: 24px;
+}.school-dashboard ::deep .school-metric{
+  position: relative;
+  overflow: hidden;
+  --metric-tone: var(--primary);
+}.school-dashboard ::deep .school-metric:nth-child(2){
+  --metric-tone: var(--chart-3);
+}.school-dashboard ::deep .school-metric:nth-child(3){
+  --metric-tone: var(--chart-4);
+}.school-dashboard ::deep .school-metric:nth-child(4){
+  --metric-tone: var(--chart-5);
+}.school-metric i{
+  position: absolute;
+  inset-inline-end: -24px;
+  top: -24px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--metric-tone) 7%, transparent);
+}.school-dashboard ::deep .school-metric .mud-card-content > div{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}.school-metric p{
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  color: var(--muted-foreground);
+}.school-dashboard ::deep .school-metric .mud-icon-root{
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  border-radius: 12px;
+  color: var(--metric-tone);
+  background: color-mix(in srgb, var(--metric-tone) 10%, transparent);
+}.school-metric strong{
+  position: relative;
+  display: block;
+  font-size: var(--rynzo-font-h1);
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: -0.9px;
+  font-variant-numeric: tabular-nums;
+  margin-top: 8px;
+}.school-metric small{
+  position: relative;
+  display: block;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.school-chart-grid{
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+  margin-bottom: 24px;
+}.school-three-grid{
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+  margin-bottom: 24px;
+}.school-bottom{
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+  margin-bottom: 24px;
+}.school-dashboard ::deep .executive-card{min-width: 0}.school-dashboard ::deep .school-directory{margin-bottom: 24px}.school-dashboard ::deep .school-faculty{margin-bottom: 24px}.school-dashboard ::deep .school-assignments{margin-bottom: 24px}.school-dashboard ::deep .school-directory .mud-card-header{flex-wrap: wrap;gap: 12px}.school-dashboard ::deep .school-directory .mud-card-header-actions{
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+}.school-dashboard ::deep .school-search{
+  width: 100%;
+  max-width: 256px;
+}.school-dashboard ::deep .school-search input{
+  font-size: var(--rynzo-font-body1);
+  padding: 8px 12px;
+}.school-dashboard ::deep .school-table table{
+  min-width: 700px;
+}.school-dashboard ::deep .school-table .mud-table-cell{
+  font-size: var(--rynzo-font-body1);
+  padding: 12px 16px;
+  border-color: var(--border);
+  white-space: nowrap;
+}.school-dashboard ::deep .school-table th{
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+  color: var(--muted-foreground);
+}.school-table p{
+  font-weight: 500;
+}.school-table small{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.school-row-actions{
+  display: flex;
+  gap: 8px;
+}.school-directory-footer{
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.school-faculty-list{
+  display: grid;
+  gap: 16px;
+}.school-faculty-list > div{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+}.school-faculty-list img{
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  object-fit: cover;
+}.school-faculty-list h3{
+  font-size: var(--rynzo-font-body1);
+  font-weight: 600;
+  margin-top: 8px;
+}.school-faculty-list p{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}.school-transport-summary{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--primary) 5%, transparent);
+}.school-transport-summary h3{
+  font-size: var(--rynzo-font-h2);
+  line-height: 36px;
+  font-weight: 600;
+}.school-transport-summary h3 span{
+  margin-inline-start: 4px;
+  font-size: var(--rynzo-font-body1);
+  font-weight: 400;
+  color: var(--muted-foreground);
+}.school-transport-summary p{
+  margin-top: 4px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.school-buses{
+  padding-inline: 20px;
+}.school-buses > div{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding-block: 16px;
+}.school-buses > div + div{
+  border-top: 1px solid var(--border);
+}.school-bus-number{
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: var(--rynzo-font-body1);
+  font-weight: 600;
+  color: var(--bus-tone);
+  background: color-mix(in srgb, var(--bus-tone) 10%, transparent);
+}.school-bus-number + div{
+  flex: 1;
+  min-width: 0;
+}.school-buses h3{
+  font-size: var(--rynzo-font-body1);
+  font-weight: 500;
+}.school-bus-seats{
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}.school-bus-seats i{
+  height: 8px;
+  flex: 1;
+  border-radius: 2px;
+}.school-buses aside{
+  text-align: end;
+}.school-buses small{
+  display: block;
+  margin-top: 4px;
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+}.school-library header{display: flex;align-items: center;justify-content: space-between;gap: 12px}.school-library h2{
+  font-size: var(--rynzo-font-body1);
+  font-weight: 600;
+}.school-library header p{
+  margin-top: 4px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.school-library-totals{
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  margin-block: 24px;
+}.school-library-totals b{
+  font-size: var(--rynzo-font-h1);
+  line-height: 40px;
+  font-weight: 600;
+}.school-library-totals small{
+  display: block;
+  margin-top: 4px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.school-library-totals > div + div{
+  border-inline-start: 1px solid var(--border);
+  padding-inline-start: 32px;
+}.school-library-totals > div + div b{
+  color: var(--primary);
+}.school-library ::deep .mud-progress-linear{
+  height: 12px;
+}.school-return-ratio{
+  margin-top: 8px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.school-library h3{
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted-foreground);
+  margin: 24px 0 12px;
+}.school-books > div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 12px;
+  border-top: 1px solid var(--border);
+}.school-books p{
+  font-size: var(--rynzo-font-body1);
+}.school-books span{
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--muted);
+  font-size: var(--rynzo-font-caption);
+}.school-dashboard ::deep .mud-chip{
+  height: 22px;
+  border-radius: 6px;
+  font-size: var(--rynzo-font-overline);
+  margin: 0;
+}.school-dashboard ::deep .mud-chip-color-primary{
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+}.school-dashboard ::deep .mud-chip-color-success{
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 10%, transparent);
+}.school-dashboard ::deep .mud-chip-color-warning{
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+}
+@media (min-width: 640px) {.school-metrics{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {.school-faculty-list{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1280px) {.school-metrics{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }.school-chart-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.school-bottom{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.school-three-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }.school-span-two{
+    grid-column: span 2;
+  }
+}/* School redesign: overrides explicitly exclude the preserved transport card. */
+.school-dashboard{
+  display: grid;
+  gap: 24px;
+}.school-dashboard ::deep .dashboard-page-header{
+  margin: 0;
+}.school-metrics{
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  gap: 18px;
+}::deep .school-metrics :is(article,[data-widget-element="article"]){position: relative;min-width: 0}.school-metrics :is(article,[data-widget-element="article"]) > span{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  border-radius: 9px;
+  color: var(--primary);
+  background: var(--accent);
+}.school-metrics :is(article,[data-widget-element="article"]) > span ::deep svg{
+  width: 17px;
+  height: 17px;
+}.school-metrics :is(article,[data-widget-element="article"]):nth-child(2) > span{
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 8%, var(--card));
+}.school-metrics :is(article,[data-widget-element="article"]):nth-child(3) > span{
+  color: var(--info);
+  background: color-mix(in srgb, var(--info) 8%, var(--card));
+}.school-metrics :is(article,[data-widget-element="article"]):nth-child(4) > span{
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 8%, var(--card));
+}.school-metrics p{
+  padding-right: 35px;
+  color: var(--muted-foreground);
+  font-size: 10px;
+}.school-metrics strong{
+  display: block;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  margin-top: 14px;
+}.school-metrics small{
+  display: block;
+  color: var(--muted-foreground);
+  font-size: 10px;
+  line-height: 1.8;
+  padding-top: 13px;
+  margin-top: 15px;
+  border-top: 1px solid var(--border);
+}.school-chart-grid{
+  margin: 0;
+  align-items: stretch;
+}.school-three-grid{
+  margin: 0;
+  align-items: stretch;
+}.school-bottom{
+  margin: 0;
+  align-items: stretch;
+}.school-dashboard ::deep .executive-card:not(.school-transport){display: flex;flex-direction: column;height: 100%}.school-dashboard
+  ::deep
+  .executive-card:not(.school-transport)
+  .mud-card-header{align-items: flex-start;gap: 12px;min-height: 85px}.school-dashboard ::deep .executive-card:not(.school-transport) h2{
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.6;
+}.school-dashboard
+  ::deep
+  .executive-card:not(.school-transport)
+  .mud-typography-caption{
+  display: block;
+  margin-top: 4px;
+  color: var(--muted-foreground);
+  font-size: 10px;
+  line-height: 1.8;
+}.school-dashboard
+  ::deep
+  .executive-card:not(.school-transport)
+  .mud-card-content{flex: 1;}.school-dashboard ::deep .school-directory{margin: 0}.school-dashboard ::deep .school-faculty{margin: 0}.school-dashboard ::deep .school-assignments{margin: 0}.school-dashboard ::deep .school-table .mud-table-cell{
+  padding: 17px 24px;
+  font-size: 11px;
+}.school-dashboard ::deep .school-table th{
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  background: var(--muted);
+}.school-student-name{
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}.school-student-name > span{
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  font-size: 0;
+  color: transparent;
+  background: var(--student-portrait) center / cover no-repeat;
+  border: 2px solid color-mix(in srgb, var(--card) 88%, var(--primary));
+  border-radius: 50%;
+  box-shadow: 0 2px 7px color-mix(in srgb, var(--foreground) 10%, transparent);
+}.school-dashboard
+  ::deep
+  .school-table
+  tbody
+  tr:nth-child(5n + 1)
+  .school-student-name{
+  --student-portrait: url("assets/images/users/sophia-carter.jpg");
+}.school-dashboard
+  ::deep
+  .school-table
+  tbody
+  tr:nth-child(5n + 2)
+  .school-student-name{
+  --student-portrait: url("assets/images/users/user-4.jpg");
+}.school-dashboard
+  ::deep
+  .school-table
+  tbody
+  tr:nth-child(5n + 3)
+  .school-student-name{
+  --student-portrait: url("assets/images/users/user-3.jpg");
+}.school-dashboard
+  ::deep
+  .school-table
+  tbody
+  tr:nth-child(5n + 4)
+  .school-student-name{
+  --student-portrait: url("assets/images/users/user-2.jpg");
+}.school-dashboard
+  ::deep
+  .school-table
+  tbody
+  tr:nth-child(5n)
+  .school-student-name{
+  --student-portrait: url("assets/images/users/user-1.jpg");
+}.school-student-name p{
+  font-size: 12px;
+  font-weight: 600;
+}.school-table small{
+  font-size: 10px;
+  margin-top: 3px;
+}.school-row-actions ::deep button{
+  font-size: 10px;
+}.school-directory-footer{
+  font-size: 10px;
+  padding: 14px 24px;
+}.school-faculty-list{
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+}.school-faculty-list > div{
+  padding: 8px 22px;
+  background: transparent;
+  border-radius: 0;
+  border-right: 1px solid var(--border);
+  gap: 14px;
+}.school-faculty-list > div:last-child{
+  border: 0;
+}.school-faculty-list img{
+  width: 48px;
+  height: 58px;
+  border-radius: 10px;
+}.school-faculty-list h3{
+  font-size: 12px;
+  margin-top: 7px;
+}.school-faculty-list p{
+  font-size: 10px;
+}.school-dashboard ::deep .school-library{height: 100%}.school-library h2{
+  font-size: 14px;
+  font-weight: 650;
+}.school-library header p{
+  font-size: 10px;
+}.school-library-totals{
+  margin: 22px 0;
+  gap: 28px;
+}.school-library-totals b{
+  font-size: 31px;
+  font-weight: 600;
+}.school-library-totals small{
+  font-size: 10px;
+}::deep .school-library-ratio{display: flex;align-items: center;gap: 12px}.school-library-ratio strong{
+  font-size: 26px;
+  font-weight: 650;
+  color: var(--success);
+}.school-library-ratio > span{
+  font-size: 10px;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}.school-library-ratio ::deep svg{
+  margin-left: auto;
+  color: var(--success);
+}.school-library h3{
+  font-size: 10px;
+  margin-top: 22px;
+}.school-books p{
+  font-size: 10px;
+}.school-books span{
+  font-size: 10px;
+}/* Restyle child components through this page only. */
+.school-dashboard ::deep .school-agenda-toolbar{
+  background: var(--muted);
+  padding: 14px 24px;
+  font-size: 10px;
+}.school-dashboard ::deep .school-agenda-list{
+  padding: 5px 24px 20px;
+}.school-dashboard ::deep .school-lesson{
+  border: 0;
+  border-left: 2px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  padding: 14px 18px;
+}.school-dashboard ::deep .school-lesson h3{
+  font-size: 13px;
+}.school-dashboard ::deep .school-lesson-icon{
+  border-radius: 9px;
+}.school-dashboard ::deep .school-lesson footer{
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}.school-dashboard ::deep .school-calendar{height: 100%}.school-dashboard ::deep .school-calendar h2{
+  font-size: 14px;
+}.school-dashboard ::deep .school-calendar-month{
+  background: var(--muted);
+  border-radius: 0;
+  margin: 0;
+  padding: 18px 24px;
+}.school-dashboard ::deep .school-calendar-events{
+  padding: 0 24px;
+}.school-dashboard ::deep .school-calendar-date{
+  background: transparent;
+  border-right: 1px solid var(--border);
+  border-radius: 0;
+}.school-dashboard ::deep .school-review-progress{
+  padding: 18px 24px;
+  background: var(--muted);
+  border: 0;
+}.school-dashboard ::deep .school-review-progress .mud-progress-linear{
+  display: none;
+}.school-dashboard ::deep .school-assignment-columns{
+  padding: 20px 24px 24px;
+  gap: 22px;
+}.school-dashboard ::deep .school-assignment-columns > :is(section,[data-widget-element="section"]){overflow: hidden}.school-dashboard ::deep .school-assignment-columns > :is(section,[data-widget-element="section"]) > header{
+  background: var(--muted);
+  border-radius: 0;
+}
+@media (min-width: 1280px) {.school-chart-grid{
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+}
+@media (max-width: 1023px) {.school-metrics{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.school-faculty-list{
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }.school-faculty-list > div{
+    border: 0;
+    padding: 0;
+  }
+}
+@media (max-width: 639px) {.school-dashboard{
+    gap: 18px;
+  }.school-metrics{
+    gap: 12px;
+  }.school-metrics :is(article,[data-widget-element="article"]) > span{
+    position: static;
+    margin-bottom: 12px;
+  }.school-metrics p{
+    padding: 0;
+  }.school-metrics strong{
+    font-size: 25px;
+  }.school-dashboard
+    ::deep
+    .executive-card:not(.school-transport)
+    .mud-card-header{flex-wrap: wrap}.school-dashboard ::deep .school-assignment-columns{
+    padding: 18px;
+  }
+}/* Open sections: remove repeated card shells while preserving transport. */
+.school-dashboard{
+  gap: 28px;
+}.school-dashboard
+  ::deep
+  .executive-card:not(.school-transport)
+  .mud-card-header{min-height: 78px}.school-chart-grid{
+  gap: 28px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--border);
+}.school-three-grid{
+  gap: 28px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--border);
+}.school-chart-grid > *{
+  min-width: 0;
+}.school-three-grid > *{
+  min-width: 0;
+}.school-bottom > *{
+  min-width: 0;
+}.school-chart-grid{
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+}.school-three-grid{
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+}.school-three-grid ::deep .school-span-two{
+  grid-column: auto;
+}.school-metrics{
+  gap: 0;
+  padding: 18px 0;
+  border-block: 1px solid var(--border);
+}.school-metrics :is(article,[data-widget-element="article"]) > span{
+  right: 20px;
+  top: 0;
+}.school-metrics small{
+  border: 0;
+  padding-top: 0;
+  margin-top: 8px;
+}.school-dashboard ::deep .school-table{
+  background: transparent;
+}.school-dashboard ::deep .school-table th{
+  background: var(--muted);
+}.school-dashboard ::deep .school-calendar > header{min-height: 78px;align-items: flex-start}.school-dashboard ::deep .school-calendar-month{
+  padding: 14px 16px;
+  background: var(--muted);
+  border-radius: 7px;
+}.school-dashboard ::deep .school-calendar-events{
+  padding: 0;
+}.school-dashboard ::deep .school-calendar > footer{
+  padding: 14px 0;
+}.school-dashboard ::deep .school-agenda-toolbar{
+  padding: 14px 16px;
+  border-radius: 7px;
+}.school-dashboard ::deep .school-agenda-list{
+  padding: 10px 0 0;
+  gap: 8px;
+}.school-dashboard ::deep .school-lesson{
+  padding: 0;
+}.school-dashboard ::deep .school-lesson > div{
+  padding: 14px 16px;
+}.school-dashboard ::deep .school-lesson footer{
+  padding: 10px 16px;
+  background: transparent;
+}.school-faculty-list > div{
+  padding: 8px 22px;
+}.school-dashboard ::deep .school-review-progress{
+  padding: 14px 16px;
+  border-radius: 7px;
+}.school-dashboard ::deep .school-assignment-columns{
+  padding: 18px 0 0;
+}.school-dashboard ::deep .school-assignment-columns > :is(section,[data-widget-element="section"]) > header{
+  padding: 12px;
+  border-radius: 7px;
+}.school-dashboard ::deep .school-assignment-list footer{
+  background: transparent;
+}.school-library header{min-height: 78px;align-items: flex-start}.school-library-totals{
+  margin: 0 0 22px;
+}
+@media (max-width: 1023px) {.school-chart-grid{
+    grid-template-columns: 1fr;
+  }.school-three-grid{
+    grid-template-columns: 1fr;
+  }.school-metrics{
+    row-gap: 22px;
+  }
+}
+@media (max-width: 639px) {.school-dashboard{
+    gap: 22px;
+  }.school-metrics :is(article,[data-widget-element="article"]) > span{
+    margin-bottom: 10px;
+  }.school-chart-grid{
+    gap: 24px;
+  }.school-three-grid{
+    gap: 24px;
+  }.school-dashboard
+    ::deep
+    .executive-card:not(.school-transport)
+    .mud-card-header{min-height: 0}.school-faculty-list > div{
+    padding: 0;
+  }.school-dashboard ::deep .school-calendar > header{min-height: 0}
+}.school-dashboard ::deep .school-directory .mud-table{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-directory .mud-table-container{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-directory .mud-table-cell{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-agenda-toolbar{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-lesson{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-lesson footer{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-calendar-month{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-calendar > footer{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-review-progress{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-assignment-columns > :is(section,[data-widget-element="section"]) > header{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-assignment-list footer{
+  background: transparent !important;
+  box-shadow: none !important;
+}.school-dashboard ::deep .school-agenda-toolbar{
+  padding: 12px 0;
+  border-radius: 0;
+  border-block: 1px solid var(--border);
+}.school-dashboard ::deep .school-calendar-month{
+  padding: 14px 0;
+  border-radius: 0;
+  border-block: 1px solid var(--border);
+}.school-dashboard ::deep .school-review-progress{
+  padding: 14px 0;
+  border-radius: 0;
+  border-block: 1px solid var(--border);
+}.school-dashboard ::deep .school-assignment-columns > :is(section,[data-widget-element="section"]) > header{
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+}.school-faculty-list > div{
+  background: transparent;
+}.school-dashboard ::deep .school-directory th.mud-table-cell{
+  border-bottom: 1px solid var(--border);
+}.school-dashboard
+  ::deep
+  .school-assignments
+  .school-assignment-list
+  :is(article,[data-widget-element="article"])
+  > div{
+  padding: 16px 0;
+}.school-dashboard ::deep .school-assignments .school-assignment-list footer{
+  padding: 12px 0;
+}.school-dashboard ::deep .school-lesson > div{
+  padding: 14px 16px;
+}
+@media (max-width: 639px) {.school-dashboard ::deep .school-calendar-month{
+    padding-inline: 0;
+  }.school-dashboard ::deep .school-agenda-toolbar{
+    padding-inline: 0;
+  }.school-dashboard ::deep .school-review-progress{
+    padding-inline: 0;
+  }
+}.school-dashboard
+  ::deep
+  .executive-card:not(.school-transport)
+  .mud-card-header{min-height: 84px}.school-metrics{
+  padding: 0;
+  border: 0;
+  gap: 18px;
+}.school-metrics :is(article,[data-widget-element="article"]) > span{
+  top: 20px;
+  right: 20px;
+}.school-chart-grid{
+  padding-bottom: 0;
+  border-bottom: 0;
+}.school-three-grid{
+  padding-bottom: 0;
+  border-bottom: 0;
+}.school-dashboard ::deep .school-calendar > header{min-height: 84px}.school-dashboard ::deep .school-calendar-month{
+  margin: 0 22px;
+  padding: 14px 0;
+}.school-dashboard ::deep .school-calendar-events{
+  padding: 0 22px;
+}.school-dashboard ::deep .school-calendar > footer{
+  padding: 14px 22px;
+}.school-dashboard ::deep .school-agenda-toolbar{
+  padding: 12px 22px;
+}.school-dashboard ::deep .school-agenda-list{
+  padding: 10px 22px 22px;
+}.school-dashboard ::deep .school-review-progress{
+  padding: 14px 22px;
+}.school-dashboard ::deep .school-assignment-columns{
+  padding: 18px 22px 22px;
+}
+@media (max-width: 639px) {.school-metrics{
+    gap: 12px;
+  }.school-dashboard
+    ::deep
+    .executive-card:not(.school-transport)
+    .mud-card-header{min-height: 0}.school-dashboard ::deep .school-calendar > header{min-height: 0}.school-dashboard ::deep .school-calendar-events{
+    padding: 0 18px;
+  }.school-dashboard ::deep .school-calendar-month{
+    margin-inline: 18px;
+  }.school-dashboard ::deep .school-agenda-list{
+    padding: 10px 18px 18px;
+  }.school-dashboard ::deep .school-assignment-columns{
+    padding: 18px;
+  }
+}/* Distinct attendance and fee summaries; card backgrounds are retained. */
+.school-chart-grid{
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}.school-chart-tag{
+  display: block;
+  font-size: 9px;
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 4px 7px;
+  white-space: nowrap;
+}.school-attendance-summary{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  min-height: 84px;
+  margin-bottom: 12px;
+}.school-attendance-summary strong{
+  font-size: 34px;
+  font-weight: 650;
+  letter-spacing: -1px;
+  line-height: 1.3;
+}.school-attendance-summary strong > span{
+  font-size: 18px;
+  margin-left: 3px;
+  font-weight: 500;
+}.school-attendance-summary p{
+  font-size: 10px;
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}.school-attendance-summary dl{
+  display: flex;
+  gap: 24px;
+  margin: 0;
+}.school-attendance-summary dt{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.school-attendance-summary dt i{
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--info);
+}.school-attendance-summary dl > div + div i{
+  background: var(--warning);
+}.school-attendance-summary dd{
+  font-size: 20px;
+  font-weight: 600;
+  margin: 7px 0 0 12px;
+}.school-chart-caption{
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+  color: var(--muted-foreground);
+  font-size: 10px;
+}.school-fee-summary{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  min-height: 84px;
+  margin-bottom: 12px;
+  align-items: center;
+}.school-fee-summary > div + div{
+  border-left: 1px solid var(--border);
+  padding-left: 20px;
+}.school-fee-summary small{
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.school-fee-summary strong{
+  display: block;
+  margin-top: 6px;
+  font-size: 25px;
+  font-weight: 650;
+  letter-spacing: -0.6px;
+}.school-fee-summary > div + div strong{
+  color: var(--warning);
+}.school-fee-footer{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 14px;
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--muted-foreground);
+}.school-fee-footer b{
+  color: var(--foreground);
+  font-weight: 600;
+}
+@media (max-width: 1023px) {.school-chart-grid{
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 639px) {.school-attendance-summary{
+    gap: 12px;
+  }.school-attendance-summary dl{
+    gap: 15px;
+  }.school-fee-summary strong{
+    font-size: 22px;
+  }
+}.school-attendance-context{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}.school-attendance-context > span{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted-foreground);
+  font-size: 10px;
+}.school-attendance-context ::deep svg{
+  width: 14px;
+  height: 14px;
+}.school-attendance-context b{
+  font-size: 12px;
+  font-weight: 600;
+}.school-attendance-context b > span{
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}.school-attendance-key{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  margin-top: auto;
+  color: var(--muted-foreground);
+  font-size: 9px;
+}.school-attendance-key > span{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}.school-attendance-key i{
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: var(--muted);
+  border: 1px solid var(--border);
+}.school-attendance-key > span:nth-child(2) i{
+  background: var(--info);
+  border-color: var(--info);
+}.school-attendance-key small{
+  font-size: 9px;
+  margin-left: auto;
+}.school-actions{
+  align-items: center;
+}.school-dashboard ::deep .school-actions .school-grade{
+  width: 150px;
+  margin: 0;
+}
+@media (max-width: 639px) {.school-actions{
+    width: 100%;
+  }.school-dashboard ::deep .school-actions .school-grade{
+    width: 100%;
+  }
+}

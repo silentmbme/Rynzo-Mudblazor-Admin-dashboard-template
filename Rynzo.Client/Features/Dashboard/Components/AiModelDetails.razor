@@ -1,0 +1,15 @@
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Services
+@using Rynzo.Client.Theme
+<MudDialog Style="width:min(512px, calc(100vw - 32px));max-width:512px">
+    <TitleContent><MudText Typo="Typo.h6" HtmlTag="h2">@Model.Name performance</MudText></TitleContent>
+    <DialogContent><div class="ai-model-details"><p>Sample analytics for the last @Period days, ending October 9, 2026.</p><div class="ai-model-stats">
+        @foreach(var item in Values){<div><small>@item.Label</small><b>@item.Value</b></div>}
+    </div><div class="ai-model-latency"><MudIcon Icon="@RynzoIcons.Get("Clock3")" Color="Color.Primary" Size="Size.Small" /><span>Average response time: <strong>@Model.Latency.ToString("F2",English)s</strong></span></div><p>@Model.Category. @(Model.Status == "Healthy" ? "This model is operating within its latency target." : "Review image input sizes and request complexity to reduce response time.")</p></div></DialogContent>
+</MudDialog>
+@code {
+    [Parameter, EditorRequired] public AiModel Model { get; set; } = null!;
+    [Parameter] public int Period { get; set; }
+    private static readonly System.Globalization.CultureInfo English = System.Globalization.CultureInfo.GetCultureInfo("en-US");
+    private (string Label,string Value)[] Values => [("Requests",Model.Requests.ToString("N0",English)),("Tokens",AiDashboardCalculator.Number(Model.Tokens)),("Total cost",AiDashboardCalculator.Cost(Model.Cost)),("Success rate",Model.Success.ToString(English)+"%")];
+}

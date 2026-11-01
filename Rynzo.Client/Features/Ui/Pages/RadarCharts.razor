@@ -1,0 +1,151 @@
+﻿@page "/charts/radar"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>Radar Chart Analytics | Rynzo</PageTitle>
+<div class="radar-charts-page">
+    <DashboardPageHeader Title="Radar Chart Analytics" Description="See the whole picture. Compare strengths, close gaps, and shape what comes next.">
+        <Actions>
+            <MudSelect T="string" Value="Period" ValueChanged="ChangePeriod" Variant="Variant.Outlined" Margin="Margin.Dense" Class="radar-control" aria-label="Reporting period">
+                @foreach (var item in Periods) { <MudSelectItem Value="@item">@item</MudSelectItem> }
+            </MudSelect>
+            <MudSelect T="string" @bind-Value="Category" Variant="Variant.Outlined" Margin="Margin.Dense" Class="radar-control" aria-label="Chart category">
+                @foreach (var item in Categories) { <MudSelectItem Value="@item">@item</MudSelectItem> }
+            </MudSelect>
+            <MudButton Variant="Variant.Outlined" OnClick="Refresh" StartIcon="@Icons.Material.Filled.Refresh">Refresh</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Export" StartIcon="@Icons.Material.Filled.FileDownload">Export CSV</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    <div class="radar-context"><span><i></i> PERFORMANCE INTELLIGENCE <span>/</span> @Period</span><span>Illustrative dataset · @Updated</span></div>
+    <section class="radar-kpis" aria-label="Executive score overview">
+        @foreach (var kpi in Kpis)
+        {
+            <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><div><span>@kpi.Label</span><MudIcon Icon="@kpi.Icon" Size="Size.Small" /></div><strong>@kpi.Value</strong><p><b>@kpi.Comparison</b></p><small>@kpi.Detail</small></MudCard>
+        }
+    </section>
+    <section class="radar-chart-grid" aria-label="Multidimensional performance analysis">
+        @foreach (var card in Cards.Where(c=>Category=="All Charts" || c.Category==Category))
+        {
+            <MudCard Class="@((($"radar-card {card.Kind}")) + " rynzo-widget-card")" @key="card.Kind" Elevation="0" Outlined="true" data-widget-element="article">
+                <header><div><span class="radar-kicker">@card.Number / @card.Category</span><h2>@card.Title</h2><p>@card.Description</p></div><span class="radar-badge">@card.Badge</span></header>
+                @if (card.Kind=="executive")
+                {
+                    <div class="executive-composition"><div><DashboardChart Data="@Data" OptionsModule="./radar-chart-options.js" Kind="executive" Height="390" Label="Executive current, previous, and target radar" /></div><aside><span class="radar-kicker">YOUR PERFORMANCE PROFILE</span><h3>A stronger business,<br />in every direction.</h3><p>@Executive.Dimensions[TopIndex] is the strongest dimension. @WeakestGapDimension is the largest opportunity against target.</p><div class="executive-score"><strong>@Current.Average().ToString("0.0")<small>/100</small></strong><span>Overall performance<br /><b>@Delta(Current.Average()-Previous.Average()) points vs. previous</b></span></div></aside></div>
+                    <div class="dimension-strip">@for(var i=0;i<Current.Length;i++){<div><span>@Executive.Dimensions[i]</span><b>@Current[i].ToString("0.#")<small>/ @Targets[i].ToString("0") target</small></b></div>}</div>
+                }
+                else if (card.Kind=="teams")
+                {
+                    <div class="team-multiples">
+                        @for(var i=0;i<4;i++)
+                        {
+                            var team=Profile("team"+i);
+                            <section><div class="team-title"><h3>@team.Series[0].Name</h3><b>@team.Series[0].Values.Average().ToString("0.0")<small>/100</small></b></div><DashboardChart Data="@Data" OptionsModule="./radar-chart-options.js" Kind="@team.Kind" Height="245" Label="@(team.Series[0].Name+" versus shared benchmark radar")" /></section>
+                        }
+                    </div>
+                }
+                else if(card.Kind=="product")
+                {
+                    <div class="product-selector" aria-label="Select product profiles">
+                        @for(var i=0;i<3;i++)
+                        {
+                            var index=i;var product=Profile("product").Series[index];
+                            <button class="@(VisibleProducts.Contains(index)?"selected":"")" aria-pressed="@VisibleProducts.Contains(index)" @onclick="()=>ToggleProduct(index)" style="--profile-color:var(--chart-@(index+1))"><i></i><span>@product.Name</span><b>@product.Values.Average().ToString("0.0")</b></button>
+                        }
+                    </div>
+                    <DashboardChart Data="@Data" OptionsModule="./radar-chart-options.js" Kind="product" Height="320" Label="Selected competitive product profiles" />
+                    <div class="product-strengths">@foreach(var index in VisibleProducts.Order()){var product=Profile("product").Series[index];<span><b>@product.Name</b> Strength: @Extremum("product",index,true) · Improve: @Extremum("product",index,false)</span>}</div>
+                }
+                else if(card.Kind=="growth")
+                {
+                    <div class="growth-composition"><div class="growth-insights"><span class="radar-kicker">STRATEGY IN MOTION</span><h3>@GrowthForecast.Average().ToString("0.0")<small>/100</small></h3><p>Forecast composite across six strategic priorities.</p><dl><div><dt>Current position</dt><dd>@Profile("growth").Series[0].Values.Average().ToString("0.0")</dd></div><div><dt>Annual ambition</dt><dd>@Profile("growth").Series[2].Values.Average().ToString("0.0")</dd></div><div><dt>Forecast gap to target</dt><dd>@(Profile("growth").Series[2].Values.Zip(GrowthForecast,(t,v)=>t-v).Average().ToString("0.0")) pts</dd></div></dl></div><DashboardChart Data="@Data" OptionsModule="./radar-chart-options.js" Kind="growth" Height="370" Label="Strategic actual, forecast, and annual target radar" /></div>
+                }
+                else
+                {
+                    @if(card.Kind=="risk"){<div class="risk-alert"><MudIcon Icon="@Icons.Material.Filled.WarningAmber" Size="Size.Small" /><span><b>Higher means greater risk.</b> @RiskBreaches of 6 exposures exceed their acceptable threshold.</span></div>}
+                    <DashboardChart Data="@Data" OptionsModule="./radar-chart-options.js" Kind="@card.Kind" Height="@(card.Kind=="marketing"?355:330)" Label="@card.Title" />
+                    @if(card.Kind=="skills" || card.Kind=="project"){<div class="gap-insight"><span>PRIORITY GAP</span><b>@LargestGap(card.Kind)</b><small>@GapSize(card.Kind).ToString("0.0") points below @(card.Kind=="skills"?"role benchmark":"planned target")</small></div>}
+                }
+                <footer><span>@card.Note</span><b>@Insight(card.Kind)</b></footer>
+            </MudCard>
+        }
+    </section>
+    <details class="radar-method"><summary>How to read these profiles</summary><p>All axes share a 0–100 scale. Business, department, customer, risk, project, team, and growth data are standardized score indices. Employee ratings (1–5) are multiplied by 20; product ratings (0–10) are multiplied by 10. Marketing uses score = raw value / reference ceiling × 100: reach 100,000 contacts, engagement 10%, conversion 5%, ROI 300%, and retention 100%. Hover to see original values. Higher scores indicate stronger performance, except risk, where higher means more exposure. Executive KPIs use equal-weight averages across the six business dimensions; benchmark attainment is the average of each score divided by its target. The same method is used for the previous period.</p></details>
+</div>
+@code {
+    private static readonly string[] Periods=["7 Days","30 Days","90 Days","This Year"];
+    private static readonly string[] Categories=["All Charts","Business","Teams","Customers","Marketing","Risk","Projects"];
+    private string Period="30 Days",Category="All Charts",Updated="Ready to explore";
+    private readonly HashSet<int> VisibleProducts=[0,1,2];
+    private IJSObjectReference? Module;
+    private Snapshot Data=null!;
+    private sealed record RadarSeries(string Name,double[] Values);
+    private sealed record RadarProfile(string Kind,string[] Dimensions,RadarSeries[] Series,double[] Ceilings,string[] Units);
+    private sealed record Snapshot(RadarProfile[] Profiles,int[] VisibleProducts);
+    private sealed record Card(string Number,string Kind,string Title,string Category,string Description,string Badge,string Note);
+    private static readonly Card[] Cards=[
+        new("01","executive","Executive performance","Business","Six business priorities. Three perspectives. One complete picture.","Portfolio overview","Equal-weight composite · current vs. previous vs. target"),
+        new("02","departments","Department comparison","Teams","How five departments balance output, quality, and collaboration.","5 departments","Low-opacity profiles preserve visibility across overlapping teams."),
+        new("03","skills","Employee skill assessment","Teams","An individual capability profile against the expectations of the role.","Alex Morgan · Product lead","Employee ratings are normalized from a five-point assessment."),
+        new("04","product","Product competitive analysis","Business","Select the profiles that matter for a focused competitive comparison.","3 products","Click a product to toggle it. At least one profile stays selected."),
+        new("05","experience","Customer experience","Customers","Find the moments that strengthen trust and the friction to address.","Voice of customer","Actual satisfaction and target use the same 0–100 scale."),
+        new("06","marketing","Marketing channel effectiveness","Marketing","Compare six channels across five normalized effectiveness measures.","6 channels","Reference ceilings and original units are documented below."),
+        new("07","risk","Risk exposure assessment","Risk","Compare business exposure against the accepted operating envelope.","Exposure / 100","Low <35 · moderate 35–59 · high ≥60. Compare each marker with its threshold."),
+        new("08","project","Project health","Projects","A delivery profile spanning scope, capacity, and stakeholder outcomes.","Atlas launch","Scores reflect health against plan; higher is healthier."),
+        new("09","teams","Multi-team benchmark","Teams","Four team profiles on identical dimensions, scales, and benchmarks.","Shared 80-point benchmark","All four panels share a fixed 0–100 scale and the same 80-point reference."),
+        new("10","growth","Strategic growth outlook","Business","Connect today’s position with the forecast and the annual ambition.","Actual → forecast → target","Solid actual · dashed forecast · dotted annual target. Forecast is illustrative.")];
+    private RadarProfile Profile(string kind)=>Data.Profiles.First(p=>p.Kind==kind);
+    private RadarProfile Executive=>Profile("executive");
+    private double[] Current=>Executive.Series[0].Values;
+    private double[] Previous=>Executive.Series[1].Values;
+    private double[] Targets=>Executive.Series[2].Values;
+    private int TopIndex=>Array.IndexOf(Current,Current.Max());
+    private int PreviousTopIndex=>Array.IndexOf(Previous,Previous.Max());
+    private int Opportunities(double[] values)=>values.Zip(Targets,(v,t)=>v<t).Count(v=>v);
+    private double Attainment(double[] values)=>values.Zip(Targets,(v,t)=>100*v/t).Average();
+    private string WeakestGapDimension=>LargestGap("executive");
+    private double[] GrowthForecast=>Profile("growth").Series[1].Values;
+    private int RiskBreaches=>Profile("risk").Series[0].Values.Zip(Profile("risk").Series[1].Values,(v,t)=>v>t).Count(v=>v);
+    private static string Delta(double value)=>value.ToString("+0.0;-0.0;0.0");
+    private IEnumerable<(string Label,string Value,string Comparison,string Detail,string Icon)> Kpis=>[
+        ("Overall performance",$"{Current.Average():0.0} / 100",$"{Delta(Current.Average()-Previous.Average())} points vs. previous",$"Previous composite: {Previous.Average():0.0}",Icons.Material.Filled.Radar),
+        ("Top performing dimension",$"{Current[TopIndex]:0.0}",$"{Delta(Current[TopIndex]-Previous[TopIndex])} points on this dimension",$"{Executive.Dimensions[TopIndex]} · prior leader {Executive.Dimensions[PreviousTopIndex]} ({Previous.Max():0.0})",Icons.Material.Filled.EmojiEvents),
+        ("Improvement opportunities",$"{Opportunities(Current)} / 6",$"{Opportunities(Current)-Opportunities(Previous):+0;-0;0} vs. previous period",$"Below target · previously {Opportunities(Previous)} dimensions",Icons.Material.Filled.AutoGraph),
+        ("Benchmark achievement",$"{Attainment(Current):0.0}%",$"{Delta(Attainment(Current)-Attainment(Previous))} pp vs. previous",$"Mean target attainment · previous {Attainment(Previous):0.0}%",Icons.Material.Filled.TrackChanges)];
+    protected override void OnInitialized()=>Rebuild();
+    private void ChangePeriod(string value){Period=value;Rebuild();}
+    private void Refresh(){Updated="Refreshed just now";Rebuild();}
+    private void ToggleProduct(int index){if(VisibleProducts.Contains(index)){if(VisibleProducts.Count==1)return;VisibleProducts.Remove(index);}else VisibleProducts.Add(index);Data=Data with {VisibleProducts=VisibleProducts.Order().ToArray()};}
+    private void Rebuild()
+    {
+        var shift=new double[]{-3,0,2,4}[Array.IndexOf(Periods,Period)];
+        double[] Adjust(double[] values,double factor=1)=>values.Select((v,i)=>Math.Round(Math.Clamp(v+shift*factor*(i%2==0?1:.75),0,100),1)).ToArray();
+        RadarSeries S(string name,double[] values,double factor=1)=>new(name,Adjust(values,factor));
+        RadarSeries Fixed(string name,double[] values)=>new(name,values);
+        RadarProfile P(string kind,string[] dimensions,RadarSeries[] series,double[]? ceilings=null,string[]? units=null)=>new(kind,dimensions,series,ceilings??Enumerable.Repeat(100d,dimensions.Length).ToArray(),units??Enumerable.Repeat("index / 100",dimensions.Length).ToArray());
+        var current=Adjust([84,78,93,81,77,86]);
+        var profiles=new List<RadarProfile>{
+            P("executive",["Revenue Growth","Profitability","Customer Retention","Operational Efficiency","Market Reach","Innovation"],[Fixed("Current period",current),Fixed("Previous period",current.Select((v,i)=>v-4-i%3).ToArray()),Fixed("Target",[88,85,92,87,82,90])]),
+            P("departments",["Productivity","Quality","Efficiency","Collaboration","Target Achievement"],[S("Marketing",[83,78,76,88,81]),S("Sales",[88,76,83,79,86]),S("Finance",[79,94,89,77,90]),S("Operations",[85,88,92,81,84]),S("Customer Support",[81,91,85,94,87])]),
+            P("skills",["Technical Skills","Communication","Problem Solving","Leadership","Teamwork","Adaptability"],[S("Alex Morgan",[88,76,91,67,86,82]),Fixed("Role benchmark",[85,85,85,80,85,85])],Enumerable.Repeat(5d,6).ToArray(),Enumerable.Repeat("rating / 5",6).ToArray()),
+            P("product",["Performance","Features","Usability","Reliability","Support","Value for Money"],[S("Rynzo Cloud",[91,88,83,94,86,79]),S("Northstar",[85,93,78,89,77,86],.5),S("Orbit Suite",[81,82,94,84,91,88],.6)],Enumerable.Repeat(10d,6).ToArray(),Enumerable.Repeat("rating / 10",6).ToArray()),
+            P("experience",["Product Quality","Customer Support","Delivery Experience","Ease of Use","Pricing Satisfaction","Brand Trust"],[S("Customer satisfaction",[91,88,79,86,72,93]),Fixed("Experience target",[90,90,85,90,85,92])]),
+            P("marketing",["Reach","Engagement","Conversion","ROI","Retention"],[S("SEO",[86,74,81,92,88]),S("Paid Advertising",[95,68,85,63,70]),S("Social Media",[89,94,62,65,73]),S("Email Marketing",[68,88,91,95,92]),S("Referral",[57,82,93,90,96]),S("Direct Traffic",[77,72,86,85,89])],[100000,10,5,300,100],["contacts","engagement %","conversion %","ROI %","retention %"]),
+            P("risk",["Financial Risk","Operational Risk","Security Risk","Compliance Risk","Market Risk","Technology Risk"],[S("Current exposure",[31,44,66,24,58,41],-.6),Fixed("Acceptable threshold",[40,40,35,30,50,40])]),
+            P("project",["Schedule","Budget","Scope","Quality","Resource Utilization","Stakeholder Satisfaction"],[S("Atlas launch",[76,89,84,92,72,88]),Fixed("Planned health",[90,90,90,90,85,90])]),
+            P("growth",["Revenue","Market Expansion","Customer Growth","Product Adoption","Operational Capacity","Brand Awareness"],[S("Current performance",[78,69,84,74,81,72]),S("Forecast performance",[85,80,91,86,87,83]),Fixed("Annual target",[92,88,94,90,92,90])])
+        };
+        string[] teams=["Product Team","Engineering Team","Design Team","Support Team"];
+        double[][] scores=[[84,82,78,91,81],[91,88,86,77,83],[79,94,81,90,85],[86,89,92,85,78]];
+        for(var i=0;i<4;i++)profiles.Add(P("team"+i,["Delivery","Quality","Efficiency","Collaboration","Adaptability"],[S(teams[i],scores[i]),Fixed("Shared benchmark",[80,80,80,80,80])]));
+        Data=new(profiles.ToArray(),VisibleProducts.Order().ToArray());
+    }
+    private string Extremum(string kind,int series,bool highest){var p=Profile(kind);var values=p.Series[series].Values;return p.Dimensions[Array.IndexOf(values,highest?values.Max():values.Min())];}
+    private int GapIndex(string kind){var p=Profile(kind);var target=p.Series[kind=="executive"?2:1].Values;var gaps=target.Zip(p.Series[0].Values,(t,v)=>t-v).ToArray();return Array.IndexOf(gaps,gaps.Max());}
+    private string LargestGap(string kind)=>Profile(kind).Dimensions[GapIndex(kind)];
+    private double GapSize(string kind){var p=Profile(kind);return p.Series[kind=="executive"?2:1].Values[GapIndex(kind)]-p.Series[0].Values[GapIndex(kind)];}
+    private string Insight(string kind)=>kind switch {"executive"=>$"{Attainment(Current):0.0}% of benchmark","departments"=>Profile(kind).Series.MaxBy(s=>s.Values.Average())!.Name+" leads","experience"=>$"{Profile(kind).Series[0].Values.Average():0.0} / 100 satisfaction","risk"=>$"{RiskBreaches} above threshold","project"=>$"{Profile(kind).Series[0].Values.Average():0.0} / 100 health","marketing"=>Profile(kind).Series.MaxBy(s=>s.Values.Average())!.Name+" leads","skills"=>$"{Profile(kind).Series[0].Values.Average()/20:0.00} / 5 rating","teams"=>"Identical scales","growth"=>$"{Delta(GrowthForecast.Average()-Profile(kind).Series[0].Values.Average())} forecast points",_=>"Scores / 100"};
+    private async Task Export(){Module??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/radar-chart-options.js");await Module.InvokeVoidAsync("exportCsv",Data,Period,Category);}
+    public async ValueTask DisposeAsync(){if(Module is not null){try{await Module.DisposeAsync();}catch(JSDisconnectedException){}}}
+}

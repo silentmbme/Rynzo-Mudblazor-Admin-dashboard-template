@@ -1,0 +1,52 @@
+header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 0;
+}header > span{
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: var(--rynzo-font-overline);
+  font-weight: 600;
+}header ::deep .mud-icon-button{
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+}.note-edit{
+  flex: 1;
+  padding: 16px 20px;
+  text-align: start;
+  display: block;
+}.note-edit h2{
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+}.note-edit p{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  margin-top: 12px;
+  white-space: pre-wrap;
+  font-size: var(--rynzo-font-body1);
+  line-height: 24px;
+  color: var(--muted-foreground);
+}footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+}footer > span{
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+}footer ::deep .mud-icon-button{
+  width: 28px;
+  height: 28px;
+  padding: 7px;
+  color: var(--muted-foreground);
+}footer ::deep .mud-icon-button:hover{
+  color: var(--destructive);
+}.note-edit:focus-visible{
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}

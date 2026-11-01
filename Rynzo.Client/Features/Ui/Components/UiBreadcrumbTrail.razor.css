@@ -1,0 +1,105 @@
+.ui-breadcrumb-trail {
+  min-width: 0;
+  max-width: 100%;
+}
+.ui-breadcrumb-trail ::deep .mud-breadcrumbs {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  line-height: 1.8;
+  font-size: var(--rynzo-font-caption);
+}
+.ui-breadcrumb-trail ::deep .mud-breadcrumb-item {
+  padding: 0;
+  min-width: 0;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 1;
+}
+.ui-breadcrumb-trail ::deep .mud-breadcrumb-separator {
+  padding: 0;
+  margin: 0;
+  color: var(--muted-foreground);
+  opacity: 0.6;
+}
+.ui-breadcrumb-trail ::deep svg {
+  height: 15px;
+  width: 15px;
+  vertical-align: middle;
+}
+.ui-crumb-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted-foreground);
+  font: inherit;
+  cursor: pointer;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ui-crumb-link:hover {
+  color: var(--primary);
+}
+.ui-crumb-link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+.ui-crumb-current {
+  display: block;
+  color: var(--foreground);
+  font-weight: 500;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ui-crumb-slash {
+  font-size: var(--rynzo-font-caption);
+}
+.ui-breadcrumb-trail ::deep .mud-breadcrumbs-expander {
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--card);
+  color: var(--muted-foreground);
+  padding: 3px 5px;
+}
+.ui-breadcrumb-trail ::deep .mud-button-root {
+  font-size: var(--rynzo-font-caption);
+  font-weight: 400;
+  color: var(--muted-foreground);
+  padding: 4px 0;
+  min-width: 0;
+}
+.ui-breadcrumb-trail ::deep .mud-button-icon-end {
+  margin-left: 4px;
+  margin-right: 0;
+}
+.ui-breadcrumb-trail ::deep .ui-crumb-expander {
+  width: 28px;
+  height: 28px;
+  padding: 3px;
+  border-color: var(--border);
+  border-radius: 7px;
+  background: var(--card);
+}
+@media (max-width: 540px) {
+  .ui-breadcrumb-trail ::deep .mud-breadcrumbs {
+    gap: 5px;
+  }
+  .ui-crumb-current {
+    max-width: 180px;
+  }
+  .ui-crumb-link {
+    max-width: 140px;
+  }
+}

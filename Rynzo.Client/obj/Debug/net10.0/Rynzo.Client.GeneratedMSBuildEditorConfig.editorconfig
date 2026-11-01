@@ -1,0 +1,1337 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.VerifyReferenceTrimCompatibility = 
+build_property.VerifyReferenceAotCompatibility = 
+build_property.MudDebugAnalyzer = 
+build_property.MudAllowedAttributePattern = 
+build_property.MudAllowedAttributeList = 
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EntryPointFilePath = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = Rynzo.Client
+build_property.RootNamespace = Rynzo.Client
+build_property.ProjectDir = C:\Users\tejag\Documents\sravanthi\rynzo-mud\rynzo-mudblazor\Rynzo-mudblazor-final\Rynzo.Client\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 10.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\tejag\Documents\sravanthi\rynzo-mud\rynzo-mudblazor\Rynzo-mudblazor-final\Rynzo.Client
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Components/Common/BrandLogo.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21tb25cQnJhbmRMb2dvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Components/Forms/SourceTextField.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xGb3Jtc1xTb3VyY2VUZXh0RmllbGQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Pages/ChatbotConversations.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcUGFnZXNcQ2hhdGJvdENvbnZlcnNhdGlvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcUGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Pages/Insights.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcUGFnZXNcSW5zaWdodHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Pages/ModelSettings.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcUGFnZXNcTW9kZWxTZXR0aW5ncy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Pages/Predictions.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcUGFnZXNcUHJlZGljdGlvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiChat/Components/ChatLinkDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlDaGF0XENvbXBvbmVudHNcQ2hhdExpbmtEaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Components/AuthLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxDb21wb25lbnRzXEF1dGhMYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Components/AuthPasswordField.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxDb21wb25lbnRzXEF1dGhQYXNzd29yZEZpZWxkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Components/AuthTextField.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxDb21wb25lbnRzXEF1dGhUZXh0RmllbGQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/ForgotPasswordBasic.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xGb3Jnb3RQYXNzd29yZEJhc2ljLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/ForgotPasswordCover.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xGb3Jnb3RQYXNzd29yZENvdmVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/LockScreenBasic.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xMb2NrU2NyZWVuQmFzaWMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/LockScreenCover.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xMb2NrU2NyZWVuQ292ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/ResetPasswordBasic.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xSZXNldFBhc3N3b3JkQmFzaWMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/ResetPasswordCover.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xSZXNldFBhc3N3b3JkQ292ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/SignInBasic.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xTaWduSW5CYXNpYy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/SignInCover.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xTaWduSW5Db3Zlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/SignUpBasic.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xTaWduVXBCYXNpYy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/SignUpCover.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xTaWduVXBDb3Zlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/TwoStepBasic.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xUd29TdGVwQmFzaWMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/TwoStepCover.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xUd29TdGVwQ292ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/VerifyEmailBasic.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xWZXJpZnlFbWFpbEJhc2ljLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Pages/VerifyEmailCover.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxQYWdlc1xWZXJpZnlFbWFpbENvdmVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Calendar/Components/CalendarEventForm.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2FsZW5kYXJcQ29tcG9uZW50c1xDYWxlbmRhckV2ZW50Rm9ybS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Components/CryptoDetailsDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXENvbXBvbmVudHNcQ3J5cHRvRGV0YWlsc0RpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Pages/Exchange.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXFBhZ2VzXEV4Y2hhbmdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXFBhZ2VzXEluZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Pages/Market.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXFBhZ2VzXE1hcmtldC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Pages/Transactions.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXFBhZ2VzXFRyYW5zYWN0aW9ucy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Pages/Wallet.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXFBhZ2VzXFdhbGxldC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/AiDashboardInsight.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcQWlEYXNoYm9hcmRJbnNpZ2h0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/AiDashboardMetric.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcQWlEYXNoYm9hcmRNZXRyaWMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/AudienceMetric.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcQXVkaWVuY2VNZXRyaWMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/CommerceOrderTape.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcQ29tbWVyY2VPcmRlclRhcGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/CrmPriorityCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcQ3JtUHJpb3JpdHlDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/CryptoChange.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcQ3J5cHRvQ2hhbmdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/CryptoCoin.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcQ3J5cHRvQ29pbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/CryptoExchangePreview.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcQ3J5cHRvRXhjaGFuZ2VQcmV2aWV3LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/DashboardCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcRGFzaGJvYXJkQ2FyZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/DashboardChart.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcRGFzaGJvYXJkQ2hhcnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/DashboardDelta.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcRGFzaGJvYXJkRGVsdGEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/DashboardTarget.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcRGFzaGJvYXJkVGFyZ2V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/ExecutiveChart.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcRXhlY3V0aXZlQ2hhcnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/FinanceProgress.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcRmluYW5jZVByb2dyZXNzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/GrowthStat.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcR3Jvd3RoU3RhdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/HospitalAppointmentDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcSG9zcGl0YWxBcHBvaW50bWVudERldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/HospitalBookingDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcSG9zcGl0YWxCb29raW5nRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/HrmEmployeeDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcSHJtRW1wbG95ZWVEaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/LmsCourseDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcTG1zQ291cnNlRGV0YWlscy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/LmsCreateCourse.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcTG1zQ3JlYXRlQ291cnNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/LmsSessionDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcTG1zU2Vzc2lvbkRldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/MarketingCampaign.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcTWFya2V0aW5nQ2FtcGFpZ24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/ProjectAvatar.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcUHJvamVjdEF2YXRhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/RestaurantReceiptDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcUmVzdGF1cmFudFJlY2VpcHREaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/SchoolAdmissionDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcU2Nob29sQWRtaXNzaW9uRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/CheckoutContactFields.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcQ2hlY2tvdXRDb250YWN0RmllbGRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/CustomerDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcQ3VzdG9tZXJEaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/OrderActionDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcT3JkZXJBY3Rpb25EaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/ProductInformationForm.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcUHJvZHVjdEluZm9ybWF0aW9uRm9ybS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Pages/Budgets.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxQYWdlc1xCdWRnZXRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Pages/Expenses.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxQYWdlc1xFeHBlbnNlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxQYWdlc1xJbmRleC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Pages/Invoices.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxQYWdlc1xJbnZvaWNlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Pages/Transactions.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxQYWdlc1xUcmFuc2FjdGlvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcUGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Pages/LegacyRedirects.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcUGFnZXNcTGVnYWN5UmVkaXJlY3RzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Components/HrmPersonLabel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXENvbXBvbmVudHNcSHJtUGVyc29uTGFiZWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Components/PersonCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXENvbXBvbmVudHNcUGVyc29uQ2FyZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Pages/Employees.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXFBhZ2VzXEVtcGxveWVlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXFBhZ2VzXEluZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Pages/LeaveRequests.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXFBhZ2VzXExlYXZlUmVxdWVzdHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Pages/Payroll.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXFBhZ2VzXFBheXJvbGwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Pages/Reviews.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXFBhZ2VzXFJldmlld3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Mail/Components/MailComposeDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTWFpbFxDb21wb25lbnRzXE1haWxDb21wb3NlRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Projects/Components/Metric.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJvamVjdHNcQ29tcG9uZW50c1xNZXRyaWMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Projects/Pages/Detail.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJvamVjdHNcUGFnZXNcRGV0YWlsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Projects/Pages/Grid.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJvamVjdHNcUGFnZXNcR3JpZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Projects/Pages/List.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJvamVjdHNcUGFnZXNcTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Projects/Pages/Team.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJvamVjdHNcUGFnZXNcVGVhbS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Components/StudentLabel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXENvbXBvbmVudHNcU3R1ZGVudExhYmVsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Pages/Attendance.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXFBhZ2VzXEF0dGVuZGFuY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Pages/Classes.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXFBhZ2VzXENsYXNzZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Pages/Exams.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXFBhZ2VzXEV4YW1zLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXFBhZ2VzXEluZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Pages/LegacyRedirects.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXFBhZ2VzXExlZ2FjeVJlZGlyZWN0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Pages/Students.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXFBhZ2VzXFN0dWRlbnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Layout/Components/AppAccountMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XENvbXBvbmVudHNcQXBwQWNjb3VudE1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Layout/Components/AppFooter.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XENvbXBvbmVudHNcQXBwRm9vdGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Layout/Components/AppHeader.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XENvbXBvbmVudHNcQXBwSGVhZGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Layout/Components/AppNotificationMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XENvbXBvbmVudHNcQXBwTm90aWZpY2F0aW9uTWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Layout/Components/AppSidebar.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XENvbXBvbmVudHNcQXBwU2lkZWJhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Layout/Components/HeaderSearchDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XENvbXBvbmVudHNcSGVhZGVyU2VhcmNoRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Layout/Navigation/AppBreadcrumbs.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdmlnYXRpb25cQXBwQnJlYWRjcnVtYnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Layout/Navigation/AppNavigationItem.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdmlnYXRpb25cQXBwTmF2aWdhdGlvbkl0ZW0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Um91dGVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Theme/Components/LayoutOption.razor]
+build_metadata.AdditionalFiles.TargetPath = VGhlbWVcQ29tcG9uZW50c1xMYXlvdXRPcHRpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Theme/Components/ThemeCustomizer.razor]
+build_metadata.AdditionalFiles.TargetPath = VGhlbWVcQ29tcG9uZW50c1xUaGVtZUN1c3RvbWl6ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Components/Common/ErrorRecoveryActions.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21tb25cRXJyb3JSZWNvdmVyeUFjdGlvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-4h5m2fzcso
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Components/Common/PageHeader.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21tb25cUGFnZUhlYWRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ba2z22n6x7
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Components/Common/StatusBadge.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21tb25cU3RhdHVzQmFkZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-k4r7l97j4o
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Components/AiAnalyticsWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcQ29tcG9uZW50c1xBaUFuYWx5dGljc1dvcmtzcGFjZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-vkhh55r1ui
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Components/AiMetric.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcQ29tcG9uZW50c1xBaU1ldHJpYy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-43v9pme07s
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Components/AiWorkspaceSurface.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcQ29tcG9uZW50c1xBaVdvcmtzcGFjZVN1cmZhY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-5a22vj2t3c
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Views/ChatbotView.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcVmlld3NcQ2hhdGJvdFZpZXcucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-l1emeudx0a
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Views/InsightsView.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcVmlld3NcSW5zaWdodHNWaWV3LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-1bq0es7o1i
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Views/ModelsView.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcVmlld3NcTW9kZWxzVmlldy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-vfrqxu4st4
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiAnalytics/Views/PredictionsView.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlBbmFseXRpY3NcVmlld3NcUHJlZGljdGlvbnNWaWV3LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-b1rvdp01uh
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiChat/Components/ChatMessageView.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlDaGF0XENvbXBvbmVudHNcQ2hhdE1lc3NhZ2VWaWV3LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-jc8mshpw17
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/AiChat/Pages/AiChat.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQWlDaGF0XFBhZ2VzXEFpQ2hhdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-qhmlmtokcb
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Auth/Components/AuthPage.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQXV0aFxDb21wb25lbnRzXEF1dGhQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-sqq4z681xc
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Calendar/Components/CalendarEventDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2FsZW5kYXJcQ29tcG9uZW50c1xDYWxlbmRhckV2ZW50RGV0YWlscy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-epiwpv1jxk
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Calendar/Components/CalendarGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2FsZW5kYXJcQ29tcG9uZW50c1xDYWxlbmRhckdyaWQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ylyfww7m1c
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Calendar/Components/CalendarSidebar.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2FsZW5kYXJcQ29tcG9uZW50c1xDYWxlbmRhclNpZGViYXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-jzmokidm2m
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Calendar/Components/CalendarTimeline.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2FsZW5kYXJcQ29tcG9uZW50c1xDYWxlbmRhclRpbWVsaW5lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-nmcctz6h1b
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Calendar/Pages/Calendar.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2FsZW5kYXJcUGFnZXNcQ2FsZW5kYXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-p7sefw6zct
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Chat/Components/ConversationBubble.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2hhdFxDb21wb25lbnRzXENvbnZlcnNhdGlvbkJ1YmJsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-uinp6sn98e
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Chat/Components/ConversationDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2hhdFxDb21wb25lbnRzXENvbnZlcnNhdGlvbkRpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-s9hftfqhkd
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Chat/Components/ConversationInfo.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2hhdFxDb21wb25lbnRzXENvbnZlcnNhdGlvbkluZm8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-e2birjtlnf
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Chat/Components/ConversationList.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2hhdFxDb21wb25lbnRzXENvbnZlcnNhdGlvbkxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-b2cr52zxwr
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Chat/Components/ConversationPortrait.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2hhdFxDb21wb25lbnRzXENvbnZlcnNhdGlvblBvcnRyYWl0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-3dghbqoryy
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Chat/Pages/Chat.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ2hhdFxQYWdlc1xDaGF0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-1gbqc0p84l
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Components/CompanyActionDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXENvbXBvbmVudHNcQ29tcGFueUFjdGlvbkRpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-siit38ova7
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Components/CompanyFormEditor.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXENvbXBvbmVudHNcQ29tcGFueUZvcm1FZGl0b3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-2h105bn062
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Components/CompanyProfilePanel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXENvbXBvbmVudHNcQ29tcGFueVByb2ZpbGVQYW5lbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ybdj7dfc5v
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Components/ContactActionDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXENvbXBvbmVudHNcQ29udGFjdEFjdGlvbkRpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-pmmtp1yx82
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Components/ContactFormEditor.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXENvbXBvbmVudHNcQ29udGFjdEZvcm1FZGl0b3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-t451i1jdwi
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Components/ContactProfilePanel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXENvbXBvbmVudHNcQ29udGFjdFByb2ZpbGVQYW5lbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-kz9iacrqc3
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Components/LeadActionDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXENvbXBvbmVudHNcTGVhZEFjdGlvbkRpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-pk8v9p6s8m
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Components/LeadFormEditor.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXENvbXBvbmVudHNcTGVhZEZvcm1FZGl0b3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-477o8e4cba
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Components/LeadProfilePanel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXENvbXBvbmVudHNcTGVhZFByb2ZpbGVQYW5lbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-6ilrobx3ik
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Pages/Companies.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXFBhZ2VzXENvbXBhbmllcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-33iemgo7tl
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Pages/Contacts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXFBhZ2VzXENvbnRhY3RzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-kkar4nxa37
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Pages/Deals.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXFBhZ2VzXERlYWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-tw10vm88kc
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Pages/Leads.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXFBhZ2VzXExlYWRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-ct05xymsdu
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crm/Pages/Pipeline.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3JtXFBhZ2VzXFBpcGVsaW5lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-503a52vx8o
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Components/CryptoTransactionsWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXENvbXBvbmVudHNcQ3J5cHRvVHJhbnNhY3Rpb25zV29ya3NwYWNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-w6gvwtsxon
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Components/CryptoWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXENvbXBvbmVudHNcQ3J5cHRvV29ya3NwYWNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-1mt3nryz5o
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Components/ExchangeWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXENvbXBvbmVudHNcRXhjaGFuZ2VXb3Jrc3BhY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-66cms1kyjc
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Crypto/Components/WalletWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcQ3J5cHRvXENvbXBvbmVudHNcV2FsbGV0V29ya3NwYWNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-ka2qt4y22p
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/AiModelDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcQWlNb2RlbERldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-zo9siqyyc3
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/DashboardPageHeader.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcRGFzaGJvYXJkUGFnZUhlYWRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-4jyy8uz04j
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/ExecutiveDashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcRXhlY3V0aXZlRGFzaGJvYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-rja25359gp
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/HospitalDoctorPortrait.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcSG9zcGl0YWxEb2N0b3JQb3J0cmFpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-lucv4fjqd4
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/LmsCourseCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcTG1zQ291cnNlQ2FyZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-0savo4q10b
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/LmsCourseCarousel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcTG1zQ291cnNlQ2Fyb3VzZWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-tm6tsf5c8r
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/LogisticsTrackingDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcTG9naXN0aWNzVHJhY2tpbmdEaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-w62rwugsc1
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/RestaurantMenuCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcUmVzdGF1cmFudE1lbnVDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-catwbbsuoe
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/SchoolAssignmentBoard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcU2Nob29sQXNzaWdubWVudEJvYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-8zk7drw7rt
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/SchoolCampusCalendar.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcU2Nob29sQ2FtcHVzQ2FsZW5kYXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-1ps88yul8v
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Components/SchoolClassroomAgenda.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXENvbXBvbmVudHNcU2Nob29sQ2xhc3Nyb29tQWdlbmRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-dr7v9k161q
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/AiAnalytics.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXEFpQW5hbHl0aWNzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-m7a0fnb9i0
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Analytics.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXEFuYWx5dGljcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-vh1m5xjl81
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Commerce.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXENvbW1lcmNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-4e3y6c49vb
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Crm.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXENybS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-wq6dhcnh3k
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Crypto.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXENyeXB0by5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-duyo0s34bw
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Finance.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXEZpbmFuY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-wsz5d1cj8a
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Hospital.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXEhvc3BpdGFsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-3nia555kop
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Hrm.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXEhybS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-1wcqlwmp7j
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Lms.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXExtcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-3roycyk2ih
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Logistics.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXExvZ2lzdGljcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-6sk7be19hz
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Marketing.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXE1hcmtldGluZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-bl5i77ih7f
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Projects.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXFByb2plY3RzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-6w8u4cr6dv
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Restaurant.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXFJlc3RhdXJhbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-7gib6vr7u5
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/Saas.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXFNhYXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ww5693prud
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Dashboard/Pages/School.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRGFzaGJvYXJkXFBhZ2VzXFNjaG9vbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-my014a6ipj
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/CatalogProductCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcQ2F0YWxvZ1Byb2R1Y3RDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-fywvuwtv81
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/CheckoutAddressFields.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcQ2hlY2tvdXRBZGRyZXNzRmllbGRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-tkundm9202
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/CheckoutChoiceCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcQ2hlY2tvdXRDaG9pY2VDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-wy9m139948
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/CheckoutOrderSummary.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcQ2hlY2tvdXRPcmRlclN1bW1hcnkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-sjtga21ab8
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/CheckoutPaymentFields.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcQ2hlY2tvdXRQYXltZW50RmllbGRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-liiwss2oty
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/CustomerFormEditor.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcQ3VzdG9tZXJGb3JtRWRpdG9yLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-9crjsxghg8
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/CustomerProfilePanel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcQ3VzdG9tZXJQcm9maWxlUGFuZWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-usdhb9cmah
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/OrderBadge.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcT3JkZXJCYWRnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-arfvddjzl7
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/OrderDetailsPanel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcT3JkZXJEZXRhaWxzUGFuZWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-8jt2ngwzuv
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/ProductDetailTabs.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcUHJvZHVjdERldGFpbFRhYnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-2tnrvmelim
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/ProductImageGallery.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcUHJvZHVjdEltYWdlR2FsbGVyeS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-zafpuk16vy
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/ProductMediaGallery.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcUHJvZHVjdE1lZGlhR2FsbGVyeS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-thst4creqg
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/ProductPricingEditor.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcUHJvZHVjdFByaWNpbmdFZGl0b3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ye26edhxwi
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Components/ProductPurchasePanel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXENvbXBvbmVudHNcUHJvZHVjdFB1cmNoYXNlUGFuZWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-gmrksykexd
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Pages/Checkout.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXFBhZ2VzXENoZWNrb3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-n1rvqccov0
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Pages/CreateProduct.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXFBhZ2VzXENyZWF0ZVByb2R1Y3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ked0xsrejb
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Pages/Customers.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXFBhZ2VzXEN1c3RvbWVycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-rpomgc4qv2
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Pages/Orders.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXFBhZ2VzXE9yZGVycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-4st92osjha
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Pages/ProductDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXFBhZ2VzXFByb2R1Y3REZXRhaWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-z04het66q5
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ecommerce/Pages/Products.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRWNvbW1lcmNlXFBhZ2VzXFByb2R1Y3RzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-qxm7it62k6
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Files/Components/DriveItemCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmlsZXNcQ29tcG9uZW50c1xEcml2ZUl0ZW1DYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-26bxbu76mi
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Files/Components/DriveNameDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmlsZXNcQ29tcG9uZW50c1xEcml2ZU5hbWVEaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-40b1uu60gv
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Files/Components/DrivePreviewDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmlsZXNcQ29tcG9uZW50c1xEcml2ZVByZXZpZXdEaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-91sixi8bpx
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Files/Pages/Files.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmlsZXNcUGFnZXNcRmlsZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-7sr3zesl1c
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Components/BudgetsWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxDb21wb25lbnRzXEJ1ZGdldHNXb3Jrc3BhY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-7jazdjo2yt
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Components/ExpensesWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxDb21wb25lbnRzXEV4cGVuc2VzV29ya3NwYWNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-4dupphens5
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Components/FinanceWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxDb21wb25lbnRzXEZpbmFuY2VXb3Jrc3BhY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-bwcoansjpt
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Components/InvoicesWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxDb21wb25lbnRzXEludm9pY2VzV29ya3NwYWNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-g2ttkrnfly
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Finance/Components/TransactionsWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcRmluYW5jZVxDb21wb25lbnRzXFRyYW5zYWN0aW9uc1dvcmtzcGFjZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-look23gga9
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Help/Components/SupportDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSGVscFxDb21wb25lbnRzXFN1cHBvcnREaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-zn4o5mvuo5
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Help/Pages/Faq.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSGVscFxQYWdlc1xGYXEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-7xf9yz2sei
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Components/Metric.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcQ29tcG9uZW50c1xNZXRyaWMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-bukhfmkb5j
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Pages/Ambulance.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcUGFnZXNcQW1idWxhbmNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-h3m11v6jg7
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Pages/Appointments.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcUGFnZXNcQXBwb2ludG1lbnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-pgfooblk8h
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Pages/Billing.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcUGFnZXNcQmlsbGluZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-fw4axmj5l3
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Pages/Doctors.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcUGFnZXNcRG9jdG9ycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-36bjn9z2lv
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Pages/Patients.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcUGFnZXNcUGF0aWVudHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-fjojqbpyb0
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Pages/Pharmacy.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcUGFnZXNcUGhhcm1hY3kucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-c0f8jjcn4z
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hospital/Pages/Wards.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSG9zcGl0YWxcUGFnZXNcV2FyZHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-3hjm9pugnr
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Components/EmployeeWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXENvbXBvbmVudHNcRW1wbG95ZWVXb3Jrc3BhY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-zo5is2f93s
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Components/HrmMetric.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXENvbXBvbmVudHNcSHJtTWV0cmljLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-zfc90o5hud
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Components/HrmRegisterWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXENvbXBvbmVudHNcSHJtUmVnaXN0ZXJXb3Jrc3BhY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-cu8d0ogmo3
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Components/HrmSurface.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXENvbXBvbmVudHNcSHJtU3VyZmFjZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-cyo3svysby
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Components/LeaveWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXENvbXBvbmVudHNcTGVhdmVXb3Jrc3BhY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-eefc951583
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Components/PayrollWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXENvbXBvbmVudHNcUGF5cm9sbFdvcmtzcGFjZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-kx6wl5ssrj
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Hrm/Components/ReviewsWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSHJtXENvbXBvbmVudHNcUmV2aWV3c1dvcmtzcGFjZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ofrrs32l6j
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Invoices/Pages/Create.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSW52b2ljZXNcUGFnZXNcQ3JlYXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-fw6thy9e9f
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Invoices/Pages/Detail.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSW52b2ljZXNcUGFnZXNcRGV0YWlsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-boal7azf7v
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Invoices/Pages/List.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcSW52b2ljZXNcUGFnZXNcTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-1xl11lh23a
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Kanban/Components/BoardCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcS2FuYmFuXENvbXBvbmVudHNcQm9hcmRDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-19m5s8phfa
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Kanban/Components/BoardColumnDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcS2FuYmFuXENvbXBvbmVudHNcQm9hcmRDb2x1bW5EaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-qoh5vei6o5
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Kanban/Components/BoardTaskDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcS2FuYmFuXENvbXBvbmVudHNcQm9hcmRUYXNrRGV0YWlscy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-dmbhx8i2ri
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Kanban/Components/BoardTaskDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcS2FuYmFuXENvbXBvbmVudHNcQm9hcmRUYXNrRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-8ptw0zpbtq
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Kanban/Pages/Kanban.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcS2FuYmFuXFBhZ2VzXEthbmJhbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-n5s5pnpjxr
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Logistics/Pages/Inventory.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTG9naXN0aWNzXFBhZ2VzXEludmVudG9yeS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-2tg6paq24a
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Logistics/Pages/PurchaseOrders.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTG9naXN0aWNzXFBhZ2VzXFB1cmNoYXNlT3JkZXJzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-lusrsoeoyg
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Logistics/Pages/Shipments.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTG9naXN0aWNzXFBhZ2VzXFNoaXBtZW50cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-k6ootbp4h3
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Logistics/Pages/StockTransfer.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTG9naXN0aWNzXFBhZ2VzXFN0b2NrVHJhbnNmZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ou84l2xzxb
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Logistics/Pages/Suppliers.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTG9naXN0aWNzXFBhZ2VzXFN1cHBsaWVycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-yz8l43psee
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Mail/Components/MailDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTWFpbFxDb21wb25lbnRzXE1haWxEZXRhaWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-jt1x6q1e2t
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Mail/Pages/Mail.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTWFpbFxQYWdlc1xNYWlsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-8uzvwfvuuu
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Notes/Components/NoteCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTm90ZXNcQ29tcG9uZW50c1xOb3RlQ2FyZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-792tri4sr5
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Notes/Components/NoteDeleteDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTm90ZXNcQ29tcG9uZW50c1xOb3RlRGVsZXRlRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-vf5z496q9e
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Notes/Components/NoteEditor.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTm90ZXNcQ29tcG9uZW50c1xOb3RlRWRpdG9yLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-vrc6upc2ss
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Notes/Pages/Notes.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcTm90ZXNcUGFnZXNcTm90ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-rs9z48ddjl
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Pricing/Components/PlanCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJpY2luZ1xDb21wb25lbnRzXFBsYW5DYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-v9x5dtwr9q
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Pricing/Components/PlanSelectionDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJpY2luZ1xDb21wb25lbnRzXFBsYW5TZWxlY3Rpb25EaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-axsgr52x3x
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Pricing/Components/SalesDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJpY2luZ1xDb21wb25lbnRzXFNhbGVzRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-d6tpxwwy5v
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Pricing/Pages/Pricing.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJpY2luZ1xQYWdlc1xQcmljaW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-rc0yvm98j0
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Profile/Pages/Profile.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJvZmlsZVxQYWdlc1xQcm9maWxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-q47mh3z568
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Projects/Components/ProjectWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcUHJvamVjdHNcQ29tcG9uZW50c1xQcm9qZWN0V29ya3NwYWNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-dfnb3n59at
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Components/AttendanceWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXENvbXBvbmVudHNcQXR0ZW5kYW5jZVdvcmtzcGFjZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-mv6px5qvxt
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Components/ClassesWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXENvbXBvbmVudHNcQ2xhc3Nlc1dvcmtzcGFjZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-5e4kae537m
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Components/ExamsWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXENvbXBvbmVudHNcRXhhbXNXb3Jrc3BhY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-zx01g1hcpp
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Components/SchoolMetric.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXENvbXBvbmVudHNcU2Nob29sTWV0cmljLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-18bv3tlqy8
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Components/SchoolSurface.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXENvbXBvbmVudHNcU2Nob29sU3VyZmFjZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-khkuo7o3cs
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Components/SchoolWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXENvbXBvbmVudHNcU2Nob29sV29ya3NwYWNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-soschjwq8y
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/School/Components/StudentsWorkspace.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2Nob29sXENvbXBvbmVudHNcU3R1ZGVudHNXb3Jrc3BhY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-0cv9u52c5m
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Settings/Pages/Settings.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcU2V0dGluZ3NcUGFnZXNcU2V0dGluZ3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-jtgm6ibp1d
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Tasks/Components/TaskFilters.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVGFza3NcQ29tcG9uZW50c1xUYXNrRmlsdGVycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-sfjnb2fifs
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Tasks/Components/WorkTaskDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVGFza3NcQ29tcG9uZW50c1xXb3JrVGFza0RldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-wcysughudv
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Tasks/Components/WorkTaskForm.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVGFza3NcQ29tcG9uZW50c1xXb3JrVGFza0Zvcm0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-nbg6e8kylr
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Tasks/Components/WorkTaskRow.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVGFza3NcQ29tcG9uZW50c1xXb3JrVGFza1Jvdy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-1p8mzsosyd
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Tasks/Pages/Tasks.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVGFza3NcUGFnZXNcVGFza3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-3a9psg1lz5
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/ButtonShowcaseCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xCdXR0b25TaG93Y2FzZUNhcmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-uu3js1isgg
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/FormElementCard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xGb3JtRWxlbWVudENhcmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-muygcrypws
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/InlineRow.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xJbmxpbmVSb3cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-92294na91e
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/ShowcaseDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xTaG93Y2FzZURpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-kozrcciybl
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiActionButton.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaUFjdGlvbkJ1dHRvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-lcnef9tv04
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiBreadcrumbTrail.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaUJyZWFkY3J1bWJUcmFpbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-tikferqfgu
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiDrawerShell.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaURyYXdlclNoZWxsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-p85zjujro0
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiDropdown.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaURyb3Bkb3duLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-fivh7gov7n
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiEmptyPanel.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaUVtcHR5UGFuZWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-s1v9t6wooz
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiFormField.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaUZvcm1GaWVsZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ceabsh56l8
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiHelpAccordion.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaUhlbHBBY2NvcmRpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-sxpjyjc29n
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiHint.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaUhpbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-e8u9p3acok
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiLoadingIndicator.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaUxvYWRpbmdJbmRpY2F0b3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-52dpov9450
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiNotice.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaU5vdGljZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-op0jfejk3d
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiPageNavigator.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaVBhZ2VOYXZpZ2F0b3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-649ot28wxt
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiPersonAvatar.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaVBlcnNvbkF2YXRhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-h38v07p7y6
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiProgressMeter.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaVByb2dyZXNzTWV0ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-f0i6d88hcd
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiRecordRow.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaVJlY29yZFJvdy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-7gfdlzh86z
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiSelectionOption.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaVNlbGVjdGlvbk9wdGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ri9l1i3cj3
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiStatusChip.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaVN0YXR1c0NoaXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-vwj0reie89
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiTimelineEvent.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaVRpbWVsaW5lRXZlbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-xabrny64px
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiToastNotice.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaVRvYXN0Tm90aWNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-opx6cc1t56
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Components/UiWorkspaceTabs.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcQ29tcG9uZW50c1xVaVdvcmtzcGFjZVRhYnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-3xe43xgymt
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Accordions.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQWNjb3JkaW9ucy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-qfq3fx9ca8
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/AdvancedTable.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQWR2YW5jZWRUYWJsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-giqd2m2mrb
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Alerts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQWxlcnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-utnggv3enz
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/AreaCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQXJlYUNoYXJ0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-2d8rzpqcko
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Avatars.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQXZhdGFycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-l8nr3gszmr
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Badges.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQmFkZ2VzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-ijiktq9lff
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/BarCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQmFyQ2hhcnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-y5kgtscud8
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/BasicTable.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQmFzaWNUYWJsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-fs2t4jb86s
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Breadcrumbs.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQnJlYWRjcnVtYnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-olbt3guah5
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Buttons.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQnV0dG9ucy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-u0llddezyj
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/ChecksSwitchesRadios.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQ2hlY2tzU3dpdGNoZXNSYWRpb3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-t7231k2zpw
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Chips.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcQ2hpcHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-o2atyuasxl
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/DataTable.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRGF0YVRhYmxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-zajo7tfr27
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/DatePickers.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRGF0ZVBpY2tlcnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-u2mrm8id5z
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Dialogs.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRGlhbG9ncy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-yi50rsi16a
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Drawers.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRHJhd2Vycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-v0ky30q7j0
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Dropdowns.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRHJvcGRvd25zLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-niwo96n5uf
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Editors.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRWRpdG9ycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-6h2cs340lv
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/EmptyStates.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRW1wdHlTdGF0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ex0tchy24h
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/FormElements.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRm9ybUVsZW1lbnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-dqywuat1xm
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/FormLayouts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRm9ybUxheW91dHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-v59cnca8si
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/FormPlugins.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRm9ybVBsdWdpbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-0jjg4jiqvw
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/FormValidation.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcRm9ybVZhbGlkYXRpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-utp2urlem3
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/HeatmapCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcSGVhdG1hcENoYXJ0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-cwuplkqbil
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Icons.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcSWNvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-xqfmktt47k
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/InlineEditable.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcSW5saW5lRWRpdGFibGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-boqooqaw92
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/LineCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcTGluZUNoYXJ0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-lhvomgomec
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Lists.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcTGlzdHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-dtkpovvbeg
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Loaders.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcTG9hZGVycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-lizh0c2g9c
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/MixedCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcTWl4ZWRDaGFydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-jtq7chao85
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/MultiStepWizard.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcTXVsdGlTdGVwV2l6YXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-kvs0ymwu23
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Navigation.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcTmF2aWdhdGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-nhb4g03jwm
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Pagination.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcUGFnaW5hdGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-zjkuvq0b4y
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/PieCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcUGllQ2hhcnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-uwdixmbw52
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Progress.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcUHJvZ3Jlc3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-cugw1gwr8d
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/RadarCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcUmFkYXJDaGFydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-mmz2azdsxd
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/RadialCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcUmFkaWFsQ2hhcnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-a62h8fpyyy
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/ScatterCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcU2NhdHRlckNoYXJ0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-luidmug9t2
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/SelectComponents.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcU2VsZWN0Q29tcG9uZW50cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-mugjt24uu7
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Tabs.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcVGFicy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-orupi05ok0
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Timelines.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcVGltZWxpbmVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-evkhx5gww3
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Toasts.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcVG9hc3RzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-fsjzhqygbg
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Tooltips.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcVG9vbHRpcHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-22tvsf463k
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Features/Ui/Pages/Typography.razor]
+build_metadata.AdditionalFiles.TargetPath = RmVhdHVyZXNcVWlcUGFnZXNcVHlwb2dyYXBoeS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-vilrn88to0
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-1q70oxd758
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Pages/Error400.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3I0MDAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-hbrgaky3rw
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Pages/Error500.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3I1MDAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-2za0wsznj9
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Pages/Error503.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3I1MDMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ko69d584zs
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Pages/Maintenance.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFpbnRlbmFuY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-az7nh2ahp1
+
+[C:/Users/tejag/Documents/sravanthi/rynzo-mud/rynzo-mudblazor/Rynzo-mudblazor-final/Rynzo.Client/Pages/NotFound.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTm90Rm91bmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-tt7scbz7db

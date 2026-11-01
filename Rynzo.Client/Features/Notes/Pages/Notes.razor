@@ -1,0 +1,23 @@
+﻿@page "/apps/notes"
+@page "/notes.html"
+@using Rynzo.Client.Features.Notes.Models
+@using Rynzo.Client.Features.Notes.Services
+@using Rynzo.Client.Features.Notes.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+<PageTitle>Notes | Rynzo</PageTitle>
+<div class="notes-app"><PageHeader Title="Notes" Description="Keep ideas, plans, and everyday details in one place."><Actions><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" OnClick="NewNote">New note</MudButton></Actions></PageHeader><div class="notes-workspace"><MudCard Outlined="true" Elevation="0" Class="notes-sidebar rynzo-widget-card rynzo-widget-card--structured"><MudCardContent><header><span><MudIcon Icon="@RynzoIcons.Get("NotebookPen")" /></span><div><strong>My notebooks</strong><small>Personal workspace</small></div></header><nav aria-label="Note categories">@foreach(var category in NotesState.Categories){<MudButton Variant="Variant.Text" StartIcon="@RynzoIcons.Get(CategoryIcon(category))" aria-pressed="@(_category==category?"true":"false")" OnClick="@(() => _category=category)"><span>@(category=="All"?"All notes":category)</span><b>@_state.Count(category)</b></MudButton>}</nav><div class="notes-sidebar-message"><h3>A space for your thoughts</h3><p>Sample notes. Changes last for this session. Export to keep a copy.</p></div></MudCardContent></MudCard><section class="notes-content"><div class="notes-banner"><div><small>Capture / Organize / Create</small><h2>Make room for your next idea.</h2><p>@_state.Notes.Count notes in your workspace ? @_state.Notes.Count(n=>n.Pinned) pinned for quick access</p></div><span><MudIcon Icon="@RynzoIcons.Get("NotebookPen")" /></span></div><div class="notes-filter-heading"><div><h2>@(_category=="All"?"All notes":_category+" notes")</h2><p>@Visible.Length notes in view</p></div><div class="notes-controls"><MudTextField T="string" @bind-Value="_query" Immediate="true" Placeholder="Find a note?" aria-label="Search notes" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" Class="notes-search" /><div class="notes-view-controls">@foreach(var view in new[]{"grid","list"}){<MudIconButton Icon="@RynzoIcons.Get(view=="grid"?"LayoutGrid":"List")" Size="Size.Small" aria-label="@(view+" view")" aria-pressed="@(_view==view?"true":"false")" OnClick="@(() => _view=view)" />}</div></div></div><div class="@($"notes-cards notes-{_view}")">@foreach(var note in Visible){<NoteCard @key="note.Id" Note="note" ListView="@(_view=="list")" Pin="Pin" Edit="Edit" Delete="Delete" />}</div>@if(Visible.Length==0){<MudPaper Outlined="true" Elevation="0" Class="notes-empty"><MudIcon Icon="@RynzoIcons.Get("NotebookPen")" /><h2>No notes in this view</h2><p>Try another filter or create a new note.</p></MudPaper>}</section></div></div>
+@code{
+    private readonly NotesState _state=new();
+    private string _view="grid",_category="All",_query="";
+    private NoteEntry[] Visible=>_state.Filter(_category,_query);
+    private static readonly BreadcrumbItem[] Breadcrumbs=[new("Apps",null),new("Notes",null,true)];
+    private static string CategoryIcon(string category)=>category switch{"Pinned"=>"Pin","Work"=>"Briefcase","Ideas"=>"Lightbulb","Personal"=>"UserRound",_=>"NotebookPen"};
+    private void Pin(string id)=>_state.TogglePin(id);
+    private Task NewNote()=>OpenEditor(new());
+    private Task Edit(NoteEntry note)=>OpenEditor(note with{});
+    private static DialogOptions Options=>new(){CloseButton=true,CloseOnEscapeKey=true,FullWidth=true,MaxWidth=MaxWidth.Small};
+    private async Task OpenEditor(NoteEntry draft){var isNew=!_state.Notes.Any(n=>n.Id==draft.Id);var dialog=await Dialogs.ShowAsync<NoteEditor>(isNew?"New note":"Edit note",new DialogParameters<NoteEditor>{{d=>d.Draft,draft},{d=>d.State,_state},{d=>d.IsNew,isNew}},Options);await dialog.Result;}
+    private async Task Delete(NoteEntry note){var dialog=await Dialogs.ShowAsync<NoteDeleteDialog>("Delete note?",new DialogParameters<NoteDeleteDialog>{{d=>d.Note,note}},Options);var result=await dialog.Result;if(result is {Canceled:false})_state.Delete(note.Id);}
+}
+

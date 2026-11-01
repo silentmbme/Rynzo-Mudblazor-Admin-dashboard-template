@@ -1,0 +1,199 @@
+.create-product {
+  color: var(--foreground);
+}
+.create-product > header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.create-product > header > div {
+  margin-inline-end: auto;
+  min-width: 0;
+}
+.create-product h1 {
+  font-size: var(--rynzo-font-h4);
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  margin-top: 8px;
+}
+.create-product p {
+  font-size: var(--rynzo-font-body1);
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}
+.create-product > header > nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.create-product ::deep .mud-button {
+  text-transform: none;
+  font-size: var(--rynzo-font-body1);
+  min-height: 36px;
+}
+.create-product-stages {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  margin-bottom: 24px;
+}
+.create-product-stages > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.create-product-stages > div:last-child {
+  border: 0;
+}
+.create-product-stages > div > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+.create-product-stages > div > span.active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.create-product-stages ::deep svg {
+  width: 16px;
+  height: 16px;
+}
+.create-product-stages b {
+  font-size: var(--rynzo-font-body1);
+  font-weight: 600;
+}
+.create-product-stages p {
+  font-size: var(--rynzo-font-caption);
+  margin: 0;
+}
+.create-product > form {
+  display: grid;
+  gap: 24px;
+}
+.create-product > form > div,
+.create-product aside {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+.create-product section {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  padding: 20px;
+  box-shadow: 0 1px 2px #0000000d;
+  min-width: 0;
+}
+.create-product section > header {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.create-product h2 {
+  font-size: var(--rynzo-font-h5);
+  font-weight: 600;
+}
+.create-product aside h2 {
+  font-size: var(--rynzo-font-h6);
+}
+.create-product ::deep .mud-input {
+  font-size: var(--rynzo-font-body1);
+  background: var(--background);
+  border-radius: 8px;
+}
+.create-product ::deep .mud-input-control {
+  margin: 0;
+}
+.create-product ::deep .mud-input-label,
+.create-product ::deep .mud-input-outlined-border legend {
+  display: none;
+}
+.create-product ::deep .mud-input-outlined {
+  min-height: 44px;
+}
+.create-product ::deep .mud-input > input.mud-input-root-outlined,
+.create-product ::deep div.mud-input-slot.mud-input-root-outlined {
+  padding: 10.5px 14px;
+}
+.create-product ::deep textarea.mud-input-slot {
+  padding: 12px 14px;
+  line-height: 1.5;
+}
+.product-status-choice {
+  border: 1px solid var(--border);
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 12px;
+  width: 100%;
+}
+.product-status-choice:has(input:checked) {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 4%, transparent);
+}
+.product-status-choice > small {
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  margin-inline-start: 36px;
+  margin-bottom: 4px;
+}
+.create-product section.product-publish-callout {
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+.product-publish-callout h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.product-publish-callout p {
+  line-height: 24px;
+  margin-top: 8px;
+}
+@media (min-width: 640px) {
+  .create-product h1 {
+    font-size: var(--rynzo-font-h2);
+  }
+  .create-product-stages {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .create-product-stages > div {
+    border-bottom: 0;
+    border-inline-end: 1px solid var(--border);
+  }
+  .create-product section {
+    padding: 24px;
+  }
+  .create-product aside section {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .create-product > form {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+  .create-product aside {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+  }
+}
+
+.create-product ::deep .rynzo-page-header {
+  margin-bottom: 24px;
+}

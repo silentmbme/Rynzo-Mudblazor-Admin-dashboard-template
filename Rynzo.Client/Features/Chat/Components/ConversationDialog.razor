@@ -1,0 +1,31 @@
+﻿@using Rynzo.Client.Features.Chat.Services
+@using Rynzo.Client.Features.Chat.Models
+<MudDialog><TitleContent>@if(Mode=="new"){<div class="new-chat-title"><span><MudIcon Icon="@Rynzo.Client.Theme.RynzoIcons.Get("MessageSquare")" /></span><div><small>TEAM MESSAGING</small><MudText Typo="Typo.h6" HtmlTag="h2">@Title</MudText></div></div>}else{<MudText Typo="Typo.h6" HtmlTag="h2">@Title</MudText>}</TitleContent><DialogContent>@if(Mode!="new"){<p class="mb-4">@Description</p>}@if(Mode=="new"){
+    <div class="new-chat-body">
+        <p class="new-chat-description">@Description</p>
+        <MudTextField T="string" @bind-Value="_contactQuery" Immediate="true" Placeholder="Find a teammate…" aria-label="Search chat contacts" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@Rynzo.Client.Theme.RynzoIcons.Get("Search")" Class="new-chat-search" />
+        <div class="new-chat-list-heading"><h3>Your teammates</h3><span>@FilteredContacts.Count() available</span></div>
+        <div class="chat-new-contacts">
+            @foreach(var name in FilteredContacts){
+                <button type="button" class="new-chat-contact" @onclick="@(() => Choose(name))"><ConversationPortrait Name="@name" /><span><b>@name</b><small>Start a direct conversation</small></span><span class="new-chat-open"><MudIcon Icon="@Rynzo.Client.Theme.RynzoIcons.Get("ArrowUpRight")" Size="Size.Small" /></span></button>
+            }
+            @if(!FilteredContacts.Any()){<div class="new-chat-empty"><MudIcon Icon="@Rynzo.Client.Theme.RynzoIcons.Get("Search")" /><b>No teammates found</b><p>Try another name to find your contact.</p><MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@(() => _contactQuery="")">Clear search</MudButton></div>}
+        </div>
+        <div class="new-chat-group-note"><MudIcon Icon="@Rynzo.Client.Theme.RynzoIcons.Get("UsersRound")" /><div><b>Better together</b><p>Create a group to bring the whole team into one conversation.</p></div></div>
+    </div>
+}else if(Mode is "create" or "add" or "rename"){@if(Mode!="add"){<MudTextField T="string" @bind-Value="State.GroupName" Immediate="true" Placeholder="Group name" aria-label="Group name" Variant="Variant.Outlined" Class="mb-4" />}@if(Mode!="rename"){<MudGrid Spacing="2">@foreach(var name in State.Source.Contacts.Where(name=>Mode!="add"||!(State.Active?.Members?.Contains(name)??false))){<MudItem xs="6"><MudButton FullWidth="true" Variant="Variant.Outlined" Color="@(State.SelectedContacts.Contains(name)?Color.Primary:Color.Default)" OnClick="@(() => State.ToggleContact(name))">@name</MudButton></MudItem>}</MudGrid>}}else if(Mode=="pin"){<div style="display:flex;gap:8px">@foreach(var label in new[]{"24 hours","7 days","Always"}){<MudButton Variant="Variant.Outlined">@label</MudButton>}</div>}else if(Mode=="image"&&Message?.Attachment is { } attachment){<img src="@attachment.Url" alt="@attachment.Name" style="max-height:65vh;width:100%;object-fit:contain;border-radius:6px" />}</DialogContent><DialogActions>@if(Mode=="new"){<div class="new-chat-footer"><MudButton Variant="Variant.Text" OnClick="@(() => Dialog.Cancel())">Cancel</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Rynzo.Client.Theme.RynzoIcons.Get("UsersRound")" OnClick="@(() => Dialog.Close(DialogResult.Ok("create")))">Create group</MudButton></div>}else if(Mode!="image"){<MudButton Variant="Variant.Outlined" OnClick="@(() => Dialog.Cancel())">Cancel</MudButton><MudButton Variant="Variant.Filled" Color="@(Mode is "delete" or "conversation-delete" or "leave"?Color.Error:Color.Primary)" OnClick="Save">@Action</MudButton>}</DialogActions></MudDialog>
+@code{
+    private string _contactQuery = "";
+    private IEnumerable<string> FilteredContacts => State.Source.Contacts.Where(name => name.Contains(_contactQuery, StringComparison.OrdinalIgnoreCase));
+    [Parameter,EditorRequired]public ChatState State{get;set;}=null!;
+    [Parameter]public string Mode{get;set;}="new";
+    [Parameter]public ConversationMessage? Message{get;set;}
+    [CascadingParameter]public IMudDialogInstance Dialog{get;set;}=null!;
+    private string Title=>Mode switch{"new"=>"Start a new chat","create"=>"Create group","add"=>"Add group members","rename"=>"Rename group","leave"=>"Leave group?","pin"=>"Pin this message?","delete"=>"Delete message?","conversation-delete"=>"Delete conversation?",_=>Message?.Attachment?.Name??""};
+    private string Description=>Mode switch{"new"=>"Select a person or create a group conversation.","create"=>"Add at least one member to create a shared conversation.","add"=>"Select teammates to add to this conversation.","rename"=>"Choose a new group name.","leave"=>"The conversation will remain in your history unless you remove it.","pin"=>"Choose how long this message should stay pinned.","delete"=>"This message will be removed from the conversation.","conversation-delete"=>"This conversation and its local messages will be removed from the list.",_=>$"{State.Active?.Name} - {Message?.Time}"};
+    private string Action=>Mode switch{"create"=>"Create group","add"=>"Add members","rename"=>"Save changes","leave"=>"Leave group","pin"=>"Pin message","delete"=>"Delete",_=>"Delete conversation"};
+    private void Choose(string name){State.Start(name);Dialog.Close(DialogResult.Ok("opened"));}
+    private void Save(){if(Mode=="create"&&!State.CreateGroup())return;if(Mode=="add")State.AddMembers();if(Mode=="rename")State.RenameGroup();if(Mode is "conversation-delete" or "leave")State.DeleteConversation();if(Mode=="pin"&&Message is not null)State.PinMessage(Message.Id);if(Mode=="delete"&&Message is not null)State.DeleteMessage(Message.Id);Dialog.Close(DialogResult.Ok(true));}
+}
+
+

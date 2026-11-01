@@ -1,0 +1,38 @@
+::deep .ui-action.ui-action-soft {
+  background: color-mix(in srgb, var(--button-tone) 11%, var(--card));
+  color: var(--button-tone);
+  box-shadow: none;
+}
+::deep .ui-action.ui-action-soft:hover {
+  background: color-mix(in srgb, var(--button-tone) 18%, var(--card));
+}
+::deep .ui-action.ui-action-gradient {
+  background: linear-gradient(
+    120deg,
+    var(--primary),
+    color-mix(in srgb, var(--primary) 60%, var(--info))
+  );
+  color: var(--primary-foreground);
+}
+::deep .ui-action.ui-action-pill {
+  border-radius: 999px;
+}
+::deep .ui-action-spinner {
+  width: 16px !important;
+  height: 16px !important;
+  margin-right: 5px;
+  color: inherit;
+}
+::deep .ui-action:disabled {
+  cursor: default;
+}
+
+.ui-action-host {
+  display: inline-flex;
+  vertical-align: middle;
+  min-width: 0;
+}
+.ui-action-host.full-width {
+  display: flex;
+  width: 100%;
+}

@@ -1,0 +1,6 @@
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Theme
+<MudCard Outlined="true" Elevation="0" Class="growth-stat rynzo-widget-card rynzo-widget-card--structured">
+    <MudCardContent><div class="growth-stat-heading"><div><p>@Stat.Label</p><strong>@Stat.Value</strong></div><span class="growth-stat-icon"><MudIcon Icon="@RynzoIcons.Get(Stat.Icon)" /></span></div><DashboardDelta Value="Stat.Delta" Caption="@Stat.Note" /></MudCardContent>
+</MudCard>
+@code { [Parameter, EditorRequired] public SaasStat Stat { get; set; } = null!; }

@@ -1,0 +1,153 @@
+﻿.note-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 4px 0;
+}
+.note-modal-title > span {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--border));
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--primary) 7%, var(--card));
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.note-modal-title small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--muted-foreground);
+  margin-bottom: 4px;
+}
+.note-modal-title ::deep h2 {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.note-editor-intro p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin: 0 0 24px;
+}
+.note-editor-form ::deep .mud-input {
+  font-size: 13px;
+  border-radius: 9px;
+}
+.note-editor-form ::deep .mud-input-label {
+  font-size: 13px;
+}
+.note-editor-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--muted) 30%, var(--card));
+}
+.note-editor-options ::deep .note-category-select {
+  width: 160px;
+  flex: none;
+}
+.note-editor-options p {
+  font-size: 11px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.note-editor-options p small {
+  display: block;
+  margin-top: 4px;
+  font-size: 9px;
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+.note-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.note-colors button {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  color: var(--foreground);
+}
+.note-colors button[aria-pressed="true"] {
+  border-color: var(--foreground);
+  outline: 2px solid var(--card);
+  box-shadow: 0 0 0 3px var(--border);
+}
+.note-colors ::deep svg {
+  width: 13px;
+  height: 13px;
+}
+.note-colors button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+.note-editor-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 18px 0;
+  font-size: 10px;
+  line-height: 1.8;
+  color: var(--muted-foreground);
+}
+.note-editor-hint ::deep svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+.note-editor-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.note-editor-actions > div {
+  display: flex;
+  gap: 8px;
+}
+.note-editor-actions ::deep .mud-button {
+  min-height: 38px;
+  font-size: 12px;
+}
+@media (max-width: 479px) {
+  .note-editor-options {
+    padding: 14px;
+  }
+  .note-editor-actions ::deep .mud-button {
+    font-size: 11px;
+    padding-inline: 10px;
+  }
+  .note-modal-title small {
+    font-size: 7px;
+  }
+}
+
+.note-field-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+.note-category-field {
+  min-width: 0;
+}
+.note-editor-form ::deep .mud-input-control {
+  margin-top: 0;
+}

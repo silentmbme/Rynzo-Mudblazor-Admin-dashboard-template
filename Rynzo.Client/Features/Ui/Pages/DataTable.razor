@@ -1,0 +1,80 @@
+@page "/tables/data"
+@using Rynzo.Client.Assets
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+
+<PageTitle>Data Table | Rynzo</PageTitle>
+
+<div class="data-table-page">
+    <DashboardPageHeader Title="Data Table" Description="A powerful data-grid workspace for sorting, filtering, selecting, and reviewing operational records.">
+        <Actions>
+            <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" OnClick="AddRecord">Add record</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+
+    <MudCard Class="data-table-intro rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section">
+        <div class="intro-mark"><MudIcon Icon="@RynzoIcons.Get("Table")" /></div>
+        <div><span class="section-kicker">Data tables plugin</span><h2>Find the signal in every record.</h2><p>Sort columns, filter fields, select rows, and move through results without leaving the workspace.</p></div>
+        <div class="grid-capabilities"><span><MudIcon Icon="@RynzoIcons.Get("ArrowUpDown")" /> Multi-sort</span><span><MudIcon Icon="@RynzoIcons.Get("Search")" /> Quick search</span><span><MudIcon Icon="@RynzoIcons.Get("Check")" /> Bulk select</span></div>
+    </MudCard>
+
+    <MudCard Class="data-grid-surface rynzo-widget-card" aria-labelledby="records-heading" Elevation="0" Outlined="true" data-widget-element="section">
+        <div class="grid-surface-header"><div><span class="section-kicker">Customer operations</span><h2 id="records-heading">Account records</h2><p>Use the column headers to sort, open a filter, or manage the displayed fields.</p></div><span class="total-pill">@Records.Length records</span></div>
+        <div class="grid-toolbar">
+            <MudTextField T="string" @bind-Value="SearchText" @bind-Value:event="oninput" Immediate="true" Placeholder="Search account, owner, email, or region" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" aria-label="Search account records" />
+            <MudSelect T="string" @bind-Value="Segment" Variant="Variant.Outlined" Margin="Margin.Dense" Label="Segment" aria-label="Filter account segment"><MudSelectItem Value="@("All segments")">All segments</MudSelectItem>@foreach(var segment in Segments){<MudSelectItem Value="@segment">@segment</MudSelectItem>}</MudSelect>
+            <MudButton Variant="Variant.Text" Size="Size.Small" Disabled="@(SearchText.Length == 0 && Segment == "All segments")" OnClick="Reset">Reset</MudButton>
+        </div>
+        @if (SelectedRecords.Count > 0)
+        {
+            <div class="bulk-bar"><span><b>@SelectedRecords.Count</b> selected</span><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="AssignOwner">Assign owner</MudButton><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="TagRecords">Add tag</MudButton><MudButton Variant="Variant.Text" Size="Size.Small" OnClick="ClearSelection">Clear selection</MudButton></div>
+        }
+        <MudDataGrid T="AccountRecord" Items="VisibleRecords" Filterable="true" SortMode="SortMode.Multiple" MultiSelection="true" SelectOnRowClick="false" @bind-SelectedItems="SelectedRecords" RowsPerPage="6" Dense="true" Hover="true" Class="records-grid" QuickFilter="QuickFilter" aria-label="Account records data grid">
+            <Columns>
+                <SelectColumn T="AccountRecord" />
+                <TemplateColumn Title="Account" SortBy="@(record => record.Name)">
+                    <CellTemplate Context="cell"><div class="account-cell"><MudAvatar Size="Size.Small"><MudImage Src="@SourceUserImages.Get(cell.Item.Owner)" Alt="@cell.Item.Owner" /></MudAvatar><span><b>@cell.Item.Name</b><small><img src="@SourceUserImages.Get(cell.Item.Owner)" alt="" />@cell.Item.Owner · @cell.Item.Email</small></span></div></CellTemplate>
+                </TemplateColumn>
+                <PropertyColumn Property="@(record => record.Owner)" Title="Owner" />
+                <PropertyColumn Property="@(record => record.Region)" Title="Region" />
+                <TemplateColumn Title="Segment" SortBy="@(record => record.Segment)"><CellTemplate Context="cell"><span class="segment-label">@cell.Item.Segment</span></CellTemplate></TemplateColumn>
+                <TemplateColumn Title="Value" SortBy="@(record => record.Value)"><CellTemplate Context="cell"><span class="value-label">@cell.Item.Value.ToString("C0")</span></CellTemplate></TemplateColumn>
+                <TemplateColumn Title="Status" SortBy="@(record => record.Status)"><CellTemplate Context="cell"><MudChip T="string" Size="Size.Small" Color="@StatusColor(cell.Item.Status)">@cell.Item.Status</MudChip></CellTemplate></TemplateColumn>
+                <TemplateColumn Title=""><CellTemplate Context="cell"><MudIconButton Size="Size.Small" Icon="@RynzoIcons.Get("ArrowRight")" aria-label="@($"Open {cell.Item.Name}")" OnClick="@(() => OpenRecord(cell.Item))" /></CellTemplate></TemplateColumn>
+            </Columns>
+            <PagerContent><MudDataGridPager T="AccountRecord" PageSizeOptions="new int[] { 6, 12, 24 }" /></PagerContent>
+        </MudDataGrid>
+    </MudCard>
+
+    <section class="data-grid-notes" aria-label="Data table features"><div><MudIcon Icon="@RynzoIcons.Get("SlidersHorizontal")" /><span><b>Column filters</b><small>Open a header filter to narrow results by a field.</small></span></div><div><MudIcon Icon="@RynzoIcons.Get("Columns3")" /><span><b>Flexible columns</b><small>Sort and manage fields according to the task.</small></span></div><div><MudIcon Icon="@RynzoIcons.Get("ListChecks")" /><span><b>Bulk actions</b><small>Select records to act on multiple accounts together.</small></span></div></section>
+</div>
+
+@code {
+    private string SearchText { get; set; } = string.Empty;
+    private string Segment { get; set; } = "All segments";
+    private HashSet<AccountRecord> SelectedRecords { get; set; } = [];
+    private static readonly string[] Segments = ["Enterprise", "Growth", "Startup"];
+    private static readonly AccountRecord[] Records = [
+        new("CloudAxis", "ops@cloudaxis.com", "Sophia Carter", "North America", "Enterprise", 84200, "Active"),
+        new("Vertex Labs", "hello@vertexlabs.io", "Daniel Lee", "Europe", "Growth", 48600, "Active"),
+        new("Nexora Systems", "team@nexora.dev", "Emma Wilson", "North America", "Enterprise", 126400, "Review"),
+        new("Altitude Co.", "contact@altitude.co", "Noah Williams", "Asia Pacific", "Startup", 12400, "Prospect"),
+        new("Lumina Studio", "hello@lumina.studio", "Olivia Martinez", "Europe", "Growth", 28900, "Active"),
+        new("Harbor & Finch", "studio@harborfinch.com", "Sophia Carter", "North America", "Startup", 9200, "Review"),
+        new("Kiteworks", "growth@kiteworks.app", "Daniel Lee", "Asia Pacific", "Growth", 36400, "Active"),
+        new("Orbit Labs", "hi@orbitlabs.ai", "Emma Wilson", "Europe", "Enterprise", 91400, "Prospect")
+    ];
+    private IEnumerable<AccountRecord> VisibleRecords => Records.Where(record => Segment == "All segments" || record.Segment == Segment);
+    private bool QuickFilter(AccountRecord record) => string.IsNullOrWhiteSpace(SearchText) || $"{record.Name} {record.Email} {record.Owner} {record.Region} {record.Segment} {record.Status}".Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+    private void Reset(){ SearchText = string.Empty; Segment = "All segments"; }
+    private void ClearSelection()=>SelectedRecords = [];
+    private void Export()=>Snackbar.Add("Account records exported", Severity.Success);
+    private void AddRecord()=>Snackbar.Add("Add account flow opened", Severity.Info);
+    private void AssignOwner()=>Snackbar.Add("Owner assignment opened", Severity.Info);
+    private void TagRecords()=>Snackbar.Add("Tag action opened", Severity.Info);
+    private void OpenRecord(AccountRecord record)=>Snackbar.Add($"Opening {record.Name}", Severity.Info);
+    private static Color StatusColor(string status)=>status switch { "Active" => Color.Success, "Review" => Color.Warning, _ => Color.Info };
+    private sealed record AccountRecord(string Name, string Email, string Owner, string Region, string Segment, decimal Value, string Status);
+}

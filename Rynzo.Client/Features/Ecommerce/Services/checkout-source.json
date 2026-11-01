@@ -1,0 +1,55 @@
+{
+  "baseItems": [
+    {
+      "id": 1,
+      "name": "Wireless Headphones Pro",
+      "variant": "Black",
+      "price": 129,
+      "quantity": 1,
+      "image": "assets/images/products/wireless-headphones-pro.png"
+    },
+    {
+      "id": 2,
+      "name": "Portable Speaker Mini",
+      "variant": "Graphite",
+      "price": 69,
+      "quantity": 2,
+      "image": "assets/images/products/portable-speaker-mini.png"
+    }
+  ],
+  "deliveryInfo": {
+    "Standard": {
+      "description": "3-5 business days",
+      "price": 8
+    },
+    "Express": {
+      "description": "1-2 business days",
+      "price": 18
+    },
+    "Pickup": {
+      "description": "Ready tomorrow",
+      "price": 0
+    }
+  },
+  "initialContact": {
+    "first": "Sophia",
+    "last": "Carter",
+    "email": "sophia@example.com",
+    "phone": "+1 212 555 0184",
+    "company": "Carter Studio"
+  },
+  "initialAddress": {
+    "line1": "24 Madison Avenue",
+    "line2": "",
+    "city": "New York",
+    "state": "NY",
+    "postal": "10010",
+    "country": "United States"
+  },
+  "demoCard": {
+    "holder": "Sophia Carter",
+    "number": "4242 4242 4242 4242",
+    "expiry": "08/29",
+    "cvv": "123"
+  }
+}

@@ -1,0 +1,107 @@
+::deep .school-calendar{display: flex;flex-direction: column;overflow: hidden}header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}h2{
+  font-size: var(--rynzo-font-body1);
+  font-weight: 600;
+}header p{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}header > span{
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  color: var(--primary);
+}header > span ::deep svg{
+  width: 20px;
+  height: 20px;
+}.school-calendar-month{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: color-mix(in srgb, var(--muted) 20%, transparent);
+  padding: 16px 20px;
+}.school-calendar-month h3{
+  font-size: var(--rynzo-font-h5);
+  font-weight: 600;
+}.school-calendar-month h3 span{
+  font-weight: 400;
+  color: var(--muted-foreground);
+}.school-calendar-month p{
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+  margin-top: 2px;
+}.school-calendar-events{
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  flex: 1;
+}.school-calendar-events :is(article,[data-widget-element="article"]){
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: background 0.2s;
+}.school-calendar-events :is(article,[data-widget-element="article"]):hover{
+  background: color-mix(in srgb, var(--muted) 20%, transparent);
+}.school-calendar-date{
+  width: 48px;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-align: center;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--event-tone) 8%, var(--card));
+}.school-calendar-date small{
+  display: block;
+  padding-block: 4px;
+  color: var(--event-tone);
+  font-size: var(--rynzo-font-overline);
+  font-weight: 600;
+  letter-spacing: 0.45px;
+}.school-calendar-date b{
+  display: block;
+  padding-bottom: 8px;
+  font-size: var(--rynzo-font-h4);
+  line-height: 1;
+  font-weight: 600;
+}.school-calendar-events :is(article,[data-widget-element="article"]) > div + div{
+  min-width: 0;
+  flex: 1;
+}.school-calendar-events :is(article,[data-widget-element="article"]) > div + div > small{
+  font-size: var(--rynzo-font-overline);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}.school-calendar-events h3{
+  font-size: var(--rynzo-font-body1);
+  font-weight: 600;
+  line-height: 20px;
+  margin-top: 4px;
+}.school-calendar-events p{
+  font-size: var(--rynzo-font-overline);
+  line-height: 16px;
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}footer{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+}footer ::deep svg{
+  width: 14px;
+  height: 14px;
+}

@@ -1,0 +1,30 @@
+@using Rynzo.Client.Features.Files.Models
+@using Rynzo.Client.Theme
+<div class="rynzo-widget-host"><MudCard Class="@((($"drive-item {(Item.Folder?"drive-folder":"drive-file")} {(ListView?"drive-item-list":"")} {(Checked?"drive-item-selected":"")}")) + " rynzo-widget-card rynzo-widget-card--structured")" Style="@($"--file-tone:var(--{Item.Tone})")" Elevation="0" Outlined="true" data-widget-element="article">
+    <MudIconButton Icon="@RynzoIcons.Get("Check")" Size="Size.Small" Class="drive-check" aria-label="@(Checked?$"Remove {Item.Name} from selection":$"Select {Item.Name}")" aria-pressed="@Checked" OnClick="@(() => Check.InvokeAsync())" />
+    <button type="button" class="drive-open" title="@Item.Name" @onclick="@(() => Open.InvokeAsync())">
+        @if(Item.Folder){
+            <div class="drive-folder-art"><MudIcon Icon="@RynzoIcons.Get("Folder")" /></div>
+        }else{
+            <div class="drive-preview">
+                @if(Item.Id=="photo"){
+                    <img src="assets/images/files/team-studio.png" alt="Sample team in a design studio" loading="lazy" />
+                }else{
+                    <span class="drive-document-icon"><MudIcon Icon="@RynzoIcons.Get(Item.Icon)" /></span>
+                }
+                <span class="drive-format">@(Item.Type switch { "Spreadsheet" => "XLSX", "Presentation" => "PPTX", "Design" => "FIG", _ => Item.Type })</span>
+            </div>
+        }
+        <div class="drive-item-text"><div><b>@Item.Name</b><small>@(Item.Folder?$"{Item.Size}  /  {Item.Modified}":$"{Item.Size}  /  {Item.Modified}")</small></div>@if(ListView){<span class="drive-owner">@Item.Owner</span><span class="drive-modified">@Item.Type</span>}</div>
+        @if(!ListView){<footer><span class="drive-access"><MudIcon Icon="@RynzoIcons.Get(Item.Shared?"Users":"LockKeyhole")" />@(Item.Shared?"Shared":"Private")</span><span class="drive-owner-name">@Item.Owner</span>@if(Item.Star){<MudIcon Icon="@RynzoIcons.Get("Star")" Class="drive-star" />}</footer>}
+    </button>
+    <MudIconButton Icon="@RynzoIcons.Get("MoreHorizontal")" Size="Size.Small" Class="drive-detail" aria-label="@($"Details for {Item.Name}")" OnClick="@(() => Details.InvokeAsync())" />
+</MudCard></div>
+@code{
+    [Parameter,EditorRequired] public DriveItem Item{get;set;}=null!;
+    [Parameter] public bool ListView{get;set;}
+    [Parameter] public bool Checked{get;set;}
+    [Parameter] public EventCallback Check{get;set;}
+    [Parameter] public EventCallback Open{get;set;}
+    [Parameter] public EventCallback Details{get;set;}
+}

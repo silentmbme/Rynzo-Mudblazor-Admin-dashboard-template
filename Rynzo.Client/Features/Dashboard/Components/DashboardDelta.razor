@@ -1,0 +1,4 @@
+@using System.Globalization
+@using Rynzo.Client.Theme
+<span class="executive-delta"><span class="@(Value >= 0 ? "positive" : "negative")"><MudIcon Icon="@RynzoIcons.Get(Value >= 0 ? "TrendingUp" : "TrendingDown")" Size="Size.Small" />@(Value >= 0 ? "+" : "")@Value.ToString("0.#", CultureInfo.InvariantCulture)%</span>@if (Caption is not null) { <small>@Caption</small> }</span>
+@code { [Parameter] public double Value { get; set; } [Parameter] public string? Caption { get; set; } }

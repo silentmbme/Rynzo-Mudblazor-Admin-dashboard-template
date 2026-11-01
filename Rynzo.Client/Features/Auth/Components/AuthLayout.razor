@@ -1,0 +1,17 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@using Rynzo.Client.Theme
+@inject RynzoAppearance Appearance
+<MudRTLProvider RightToLeft="@(Appearance.Direction == "rtl")">
+    <MudThemeProvider Theme="Appearance.Theme" IsDarkMode="Appearance.IsDark" />
+    <MudPopoverProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
+    @Body
+</MudRTLProvider>
+@code {
+    protected override void OnInitialized() => Appearance.Changed += Refresh;
+    protected override async Task OnAfterRenderAsync(bool firstRender) { if (firstRender) await Appearance.InitializeAsync(); }
+    private void Refresh() => _ = InvokeAsync(StateHasChanged);
+    public void Dispose() => Appearance.Changed -= Refresh;
+}

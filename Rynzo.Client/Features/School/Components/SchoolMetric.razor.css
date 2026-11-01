@@ -1,0 +1,30 @@
+::deep .metric{height: 100%}.metric ::deep .mud-paper{;
+  height: 100%;}.metric-heading{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}.metric-heading span{
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--tone) 10%, transparent);
+  color: var(--tone);
+}.metric-heading ::deep svg{
+  width: 20px;
+  height: 20px;
+}small{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}strong{
+  display: block;
+  font-size: var(--rynzo-font-h2);
+  line-height: 36px;
+  font-weight: 600;
+  margin: 12px 0 0;
+}.metric > small{
+  display: block;
+  margin-top: 8px;
+}

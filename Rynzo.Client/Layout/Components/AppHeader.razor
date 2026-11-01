@@ -1,0 +1,88 @@
+@using Rynzo.Client.Theme
+@implements IDisposable
+@inject RynzoAppearance Appearance
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+@inject IDialogService Dialogs
+<MudAppBar Elevation="0" Fixed="@(Appearance.Header == "fixed")" Class="rynzo-header">
+    <div class="rynzo-header-leading">
+        <MudIconButton Icon="@RynzoIcons.Get("Menu")" OnClick="OnOpenMobile" aria-label="Open navigation" Class="rynzo-mobile-menu" />
+        <MudIconButton Icon="@RynzoIcons.Get("PanelLeftClose")" OnClick="Appearance.ToggleSidebarAsync" aria-label="@(Appearance.Collapsed ? "Expand sidebar" : "Collapse sidebar")" aria-expanded="@(!Appearance.Collapsed)" Class="@($"rynzo-desktop-toggle {(Appearance.Collapsed ? "is-compact" : "")}")" />
+        <div class="rynzo-workspace-label"><span class="rynzo-workspace-symbol"><MudIcon Icon="@RynzoIcons.Get("Grid2x2")" /></span><div><strong>Workspace</strong><span>Rynzo admin</span></div></div>
+    </div>
+    <button type="button" id="rynzo-global-search" class="rynzo-command-trigger" @onclick="OpenSearch" aria-label="Search pages and applications" aria-haspopup="dialog">
+        <MudIcon Icon="@RynzoIcons.Get("Search")" /><span>Search workspace<span class="rynzo-search-hint"> pages and apps</span></span><kbd>Ctrl / ⌘ K</kbd>
+    </button>
+    <div class="rynzo-header-actions">
+        <MudMenu Icon="@RynzoIcons.Get("Grid2x2")" AriaLabel="Open applications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" PopoverClass="rynzo-applications-popover rynzo-header-dropdown">
+            <div class="rynzo-apps-heading"><div><strong>Your applications</strong><span>Everything you need, one click away</span></div><span class="rynzo-apps-count">@LayoutCatalog.Data.Apps.Count apps</span></div>
+            <div class="rynzo-applications-grid">
+                @foreach (var app in LayoutCatalog.Data.Apps)
+                {
+                    <MudMenuItem Href="@app.Href" Class="rynzo-app-tile"><span class="rynzo-app-tile-top"><span class="rynzo-app-tile-icon" aria-hidden="true"><MudIcon Icon="@(app.Href == "/apps/chat" ? Icons.Material.Outlined.ChatBubbleOutline : RynzoIcons.Get(app.Icon))" /></span><MudIcon Icon="@Icons.Material.Outlined.ArrowOutward" Class="rynzo-app-tile-arrow" /></span><strong>@app.Label</strong><span class="rynzo-app-description">@ApplicationDescription(app.Href)</span></MudMenuItem>
+                }
+            </div>
+        </MudMenu>
+        <MudMenu Icon="@RynzoIcons.Get("Globe")" AriaLabel="Choose language" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" PopoverClass="rynzo-language-popover rynzo-header-dropdown" Dense="true">
+            <div class="rynzo-language-heading"><strong>Language</strong><span>Choose your preferred language</span></div>
+            <div class="rynzo-dropdown-items">
+                @foreach (var language in Languages)
+                {
+                    <MudMenuItem OnClick="@(() => SetLanguage(language.Name))" Class="@($"rynzo-language-option {(_language == language.Name ? "is-selected" : "")}")" aria-current="@(_language == language.Name ? "true" : "false")">
+                        <img class="rynzo-language-flag" src="@($"assets/images/flags/{language.Flag}.svg")" alt="" width="26" height="18" /><span class="rynzo-language-name">@language.NativeName</span>
+                        <span class="rynzo-language-check" aria-hidden="true">@if (_language == language.Name) { <MudIcon Icon="@RynzoIcons.Get("Check")" Size="Size.Small" /> }</span>
+                    </MudMenuItem>
+                }
+            </div>
+        </MudMenu>
+        <AppNotificationMenu />
+        <MudIconButton Icon="@RynzoIcons.Get("Expand")" OnClick="Fullscreen" aria-label="Toggle fullscreen" />
+        <MudIconButton Icon="@(Appearance.IsDark ? RynzoIcons.Sun : RynzoIcons.Moon)" OnClick="Appearance.ToggleAsync" aria-label="@(Appearance.IsDark ? "Switch to light mode" : "Switch to dark mode")" aria-pressed="@Appearance.IsDark" />
+        <MudIconButton Icon="@RynzoIcons.Get("SlidersHorizontal")" OnClick="OnOpenCustomizer" aria-label="Open theme customizer" />
+        <div class="rynzo-header-account"><AppAccountMenu /></div>
+    </div>
+</MudAppBar>
+@code {
+    private static string ApplicationDescription(string href) => href switch
+    {
+        "/apps/email" => "Messages & inbox",
+        "/apps/chat" => "Team conversations",
+        "/apps/calendar" => "Events & schedules",
+        "/apps/tasks" => "Plan & prioritize",
+        "/apps/files" => "Documents & assets",
+        "/" => "Workspace overview",
+        _ => "Open workspace"
+    };
+    protected override void OnInitialized() => Appearance.Changed += Refresh;
+    private void Refresh() => _ = InvokeAsync(StateHasChanged);
+    public void Dispose() => Appearance.Changed -= Refresh;
+    [Parameter] public EventCallback OnOpenMobile { get; set; }
+    [Parameter] public EventCallback OnOpenCustomizer { get; set; }
+    private string _language = "English";
+    private static readonly (string Name, string NativeName, string Flag)[] Languages =
+    [
+        ("English", "English", "gb"), ("Spanish", "Español", "es"),
+        ("French", "Français", "fr"), ("German", "Deutsch", "de")
+    ];
+    private bool _searchOpen;
+    private async Task OpenSearch()
+    {
+        if (_searchOpen) return;
+        _searchOpen = true;
+        try
+        {
+            var dialog = await Dialogs.ShowAsync<HeaderSearchDialog>("Search workspace", new DialogOptions
+            {
+                CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.Small,
+                NoHeader = true, Position = DialogPosition.TopCenter
+            });
+            await dialog.Result;
+        }
+        finally { _searchOpen = false; }
+    }
+    private void SetLanguage(string language) { _language = language; Snackbar.Add($"Language set to {language}", Severity.Success); }
+    private async Task Fullscreen()
+    {
+        if (!await JS.InvokeAsync<bool>("rynzoLayout.fullscreen")) Snackbar.Add("Fullscreen is not available", Severity.Normal);
+    }
+}

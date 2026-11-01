@@ -1,0 +1,25 @@
+.conversation-portrait {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.conversation-portrait ::deep img {
+  width: 100%;
+  height: 100%;
+}
+.conversation-portrait > i {
+  position: absolute;
+  bottom: 0;
+  inset-inline-end: 0;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--card);
+  border-radius: 50%;
+  background: var(--muted-foreground);
+}
+.conversation-portrait > i.online {
+  background: var(--success);
+}
+.conversation-portrait > i.away {
+  background: var(--warning);
+}

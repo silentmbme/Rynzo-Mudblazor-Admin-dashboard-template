@@ -1,0 +1,9 @@
+@using Rynzo.Client.Theme
+<MudCard Outlined="true" Elevation="0" Class="ai-insight rynzo-widget-card rynzo-widget-card--structured"><MudCardContent><div><MudIcon Icon="@RynzoIcons.Get(Icon)" Color="Tone" /><h3>@Title</h3></div><p>@Description</p><footer>@Footer</footer></MudCardContent></MudCard>
+@code {
+    [Parameter] public string Icon { get; set; } = "";
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Description { get; set; } = "";
+    [Parameter] public string Footer { get; set; } = "";
+    [Parameter] public Color Tone { get; set; }
+}

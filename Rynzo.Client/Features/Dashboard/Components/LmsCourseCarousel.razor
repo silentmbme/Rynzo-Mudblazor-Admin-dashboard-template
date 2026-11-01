@@ -1,0 +1,63 @@
+@implements IAsyncDisposable
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+<HeadContent><link rel="stylesheet" href="vendor/swiper/swiper-bundle.min.css" /></HeadContent>
+<div class="lms-catalog" @key="_key" @ref="_root">
+    @if (Courses.Length == 0)
+    {
+        <p class="catalog-empty" role="status">No courses match your filters.</p>
+    }
+    else
+    {
+        <div class="catalog-swiper swiper" aria-label="Course catalog">
+            <div class="swiper-wrapper">
+                @foreach (var course in Courses)
+                {
+                    <div class="swiper-slide" @key="course.Id">
+                        <LmsCourseCard Course="course" Instructor="@Instructors.Single(i => i.Id == course.InstructorId)" View="View" />
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="catalog-navigation">
+            <span>@Courses.Length @(Courses.Length == 1 ? "course" : "courses")</span>
+            <div class="catalog-pagination"></div>
+            <div class="catalog-arrows">
+                <button type="button" class="catalog-prev" aria-label="Previous courses"><MudIcon Icon="@RynzoIcons.Get("ChevronLeft")" Size="Size.Small" /></button>
+                <button type="button" class="catalog-next" aria-label="Next courses"><MudIcon Icon="@RynzoIcons.Get("ChevronRight")" Size="Size.Small" /></button>
+            </div>
+        </div>
+    }
+</div>
+@code {
+    [Parameter, EditorRequired] public LmsCourse[] Courses { get; set; } = [];
+    [Parameter, EditorRequired] public LmsInstructor[] Instructors { get; set; } = [];
+    [Parameter] public EventCallback<LmsCourse> View { get; set; }
+    private ElementReference _root;
+    private IJSObjectReference? _module;
+    private LmsCourse[]? _previous;
+    private string _key = "";
+    private bool _dirty, _disposed;
+    protected override void OnParametersSet()
+    {
+        if (ReferenceEquals(_previous, Courses)) return;
+        _previous = Courses;
+        _key = string.Join('|', Courses.Select(c => c.Id));
+        _dirty = true;
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!_dirty || _disposed) return;
+        _dirty = false;
+        _module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./theme/lms-course-carousel.js");
+        if (!_disposed) await _module.InvokeVoidAsync("render", _root);
+    }
+    public async ValueTask DisposeAsync()
+    {
+        _disposed = true;
+        if (_module is null) return;
+        try { await _module.InvokeVoidAsync("dispose", _root); await _module.DisposeAsync(); }
+        catch (JSDisconnectedException) { }
+    }
+}

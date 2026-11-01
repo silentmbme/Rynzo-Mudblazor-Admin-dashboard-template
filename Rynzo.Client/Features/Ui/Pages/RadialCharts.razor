@@ -1,0 +1,125 @@
+﻿@page "/charts/radial"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>Radial Chart Analytics | Rynzo</PageTitle>
+<div class="radial-charts-page">
+    <DashboardPageHeader Title="Radial Chart Analytics" Description="A circular perspective on performance, momentum, and operational health.">
+        <Actions>
+            <MudSelect T="string" Value="Period" ValueChanged="ChangePeriod" Variant="Variant.Outlined" Margin="Margin.Dense" Class="radial-select" aria-label="Reporting period">
+                @foreach (var period in Periods) { <MudSelectItem Value="@period">@period</MudSelectItem> }
+            </MudSelect>
+            <MudSelect T="string" @bind-Value="Category" Variant="Variant.Outlined" Margin="Margin.Dense" Class="radial-select" aria-label="Chart category">
+                @foreach (var category in Categories) { <MudSelectItem Value="@category">@category</MudSelectItem> }
+            </MudSelect>
+            <MudButton Variant="Variant.Outlined" OnClick="Refresh" StartIcon="@Icons.Material.Filled.Refresh">Refresh</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Export" StartIcon="@Icons.Material.Filled.FileDownload">Export CSV</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    <div class="radial-context"><span><i></i> Business intelligence / @Period</span><span>Illustrative dataset · @Updated</span></div>
+    <section class="radial-kpis" aria-label="Performance summary">
+        @foreach (var kpi in Kpis)
+        {
+            <MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><div class="kpi-top"><span>@kpi.Label</span><MudIcon Icon="@kpi.Icon" Size="Size.Small" /></div><strong>@kpi.Value.ToString("0.0")<small>%</small></strong><p><b>@((kpi.Value-kpi.Previous).ToString("+0.0;-0.0;0")) pp</b> vs. previous period</p><span class="kpi-detail">@kpi.Detail</span></MudCard>
+        }
+    </section>
+    <section class="radial-chart-grid" aria-label="Interactive radial analytics">
+        @foreach (var card in Cards.Where(c => Category == "All Charts" || c.Category == Category))
+        {
+            <MudCard Class="@((($"radial-card {card.Kind}")) + " rynzo-widget-card")" @key="card.Kind" Elevation="0" Outlined="true" data-widget-element="article">
+                <header><div><span class="eyebrow">@card.Number / @card.Category</span><h2>@card.Title</h2><p>@card.Description</p></div><span class="radial-badge">@Badge(card.Kind)</span></header>
+                @if (card.Kind == "executive")
+                {
+                    <div class="executive-body"><DashboardChart Data="@Data" OptionsModule="./radial-chart-options.js" Kind="executive" Height="350" Label="Four executive performance rings" />
+                    <div class="executive-insight"><span class="eyebrow">THE BIG PICTURE</span><h3>Performance,<br />in perspective.</h3><p>Retention leads the portfolio. Sales achievement offers the greatest opportunity to close the gap.</p><div class="insight-stat"><strong>@((Executive[2]-Executive[1]).ToString("0")) pp</strong><span>between retention and sales</span></div></div></div>
+                }
+                else if (card.Kind == "system" || card.Kind == "finance")
+                {
+                    @if (card.Kind == "finance") { <div class="financial-score"><strong>@Financial.Average().ToString("0.0")<small>/100</small></strong><span>Overall financial health<br /><b>Balanced outlook</b></span></div> }
+                    <div class="mini-gauges">
+                        @for (var i=0; i<4; i++)
+                        {
+                            var index=i; var value=card.Kind=="system"?SystemValues[index]:Financial[index];
+                            <div><DashboardChart Data="@Data" OptionsModule="./radial-chart-options.js" Kind="@(card.Kind+index)" Height="155" Label="@(Labels(card.Kind)[index]+" gauge")" /><b>@Labels(card.Kind)[index]</b><small>@(card.Kind=="system" ? value>=85?"Critical":value>=65?"Moderate":"Healthy" : value>=80?"Strong":"Monitor")</small></div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <DashboardChart Data="@Data" OptionsModule="./radial-chart-options.js" Kind="@card.Kind" Height="@(card.Kind=="satisfaction"?260:300)" Label="@card.Title" />
+                }
+                @if (card.Kind == "satisfaction") { <div class="satisfaction-zones"><span>Poor · 0–39</span><span>Average · 40–59</span><span>Good · 60–79</span><span>Excellent · 80–100</span></div><p class="chart-note">Target marker: 90% · @((Satisfaction-90).ToString("+0.0;-0.0;0")) pp to target</p> }
+                @if (new[]{"executive","departments","funnel","time"}.Contains(card.Kind))
+                {
+                    <div class="metric-legend @card.Kind" aria-label="Toggle chart series">
+                        @for (var i=0; i<Labels(card.Kind).Length; i++)
+                        {
+                            var index=i; var key=card.Kind+index;
+                            <button class="@(Hidden.Contains(key)?"muted":"")" aria-pressed="@(!Hidden.Contains(key))" @onclick="()=>Toggle(key)"><i style="--legend-color:var(--chart-@(index+1))"></i><span>@Labels(card.Kind)[index]</span><b>@LegendValue(card.Kind,index)</b></button>
+                        }
+                    </div>
+                }
+                <footer><span>@Footnote(card.Kind)</span><b>@FooterValue(card.Kind)</b></footer>
+            </MudCard>
+        }
+    </section>
+</div>
+@code {
+    private static readonly string[] Periods = ["7 Days", "30 Days", "90 Days", "This Year"];
+    private static readonly string[] Categories = ["All Charts", "Performance", "Revenue", "Customers", "Operations", "Finance"];
+    private string Period = "30 Days", Category = "All Charts";
+    private string Updated = "Ready to explore";
+    private readonly HashSet<string> Hidden = [];
+    private IJSObjectReference? Module;
+    private object Data = null!;
+    private int Index => Array.IndexOf(Periods, Period);
+    private double Shift => new double[]{-4,0,2,5}[Index];
+    private double[] Executive => new double[]{86+Shift,74+Shift,92+Shift/2,81+Shift};
+    private double Overall => Executive.Average();
+    private double Satisfaction => 94+Shift/2;
+    private double Target => new double[]{140000,600000,1800000,7200000}[Index];
+    private double Achieved => Target*Executive[0]/100;
+    private double[] Departments => new double[]{78+Shift,74+Shift,88+Shift,81+Shift,93+Shift/2};
+    private double[] SystemValues => new double[]{42+Shift,68+Shift,87+Shift/2,34+Shift};
+    private double[] Financial => new double[]{84+Shift,76+Shift,89+Shift,79+Shift};
+    private int Completed => new int[]{13,16,17,18}[Index];
+    private int[] Funnel => new int[][]{[1200,720,300,120],[4800,3120,1440,624],[14500,9860,4640,2175],[58000,40600,20300,9860]}[Index];
+    private double[] Hours => new double[][]{[14,6,12,4,4],[15,5,13,3,4],[16,5,12,3,4],[16,4,14,3,3]}[Index];
+    private record Card(string Number,string Kind,string Title,string Category,string Description);
+    private static readonly Card[] Cards = [
+        new("01","executive","Executive performance","Performance","Four priorities. One connected view of business momentum."),
+        new("02","revenue","Revenue target progress","Revenue","A clear line of sight from achievement to ambition."),
+        new("03","satisfaction","Customer satisfaction","Customers","Service sentiment on a 0–100 satisfaction scale."),
+        new("04","departments","Department performance","Performance","Compare the teams moving the business forward."),
+        new("05","goals","Goal completion","Operations","Twenty milestones on the path to delivery."),
+        new("06","system","System health","Operations","Resource utilization and threshold-based status."),
+        new("07","funnel","Sales conversion funnel","Revenue","Every arc shares the same baseline: leads generated."),
+        new("08","finance","Financial health","Finance","Four signals behind a resilient financial position."),
+        new("09","time","Time utilization","Operations","A representative 40-hour week within the selected period.")];
+    private IEnumerable<(string Label,double Value,double Previous,string Icon,string Detail)> Kpis => [
+        ("Overall performance",Overall,Overall-4.5,Icons.Material.Filled.DonutLarge,"Equal-weight average of four executive metrics"),
+        ("Revenue achievement",Executive[0],Executive[0]-5,Icons.Material.Filled.TrendingUp,$"{Achieved:C0} of {Target:C0} target"),
+        ("Customer satisfaction",Satisfaction,Satisfaction-2,Icons.Material.Filled.SentimentSatisfiedAlt,"Target 90% · customer feedback index"),
+        ("Operational efficiency",Executive[3],Executive[3]-3,Icons.Material.Filled.Speed,"Output against planned operating capacity")];
+    protected override void OnInitialized() => Rebuild();
+    private void Rebuild() => Data = new { Executive, Overall, Satisfaction, Target, Achieved, Departments, SystemValues, Financial, Completed, Funnel, Hours, Hidden=Hidden.ToArray() };
+    private void ChangePeriod(string value) { Period=value; Rebuild(); }
+    private void Refresh() { Updated="Refreshed just now · sample data"; Rebuild(); }
+    private void Toggle(string key) { if(!Hidden.Add(key)) Hidden.Remove(key); Rebuild(); }
+    private string[] Labels(string kind) => kind switch {
+        "executive" => ["Revenue target","Sales achievement","Customer retention","Operational efficiency"],
+        "departments" => ["Marketing","Sales","Finance","Operations","Customer Support"],
+        "system" => ["CPU","Memory","Storage","Network"],
+        "finance" => ["Profitability","Liquidity","Revenue stability","Cost efficiency"],
+        "funnel" => ["Leads generated","Qualified leads","Opportunities","Converted customers"],
+        "time" => ["Productive work","Meetings","Development","Administration","Remaining time"], _ => [] };
+    private string LegendValue(string kind,int i) => kind switch { "executive"=>$"{Executive[i]:0.#}%", "departments"=>$"{Departments[i]:0.#}%", "funnel"=>$"{Funnel[i]:N0} · {(double)Funnel[i]/Funnel[0]*100:0.#}%", "time"=>$"{Hours[i]}h", _=>"" };
+    private string Badge(string kind) => kind switch { "executive"=>"Portfolio overview", "revenue"=>"On track", "satisfaction"=>"Excellent", "goals"=>$"{Completed} / 20", "system"=>"1 critical", "finance"=>"Score / 100", "time"=>"40h / week", _=>"Interactive" };
+    private string Footnote(string kind) => kind switch { "executive"=>"Equal-weight composite · click legend items to isolate metrics", "revenue"=>$"Achieved {Achieved.ToString("C0",System.Globalization.CultureInfo.GetCultureInfo("en-US"))}", "satisfaction"=>"Customer experience index", "departments"=>"Click a department to toggle its arc", "goals"=>$"{Completed} completed · {20-Completed} pending", "system"=>"Healthy <65% · moderate 65–84% · critical >=85%", "funnel"=>$"Qualified to opportunity {(double)Funnel[2]/Funnel[1]*100:0.0}% · opportunity to customer {(double)Funnel[3]/Funnel[2]*100:0.0}%", "finance"=>"Equal-weight score · strong >=80", "time"=>"Distinct activity categories · total 40 hours", _=>"" };
+    private string FooterValue(string kind) => kind switch { "executive"=>$"{Overall:0.0}% overall", "revenue"=>$"{Executive[0]- (Executive[0]-5):0} pp growth", "goals"=>$"{Completed*5}% complete", "funnel"=>$"{(double)Funnel[3]/Funnel[0]*100:0.0}% converted", _=>"" };
+    private async Task Export() { Module ??= await JS.InvokeAsync<IJSObjectReference>("import","./theme/radial-chart-options.js"); await Module.InvokeVoidAsync("exportCsv", Data, Period, Category); }
+    public async ValueTask DisposeAsync() { if(Module is not null) { try { await Module.DisposeAsync(); } catch(JSDisconnectedException) {} } }
+}
+

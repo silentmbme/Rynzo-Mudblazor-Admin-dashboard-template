@@ -1,0 +1,224 @@
+{
+  "orders": [
+    [
+      "2m",
+      "#NV-10482",
+      "Olivia Chen",
+      "$548.00",
+      "3 items",
+      "New"
+    ],
+    [
+      "7m",
+      "#NV-10481",
+      "Marcus Rivera",
+      "$249.00",
+      "1 item",
+      "Paid"
+    ],
+    [
+      "12m",
+      "#NV-10480",
+      "Ava Patel",
+      "$1,290.00",
+      "4 items",
+      "Packed"
+    ],
+    [
+      "18m",
+      "#NV-10479",
+      "Ryan Cooper",
+      "$326.00",
+      "2 items",
+      "Paid"
+    ]
+  ],
+  "marginSeries": [
+    {
+      "name": "Gross margin",
+      "type": "area",
+      "data": [
+        44,
+        47,
+        45,
+        51,
+        49,
+        55,
+        53,
+        58
+      ]
+    },
+    {
+      "name": "Margin target",
+      "type": "line",
+      "data": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ]
+    }
+  ],
+  "basketSeries": [
+    32,
+    38,
+    19,
+    11
+  ],
+  "baskets": [
+    [
+      "Single item",
+      "32%"
+    ],
+    [
+      "2 items",
+      "38%"
+    ],
+    [
+      "3 items",
+      "19%"
+    ],
+    [
+      "4+ items",
+      "11%"
+    ]
+  ],
+  "stages": [
+    [
+      "Scan queue",
+      "18",
+      "Orders awaiting pick",
+      "bg-primary",
+      "42% complete"
+    ],
+    [
+      "Pack bench",
+      "12",
+      "Orders being packed",
+      "bg-info",
+      "68% complete"
+    ],
+    [
+      "Carrier handoff",
+      "14",
+      "Ready for collection",
+      "bg-success",
+      "86% complete"
+    ]
+  ],
+  "carriers": [
+    [
+      "Express collection",
+      "13:30",
+      "84%",
+      "bg-primary"
+    ],
+    [
+      "Standard collection",
+      "16:00",
+      "52%",
+      "bg-info"
+    ],
+    [
+      "Same-day courier",
+      "17:30",
+      "36%",
+      "bg-success"
+    ]
+  ],
+  "signals": [
+    [
+      "Returns are falling",
+      "Lighting returns dropped to 1.1% after the new sizing guide.",
+      "Positive",
+      "bg-success/12 text-success",
+      "RotateCcw"
+    ],
+    [
+      "Pickup capacity",
+      "The 13:30 carrier collection is 86% full. Add one more cage.",
+      "Action needed",
+      "bg-warning/16 text-warning",
+      "Truck"
+    ],
+    [
+      "New customer lift",
+      "First-time buyers are adding 0.4 more items per order this week.",
+      "Opportunity",
+      "bg-primary/12 text-primary",
+      "Archive"
+    ]
+  ],
+  "recovery": [
+    [
+      "After 30 min",
+      "Reminder email",
+      "684 shoppers in sequence",
+      "42% open rate"
+    ],
+    [
+      "After 4 hrs",
+      "Dynamic product message",
+      "402 eligible shoppers",
+      "18% recovery rate"
+    ],
+    [
+      "After 24 hrs",
+      "Limited stock nudge",
+      "186 eligible shoppers",
+      "9% recovery rate"
+    ]
+  ],
+  "returns": [
+    [
+      "Changed mind",
+      "38%",
+      "Most common for accessories",
+      "bg-muted-foreground"
+    ],
+    [
+      "Fit or size",
+      "26%",
+      "Lighting and furniture",
+      "bg-warning"
+    ],
+    [
+      "Damaged in transit",
+      "14%",
+      "Down 3.2 pts this month",
+      "bg-destructive"
+    ],
+    [
+      "Not as expected",
+      "12%",
+      "Improve product detail pages",
+      "bg-info"
+    ]
+  ],
+  "customers": [
+    [
+      "First purchase",
+      "1,284",
+      "100%"
+    ],
+    [
+      "Second order",
+      "486",
+      "38%"
+    ],
+    [
+      "Loyal customer",
+      "212",
+      "16%"
+    ],
+    [
+      "Advocate",
+      "84",
+      "7%"
+    ]
+  ]
+}

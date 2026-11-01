@@ -1,0 +1,5 @@
+﻿@* Breadcrumb navigation is intentionally disabled across the application. *@
+@code {
+    // Keep the parameter for existing callers without rendering breadcrumb markup.
+    [Parameter] public IReadOnlyList<BreadcrumbItem>? Items { get; set; }
+}

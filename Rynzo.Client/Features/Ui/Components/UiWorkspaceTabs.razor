@@ -1,0 +1,18 @@
+@using Rynzo.Client.Theme
+<div class="ui-workspace-tabs tabs-@Style">
+    <MudTabs ActivePanelIndex="ActiveIndex" ActivePanelIndexChanged="Changed" Position="@(Style=="vertical"?Position.Left:Position.Top)" HideSlider="@(Style!="underline")" Elevation="0" Rounded="true">
+        @for(var i=0;i<3;i++){var index=i;<MudTabPanel BadgeData="@(Icons&&index==2?(object)3:null)" BadgeColor="Color.Error" Text="@(Style=="icon-only"?null:Icons?AccountLabels[index]:Labels[index])" aria-label="@(Icons?AccountLabels[index]:Labels[index])" Icon="@(Icons?RynzoIcons.Get(AccountIcons[index]):Style is "icon-only" or "cards" or "soft"?RynzoIcons.Get(PanelIcons[index]):null)">
+            <div class="workspace-tab-content"><span class="workspace-tab-icon"><MudIcon Icon="@RynzoIcons.Get(Icons?AccountIcons[index]:PanelIcons[index])" /></span><div><h3>@(Icons?AccountLabels[index]:Labels[index]) @if(Icons&&index==2){<span class="workspace-tab-count">3</span>}</h3><p>@Content(index)</p></div></div>
+        </MudTabPanel>}
+    </MudTabs>
+</div>
+@code {
+    [Parameter] public string Style {get;set;}="underline";
+    [Parameter] public bool Icons {get;set;}
+    [Parameter] public int ActiveIndex {get;set;}
+    [Parameter] public EventCallback<int> ActiveIndexChanged {get;set;}
+
+    private static readonly string[] Labels=["Overview","Activity","Settings"],PanelIcons=["LayoutGrid","Activity","Settings"],AccountLabels=["Account","Billing","Alerts"],AccountIcons=["User","CreditCard","Bell"];
+    private Task Changed(int index){ActiveIndex=index;return ActiveIndexChanged.InvokeAsync(index);}
+    private string Content(int index)=>Icons?new[]{"Profile, sign-in methods and connected devices.","Plans, billing details and payment methods.","Three alerts require attention."}[index]:Style=="boxed"?new[]{"A birds-eye view of your workspace - recent activity, usage and quick links.","The activity panel is selected.","The settings panel is selected."}[index]:new[]{"A birds-eye view of your workspace - recent activity, usage and quick links.","Recent updates and changes from your workspace appear here.","Manage your workspace preferences and notification settings here."}[index];
+}

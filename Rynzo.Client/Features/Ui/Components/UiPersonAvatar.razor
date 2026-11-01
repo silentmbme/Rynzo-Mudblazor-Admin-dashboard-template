@@ -1,0 +1,18 @@
+<span class="ui-person-avatar" role="img" aria-label="@AccessibleLabel" style="@($"--avatar-size:{Pixels}px")">
+    <MudAvatar Color="Color.Primary" Class="ui-person-surface">
+        @if(!string.IsNullOrWhiteSpace(Src)&&!Broken){<img src="@Src" alt="" @onerror="@(()=>Broken=true)" />}
+        else{<span class="ui-person-initials">@Fallback</span>}
+    </MudAvatar>
+    @if(!string.IsNullOrWhiteSpace(Status)){<i class="ui-person-presence @Status.ToLowerInvariant()" aria-hidden="true"></i>}
+</span>
+@code {
+    [Parameter] public string Name {get;set;}="";
+    [Parameter] public string? Src {get;set;}
+    [Parameter] public string? Initials {get;set;}
+    [Parameter] public string? Status {get;set;}
+    [Parameter] public int Pixels {get;set;}=40;
+    private bool Broken;private string? PreviousSrc;
+    private string Fallback=>Initials??string.Concat(Name.Split(' ',StringSplitOptions.RemoveEmptyEntries).Take(2).Select(p=>char.ToUpperInvariant(p[0])));
+    private string AccessibleLabel=>string.IsNullOrWhiteSpace(Status)?Name:$"{Name}, {Status}";
+    protected override void OnParametersSet(){if(PreviousSrc!=Src){PreviousSrc=Src;Broken=false;}}
+}

@@ -1,0 +1,81 @@
+@page "/pages/profile"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<PageTitle>Profile | Rynzo</PageTitle>
+<div class="profile-page">
+    <DashboardPageHeader Title="Profile" Description="Your professional presence, connections, and workspace activity.">
+        <Actions>
+            <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Link")" OnClick="Share">Share profile</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Pencil")" OnClick="Edit">Edit profile</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+    @if (Notice.Length > 0) { <MudAlert Severity="Severity.Info" role="status" Class="mb-4">@Notice</MudAlert> }
+    <section class="pr-hero" aria-label="Professional profile">
+        <div class="pr-cover"><img src="assets/images/files/team-studio.png" alt="" /><div><span class="pr-eyebrow">People / Rynzo workspace</span><p>Connected people.<br />Meaningful work.</p></div><span class="pr-cover-label"><MudIcon Icon="@RynzoIcons.Get("Building2")" />Product Operations</span></div>
+        <div class="pr-identity">
+            <div class="pr-portrait"><img src="assets/images/users/user-1.jpg" alt="@Name" /><span title="Available for new work"></span></div>
+            <div class="pr-intro"><span class="pr-available"><i></i>Available for new work</span><h2>@Name</h2><p class="pr-role">@Role</p><div class="pr-meta"><span><MudIcon Icon="@RynzoIcons.Get("MapPin")" />@Location</span><a href="@($"mailto:{Email}")"><MudIcon Icon="@RynzoIcons.Get("Mail")" />@Email</a></div></div>
+            <a class="pr-settings" href="/pages/settings" aria-label="Profile settings"><MudIcon Icon="@RynzoIcons.Get("Settings")" /></a>
+            <div class="pr-stats"><button type="button" @onclick='@(()=>Tab="Projects")'><span><MudIcon Icon="@RynzoIcons.Get("Folder")" />Projects</span><strong>18</strong></button><MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true"><span><MudIcon Icon="@RynzoIcons.Get("Check")" />Tasks</span><strong>142</strong></MudCard><button type="button" @onclick='@(()=>Tab="Followers")'><span><MudIcon Icon="@RynzoIcons.Get("Users")" />Followers</span><strong>1.2k</strong></button></div>
+        </div>
+        <nav class="pr-tabs" aria-label="Profile sections">
+            @foreach (var section in new[] { "About", "Projects", "Gallery", "Followers", "Friends" })
+            { <button type="button" class="@(Tab == section ? "selected" : "")" aria-pressed="@(Tab == section)" @onclick="@(() => Tab = section)"><MudIcon Icon="@RynzoIcons.Get(SectionIcon(section))" />@section @if(section == "Followers"){<small>1.2k</small>}</button> }
+        </nav>
+    </section>
+    @if (Tab == "About")
+    {
+        <div class="pr-layout">
+            <aside class="pr-side">
+                <MudCard Class="pr-panel rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><div class="pr-section-head"><h2>Personal details</h2><MudIcon Icon="@RynzoIcons.Get("User")" /></div><dl class="pr-details"><div><dt><MudIcon Icon="@RynzoIcons.Get("Mail")" />Email address</dt><dd><a href="@($"mailto:{Email}")">@Email</a></dd></div><div><dt><MudIcon Icon="@RynzoIcons.Get("MapPin")" />Based in</dt><dd>@Location</dd></div><div><dt><MudIcon Icon="@RynzoIcons.Get("Clock3")" />Working hours</dt><dd>UTC -08:00 / Working now</dd></div><div><dt><MudIcon Icon="@RynzoIcons.Get("Building2")" />Department</dt><dd>Product Operations</dd></div></dl></MudCard>
+                <MudCard Class="pr-panel rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><span class="pr-eyebrow">What I bring</span><h2>Skills &amp; expertise</h2><div class="pr-skills">@foreach(var skill in Skills){<span><MudIcon Icon="@RynzoIcons.Get("Check")" />@skill</span>}</div></MudCard>
+                <section class="pr-account"><span><MudIcon Icon="@RynzoIcons.Get("Settings")" /></span><h2>Workspace preferences</h2><p>Keep your account, security, and workspace settings up to date.</p><MudButton Href="/pages/settings" Variant="Variant.Outlined" EndIcon="@RynzoIcons.Get("ArrowUpRight")">Security &amp; settings</MudButton></section>
+            </aside>
+            <main class="pr-main">
+                <MudCard Class="pr-panel pr-overview rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><div class="pr-overview-copy"><span class="pr-eyebrow">A little about me</span><h2>Turning complexity into clarity.</h2><p class="pr-bio">@Bio</p><div class="pr-focus"><MudIcon Icon="@RynzoIcons.Get("Briefcase")" /><span>Operations Strategy <i></i> Project Delivery <i></i> Client Success</span></div></div><div class="pr-strength"><div class="pr-score">86<span>%</span></div><b>Profile strength</b><small>Illustrative sample score</small><MudButton OnClick="Edit" EndIcon="@RynzoIcons.Get("ArrowUpRight")">Review profile</MudButton></div><div class="pr-setup-note"><MudIcon Icon="@RynzoIcons.Get("Info")" /><span><b>Strong professional profile.</b> Add a public bio and verify your contact details to finish setup.</span></div></MudCard>
+                <MudCard Class="pr-panel rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><div class="pr-section-head"><div><span class="pr-eyebrow">Moving work forward</span><h2>Assigned projects</h2></div><MudButton Href="/projects/list" EndIcon="@RynzoIcons.Get("ArrowUpRight")">View all</MudButton></div><div class="pr-assigned">@foreach (var project in Projects.Take(3)){<article class="pr-project-row" style="@($"--project-tone:var(--{ProjectTone(project.Name)})")"><div class="pr-project-top"><span class="pr-project-icon"><MudIcon Icon="@RynzoIcons.Get(ProjectIcon(project.Name))" /></span><span class="pr-badge @(project.Status == "At Risk" ? "warning" : "")">@project.Status</span></div><small>@project.Client</small><h3>@project.Name</h3><div class="pr-project-progress"><strong>@project.Progress<span>%</span></strong><span>completed</span></div><div class="pr-track"><i style="@($"width:{project.Progress}%")"></i></div><footer><span>Operations Lead</span><small>Updated today</small></footer></article>}</div></MudCard>
+                <div class="pr-lower"><MudCard Class="pr-panel rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><div class="pr-section-head"><div><span class="pr-eyebrow">Latest updates</span><h2>Recent activity</h2></div><span class="pr-muted">4 updates</span></div><ol class="pr-activity">@foreach(var activity in Activities){<li><span><MudIcon Icon="@RynzoIcons.Get("Activity")" /></span><div><h3>@activity.Item1</h3><small>@activity.Item2</small></div></li>}</ol></MudCard><MudCard Class="pr-panel rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><div class="pr-section-head"><div><span class="pr-eyebrow">Better together</span><h2>Team context</h2></div><span class="pr-count">3</span></div><div class="pr-team">@foreach(var person in Followers.Take(3)){<div><img src="@person.Photo" alt="@person.Name" /><span><b>@person.Name</b><small>@person.Role.Split(" / ")[0]</small></span></div>}</div><button type="button" class="pr-team-link" @onclick='@(()=>Tab="Friends")'>Explore connections <MudIcon Icon="@RynzoIcons.Get("ArrowRight")" /></button></MudCard></div>
+            </main>
+        </div>
+    }
+    else
+    {
+        <MudCard Class="pr-panel pr-tab-content rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="section"><div class="pr-section-head"><div><span class="pr-eyebrow">Your workspace</span><h2>@Tab</h2></div><span class="pr-muted">@(Tab == "Projects" ? "4 projects" : Tab == "Gallery" ? "4 images" : Tab == "Followers" ? "4 featured connections" : "3 connections")</span></div>
+        @if(Tab == "Projects") { <div class="pr-project-grid">@foreach(var project in Projects){<MudCard Class="pr-project-card rynzo-widget-card" Style="@($"--project-tone:var(--{ProjectTone(project.Name)})")" Elevation="0" Outlined="true" data-widget-element="article"><div><span class="pr-project-icon"><MudIcon Icon="@RynzoIcons.Get(ProjectIcon(project.Name))" /></span><span class="pr-badge @(project.Status == "At Risk" ? "warning" : "")">@project.Status</span></div><small>@project.Client</small><h3>@project.Name</h3><div class="pr-completion"><strong>@project.Progress<span>%</span></strong><span>Project progress</span></div><div class="pr-track"><i style="@($"width:{project.Progress}%")"></i></div><p>Your role: Operations Lead / Updated today</p></MudCard>}</div> }
+        else if(Tab == "Gallery") { <div class="pr-gallery">@foreach(var item in Gallery){<button type="button" aria-label="@($"Open {item.Title} preview")" @onclick="@(()=>Preview=item)"><img src="@item.Image" alt="@item.Title" loading="lazy" /><span><b>@item.Title</b><MudIcon Icon="@RynzoIcons.Get("ArrowUpRight")" /></span></button>}</div> }
+        else { <div class="pr-people">@foreach(var person in Tab == "Followers" ? Followers : Friends){<article><img src="@person.Photo" alt="@person.Name" /><h3>@person.Name</h3><p>@person.Role</p><small>@person.Detail</small>@if(Tab == "Followers"){<MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get(Following.Contains(person.Name)?"Check":"Plus")" aria-label="@($"Follow {person.Name}")" OnClick="@(()=>Follow(person.Name))">@(Following.Contains(person.Name)?"Following":"Follow")</MudButton>}else{<span class="pr-badge">Mutual workspace connection</span>}</article>}</div> }
+        </MudCard>
+    }
+    <p class="pr-sample">Sample workspace profile. Edits and follows stay in this page session.</p>
+</div>
+<MudDialog Visible="Editing" VisibleChanged="@(v=>Editing=v)" Options="DialogOptions"><TitleContent><MudText Typo="Typo.h6">Edit profile</MudText></TitleContent><DialogContent><div class="pr-edit"><p>Update your sample professional profile.</p>@if(Error.Length>0){<MudAlert Severity="Severity.Error" role="alert">@Error</MudAlert>}<label for="pr-name">Full name</label><input id="pr-name" @bind="DraftName" /><label for="pr-role">Role</label><input id="pr-role" @bind="DraftRole" /><label for="pr-email">Email</label><input id="pr-email" type="email" @bind="DraftEmail" /><label for="pr-location">Location</label><input id="pr-location" @bind="DraftLocation" /><label for="pr-bio">Professional bio</label><textarea id="pr-bio" rows="4" @bind="DraftBio"></textarea><small>Changes apply to this profile preview only.</small></div></DialogContent><DialogActions><MudButton OnClick="@(()=>Editing=false)">Cancel</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save">Save changes</MudButton></DialogActions></MudDialog>
+<MudDialog Visible="@(Preview is not null)" VisibleChanged="@(v=>{if(!v)Preview=null;})" Options="GalleryOptions"><TitleContent><MudText Typo="Typo.h6">@Preview?.Title</MudText></TitleContent><DialogContent>@if(Preview is {} item){<img class="pr-preview" src="@item.Image" alt="@item.Title" />}</DialogContent><DialogActions><MudButton OnClick="@(()=>Preview=null)">Close</MudButton></DialogActions></MudDialog>
+
+@code {
+    private string Tab="About", Notice="", Name="Avery Morgan", Role="Operations Lead at Rynzo", Email="avery@rynzoadmin.com", Location="San Francisco, CA", Bio="Building repeatable operating systems, healthy delivery practices, and clear cross-functional experiences for growing teams.";
+    private bool Editing;
+    private string DraftName="",DraftRole="",DraftEmail="",DraftLocation="",DraftBio="",Error="";
+    private GalleryItem? Preview;
+    private readonly HashSet<string> Following=[];
+    private static readonly DialogOptions DialogOptions=new(){MaxWidth=MaxWidth.Small,FullWidth=true,CloseOnEscapeKey=true};
+    private static readonly DialogOptions GalleryOptions=new(){MaxWidth=MaxWidth.Large,FullWidth=true,CloseOnEscapeKey=true};
+    private static readonly string[] Skills=["Operations Strategy","Process Design","Project Delivery","Client Success","Analytics"];
+    private record ProjectItem(string Name,string Client,int Progress,string Status);
+    private record Person(string Name,string Photo,string Role,string Detail);
+    private record GalleryItem(string Title,string Image);
+    private static readonly ProjectItem[] Projects=[new("Website Redesign","Nexora",82,"Active"),new("CRM Migration","Vertex Labs",46,"At Risk"),new("Marketing Automation","BrightWorks",71,"Active"),new("Mobile App v2","CloudAxis",64,"Active")];
+    private static readonly (string,string)[] Activities=[("Updated the Website Redesign timeline","12 min ago"),("Completed the delivery health review","2 hrs ago"),("Added feedback to CRM Migration","Yesterday"),("Joined Marketing Automation planning","Aug 21")];
+    private static readonly Person[] Followers=[new("Sophia Carter","assets/images/users/sophia-carter.jpg","Project Manager / 12 shared projects","1.8k followers"),new("Daniel Lee","assets/images/users/user-2.jpg","Frontend Developer / 8 shared projects","932 followers"),new("Emma Wilson","assets/images/users/user-3.jpg","Product Designer / 6 shared projects","1.4k followers"),new("Noah Williams","assets/images/users/user-2.jpg","QA Engineer / 5 shared projects","686 followers")];
+    private static readonly Person[] Friends=[new("Maya Rodriguez","assets/images/users/sophia-carter.jpg","Product Strategist",""),new("Ethan Cole","assets/images/users/user-2.jpg","Engineering Lead",""),new("Priya Nair","assets/images/users/user-3.jpg","Design Director","")];
+    private static readonly GalleryItem[] Gallery=[new("Design system workshop","assets/images/demo/workspace-dashboard.png"),new("Product planning board","assets/images/demo/product-catalog.png"),new("Team collaboration","assets/images/demo/chat-onboarding-flow.png"),new("Workspace review","assets/images/products/aurora-desk-lamp.png")];
+    private static string SectionIcon(string section)=>section switch{"Projects"=>"Folder","Gallery"=>"Image","Followers"=>"Users","Friends"=>"Heart",_=>"User"};
+    private static string ProjectTone(string name)=>name switch{"CRM Migration"=>"warning","Marketing Automation"=>"success","Mobile App v2"=>"info",_=>"primary"};
+    private static string ProjectIcon(string name)=>name switch{"CRM Migration"=>"DatabaseBackup","Marketing Automation"=>"Megaphone","Mobile App v2"=>"Smartphone",_=>"Globe"};
+    private void Edit(){DraftName=Name;DraftRole=Role;DraftEmail=Email;DraftLocation=Location;DraftBio=Bio;Error="";Editing=true;}
+    private void Save(){if(string.IsNullOrWhiteSpace(DraftName)||string.IsNullOrWhiteSpace(DraftRole)||string.IsNullOrWhiteSpace(DraftLocation)){Error="Enter your name, role, and location.";return;}if(!System.Net.Mail.MailAddress.TryCreate(DraftEmail.Trim(),out _)){Error="Enter a valid email address.";return;}Name=DraftName.Trim();Role=DraftRole.Trim();Email=DraftEmail.Trim();Location=DraftLocation.Trim();Bio=DraftBio.Trim();Editing=false;Notice="Profile updated for this page session.";}
+    private void Follow(string name){if(!Following.Add(name))Following.Remove(name);Notice=Following.Contains(name)?$"Following {name} in this page session.":$"Unfollowed {name} in this page session.";}
+    private async Task Share(){try{await JS.InvokeVoidAsync("navigator.clipboard.writeText",Navigation.ToAbsoluteUri("pages/profile").ToString());Notice="Profile link copied.";}catch(JSException){Notice=$"Copy this profile link: {Navigation.ToAbsoluteUri("pages/profile")}";}}
+}

@@ -1,0 +1,44 @@
+@implements IAsyncDisposable
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+@inject RynzoAppearance Appearance
+<div class="dashboard-chart" style="min-height:@(Height)px" role="img" aria-label="@Label" @ref="_element"></div>
+@if (_loading) { <MudSkeleton Height="@(Height + "px")" Animation="Animation.Wave" /> }
+@if (_failed) { <MudAlert Severity="Severity.Error">Chart could not load. <MudButton OnClick="Retry">Retry</MudButton></MudAlert> }
+@code {
+    [Parameter, EditorRequired] public object Data { get; set; } = null!;
+    [Parameter] public string OptionsModule { get; set; } = "./analytics-options.js";
+    [Parameter] public string Kind { get; set; } = "";
+    [Parameter] public int Height { get; set; }
+    [Parameter] public string Label { get; set; } = "";
+    private ElementReference _element;
+    private object? _previousData;
+    private IJSObjectReference? _module;
+    private bool _loading = true, _failed, _dirty = true, _disposed, _rendering;
+    protected override void OnInitialized() => Appearance.Changed += Refresh;
+    protected override void OnParametersSet()
+    {
+        if (!ReferenceEquals(_previousData,Data)) { _previousData = Data; _dirty = true; }
+    }
+    private void Refresh() { _dirty = true; _ = InvokeAsync(StateHasChanged); }
+    private void Retry() { _failed = false; _loading = true; _dirty = true; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!_dirty || _disposed || _rendering) return;
+        _rendering = true;
+        _dirty = false;
+        try {
+            _module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./theme/dashboard-charts.js");
+            await _module.InvokeVoidAsync("render", _element, OptionsModule, Kind, Data, Height);
+        } catch (JSException) { _failed = true; }
+        finally { _rendering = false; }
+        _loading = false;
+        if (!_disposed) await InvokeAsync(StateHasChanged);
+    }
+    public async ValueTask DisposeAsync()
+    {
+        _disposed = true; Appearance.Changed -= Refresh;
+        if (_module is null) return;
+        try { await _module.InvokeVoidAsync("dispose", _element); await _module.DisposeAsync(); } catch (JSDisconnectedException) { }
+    }
+}

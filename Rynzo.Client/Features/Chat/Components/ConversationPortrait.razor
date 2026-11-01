@@ -1,0 +1,3 @@
+@using Rynzo.Client.Features.Chat.Services
+<span class="conversation-portrait" title="@Name"><MudAvatar Size="Size.Medium"><MudImage Src="@ChatState.Portrait(Name)" Alt="@Name" ObjectFit="ObjectFit.Cover" /></MudAvatar>@if(Status is not null){<i class="@Status"></i>}</span>
+@code{[Parameter]public string Name{get;set;}="";[Parameter]public string? Status{get;set;}}

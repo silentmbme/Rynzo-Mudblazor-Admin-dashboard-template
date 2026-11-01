@@ -1,0 +1,67 @@
+﻿@page "/dashboards/finance"
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+<PageTitle>Finance — Rynzo</PageTitle>
+<div class="finance-dashboard">
+<DashboardPageHeader Title="Finance" Description="Cash, profitability and control signals across the business."><Actions><div class="finance-actions"><MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@RynzoIcons.Get("CalendarDays")">August</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" StartIcon="@RynzoIcons.Get("Plus")">New transaction</MudButton></div></Actions></DashboardPageHeader>
+<div class="finance-layout">
+<DashboardCard Title="Cash position" Description="Last reconciled today, 09:30 AM" Class="cash-card">
+    <Actions><span class="positive-tag">+8.6% this month</span></Actions>
+    <ChildContent>
+        <div class="cash-overview">
+            <div class="cash-primary"><span class="eyebrow">Available cash</span><strong class="cash-value">$482,640</strong><span class="liquidity">Healthy liquidity <small>Coverage remains above plan</small></span></div>
+            <MudCard Class="cash-trend-panel rynzo-widget-card" Elevation="0" Outlined="true"><div><span>30-day cash movement</span><b>+$38,400</b></div><svg viewBox="0 0 600 80" class="cash-trend" role="img" aria-label="Cash trend"><path d="M0 68 C70 55 90 70 150 48 S250 45 310 30 S430 48 500 17 S570 23 600 5 L600 80 L0 80 Z" fill="currentColor" opacity=".12" /><path d="M0 68 C70 55 90 70 150 48 S250 45 310 30 S430 48 500 17 S570 23 600 5" fill="none" stroke="currentColor" stroke-width="4" /></svg><div class="cash-trend-period"><span>Aug 1</span><span>Today</span></div></MudCard>
+        </div>
+        <div class="balance-strip"><div><span>Bank balance</span><b>$314,800</b></div><div><span>Equivalents</span><b>$112,400</b></div><div><span>Credit</span><b>$55,440</b></div></div>
+    </ChildContent>
+</DashboardCard>
+
+<DashboardCard Title="Profitability" Description="This month" Class="profit-card">
+    <Actions><span class="profit-status"><i></i>Above plan</span></Actions>
+    <ChildContent>
+        <div class="profit-stack">@foreach(var row in _data.Profitability){<MudCard Class="rynzo-widget-card" Elevation="0" Outlined="true"><span>@row[0]</span><b>@row[1]</b></MudCard>}</div>
+        <MudCard Class="margin-footer rynzo-widget-card" Elevation="0" Outlined="true">
+            <div><span>Net margin</span><small>+2.4 pts vs plan</small></div>
+            <div class="margin-readout"><b>25.9%</b><span>Healthy return</span></div>
+            <span class="margin-meter" aria-label="Net margin 25.9 percent"><i></i></span>
+        </MudCard>
+    </ChildContent>
+</DashboardCard>
+
+<DashboardCard Title="Income vs expenses" Description="Revenue, operating expenses and net income" Class="income-card"><DashboardChart Data="_data" OptionsModule="./finance-options.js" Height="320" Label="Revenue, operating expenses and net income from March to August" /></DashboardCard>
+
+<DashboardCard Title="Cash flow" Description="Inflow vs outflow" Class="flow-card"><div class="flow-comparison"><div><span class="flow-icon incoming">↙</span><small>Cash in</small><strong>$124,800</strong></div><span class="flow-separator" aria-hidden="true">→</span><div><span class="flow-icon outgoing">↗</span><small>Cash out</small><strong>$86,400</strong></div></div><div class="net-flow"><span>Net cash flow</span><b>+$38,400</b></div></DashboardCard>
+
+<DashboardCard Title="Accounts" Description="Available balances" Class="accounts-card"><div class="account-register">@foreach(var row in _data.Accounts){<div><span class="account-icon"><MudIcon Icon="@RynzoIcons.Get("Landmark")" Size="Size.Small" /></span><span class="account-name">@row[0]<small>@(string.IsNullOrWhiteSpace(row[1]) ? "Cash on hand" : "•••• " + row[1].Trim())</small></span><b>@row[2]</b></div>}</div></DashboardCard>
+
+<DashboardCard Title="Operating runway" Description="Based on current monthly burn" Class="runway-card"><div class="runway-readout"><div class="runway-orbit" aria-hidden="true"><MudIcon Icon="@RynzoIcons.Get("CalendarDays")" /></div><div><strong>6.0</strong><span>months of coverage</span></div></div><dl class="runway-details"><div><dt>Operating cash</dt><dd>$255,600</dd></div><div><dt>Monthly burn</dt><dd>$42,600</dd></div></dl></DashboardCard>
+
+<DashboardCard Title="Margin trend" Description="Profitability quality" Class="margins-card"><div class="margin-metrics">@for(var i=0;i<_data.Margins.Length;i++){var row=_data.Margins[i];<div><span class="margin-index">@((i+1).ToString("00"))</span><span>@row[0].GetString()</span><strong>@row[1]%</strong></div>}</div></DashboardCard>
+
+<DashboardCard Title="Expense breakdown" Description="$86,400 total operating spend" Class="expenses-card"><DashboardChart Data="_data" OptionsModule="./finance-options.js" Kind="expenses" Height="270" Label="Operating expenses by category in dollars" /><div class="expense-key">@foreach(var row in _data.Expenses){<span>@row[0].GetString()<b>@row[2]%</b></span>}</div></DashboardCard>
+
+<DashboardCard Title="Revenue sources" Description="Contribution to monthly revenue" Class="sources-card"><DashboardChart Data="_data" OptionsModule="./finance-options.js" Kind="sources" Height="240" Label="Revenue contribution: subscriptions, services, marketplace and other" /><div class="source-ledger">@for(var i=0;i<_data.Sources.Length;i++){var row=_data.Sources[i];<div><i style="@($"background:var(--chart-{i+1})")"></i><span>@row[0].GetString()</span><small>@row[1]%</small><b>@row[2].GetString()</b></div>}</div></DashboardCard>
+
+<DashboardCard Title="Receivables" Description="$96,420 outstanding" Class="receivables-card"><div class="aging-matrix">@for(var i=0;i<_data.Receivables.Length;i++){var row=_data.Receivables[i];<div class="@(i == 3 ? "aging-late" : "")"><span>@AgingLabels[i]</span><strong>@row[1]</strong><small>days</small></div>}</div><div class="aging-footer"><span>Overdue balance</span><b>$18,260</b></div></DashboardCard>
+
+<DashboardCard Title="Payables" Description="$72,840 total payable" Class="payables-card"><div class="payable-agenda">@foreach(var row in _data.Payables){<div><time><b>@row[2].Split(' ')[1]</b><span>@row[2].Split(' ')[0]</span></time><span>@row[0]<small>Scheduled payment</small></span><strong>@row[1]</strong></div>}</div></DashboardCard>
+
+<DashboardCard Title="Recent transactions" Description="Latest reconciled account activity" Class="transactions-card"><MudTable T="string[]" Items="_data.Transactions" Breakpoint="Breakpoint.None" Elevation="0" Class="finance-table" aria-label="Recent transactions"><HeaderContent>@foreach(var label in Headers){<MudTh>@label</MudTh>}</HeaderContent><RowTemplate><MudTd><span class="transaction-name"><span class="transaction-direction @(context[4].StartsWith('+') ? "credit" : "debit")">@(context[4].StartsWith('+') ? "↙" : "↗")</span>@context[0]</span></MudTd><MudTd>@context[1]</MudTd><MudTd>@context[2]</MudTd><MudTd>@context[3]</MudTd><MudTd><b class="@(context[4].StartsWith('+') ? "finance-success" : "finance-danger")">@context[4]</b></MudTd><MudTd><span class="transaction-status">@context[5]</span></MudTd></RowTemplate></MudTable></DashboardCard>
+
+<DashboardCard Title="Financial goals" Description="Progress toward business targets" Class="goals-card">
+    <Actions><span class="goals-status"><i></i>4 active goals</span></Actions>
+    <ChildContent>
+        <div class="goal-grid">@for(var i=0;i<_data.Goals.Length;i++){var row=_data.Goals[i];<MudCard Style="@($"--goal-progress:{row[1]}%")" Class="rynzo-widget-card" Elevation="0" Outlined="true" data-widget-element="article"><span class="goal-number">@((i+1).ToString("00"))</span><span class="goal-ring"><i>@row[1]%</i></span><span class="goal-name">@row[0].GetString()<small>@((100-row[1].GetDouble()).ToString("0"))% remaining to target</small></span></MudCard>}</div>
+    </ChildContent>
+</DashboardCard>
+
+<DashboardCard Title="P&amp;L summary" Description="Monthly financial statement" Class="statement-card"><div class="statement">@foreach(var row in _data.Summary){<div class="@(row[0] is "Gross profit" or "Net income" ? "statement-total" : "")"><span>@row[0]</span><b>@row[1]</b></div>}</div></DashboardCard>
+</div></div>
+@code {
+private readonly FinanceData _data = FinanceData.Load();
+private static readonly string[] Headers = ["Transaction", "Account", "Category", "Date", "Amount", "Status"];
+private static readonly string[] AgingLabels = ["0–30", "31–60", "61–90", "90+"];
+// Both source header buttons are presentational, without handlers or API calls.
+}
+

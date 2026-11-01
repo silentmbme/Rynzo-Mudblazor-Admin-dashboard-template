@@ -1,0 +1,171 @@
+{
+  "campaigns": [
+    [
+      "Autumn product launch",
+      "Paid social  Email",
+      "$18,420",
+      "4.8x",
+      "Live",
+      "success"
+    ],
+    [
+      "Workflow playbook",
+      "Content  Organic",
+      "$7,860",
+      "3.2x",
+      "Live",
+      "success"
+    ],
+    [
+      "Partner co-marketing",
+      "Events  Partner",
+      "$5,400",
+      "2.1x",
+      "Review",
+      "warning"
+    ],
+    [
+      "Enterprise retargeting",
+      "Paid search",
+      "$12,770",
+      "3.9x",
+      "Optimizing",
+      "info"
+    ]
+  ],
+  "scoreboard": [
+    [
+      "Pipeline influenced",
+      "$426K",
+      "+14.8%",
+      "text-success"
+    ],
+    [
+      "Qualified leads",
+      "2,846",
+      "+9.2%",
+      "text-success"
+    ],
+    [
+      "Cost per lead",
+      "$34.20",
+      "6.1%",
+      "text-success"
+    ],
+    [
+      "Campaign ROI",
+      "3.8x",
+      "+0.4x",
+      "text-primary"
+    ]
+  ],
+  "demandSeries": [
+    {
+      "name": "Pipeline influenced",
+      "data": [
+        26,
+        32,
+        29,
+        43,
+        47,
+        52,
+        61,
+        68
+      ]
+    },
+    {
+      "name": "Media spend",
+      "data": [
+        18,
+        20,
+        24,
+        26,
+        31,
+        34,
+        38,
+        42
+      ]
+    }
+  ],
+  "channelSeries": [
+    34,
+    27,
+    18,
+    12,
+    9
+  ],
+  "conversionSeries": [
+    {
+      "name": "Conversion",
+      "data": [
+        100,
+        62,
+        27,
+        11,
+        4
+      ]
+    }
+  ],
+  "audiences": [
+    [
+      "Operations leaders",
+      "418 engaged accounts",
+      "High intent",
+      "success",
+      "UsersRound"
+    ],
+    [
+      "Scaling SaaS teams",
+      "296 product-page returns",
+      "Rising",
+      "info",
+      "MousePointer2"
+    ],
+    [
+      "Agency partners",
+      "18 co-sell opportunities",
+      "Review",
+      "warning",
+      "Send"
+    ]
+  ],
+  "content": [
+    [
+      "2026 workflow benchmark",
+      "1,284 views",
+      82
+    ],
+    [
+      "Campaign planning template",
+      "764 downloads",
+      67
+    ],
+    [
+      "Operations maturity webinar",
+      "413 registrations",
+      54
+    ]
+  ],
+  "moments": [
+    [
+      "Today",
+      "Social creative approval",
+      "Autumn product launch"
+    ],
+    [
+      "Sep 05",
+      "Partner briefing",
+      "Co-marketing campaign"
+    ],
+    [
+      "Sep 09",
+      "Nurture sequence review",
+      "Workflow playbook"
+    ],
+    [
+      "Sep 12",
+      "Attribution readout",
+      "Growth team"
+    ]
+  ]
+}

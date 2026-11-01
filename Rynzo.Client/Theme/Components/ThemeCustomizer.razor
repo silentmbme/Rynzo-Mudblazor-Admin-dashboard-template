@@ -1,0 +1,37 @@
+@using Rynzo.Client.Theme
+@implements IDisposable
+@inject RynzoAppearance Appearance
+<MudDrawer Anchor="Anchor.End" Variant="DrawerVariant.Temporary" Open="Open" OpenChanged="OpenChanged" Width="320px" Class="rynzo-customizer" Elevation="0" aria-label="Theme customizer" role="dialog">
+    <MudDrawerHeader><div>
+    <MudText Typo="Typo.subtitle1">Customizer</MudText>
+    <MudText Typo="Typo.caption">Preview your layout</MudText></div><MudSpacer /><MudIconButton Icon="@RynzoIcons.Get("X")" OnClick="@(() => OpenChanged.InvokeAsync(false))" aria-label="Close customizer" /></MudDrawerHeader>
+    <div class="rynzo-customizer-options">
+        <LayoutOption Title="Appearance" Setting="mode" Value="@Appearance.Mode" Options="Modes" />
+        <LayoutOption Title="Layout direction" Setting="direction" Value="@Appearance.Direction" Options="Directions" />
+        <section class="rynzo-customizer-section"><MudText Typo="Typo.overline">Theme color</MudText>
+            <div class="rynzo-skin-options">@foreach (var skin in RynzoTheme.Skins) {
+                <MudIconButton Icon="@(Appearance.Skin == skin ? RynzoIcons.Get("Check") : "")" OnClick="@(() => Appearance.SetOptionAsync("skin", skin))" aria-label="@skin" aria-pressed="@(Appearance.Skin == skin)" Style="@($"background:{RynzoDesignTokens.Get(skin, false).Primary};color:white")" />
+            }</div>
+        </section>
+        <LayoutOption Title="Sidebar size" Setting="sidebarSize" Value="@Appearance.SidebarSize" Options="Sizes" />
+        <LayoutOption Title="Sidebar color" Setting="sidebarColor" Value="@Appearance.SidebarColor" Options="SidebarColors" />
+        <LayoutOption Title="Header" Setting="header" Value="@Appearance.Header" Options="Headers" />
+        <LayoutOption Title="Density" Setting="density" Value="@Appearance.Density" Options="Densities" />
+        <LayoutOption Title="Layout width" Setting="layoutWidth" Value="@Appearance.LayoutWidth" Options="Widths" />
+    </div>
+    <MudButton OnClick="Appearance.ResetAsync" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("RotateCcw")" Class="ma-4">Reset to defaults</MudButton>
+</MudDrawer>
+@code {
+    protected override void OnInitialized() => Appearance.Changed += Refresh;
+    private void Refresh() => _ = InvokeAsync(StateHasChanged);
+    public void Dispose() => Appearance.Changed -= Refresh;
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    private static readonly (string, string)[] Modes = [("light", "Light"), ("dark", "Dark"), ("system", "System")];
+    private static readonly (string, string)[] Directions = [("ltr", "LTR"), ("rtl", "RTL")];
+    private static readonly (string, string)[] Sizes = [("default", "Default"), ("compact", "Compact")];
+    private static readonly (string, string)[] SidebarColors = [("light", "Surface"), ("dark", "Dark")];
+    private static readonly (string, string)[] Headers = [("fixed", "Fixed"), ("static", "Static")];
+    private static readonly (string, string)[] Densities = [("comfortable", "Comfortable"), ("compact", "Compact")];
+    private static readonly (string, string)[] Widths = [("fluid", "Fluid"), ("boxed", "Boxed")];
+}

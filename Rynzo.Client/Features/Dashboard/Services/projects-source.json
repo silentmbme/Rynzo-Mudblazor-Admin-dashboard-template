@@ -1,0 +1,423 @@
+{
+  "projects": [
+    [
+      "Website Redesign",
+      "Nexora",
+      "82",
+      "Sep 10",
+      "On Track",
+      "SC"
+    ],
+    [
+      "Mobile App v2",
+      "Helix",
+      "64",
+      "Sep 22",
+      "At Risk",
+      "DL"
+    ],
+    [
+      "CRM Migration",
+      "Northstar",
+      "46",
+      "Oct 02",
+      "Delayed",
+      "OS"
+    ],
+    [
+      "Marketing Automation",
+      "Aurora",
+      "71",
+      "Sep 18",
+      "On Track",
+      "EB"
+    ]
+  ],
+  "workload": [
+    [
+      "Sophia Carter",
+      "SC",
+      18,
+      82
+    ],
+    [
+      "Daniel Lee",
+      "DL",
+      14,
+      68
+    ],
+    [
+      "Olivia Smith",
+      "OS",
+      21,
+      94
+    ],
+    [
+      "Ethan Brown",
+      "EB",
+      11,
+      54
+    ]
+  ],
+  "deadlines": [
+    [
+      "AUG",
+      "26",
+      "Website Redesign",
+      "Homepage approval",
+      "High"
+    ],
+    [
+      "AUG",
+      "29",
+      "Mobile App v2",
+      "Beta release",
+      "Critical"
+    ],
+    [
+      "SEP",
+      "02",
+      "CRM Migration",
+      "Data validation",
+      "High"
+    ],
+    [
+      "SEP",
+      "05",
+      "Marketing Automation",
+      "Campaign launch",
+      "Medium"
+    ]
+  ],
+  "tasks": [
+    [
+      "Finalize payment flow",
+      "Mobile App v2",
+      "High",
+      "SC",
+      "Today",
+      false
+    ],
+    [
+      "Validate migrated customer data",
+      "CRM Migration",
+      "Critical",
+      "DL",
+      "Tomorrow",
+      false
+    ],
+    [
+      "Review launch campaign",
+      "Marketing Automation",
+      "Medium",
+      "OS",
+      "Sep 05",
+      false
+    ],
+    [
+      "Approve design system",
+      "Website Redesign",
+      "Low",
+      "EB",
+      "Sep 08",
+      true
+    ]
+  ],
+  "portfolio": [
+    [
+      "Portfolio",
+      24
+    ],
+    [
+      "Active",
+      14
+    ],
+    [
+      "At risk",
+      3
+    ],
+    [
+      "Completed",
+      7
+    ]
+  ],
+  "pulse": [
+    [
+      "Schedule confidence",
+      68,
+      "bg-primary"
+    ],
+    [
+      "Budget consumed",
+      69,
+      "bg-success"
+    ],
+    [
+      "Team capacity",
+      82,
+      "bg-info"
+    ]
+  ],
+  "execution": [
+    [
+      "Ready to start",
+      84,
+      "bg-muted"
+    ],
+    [
+      "In progress",
+      126,
+      "bg-primary"
+    ],
+    [
+      "In review",
+      42,
+      "bg-warning"
+    ],
+    [
+      "Delivered",
+      428,
+      "bg-success"
+    ],
+    [
+      "Blocked",
+      18,
+      "bg-destructive"
+    ]
+  ],
+  "budgetChartSeries": [
+    {
+      "name": "Spent",
+      "data": [
+        68,
+        92,
+        54,
+        70
+      ]
+    },
+    {
+      "name": "Remaining",
+      "data": [
+        12,
+        48,
+        56,
+        10
+      ]
+    }
+  ],
+  "chartSeries": [
+    {
+      "name": "Planned",
+      "type": "column",
+      "data": [
+        92,
+        104,
+        118,
+        126,
+        134,
+        142
+      ]
+    },
+    {
+      "name": "Completed",
+      "type": "line",
+      "data": [
+        74,
+        88,
+        102,
+        116,
+        124,
+        136
+      ]
+    },
+    {
+      "name": "Overdue",
+      "type": "line",
+      "data": [
+        14,
+        12,
+        15,
+        10,
+        9,
+        7
+      ]
+    }
+  ],
+  "risks": [
+    [
+      "Legacy API compatibility",
+      "CRM Migration",
+      "Critical",
+      "Dependency unresolved"
+    ],
+    [
+      "Payment gateway approval",
+      "Mobile App v2",
+      "High",
+      "External sign-off due"
+    ],
+    [
+      "Design approval delay",
+      "Website Redesign",
+      "Medium",
+      "Client feedback pending"
+    ]
+  ],
+  "milestones": [
+    [
+      "Design system approved",
+      "Website Redesign",
+      "Completed",
+      "Aug 22"
+    ],
+    [
+      "Beta testing",
+      "Mobile App v2",
+      "Current",
+      "Aug 29"
+    ],
+    [
+      "Data migration",
+      "CRM Migration",
+      "Upcoming",
+      "Sep 02"
+    ],
+    [
+      "Campaign launch",
+      "Marketing Automation",
+      "Upcoming",
+      "Sep 05"
+    ]
+  ],
+  "teamPerformanceChartSeries": [
+    {
+      "name": "On-time delivery",
+      "data": [
+        88,
+        76,
+        82,
+        91,
+        72
+      ]
+    }
+  ],
+  "standup": [
+    [
+      "Website Redesign",
+      "Homepage approval is blocking developer handoff",
+      "Sophia Carter",
+      "Today",
+      "warning"
+    ],
+    [
+      "CRM Migration",
+      "Legacy API compatibility needs a technical owner",
+      "Daniel Lee",
+      "Tomorrow",
+      "danger"
+    ],
+    [
+      "Mobile App v2",
+      "Beta feedback is ready for product triage",
+      "Olivia Smith",
+      "Aug 29",
+      "info"
+    ],
+    [
+      "Marketing Automation",
+      "Campaign audience is ready for launch approval",
+      "Emma Wilson",
+      "Sep 05",
+      "success"
+    ]
+  ],
+  "decisions": [
+    [
+      "Approve homepage route",
+      "Website Redesign",
+      "15 min",
+      "success"
+    ],
+    [
+      "Assign API owner",
+      "CRM Migration",
+      "Today",
+      "danger"
+    ],
+    [
+      "Confirm beta cohort",
+      "Mobile App v2",
+      "Tomorrow",
+      "warning"
+    ]
+  ],
+  "capacity": [
+    [
+      "Design",
+      "4.5 days",
+      "2 requests waiting",
+      76,
+      "SC"
+    ],
+    [
+      "Engineering",
+      "2.0 days",
+      "1 dependency blocked",
+      88,
+      "DL"
+    ],
+    [
+      "QA",
+      "3.5 days",
+      "Beta starts Friday",
+      64,
+      "OW"
+    ],
+    [
+      "Product",
+      "1.5 days",
+      "3 decisions queued",
+      92,
+      "EW"
+    ]
+  ],
+  "health": [
+    [
+      "Scope",
+      "Stable",
+      "success"
+    ],
+    [
+      "Schedule",
+      "Watch",
+      "warning"
+    ],
+    [
+      "Quality",
+      "Strong",
+      "success"
+    ]
+  ],
+  "rhythm": [
+    [
+      "Today",
+      "Design review",
+      "Website Redesign"
+    ],
+    [
+      "Aug 29",
+      "Beta checkpoint",
+      "Mobile App v2"
+    ],
+    [
+      "Sep 02",
+      "Migration rehearsal",
+      "CRM Migration"
+    ],
+    [
+      "Sep 05",
+      "Campaign launch",
+      "Marketing Automation"
+    ]
+  ]
+}

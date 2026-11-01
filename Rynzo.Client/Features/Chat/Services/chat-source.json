@@ -1,0 +1,231 @@
+{
+  "contacts": [
+    "Sophia Carter",
+    "Daniel Lee",
+    "Olivia Smith",
+    "Ethan Brown",
+    "Emma Wilson",
+    "Noah Williams",
+    "Mia Johnson"
+  ],
+  "conversations": [
+    {
+      "id": "sophia",
+      "name": "Sophia Carter",
+      "initials": "SC",
+      "status": "online",
+      "subtitle": "Can you review the updated onboarding flow?",
+      "time": "2 min",
+      "unread": 2,
+      "pinned": true,
+      "email": "sophia.carter@rynzoadmin.com",
+      "messages": [
+        {
+          "id": "date",
+          "author": "system",
+          "text": "Today",
+          "time": ""
+        },
+        {
+          "id": "m1",
+          "author": "them",
+          "text": "Can you review the updated onboarding flow before 3 PM?",
+          "time": "10:21 AM",
+          "reactions": {
+            "": 2
+          }
+        },
+        {
+          "id": "m2",
+          "author": "me",
+          "text": "Yes, I will check it after the stand-up and leave comments in the prototype.",
+          "time": "10:24 AM"
+        },
+        {
+          "id": "m3",
+          "author": "them",
+          "text": "Perfect. I also added the mobile empty states for your review.",
+          "time": "10:26 AM",
+          "attachment": {
+            "name": "onboarding-flow.png",
+            "type": "image",
+            "url": "assets/images/demo/chat-onboarding-flow.png"
+          }
+        },
+        {
+          "id": "m4",
+          "author": "me",
+          "text": "This direction looks great. The hierarchy is much clearer now.",
+          "time": "10:29 AM",
+          "reply": "Perfect. I also added the mobile empty states..."
+        }
+      ]
+    },
+    {
+      "id": "product",
+      "name": "Product Team",
+      "initials": "PT",
+      "status": "online",
+      "subtitle": "Daniel: Build is ready for QA",
+      "time": "10 min",
+      "unread": 4,
+      "group": true,
+      "email": "product@rynzoadmin.com",
+      "members": [
+        "Sophia Carter",
+        "Daniel Lee",
+        "Olivia Smith",
+        "You"
+      ],
+      "messages": [
+        {
+          "id": "d",
+          "author": "system",
+          "text": "Today",
+          "time": ""
+        },
+        {
+          "id": "p1",
+          "author": "them",
+          "text": "The API integration is ready for QA.",
+          "time": "9:42 AM"
+        },
+        {
+          "id": "p2",
+          "author": "me",
+          "text": "Great, I will add it to the release checklist.",
+          "time": "9:48 AM"
+        }
+      ]
+    },
+    {
+      "id": "daniel",
+      "name": "Daniel Lee",
+      "initials": "DL",
+      "status": "away",
+      "subtitle": "Updated project timeline is ready",
+      "time": "35 min",
+      "unread": 0,
+      "email": "daniel.lee@rynzoadmin.com",
+      "messages": [
+        {
+          "id": "d",
+          "author": "system",
+          "text": "Yesterday",
+          "time": ""
+        },
+        {
+          "id": "x",
+          "author": "them",
+          "text": "I shared the revised timeline with the team.",
+          "time": "4:15 PM"
+        }
+      ]
+    },
+    {
+      "id": "design",
+      "name": "Design Crew",
+      "initials": "DC",
+      "status": "online",
+      "subtitle": "Olivia: New visual direction attached",
+      "time": "1 hr",
+      "unread": 0,
+      "group": true,
+      "email": "design@rynzoadmin.com",
+      "members": [
+        "Olivia Smith",
+        "Emma Wilson",
+        "You"
+      ],
+      "messages": [
+        {
+          "id": "date",
+          "author": "system",
+          "text": "Today",
+          "time": ""
+        },
+        {
+          "id": "m1",
+          "author": "them",
+          "text": "Can you review the updated onboarding flow before 3 PM?",
+          "time": "10:21 AM",
+          "reactions": {
+            "": 2
+          }
+        },
+        {
+          "id": "m2",
+          "author": "me",
+          "text": "Yes, I will check it after the stand-up and leave comments in the prototype.",
+          "time": "10:24 AM"
+        }
+      ]
+    },
+    {
+      "id": "emma",
+      "name": "Emma Wilson",
+      "initials": "EW",
+      "status": "offline",
+      "subtitle": "Thanks for the update!",
+      "time": "Yesterday",
+      "unread": 0,
+      "muted": true,
+      "email": "emma.wilson@rynzoadmin.com",
+      "messages": [
+        {
+          "id": "d",
+          "author": "system",
+          "text": "Yesterday",
+          "time": ""
+        },
+        {
+          "id": "e",
+          "author": "them",
+          "text": "Thanks for the update!",
+          "time": "3:18 PM"
+        }
+      ]
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing Ops",
+      "initials": "MO",
+      "status": "online",
+      "subtitle": "Campaign notes have been archived",
+      "time": "Mon",
+      "unread": 0,
+      "group": true,
+      "archived": true,
+      "email": "marketing@rynzoadmin.com",
+      "members": [
+        "Mia Johnson",
+        "Noah Williams",
+        "You"
+      ],
+      "messages": [
+        {
+          "id": "date",
+          "author": "system",
+          "text": "Today",
+          "time": ""
+        },
+        {
+          "id": "m1",
+          "author": "them",
+          "text": "Can you review the updated onboarding flow before 3 PM?",
+          "time": "10:21 AM",
+          "reactions": {
+            "": 2
+          }
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    "",
+    "",
+    "",
+    "",
+    ""
+  ]
+}

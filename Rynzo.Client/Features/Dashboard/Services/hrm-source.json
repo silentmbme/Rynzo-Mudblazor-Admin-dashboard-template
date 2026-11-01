@@ -1,0 +1,174 @@
+{
+  "departments": [
+    "Engineering",
+    "Design",
+    "Marketing",
+    "Operations"
+  ],
+  "employees": [
+    {
+      "id": "EMP-101",
+      "name": "Sophia Carter",
+      "role": "Product designer",
+      "department": "Design",
+      "status": "Present",
+      "salary": 6200,
+      "image": "user-1"
+    },
+    {
+      "id": "EMP-102",
+      "name": "Daniel Lee",
+      "role": "Frontend engineer",
+      "department": "Engineering",
+      "status": "Present",
+      "salary": 7800,
+      "image": "user-2"
+    },
+    {
+      "id": "EMP-103",
+      "name": "Olivia Smith",
+      "role": "Marketing lead",
+      "department": "Marketing",
+      "status": "Remote",
+      "salary": 6800,
+      "image": "user-3"
+    },
+    {
+      "id": "EMP-104",
+      "name": "James Wilson",
+      "role": "Operations manager",
+      "department": "Operations",
+      "status": "On leave",
+      "salary": 7100,
+      "image": "user-4"
+    },
+    {
+      "id": "EMP-105",
+      "name": "Maya Patel",
+      "role": "Backend engineer",
+      "department": "Engineering",
+      "status": "Present",
+      "salary": 8200,
+      "image": "user-5"
+    },
+    {
+      "id": "EMP-106",
+      "name": "Noah Williams",
+      "role": "Brand designer",
+      "department": "Design",
+      "status": "Remote",
+      "salary": 5900,
+      "image": "user-6"
+    }
+  ],
+  "leave": [
+    {
+      "id": 1,
+      "name": "Daniel Lee",
+      "department": "Engineering",
+      "type": "Annual leave",
+      "dates": "Oct 12–13, 2026",
+      "days": 2,
+      "status": "Pending"
+    },
+    {
+      "id": 2,
+      "name": "Sophia Carter",
+      "department": "Design",
+      "type": "Personal leave",
+      "dates": "Oct 16, 2026",
+      "days": 1,
+      "status": "Pending"
+    },
+    {
+      "id": 3,
+      "name": "Olivia Smith",
+      "department": "Marketing",
+      "type": "Annual leave",
+      "dates": "Oct 19–21, 2026",
+      "days": 3,
+      "status": "Pending"
+    }
+  ],
+  "onboarding": [
+    {
+      "title": "Send welcome pack",
+      "department": "Engineering",
+      "done": true
+    },
+    {
+      "title": "Prepare workstation",
+      "department": "Engineering",
+      "done": false
+    },
+    {
+      "title": "Schedule design orientation",
+      "department": "Design",
+      "done": false
+    },
+    {
+      "title": "Assign onboarding buddy",
+      "department": "Marketing",
+      "done": true
+    },
+    {
+      "title": "Complete policy introduction",
+      "department": "Operations",
+      "done": false
+    }
+  ],
+  "recruitment": [
+    {
+      "title": "Senior frontend engineer",
+      "department": "Engineering",
+      "candidates": 18
+    },
+    {
+      "title": "Product designer",
+      "department": "Design",
+      "candidates": 12
+    },
+    {
+      "title": "Growth marketer",
+      "department": "Marketing",
+      "candidates": 9
+    }
+  ],
+  "activity": [
+    {
+      "title": "October payroll prepared",
+      "detail": "Base salary records are ready for review",
+      "time": "09:15"
+    },
+    {
+      "title": "Onboarding checklist updated",
+      "detail": "Equipment and orientation tasks assigned",
+      "time": "10:00"
+    },
+    {
+      "title": "Team survey scheduled",
+      "detail": "Employee feedback opens October 12",
+      "time": "10:45"
+    }
+  ],
+  "milestones": [
+    {
+      "name": "Sophia Carter",
+      "label": "Work anniversary",
+      "day": "12",
+      "department": "Design"
+    },
+    {
+      "name": "Maya Patel",
+      "label": "Birthday",
+      "day": "15",
+      "department": "Engineering"
+    },
+    {
+      "name": "James Wilson",
+      "label": "Work anniversary",
+      "day": "21",
+      "department": "Operations"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+@using Rynzo.Client.Features.Pricing.Models
+@using Rynzo.Client.Theme
+@inject ISnackbar Snackbar
+<MudDialog Class="rynzo-source-dialog">
+    <TitleContent><MudText Typo="Typo.h6">Contact Sales</MudText></TitleContent>
+    <DialogContent>
+        <div class="sales-intro"><span><MudIcon Icon="@RynzoIcons.Get("Headphones")" /></span><div><h3>Let's find the right fit.</h3><p>Share your team size, workflow, and requirements.</p></div></div><div class="sales-note">Sales delivery is pending integration. No request will be sent.</div>
+        <div class="pricing-sales-fields">
+            <SourceTextField Label="Name" Placeholder="Your name" @bind-Value="_draft.Name" />
+            <SourceTextField Label="Work email" Placeholder="you@company.com" @bind-Value="_draft.Email" />
+            <SourceTextField Label="Company" Placeholder="Company name" @bind-Value="_draft.Company" />
+            <SourceTextField Label="Team size" Placeholder="e.g. 150" @bind-Value="_draft.TeamSize" />
+        </div>
+        <SourceTextField Label="Message" Placeholder="Tell us about your requirements" Lines="4" @bind-Value="_draft.Message" />
+    </DialogContent>
+    <DialogActions><MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton><MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Send">Submit Request</MudButton></DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] private IMudDialogInstance Dialog { get; set; } = null!;
+    private readonly SalesDraft _draft = new();
+    // React required attributes are outside a form: no effective submit validation exists.
+    private void Cancel() => Dialog.Cancel();
+    private void Send() { Dialog.Close(); Snackbar.Add("Sales delivery is pending integration. No request was sent.", Severity.Info); }
+}

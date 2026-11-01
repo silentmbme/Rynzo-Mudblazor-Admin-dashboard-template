@@ -1,0 +1,18 @@
+﻿/* Reuse the actual dashboard header; retain the existing page spacing contract. */
+.rynzo-page-header {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
+.rynzo-page-header ::deep .dashboard-page-header {
+  margin-bottom: 0;
+}
+.rynzo-page-header ::deep .dashboard-page-actions > div {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+@media (max-width: 639px) {
+  .rynzo-page-header ::deep .dashboard-page-actions .mud-button {
+    min-width: 0;
+  }
+}

@@ -1,0 +1,54 @@
+@page "/dashboards/logistics-dashboard"
+@page "/logistics-dashboard.html"
+@implements IAsyncDisposable
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Services
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IDialogService Dialogs
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+<PageTitle>Logistics Dashboard | Rynzo</PageTitle>
+<div class="logistics-dashboard">
+    <DashboardPageHeader Title="Logistics Dashboard" Description="Keep shipments, routes, and fleet operations moving." ><Actions><MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export shipments</MudButton></Actions></DashboardPageHeader>
+    <MudCard Outlined="true" Elevation="0" Class="logistics-banner rynzo-widget-card"><MudIcon Icon="@RynzoIcons.Get("Truck")" Color="Color.Primary" /><div><b>Every shipment. One clear view.</b><p>Sample operations · October 9, 2026 · Session-only updates</p></div><MudChip T="string" Color="Color.Primary" Size="Size.Small">Demo tracking</MudChip></MudCard>
+    <section class="logistics-metrics">@foreach(var metric in Metrics){<MudCard Outlined="true" Elevation="0" Class="logistics-metric rynzo-widget-card rynzo-widget-card--structured"><MudCardContent><div><span><p>@metric.Label</p><strong>@metric.Value</strong></span><MudIcon Icon="@RynzoIcons.Get(metric.Icon)" /></div><small>@metric.Note</small></MudCardContent></MudCard>}</section>
+    <section class="logistics-grid">
+        <DashboardCard Title="Cargo &amp; route progress" Description="Weight in kilograms and progress percentage by shipment" Class="logistics-span-two">@if(_visible.Length>0){<DashboardChart Data="_chartData" OptionsModule="./logistics-dashboard-options.js" Kind="cargo" Height="300" Label="Cargo weight and route progress by shipment" />}else{<p class="logistics-chart-empty">No shipments match your filters.</p>}</DashboardCard>
+        <DashboardCard Title="Shipment status" Description="Current distribution in your filtered view">@if(_visible.Length>0){<DashboardChart Data="_chartData" OptionsModule="./logistics-dashboard-options.js" Kind="status" Height="300" Label="Shipment status distribution" />}else{<p class="logistics-chart-empty">No shipments in view.</p>}</DashboardCard>
+    </section>
+    <DashboardCard Title="Shipment tracking" Description="@($"{_visible.Length} shipments in view")" Class="logistics-tracking"><Actions><div class="logistics-filters"><MudTextField T="string" @bind-Value="_query" @bind-Value:after="Refresh" Immediate="true" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" Placeholder="Search ID, customer, or city…" aria-label="Search shipments" Class="logistics-search" /><MudSelect T="string" @bind-Value="_status" @bind-Value:after="Refresh" Variant="Variant.Outlined" Margin="Margin.Dense" Class="logistics-status" aria-label="Shipment status"><MudSelectItem Value="@("All")">All</MudSelectItem>@foreach(var status in Statuses){<MudSelectItem Value="@status">@status</MudSelectItem>}</MudSelect></div></Actions><ChildContent><MudTable T="LogisticsShipment" Items="_visible" Breakpoint="Breakpoint.None" Elevation="0" Class="logistics-table" aria-label="Shipment tracking"><HeaderContent><MudTh>Shipment</MudTh><MudTh>Route</MudTh><MudTh>Status</MudTh><MudTh>Cargo</MudTh><MudTh>ETA</MudTh><MudTh></MudTh></HeaderContent><RowTemplate><MudTd><b>@context.Id</b><small>@context.Customer</small></MudTd><MudTd><p>@context.Origin → @context.Destination</p><FinanceProgress Value="context.Progress" /></MudTd><MudTd><MudChip T="string" Size="Size.Small" Color="@StatusColor(context.Status)">@context.Status</MudChip></MudTd><MudTd>@context.Weight kg</MudTd><MudTd>@context.Eta</MudTd><MudTd><MudButton Size="Size.Small" Variant="Variant.Outlined" aria-label="@($"Track {context.Id}")" OnClick="@(() => Track(context))">Track</MudButton></MudTd></RowTemplate><NoRecordsContent><MudText Class="pa-6" Color="Color.Secondary">No matching shipments.</MudText></NoRecordsContent></MudTable></ChildContent></DashboardCard>
+    <section class="logistics-grid">
+        <DashboardCard Title="Fleet overview" Description="Vehicles assigned to shipments in view" Class="logistics-span-two logistics-padded"><div class="logistics-fleet">@foreach(var shipment in _visible){<div><div><MudIcon Icon="@RynzoIcons.Get("Truck")" Color="Color.Primary" /><span><b>@shipment.Vehicle</b><small>@shipment.Driver</small></span></div><p><span>@shipment.Origin / @shipment.Destination</span><span>@shipment.Progress%</span></p></div>}</div>@if(_visible.Length==0){<p class="logistics-muted">No assigned vehicles in view.</p>}</DashboardCard>
+        <DashboardCard Title="Dispatch checklist" Description="Sample daily operations" Class="logistics-padded"><div class="logistics-checklist">@for(var i=0;i<Checklist.Length;i++){var index=i;<MudCheckBox T="bool" @bind-Value="_checked[index]" Label="@Checklist[index]" Color="Color.Primary" Dense="true" />}</div><p class="logistics-note">Tracking details are sample records. No live GPS or carrier connection is configured.</p></DashboardCard>
+    </section>
+    <section class="logistics-grid">
+        <DashboardCard Title="Delivery performance" Description="Current filtered shipments" Class="logistics-padded"><div class="logistics-delivery"><MudIcon Icon="@RynzoIcons.Get("CheckCheck")" Color="Color.Success" /><span><strong>@Round(DeliveryRate)%</strong><small>Shipments completed</small></span></div><FinanceProgress Value="DeliveryRate" Tone="success" /><div class="logistics-delivery-totals"><div><b>@_visible.Sum(s=>s.Weight) kg</b><small>Total cargo in view</small></div><div><b>@Round(_visible.Length==0?0:_visible.Average(s=>s.Progress))%</b><small>Average route progress</small></div></div></DashboardCard>
+        <DashboardCard Title="Origin cargo load" Description="Weight allocation across dispatch cities" Class="logistics-padded"><div class="logistics-origins">@foreach(var origin in _visible.Select(s=>s.Origin).Distinct()){var weight=_visible.Where(s=>s.Origin==origin).Sum(s=>s.Weight);<div><p><b>@origin</b><span>@weight kg</span></p><FinanceProgress Value="@(weight/(double)_visible.Sum(s=>s.Weight)*100)" /></div>}</div>@if(_visible.Length==0){<p class="logistics-muted">No cargo in this view.</p>}</DashboardCard>
+        <DashboardCard Title="Dispatch attention" Description="Pending and delayed shipments in view" Class="logistics-padded"><div class="logistics-attention">@foreach(var shipment in Attention){<MudButton Variant="Variant.Outlined" Class="logistics-attention-item" OnClick="@(() => Track(shipment))"><MudIcon Icon="@RynzoIcons.Get("Package")" Color="Color.Warning" /><span><span><b>@shipment.Id</b><MudChip T="string" Color="Color.Warning" Size="Size.Small">@shipment.Status</MudChip></span><small>@shipment.Origin to @shipment.Destination</small><small>@(shipment.Status=="Pending"?"Awaiting dispatch":"Review arrival schedule")</small></span></MudButton>}</div>@if(!Attention.Any()){<div class="logistics-no-attention"><MudIcon Icon="@RynzoIcons.Get("CheckCheck")" Color="Color.Success" /><p>No shipments need attention</p></div>}</DashboardCard>
+    </section>
+</div>
+@code {
+    private readonly LogisticsDashboardState _state=new();
+    private LogisticsShipment[] _visible=[];
+    private string _query="",_status="All";
+    private object _chartData=null!;
+    private IJSObjectReference? _download;
+    private readonly bool[] _checked=new bool[4];
+    private static readonly string[] Statuses=["Pending","In transit","Delayed","Delivered"],Checklist=["Review delayed shipments","Confirm driver assignments","Check cargo documentation","Prepare next-day dispatch"];
+    private static readonly BreadcrumbItem[] Breadcrumbs=[new("Dashboards",null),new("Logistics",null,true)];
+    private IEnumerable<LogisticsShipment> Attention=>_visible.Where(s=>s.Status is "Pending" or "Delayed");
+    private double DeliveryRate=>_visible.Length==0?0:_visible.Count(s=>s.Status=="Delivered")/(double)_visible.Length*100;
+    private (string Label,int Value,string Icon,string Note)[] Metrics=>[("Shipments in view",_visible.Length,"Package","Matching your current filters"),("In transit",_visible.Count(s=>s.Status=="In transit"),"Truck","Shipments moving toward destination"),("Delivered",_visible.Count(s=>s.Status=="Delivered"),"CheckCheck","Completed sample deliveries"),("Needs attention",_visible.Count(s=>s.Status=="Delayed"),"MapPin","Delayed shipments to review")];
+    private static double Round(double value)=>Math.Floor(value+.5);
+    private static Color StatusColor(string status)=>status=="Delivered"?Color.Success:status=="Delayed"?Color.Warning:Color.Primary;
+    protected override void OnInitialized()=>Refresh();
+    private void Refresh(){_visible=_state.Filter(_query,_status);_chartData=new{Visible=_visible};}
+    private async Task Track(LogisticsShipment shipment)
+    {
+        var dialog=await Dialogs.ShowAsync<LogisticsTrackingDialog>($"Track {shipment.Id}",new DialogParameters<LogisticsTrackingDialog>{{d=>d.Shipment,shipment}},new DialogOptions{CloseButton=true,CloseOnEscapeKey=true,FullWidth=true,MaxWidth=MaxWidth.Small});
+        var result=await dialog.Result;if(result is {Canceled:false,Data:string id}&&_state.Deliver(id)){Refresh();Snackbar.Add("Sample shipment marked delivered",Severity.Success);}
+    }
+    private async Task Export(){_download??=await JS.InvokeAsync<IJSObjectReference>("import","./theme/dashboard-download.js");await _download.InvokeVoidAsync("csv","logistics-shipments.csv",LogisticsDashboardState.Csv(_visible));}
+    public async ValueTask DisposeAsync(){if(_download is not null)try{await _download.DisposeAsync();}catch(JSDisconnectedException){}}
+}

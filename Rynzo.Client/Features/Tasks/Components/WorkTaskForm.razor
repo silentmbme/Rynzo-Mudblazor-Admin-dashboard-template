@@ -1,0 +1,22 @@
+@using Rynzo.Client.Features.Tasks.Models
+@using Rynzo.Client.Features.Tasks.Services
+@inject ISnackbar Snackbar
+<MudDialog Class="work-task-form" Style="width:min(672px,calc(100vw - 32px));max-width:672px;max-height:90vh;overflow-y:auto">
+    <TitleContent><MudText Typo="Typo.h6" HtmlTag="h2">@(Draft.Id.Length==0?"Add task":"Edit task")</MudText></TitleContent>
+    <DialogContent>
+        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">Set details, ownership, and due dates.</MudText>
+        <MudGrid Spacing="3">
+            <MudItem xs="12"><MudTextField T="string" @bind-Value="Draft.Title" Immediate="true" Placeholder="Task title" aria-label="Task title" Variant="Variant.Outlined" /></MudItem>
+            <MudItem xs="12" sm="6"><MudTextField T="string" @bind-Value="Draft.Project" Immediate="true" Placeholder="Project" aria-label="Task project" Variant="Variant.Outlined" /></MudItem>
+            <MudItem xs="12" sm="6"><MudTextField T="string" @bind-Value="Assignees" Immediate="true" Placeholder="Assignees — Sophia Carter, Daniel Lee" aria-label="Task assignees" Variant="Variant.Outlined" /></MudItem>
+            <MudItem xs="12" sm="6"><MudSelect T="string" @bind-Value="Draft.Status" Placeholder="Status" aria-label="Task status" Variant="Variant.Outlined" Class="work-form-status">@foreach(var status in State.Source.Statuses){<MudSelectItem Value="@status">@status</MudSelectItem>}</MudSelect></MudItem>
+            <MudItem xs="12" sm="6"><MudSelect T="string" @bind-Value="Draft.Priority" Placeholder="Priority" aria-label="Task priority" Variant="Variant.Outlined" Class="work-form-priority">@foreach(var priority in State.Source.Priorities){<MudSelectItem Value="@priority">@priority</MudSelectItem>}</MudSelect></MudItem>
+            <MudItem xs="12" sm="6"><MudTextField T="string" @bind-Value="Draft.Due" Immediate="true" Placeholder="Due date" aria-label="Task due date" InputType="InputType.Date" Variant="Variant.Outlined" /></MudItem>
+            <MudItem xs="12" sm="6"><MudTextField T="string" @bind-Value="Tags" Immediate="true" Placeholder="Tags" aria-label="Task tags" Variant="Variant.Outlined" /></MudItem>
+            <MudItem xs="12" sm="6"><MudSelect T="string" @bind-Value="Draft.Reminder" Placeholder="Reminder" aria-label="Task reminder" Variant="Variant.Outlined" Class="work-form-reminder">@foreach(var reminder in new[]{"None","At due time","10 minutes before","30 minutes before","1 hour before","1 day before"}){<MudSelectItem Value="@reminder">@reminder</MudSelectItem>}</MudSelect></MudItem>
+            <MudItem xs="12"><MudTextField T="string" @bind-Value="Draft.Description" Immediate="true" Placeholder="Description" aria-label="Task description" Lines="3" Variant="Variant.Outlined" /></MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions><MudButton Variant="Variant.Outlined" OnClick="@(() => Dialog.Cancel())">Cancel</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save">@(Draft.Id.Length==0?"Create task":"Save changes")</MudButton></DialogActions>
+</MudDialog>
+@code{[Parameter,EditorRequired]public WorkTask Draft{get;set;}=null!;[Parameter,EditorRequired]public TasksState State{get;set;}=null!;[CascadingParameter]public IMudDialogInstance Dialog{get;set;}=null!;private string Assignees{get=>string.Join(", ",Draft.Assignees);set=>Draft.Assignees=Split(value);}private string Tags{get=>string.Join(", ",Draft.Tags);set=>Draft.Tags=Split(value);}private static string[] Split(string value)=>value.Split(',').Select(v=>v.Trim()).Where(v=>v.Length>0).ToArray();private void Save(){if(!State.Save(Draft)){Snackbar.Add("Task title is required",Severity.Error);return;}Dialog.Close(DialogResult.Ok(true));}}

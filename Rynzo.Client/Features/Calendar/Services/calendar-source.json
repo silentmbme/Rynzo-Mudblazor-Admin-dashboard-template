@@ -1,0 +1,252 @@
+[
+  {
+    "id": "standup",
+    "title": "Product Team Standup",
+    "date": "2026-08-24",
+    "start": "09:30",
+    "end": "10:00",
+    "category": "Work",
+    "location": "Focus room",
+    "description": "Daily planning and blockers.",
+    "attendees": [
+      "Sophia Carter",
+      "Daniel Lee",
+      "You"
+    ],
+    "reminder": "10 minutes before",
+    "recurrence": "Daily",
+    "link": "https://meet.rynzoadmin.com/product"
+  },
+  {
+    "id": "design",
+    "title": "Design Review",
+    "date": "2026-08-24",
+    "start": "14:00",
+    "end": "15:00",
+    "category": "Project",
+    "location": "Design Studio",
+    "description": "Review the onboarding flow and mobile states.",
+    "attendees": [
+      "Sophia Carter",
+      "Olivia Smith"
+    ],
+    "reminder": "30 minutes before",
+    "recurrence": "Does not repeat"
+  },
+  {
+    "id": "demo",
+    "title": "Customer Demo - Acme Inc.",
+    "date": "2026-08-25",
+    "start": "11:00",
+    "end": "12:00",
+    "category": "Meetings",
+    "location": "Video conference",
+    "description": "Product walkthrough for Acme stakeholders.",
+    "attendees": [
+      "Ethan Brown",
+      "Emma Wilson"
+    ],
+    "reminder": "1 hour before",
+    "recurrence": "Does not repeat",
+    "link": "https://meet.rynzoadmin.com/acme"
+  },
+  {
+    "id": "launch",
+    "title": "Marketing Campaign Launch",
+    "date": "2026-08-26",
+    "start": "08:00",
+    "end": "09:00",
+    "category": "Marketing",
+    "location": "Marketing channel",
+    "description": "Launch checklist and owner handoff.",
+    "attendees": [
+      "Mia Johnson",
+      "Noah Williams"
+    ],
+    "reminder": "At time of event",
+    "recurrence": "Does not repeat"
+  },
+  {
+    "id": "sprint",
+    "title": "Sprint Planning",
+    "date": "2026-08-27",
+    "start": "10:00",
+    "end": "11:30",
+    "category": "Work",
+    "location": "North meeting room",
+    "description": "Plan the next sprint scope.",
+    "attendees": [
+      "Daniel Lee",
+      "Olivia Smith",
+      "You"
+    ],
+    "reminder": "30 minutes before",
+    "recurrence": "Weekly"
+  },
+  {
+    "id": "qbr",
+    "title": "Quarterly Business Review",
+    "date": "2026-08-28",
+    "start": "15:00",
+    "end": "16:30",
+    "category": "Meetings",
+    "location": "Executive room",
+    "description": "Quarterly progress and outcomes.",
+    "attendees": [
+      "Sophia Carter",
+      "Emma Wilson"
+    ],
+    "reminder": "1 day before",
+    "recurrence": "Does not repeat"
+  },
+  {
+    "id": "research",
+    "title": "Research Readout",
+    "date": "2026-08-20",
+    "start": "13:00",
+    "end": "14:00",
+    "category": "Project",
+    "location": "Research room",
+    "description": "Share usability findings and next steps.",
+    "attendees": [
+      "Olivia Smith",
+      "You"
+    ],
+    "reminder": "30 minutes before",
+    "recurrence": "Does not repeat"
+  },
+  {
+    "id": "one-on-one",
+    "title": "1:1 with Daniel",
+    "date": "2026-08-21",
+    "start": "11:30",
+    "end": "12:00",
+    "category": "Meetings",
+    "location": "Focus room",
+    "description": "Weekly check-in with Daniel.",
+    "attendees": [
+      "Daniel Lee"
+    ],
+    "reminder": "10 minutes before",
+    "recurrence": "Weekly"
+  },
+  {
+    "id": "gym",
+    "title": "Gym session",
+    "date": "2026-08-23",
+    "start": "08:00",
+    "end": "09:00",
+    "category": "Personal",
+    "location": "Wellness center",
+    "description": "Personal wellbeing block.",
+    "attendees": [],
+    "reminder": "30 minutes before",
+    "recurrence": "Weekly"
+  },
+  {
+    "id": "content",
+    "title": "Content Calendar Review",
+    "date": "2026-08-24",
+    "start": "16:00",
+    "end": "16:45",
+    "category": "Marketing",
+    "location": "Marketing channel",
+    "description": "Approve next week content plan.",
+    "attendees": [
+      "Mia Johnson"
+    ],
+    "reminder": "10 minutes before",
+    "recurrence": "Weekly"
+  },
+  {
+    "id": "analytics",
+    "title": "Analytics Deep Dive",
+    "date": "2026-08-25",
+    "start": "15:30",
+    "end": "16:30",
+    "category": "Work",
+    "location": "Data hub",
+    "description": "Review conversion and retention trends.",
+    "attendees": [
+      "Noah Williams",
+      "You"
+    ],
+    "reminder": "30 minutes before",
+    "recurrence": "Does not repeat"
+  },
+  {
+    "id": "release",
+    "title": "Release Readiness",
+    "date": "2026-08-26",
+    "start": "13:30",
+    "end": "14:15",
+    "category": "Deadline",
+    "location": "Engineering channel",
+    "description": "Confirm release blockers are closed.",
+    "attendees": [
+      "Daniel Lee",
+      "Ethan Brown"
+    ],
+    "reminder": "1 hour before",
+    "recurrence": "Does not repeat"
+  },
+  {
+    "id": "client",
+    "title": "Client Follow-up",
+    "date": "2026-08-27",
+    "start": "14:00",
+    "end": "14:30",
+    "category": "Meetings",
+    "location": "Video conference",
+    "description": "Follow-up discussion with client team.",
+    "attendees": [
+      "Emma Wilson"
+    ],
+    "reminder": "10 minutes before",
+    "recurrence": "Does not repeat"
+  },
+  {
+    "id": "retro",
+    "title": "Sprint Retrospective",
+    "date": "2026-08-28",
+    "start": "11:00",
+    "end": "12:00",
+    "category": "Project",
+    "location": "North meeting room",
+    "description": "Capture improvements for the next sprint.",
+    "attendees": [
+      "Sophia Carter",
+      "Daniel Lee",
+      "Olivia Smith"
+    ],
+    "reminder": "30 minutes before",
+    "recurrence": "Biweekly"
+  },
+  {
+    "id": "weekend",
+    "title": "Weekly Planning",
+    "date": "2026-08-30",
+    "start": "18:00",
+    "end": "18:30",
+    "category": "Reminder",
+    "location": "",
+    "description": "Review priorities for the coming week.",
+    "attendees": [],
+    "reminder": "At time of event",
+    "recurrence": "Weekly"
+  },
+  {
+    "id": "invoice",
+    "title": "Invoice Deadline",
+    "date": "2026-08-29",
+    "start": "",
+    "end": "",
+    "category": "Deadline",
+    "location": "",
+    "description": "Submit August invoices.",
+    "attendees": [],
+    "reminder": "1 day before",
+    "recurrence": "Monthly",
+    "allDay": true
+  }
+]

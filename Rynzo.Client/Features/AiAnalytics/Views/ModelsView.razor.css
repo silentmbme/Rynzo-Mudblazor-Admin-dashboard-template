@@ -1,0 +1,314 @@
+.models-view{
+  width: 100%;
+  min-width: 0;
+  color: var(--foreground);
+  font-size: var(--rynzo-font-body2);
+  line-height: 1.6;
+  padding-bottom: 12px;
+}.models-view ::deep .mud-button{
+  text-transform: none;
+  font-size: var(--rynzo-font-caption);
+  border-radius: 7px;
+}.model-export{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+}.model-metrics{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}.model-banner{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 24px;
+  border: 1px solid color-mix(in srgb, var(--primary) 15%, var(--border));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--primary) 3%, var(--card));
+  margin-bottom: 24px;
+}.model-banner ::deep > svg{
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
+}.model-banner > div{
+  flex: 1;
+  min-width: 0;
+}.model-banner b{
+  font-size: var(--rynzo-font-body2);
+  font-weight: 600;
+}.model-banner p{
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.9;
+  color: var(--muted-foreground);
+  margin-top: 5px;
+  max-width: 850px;
+}.model-banner ::deep .mud-chip{
+  font-size: var(--rynzo-font-overline);
+  border-radius: 5px;
+  white-space: nowrap;
+}.model-layout{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 285px;
+  gap: 24px;
+  align-items: start;
+}.model-layout > div{
+  min-width: 0;
+}.model-filters{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  margin-bottom: 20px;
+}.model-filters ::deep .mud-input-control{
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}.model-filters ::deep .mud-input{
+  font-size: var(--rynzo-font-body2);
+  border-radius: 7px;
+  background: var(--background);
+}.model-filters ::deep input{
+  padding-block: 10px;
+}.model-filters ::deep .mud-input-adornment svg{
+  width: 17px;
+  height: 17px;
+}.model-filters select{
+  height: 38px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--card);
+  color: var(--foreground);
+  font-size: var(--rynzo-font-caption);
+}.model-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}::deep .model-card{display: flex;flex-direction: column;min-width: 0}.model-card-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+}.model-icon{
+  display: grid;
+  place-items: center;
+  width: 41px;
+  height: 45px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--tone) 7%, var(--card));
+  color: var(--tone);
+  border: 1px solid color-mix(in srgb, var(--tone) 12%, var(--border));
+  flex-shrink: 0;
+}.model-icon ::deep svg{
+  width: 21px;
+  height: 21px;
+}.model-card-top ::deep .mud-switch{
+  margin: 0;
+}.model-card ::deep .mud-chip{
+  font-size: var(--rynzo-font-overline) !important;
+  border-radius: 5px !important;
+  min-height: 21px;
+  padding: 3px 6px !important;
+  font-weight: 500 !important;
+}.model-card > small{
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+}.model-card ::deep > .mud-typography-h5{
+  font-family: var(--rynzo-heading-font-family);
+  font-size: var(--rynzo-font-h5);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  margin-top: 8px !important;
+}.model-purpose{
+  font-size: var(--rynzo-font-body2);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin-top: 9px;
+  min-height: 50px;
+}.model-values{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 18px 0;
+  margin: 19px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}.model-values > div{
+  min-width: 0;
+}.model-values small{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}.model-values b{
+  display: block;
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  margin-top: 7px;
+}.model-card ::deep > .mud-stack:last-child{
+  margin-top: auto !important;
+  padding-top: 20px;
+  gap: 8px;
+}.model-card ::deep > .mud-stack:last-child .mud-button{
+  font-size: var(--rynzo-font-caption);
+  min-height: 35px;
+  padding-inline: 9px;
+}.model-card ::deep .mud-button-icon-start svg{
+  width: 15px;
+  height: 15px;
+}.model-side{
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}::deep .model-side-panel{overflow: hidden}.model-panel-header{
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}.model-panel-header ::deep .mud-typography-h6{
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  letter-spacing: normal;
+}.model-panel-header > small{
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin-top: 6px;
+}.guide-row + .guide-row{
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}.guide-row b{
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+}.guide-row p{
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.9;
+  color: var(--muted-foreground);
+  margin-top: 7px;
+}.model-side-panel > .pa-5 > p{
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.9;
+  margin-top: 10px;
+}.model-side-panel > .pa-5 ::deep > svg{
+  width: 22px;
+  height: 22px;
+  color: var(--muted-foreground);
+}.activity-row{
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}.activity-row:first-child{
+  padding-top: 0;
+}.activity-row:last-child{
+  border: 0;
+  padding-bottom: 0;
+}.activity-row ::deep svg{
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  margin-top: 3px;
+}.activity-row b{
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+}.activity-row p{
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin-top: 5px;
+}.activity-row small{
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin-top: 5px;
+}.model-empty{
+  display: grid;
+  justify-items: center;
+  gap: 15px;
+  padding: 45px 20px;
+  text-align: center;
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  font-size: var(--rynzo-font-body2);
+  color: var(--muted-foreground);
+}.model-field-label{
+  display: block;
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  margin: 20px 0 8px;
+}.model-slider-labels{
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}.models-view ::deep .mud-dialog .mud-input{
+  font-size: var(--rynzo-font-body2);
+  border-radius: 7px;
+}.models-view ::deep .mud-dialog small{
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.9;
+  color: var(--muted-foreground);
+}button:focus-visible{
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}select:focus-visible{
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+@media (max-width: 1200px) {.model-metrics{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }.model-layout{
+    grid-template-columns: minmax(0, 1fr);
+  }.model-side{
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }.model-purpose{
+    min-height: 0;
+  }
+}
+@media (max-width: 650px) {.model-metrics{
+    gap: 10px;
+    margin-bottom: 18px;
+  }.model-banner{
+    padding: 18px 16px;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+  }.model-banner > div{
+    flex-basis: calc(100% - 40px);
+  }.model-banner ::deep .mud-chip{
+    margin-inline-start: 33px;
+  }.model-filters{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 14px;
+    gap: 8px;
+  }.model-filters ::deep .mud-input-control{
+    grid-column: 1/-1;
+    width: 100%;
+  }.model-filters select{
+    width: 100%;
+  }.model-grid{
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }.model-side{
+    grid-template-columns: minmax(0, 1fr);
+  }.model-values{
+    gap: 8px;
+  }.model-values small{
+    font-size: var(--rynzo-font-overline);
+  }.model-card ::deep > .mud-stack:last-child .mud-button{
+    padding-inline: 8px;
+  }
+}

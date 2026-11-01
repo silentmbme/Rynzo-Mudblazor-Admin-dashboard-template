@@ -1,0 +1,349 @@
+.chips-page {
+  min-width: 0;
+  color: var(--foreground);
+  font-size: var(--rynzo-font-body2);
+  padding-bottom: 24px;
+}
+.chips-intro {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 26px 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(
+    110deg,
+    color-mix(in srgb, var(--primary) 5%, var(--card)),
+    var(--card)
+  );
+  margin-bottom: 24px;
+}
+.chips-intro > span {
+  height: 46px;
+  width: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.chips-intro > span ::deep svg {
+  height: 23px;
+  width: 23px;
+}
+.chips-intro small,
+.chips-eyebrow {
+  font-size: var(--rynzo-font-overline);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted-foreground);
+}
+.chips-eyebrow {
+  display: block;
+}
+.chips-intro h2 {
+  font-size: var(--rynzo-font-h5);
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 6px 0;
+}
+.chips-intro p {
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+.chips-intro-note {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-left: auto;
+}
+.chips-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.chips-wrap {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.chips-surface {
+  min-height: 90px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--background);
+  padding: 20px;
+  margin-top: 18px;
+}
+.chips-caption {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin: 18px 0 0;
+}
+.chips-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--rynzo-font-caption);
+  min-height: 20px;
+}
+.chips-section-heading > span:first-child {
+  font-weight: 500;
+}
+.chips-section-heading > span:last-child {
+  color: var(--muted-foreground);
+}
+.chips-section-heading > ::deep svg {
+  height: 17px;
+  width: 17px;
+  color: var(--muted-foreground);
+}
+.chips-page ::deep .mud-chip {
+  margin: 0;
+  border-radius: 999px;
+  font-size: var(--rynzo-font-caption);
+  max-width: 100%;
+  height: auto;
+  min-height: 30px;
+  padding: 4px 12px;
+}
+.chips-page ::deep .mud-chip-content {
+  overflow-wrap: anywhere;
+  white-space: normal;
+  min-width: 0;
+}
+.chips-page ::deep .mud-chip-outlined {
+  border-color: var(--border);
+  background: var(--card);
+  color: var(--foreground);
+}
+.chips-page ::deep .mud-chip .mud-chip-close-button {
+  margin-left: 8px;
+  width: 18px;
+  height: 18px;
+  color: var(--muted-foreground);
+}
+.chips-page ::deep .mud-chip-close-button svg {
+  width: 13px;
+  height: 13px;
+}
+.chips-page ::deep .mud-button {
+  font-size: var(--rynzo-font-caption);
+}
+.chips-input-label {
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.chips-input-surface {
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 14px;
+  background: var(--background);
+}
+.chips-input-surface:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--primary) 35%, transparent);
+  outline-offset: 2px;
+}
+.chips-input-surface ::deep .mud-chip {
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+  color: var(--primary);
+  border-radius: 7px;
+  padding: 3px 9px;
+  min-height: 27px;
+}
+.chips-input-surface form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.chips-input-surface input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: var(--rynzo-font-caption);
+  height: 32px;
+  padding: 4px;
+  outline: none;
+}
+.chips-input-surface input::placeholder {
+  color: var(--muted-foreground);
+}
+.chips-input-surface ::deep .mud-icon-button {
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--card);
+  color: var(--primary);
+}
+.chips-input-surface ::deep .mud-icon-button svg {
+  height: 16px;
+  width: 16px;
+}
+.chips-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+.chips-filter-group ::deep .mud-button {
+  border-radius: 999px;
+  padding: 7px 13px;
+}
+.chips-filter-group ::deep .mud-button-outlined-default {
+  border-color: var(--border);
+  color: var(--muted-foreground);
+}
+.chips-filter-group ::deep svg {
+  height: 14px;
+  width: 14px;
+}
+.chips-filter-summary {
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+  margin: 22px 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+  line-height: 1.8;
+}
+.chips-deploying {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chips-avatar-wrap,
+.chips-icon-wrap,
+.chips-count-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+.chips-avatar-wrap ::deep .mud-chip {
+  padding: 4px 12px 4px 4px;
+}
+.chips-person {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chips-icon-wrap ::deep .mud-chip {
+  padding: 7px 12px;
+}
+.chips-icon-wrap ::deep .mud-chip-icon {
+  height: 15px;
+  width: 15px;
+  margin-right: 7px;
+}
+.chips-icon-wrap ::deep .mud-chip-color-primary {
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+  color: var(--primary);
+}
+.chips-icon-wrap ::deep .mud-chip-color-warning {
+  background: color-mix(in srgb, var(--warning) 9%, var(--card));
+  color: var(--warning);
+}
+.chips-icon-wrap ::deep .mud-chip-color-info {
+  background: color-mix(in srgb, var(--info) 8%, var(--card));
+  color: var(--info);
+}
+.chips-icon-wrap ::deep .mud-chip-color-success {
+  background: color-mix(in srgb, var(--success) 8%, var(--card));
+  color: var(--success);
+}
+.chips-count-wrap ::deep .mud-chip-content > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.chips-count-wrap b {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 999px;
+  font-size: var(--rynzo-font-overline);
+  font-weight: 500;
+  background: var(--muted);
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+}
+.chips-count-wrap b.is-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+@media (max-width: 1150px) {
+  .chips-intro-note {
+    display: none;
+  }
+}
+@media (max-width: 850px) {
+  .chips-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 540px) {
+  .chips-intro {
+    padding: 20px 16px;
+    gap: 12px;
+    align-items: start;
+  }
+  .chips-intro > span {
+    width: 36px;
+    height: 36px;
+  }
+  .chips-intro > span ::deep svg {
+    height: 18px;
+    width: 18px;
+  }
+  .chips-intro h2 {
+    font-size: var(--rynzo-font-h6);
+  }
+  .chips-intro small {
+    letter-spacing: 0.03em;
+  }
+  .chips-grid {
+    gap: 18px;
+  }
+  .chips-surface {
+    padding: 16px 14px;
+    gap: 8px;
+  }
+  .chips-filter-group {
+    gap: 8px;
+  }
+  .chips-filter-group ::deep .mud-button {
+    padding: 7px 11px;
+  }
+  .chips-avatar-wrap,
+  .chips-icon-wrap,
+  .chips-count-wrap {
+    gap: 10px;
+  }
+}
+@media print {
+  .chips-grid {
+    display: block;
+  }
+  .chips-page ::deep .button-showcase-card {
+    break-inside: avoid;
+    margin-bottom: 20px;
+  }
+}

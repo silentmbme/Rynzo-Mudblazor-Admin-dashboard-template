@@ -1,0 +1,280 @@
+@using Rynzo.Client.Features.School.Models
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+<div class="exams-workspace">
+    <DashboardPageHeader Title="Exams" Description="Plan exam schedules, venues, and class assignments.">
+        <Actions>
+            <div>
+                <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Export">Export
+                    exams</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")"
+                               OnClick="OpenCreate">Schedule exam</MudButton>
+                </div>
+            </Actions>
+        </DashboardPageHeader>
+        <section class="ex-summary" aria-label="Exam overview">@foreach(var metric in Metrics){
+            <MudCard
+                Style="@($"--tone:var(--{metric.Tone})")" Class="rynzo-widget-card" Elevation="0" Outlined="true"
+                data-widget-element="article">
+                <div><span class="ex-metric-icon">
+                    <MudIcon Icon="@RynzoIcons.Get(metric.Icon)" />
+                </span><span>@metric.Label</span></div><strong>@metric.Value</strong><small>@metric.Caption</small>
+            </MudCard>
+        }
+    </section>
+    <div class="ex-session">
+        <MudIcon Icon="@RynzoIcons.Get("Info")" />
+        <p>Sample academic workspace <span>&#183;</span> 2026&#8211;27. Records and edits apply to this page session.
+        </p><span>Demo data</span>
+    </div>
+    @if (Notice.Length > 0)
+    {
+        <MudAlert Severity="Severity.Success" role="status" Class="mb-5">@Notice</MudAlert>
+    }
+    <div class="ex-layout">
+        <section class="ex-schedule" aria-label="Exam schedule">
+            <div class="ex-schedule-heading">
+                <div><span class="ex-eyebrow">Assessment planner</span>
+                    <h2>Exam schedule <span>@Visible.Count()</span></h2>
+                    <p>Your class assessments, organized by date.</p>
+                </div><span class="ex-heading-icon">
+                <MudIcon Icon="@RynzoIcons.Get("CalendarDays")" />
+            </span>
+        </div>
+        <div class="ex-tabs" aria-label="Exam status">@foreach(var status in
+            new[] { "All", "Scheduled", "Cancelled" }){
+                <button type="button"
+                        class="@(StatusFilter == status ? "selected" : "")" aria-pressed="@(StatusFilter == status)"
+                        @onclick="@(() => StatusFilter = status)">@(status == "All" ? "All exams" : status)<span>@State.Data.Exams.Count(e => status == "All" || e.Status == status)</span></button>
+            }
+        </div>
+        <div class="ex-filters">
+            <MudTextField T="string" @bind-Value="Query" Immediate="true" aria-label="Search exams"
+                          Placeholder="Search subject, ID, or venue&#8230;" Variant="Variant.Outlined" Margin="Margin.Dense"
+                          Adornment="Adornment.Start" AdornmentIcon="@RynzoIcons.Get("Search")" /><select
+            aria-label="Filter class" @bind="ClassFilter">
+            <option value="All">All classes</option>@foreach(var group in State.Data.Classes){
+            <option
+            value="@group.Id">@group.Title</option>
+        }
+    </select>
+</div>
+<div class="ex-agenda">@foreach(var day in Visible.GroupBy(e=>e.Date)){
+    <div class="ex-day">
+        <div class="ex-date-label">
+            <span>@DateOnly.Parse(day.Key).ToString("MMM", System.Globalization.CultureInfo.InvariantCulture)</span><strong>@DateOnly.Parse(day.Key).Day.ToString("00")</strong><small>@DateOnly.Parse(day.Key).ToString("ddd", System.Globalization.CultureInfo.InvariantCulture)</small>
+        </div>
+        <div class="ex-day-exams">@foreach(var exam in day){var
+            group = State.Data.Classes.First(c => c.Id == exam.ClassId);
+            <MudCard
+                Class="@((($"ex-exam {(exam.Status=="Cancelled"?"cancelled":"")}")) + " rynzo-widget-card")"
+                Style="@($"--tone:var(--{group.Color})")" Elevation="0" Outlined="true"
+                data-widget-element="article">
+                <div class="ex-exam-top"><span class="ex-reference">@exam.Id</span><span
+                    class="ex-status @(exam.Status == "Scheduled" ? "scheduled" : "cancelled")"><i></i>@exam.Status</span>
+                </div>
+                <div class="ex-exam-content"><span class="ex-subject-icon">
+                    <MudIcon Icon="@RynzoIcons.Get("BookOpen")" />
+                </span>
+                <div class="ex-subject">
+                    <h3>@exam.Subject</h3><span>@group.Title</span>
+                </div>
+                <div class="ex-time"><b>@FormatTime(exam.Time)</b><span>@exam.Duration minutes</span>
+                </div>
+                <div class="ex-venue"><span>
+                    <MudIcon Icon="@RynzoIcons.Get("MapPin")" />@exam.Room
+                </span><small>Exam venue</small></div>
+                <MudButton Variant="Variant.Text" Size="Size.Small"
+                           EndIcon="@RynzoIcons.Get("ArrowUpRight")" aria-label="@($"Exam {exam.Id}")"
+                           OnClick="@(()=>ExamId=exam.Id)">Details</MudButton>
+            </div>
+        </MudCard>
+    }
+</div>
+</div>
+}
+</div>
+@if (!Visible.Any())
+{
+    <div class="ex-empty">
+        <MudIcon Icon="@RynzoIcons.Get("Search")" />
+        <h3>No exams match these filters</h3>
+        <p>Try another subject, class, or exam status.</p>
+        <MudButton Variant="Variant.Outlined" OnClick="ResetFilters">Reset filters</MudButton>
+    </div>
+}
+<div class="ex-schedule-footer"><span>Showing <b>@Visible.Count()</b> of @State.Data.Exams.Count
+    exams</span><span>Ordered by date and time</span></div>
+</section>
+<aside class="ex-sidebar">
+    <MudCard Class="ex-year-panel rynzo-widget-card" Elevation="0" Outlined="true"
+             data-widget-element="section"><span class="ex-heading-icon">
+        <MudIcon Icon="@RynzoIcons.Get("GraduationCap")" />
+    </span><span class="ex-eyebrow">Academic year</span>
+    <h2>2026&#8211;27</h2>
+    <p>A shared view of your sample assessment schedule.</p>
+    <div><span>Class groups</span><b>@State.Data.Classes.Length</b></div>
+    <div><span>Scheduled exam
+        time</span><b>@State.Data.Exams.Where(e => e.Status == "Scheduled").Sum(e => e.Duration) min</b></div>
+    </MudCard>
+    <MudCard Class="ex-venue-panel rynzo-widget-card pa-0" Elevation="0" Outlined="true"
+             data-widget-element="section">
+        <div class="ex-sidebar-heading"><span class="ex-eyebrow">Spaces &amp; scheduling</span>
+            <h2>Exam venues</h2>
+            <p>Scheduled exams across all classes</p>
+        </div>@foreach(var venue in State.Data.Exams.Select(e=>e.Room).Distinct()){
+        <div class="ex-venue-row">
+            <span>
+                <MudIcon Icon="@RynzoIcons.Get("MapPin")" />
+            </span>
+            <div><b>@venue</b><small>@State.Data.Exams.Count(e => e.Room == venue && e.Status == "Scheduled")
+                scheduled</small></div><span>@State.Data.Exams.Count(e => e.Room == venue)</span>
+            </div>
+        }
+        <p class="ex-sidebar-note">Counts include all sample exams. Cancelled exams do not reserve a
+            venue.</p>
+        </MudCard>
+        <div class="ex-planning-note">
+            <MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" />
+            <div><b>Plan with confidence</b>
+                <p>Scheduling checks for overlapping class or venue times. Exams must finish on the selected day.
+                </p>
+            </div>
+        </div>
+    </aside>
+</div>
+</div>
+<MudDialog Visible="@(ExamDetail is not null)" VisibleChanged="@(v => { if (!v) ExamId = null; })" Options="DialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@ExamDetail?.Subject exam</MudText>
+    </TitleContent>
+    <DialogContent>@if(ExamDetail is {} exam){
+        <div class="ex-detail">
+            <div class="ex-detail-hero"><span class="ex-subject-icon">
+                <MudIcon Icon="@RynzoIcons.Get("BookOpen")" />
+            </span><span class="ex-eyebrow">@exam.Id &#183; Sample schedule</span>
+            <h2>@exam.Subject</h2><span
+            class="ex-status @(exam.Status == "Scheduled" ? "scheduled" : "cancelled")"><i></i>@exam.Status</span>
+        </div>
+        <div class="ex-detail-grid">@foreach(var item in
+            new[] { ("Class", exam.ClassId, "GraduationCap"), ("Date", exam.Date, "CalendarDays"), ("Time", FormatTime(exam.Time), "Clock3"), ("Duration", $"{exam.Duration} min", "Clock3"), ("Venue", exam.Room, "MapPin"), ("Status", exam.Status, "ClipboardList") }){
+                <div><span>
+                    <MudIcon Icon="@RynzoIcons.Get(item.Item3)" />@item.Item1
+                </span><b>@item.Item2</b></div>
+            }
+        </div>@if(exam.Status=="Cancelled"){
+        <p class="ex-dialog-note">This
+            sample exam is cancelled. Create a new schedule to plan it again.</p>
+        }else
+        {
+
+            <p class="ex-dialog-note">
+                This is a sample exam schedule. Changes apply only to this page session.</p>
+            }
+        </div>
+    }
+</DialogContent>
+<DialogActions>
+    <MudButton OnClick="@(() => ExamId = null)">Close</MudButton>@if(ExamDetail?.Status=="Scheduled"){
+    <MudButton
+    Variant="Variant.Outlined" Color="Color.Error" OnClick="CancelExam">Cancel sample exam</MudButton>
+}
+</DialogActions>
+</MudDialog>
+<MudDialog @bind-Visible="Create" Options="DialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Schedule exam</MudText>
+    </TitleContent>
+    <DialogContent>
+        <div class="ex-create">
+            <p class="ex-dialog-note">Create a sample assessment and reserve its class and venue time for this page
+                session.</p>
+                <div class="ex-form-heading"><span>
+                    <MudIcon Icon="@RynzoIcons.Get("BookOpen")" />
+                </span>
+                <div>
+                    <h3>Assessment details</h3>
+                    <p>Subject and class assignment</p>
+                </div>
+            </div><label for="ex-subject">Exam subject</label>
+            <MudTextField T="string" @bind-Value="Subject" InputId="ex-subject" Immediate="true"
+                          aria-label="Exam subject" Placeholder="Enter exam subject" Variant="Variant.Outlined"
+                          Margin="Margin.Dense" MaxLength="80" /><label for="ex-class">Exam class</label><select id="ex-class"
+                                                                                               aria-label="Exam class" @bind="NewClass">@foreach(var group in State.Data.Classes){
+            <option
+            value="@group.Id">@group.Title</option>
+        }
+    </select>
+    <div class="ex-form-heading time"><span>
+        <MudIcon Icon="@RynzoIcons.Get("CalendarDays")" />
+    </span>
+    <div>
+        <h3>Time &amp; location</h3>
+        <p>Exams run between 30 and 180 minutes</p>
+    </div>
+</div>
+<div class="ex-form-grid">
+    <div><label for="ex-date">Exam date</label><input id="ex-date" type="date" aria-label="Exam date"
+                                                          value="@Date" @onchange="@(e => Date = e.Value?.ToString() ?? "")" /></div>
+        <div><label for="ex-time">Exam time</label><input id="ex-time" type="time" aria-label="Exam time"
+                                                              value="@Time" @onchange="@(e => Time = e.Value?.ToString() ?? "")" /></div>
+        </div><label for="ex-duration">Exam duration (minutes)</label>
+        <MudNumericField T="int" @bind-Value="Duration" InputId="ex-duration" aria-label="Exam duration"
+                         Immediate="true" Variant="Variant.Outlined" Margin="Margin.Dense" Min="30" Max="180" /><label
+        for="ex-venue">Exam venue</label>
+        <MudTextField T="string" @bind-Value="Room" InputId="ex-venue" aria-label="Exam venue" Immediate="true"
+                      Placeholder="Enter hall or room" Variant="Variant.Outlined" Margin="Margin.Dense" MaxLength="60" />
+        @if (Error.Length > 0)
+        {
+            <MudAlert Severity="Severity.Error" role="alert" Class="mt-4">@Error</MudAlert>
+        }
+    </div>
+</DialogContent>
+<DialogActions>
+    <MudButton OnClick="@(() => Create = false)">Close</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")" OnClick="Save">
+        Schedule exam</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    private readonly SchoolState State = new();
+    private string
+Query = "", ClassFilter = "All", StatusFilter = "All", Notice = "", Error = "", Subject = "", NewClass = "8-A", Date = "2026-10-19", Time = "09:00", Room = "Hall A";
+    private int Duration = 60;
+    private bool Create;
+    private string? ExamId;
+    private IJSObjectReference? Download;
+    private static readonly DialogOptions DialogOptions = new() { MaxWidth = MaxWidth.Small, FullWidth = true };
+    private Exam? ExamDetail => State.Data.Exams.FirstOrDefault(e => e.Id == ExamId);
+    private IEnumerable<Exam>
+Visible => State.Data.Exams.Where(e => (ClassFilter == "All" || e.ClassId == ClassFilter) && (StatusFilter == "All" || e.Status == StatusFilter) && $"{e.Id} {e.Subject} {e.Room}".Contains(Query.Trim(), StringComparison.OrdinalIgnoreCase)).OrderBy(e => e.Date + e.Time);
+    private (string Label, int Value, string Caption, string Icon, string Tone)[] Metrics => [("Planned exams", State.Data.Exams.Count(e => e.Status == "Scheduled"), "Scheduled assessments", "CalendarDays", "primary"), ("Subjects", State.Data.Exams.Select(e => e.Subject).Distinct().Count(), "Across the exam schedule", "BookOpen", "info"), ("Exam venues", State.Data.Exams.Select(e => e.Room).Distinct().Count(), "Halls and assessment rooms", "MapPin", "success"), ("Cancelled", State.Data.Exams.Count(e => e.Status == "Cancelled"), "Retained for your records", "ClipboardList", "warning")];
+    private static string FormatTime(string value) => TimeOnly.TryParse(value, out var time) ? time.ToString("HH:mm") : value;
+    private void OpenCreate() { Create = true; Error = ""; }
+    private void ResetFilters() { Query = ""; ClassFilter = StatusFilter = "All"; }
+    private void CancelExam() { if (ExamId is null) return; State.Cancel(ExamId); Notice = $"{ExamId} cancelled in this session."; }
+    private void
+Save()
+    { Error = State.Schedule(new("", Subject, NewClass, Date, Time, Duration, Room, "Scheduled")) ?? ""; if (Error.Length > 0) return; Notice = $"{State.Data.Exams.Last().Id} scheduled in the sample planner."; Create = false; }
+    private async Task Export()
+    {
+        IEnumerable<IEnumerable<string>>
+rows = new[] { new[] { "ID", "Subject", "Class", "Date", "Time", "Duration minutes", "Room", "Status" } }.Concat(Visible.Select(e => new[] { e.Id, e.Subject, e.ClassId, e.Date, e.Time, e.Duration.ToString(), e.Room, e.Status })); Download ??= await
+JS.InvokeAsync<IJSObjectReference>("import", "./theme/dashboard-download.js"); await
+Download.InvokeVoidAsync("csv", "exams.csv", SchoolState.Csv(rows)); Notice = "Filtered sample records exported.";
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (Download is not null)
+        {
+            try
+            {
+                await
+Download.DisposeAsync();
+            }
+            catch (JSDisconnectedException) { }
+        }
+    }
+}

@@ -1,0 +1,206 @@
+.editors-page{
+  min-width:0;
+  padding-bottom:28px;
+  color:var(--foreground);
+}
+.editor-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 330px;
+  gap:24px;
+  align-items:start;
+}
+.editor-primary,
+.editor-side{
+  display:grid;
+  align-content:start;
+  gap:20px;
+  min-width:0;
+}
+.editor-document-meta{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:22px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+}
+.editor-document-icon{
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  flex:0 0 auto;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--background);
+  color:var(--muted-foreground);
+}
+.editor-document-icon ::deep svg{width:20px;height:20px}
+.editor-document-meta > div{display:grid;gap:4px;min-width:0}
+.editor-kicker{
+  color:var(--muted-foreground);
+  font-size:var(--rynzo-font-overline);
+  font-weight:600;
+  letter-spacing:.08em;
+}
+.editor-document-meta b{font-size:var(--rynzo-font-body2);font-weight:600}
+.editor-draft-state{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-left:auto;
+  padding:6px 10px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  color:var(--muted-foreground);
+  font-size:var(--rynzo-font-caption);
+  white-space:nowrap;
+}
+.editor-draft-state i{width:7px;height:7px;border-radius:50%;background:var(--warning)}
+.editor-toolbar{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  min-height:46px;
+  margin-top:20px;
+  padding:4px 8px;
+  border:1px solid var(--border);
+  border-bottom:0;
+  border-radius:10px 10px 0 0;
+  background:var(--background);
+}
+.editor-toolbar ::deep .mud-icon-button{width:34px;height:34px;padding:7px;color:var(--muted-foreground)}
+.editor-toolbar-divider{height:20px;width:1px;margin:0 5px;background:var(--border)}
+.editor-toolbar-mode{
+  margin-left:auto;
+  padding:4px 8px;
+  color:var(--muted-foreground);
+  font-size:var(--rynzo-font-overline);
+}
+.editor-surface{
+  padding:16px 18px;
+  border:1px solid var(--border)!important;
+  border-radius:0 0 10px 10px!important;
+  background:var(--card);
+}
+.editor-surface ::deep textarea{min-height:300px!important;line-height:1.8}
+.editor-preview{
+  min-height:332px;
+  padding:24px;
+  border:1px solid var(--border);
+  border-radius:0 0 10px 10px;
+  background:var(--card);
+}
+.editor-preview h2{margin:0 0 14px;font-size:var(--rynzo-font-h4);font-weight:600;line-height:1.35}
+.editor-preview p{margin:0;max-width:70ch;color:var(--muted-foreground);line-height:1.85;white-space:pre-wrap}
+.editor-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:14px;
+  color:var(--muted-foreground);
+  font-size:var(--rynzo-font-overline);
+}
+.editor-footer span:last-child{display:inline-flex;align-items:center;gap:6px}
+.editor-footer ::deep svg{width:14px;height:14px}
+.editor-quill-frame{
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:10px;
+}
+.quill-editor-host{min-height:220px}
+.quill-editor-host ::deep .ql-toolbar{
+  border:0;
+  border-bottom:1px solid var(--border);
+  background:var(--background);
+  padding:10px 12px;
+}
+.quill-editor-host ::deep .ql-container{
+  min-height:220px;
+  border:0;
+  color:var(--foreground);
+  font-family:inherit;
+  font-size:var(--rynzo-font-body2);
+}
+.quill-editor-host ::deep .ql-editor{min-height:220px;line-height:1.8}
+.quill-editor-host ::deep .ql-editor.ql-blank::before{color:var(--muted-foreground);font-style:normal}
+.quill-editor-host ::deep .ql-stroke{stroke:var(--muted-foreground)}
+.quill-editor-host ::deep .ql-fill{fill:var(--muted-foreground)}
+.quill-editor-host ::deep .ql-picker{color:var(--foreground)}
+.editor-quill-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:16px;
+}
+.editor-quill-actions > span{color:var(--muted-foreground);font-size:var(--rynzo-font-caption)}
+.editor-settings{display:grid;gap:18px}
+.editor-check{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.editor-check ::deep .mud-checkbox{align-items:flex-start}
+.editor-outline{
+  display:grid;
+  gap:4px;
+  margin:0 0 18px;
+  padding:0;
+  list-style:none;
+}
+.editor-outline li{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:44px;
+  padding:8px 10px;
+  border-radius:8px;
+  color:var(--muted-foreground);
+  font-size:var(--rynzo-font-caption);
+}
+.editor-outline li > span{
+  color:var(--muted-foreground);
+  font-size:var(--rynzo-font-overline);
+  font-variant-numeric:tabular-nums;
+}
+.editor-outline li.is-active{
+  background:color-mix(in srgb,var(--primary) 7%,var(--card));
+  color:var(--primary);
+  font-weight:600;
+}
+.editor-outline li.is-active > span{color:var(--primary)}
+.editor-side-note{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--background);
+  color:var(--muted-foreground);
+}
+.editor-side-note ::deep svg{width:17px;height:17px;flex:0 0 auto;margin-top:2px}
+.editor-side-note p{margin:0;font-size:var(--rynzo-font-caption);line-height:1.7}
+@media(max-width:1000px){
+  .editor-grid{grid-template-columns:minmax(0,1fr) 300px;gap:18px}
+}
+@media(max-width:800px){
+  .editor-grid{grid-template-columns:1fr}
+  .editor-side{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+  .editor-side-note{grid-column:1/-1}
+}
+@media(max-width:560px){
+  .editor-grid,.editor-primary,.editor-side{gap:16px}
+  .editor-side{grid-template-columns:1fr}
+  .editor-side-note{grid-column:auto}
+  .editor-document-meta{gap:9px;margin-bottom:18px;padding-bottom:15px}
+  .editor-document-icon{width:38px;height:38px}
+  .editor-draft-state{padding:5px 8px}
+  .editor-toolbar{gap:1px;padding-inline:5px}
+  .editor-toolbar ::deep .mud-icon-button{width:31px;height:31px}
+  .editor-toolbar-mode{padding-inline:4px;font-size:10px}
+  .editor-surface{padding:12px}
+  .editor-surface ::deep textarea{min-height:240px!important}
+  .editor-preview{min-height:260px;padding:18px}
+  .editor-footer{align-items:flex-start;flex-direction:column}
+  .editor-quill-actions{align-items:stretch;flex-direction:column}
+  .quill-editor-host ::deep .ql-toolbar{padding:8px 6px}
+}

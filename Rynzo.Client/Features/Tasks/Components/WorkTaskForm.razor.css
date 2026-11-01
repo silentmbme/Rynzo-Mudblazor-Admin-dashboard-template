@@ -1,0 +1,7 @@
+.work-task-form ::deep .mud-input-outlined-border legend {
+  display: none;
+}
+
+.work-task-form ::deep .mud-input-outlined {
+  background: var(--background);
+}

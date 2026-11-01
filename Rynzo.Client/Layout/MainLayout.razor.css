@@ -1,0 +1,10 @@
+#blazor-error-ui {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  inset-inline: 0;
+  padding: 1rem;
+  background: #fff3cd;
+  color: #332701;
+  z-index: 2000;
+}

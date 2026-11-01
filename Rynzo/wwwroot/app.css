@@ -1,0 +1,254 @@
+/* Shell dimensions follow React AppShell; controls live in theme/rynzo-components.css. */
+html,
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+.mud-icon-size-medium {
+  font-size: 1rem !important;
+}
+.mud-secondary-text {
+  color: color-mix(
+    in srgb,
+    var(--muted-foreground) 58%,
+    var(--card)
+  ) !important;
+}
+.rynzo-theme .mud-input > input.mud-input-root-outlined,
+.rynzo-theme div.mud-input-slot.mud-input-root-outlined {
+  padding: 10.5px 14px;
+}
+.rynzo-theme {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--rynzo-font-family);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv02", "cv03";
+}
+.rynzo-layout .mud-appbar {
+  height: 64px;
+  width: 100%;
+  margin: 0;
+  inset-inline-start: 0;
+  border-bottom: 1px solid var(--rynzo-shell-border);
+}
+.rynzo-theme .rynzo-layout .mud-main-content {
+  padding-top: 64px;
+  margin-inline: 0 !important;
+}
+.rynzo-theme .rynzo-content {
+  padding: 24px 16px;
+  min-height: calc(100dvh - 130px);
+}
+.rynzo-footer {
+  display: block;
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-body2);
+}
+.rynzo-brand {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+.brand-logo-full {
+  display: block;
+  width: 118px;
+  height: 36px;
+  max-width: 100%;
+  object-fit: contain;
+}
+.brand-logo-icon {
+  display: block;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+.brand-logo-dark {
+  display: none;
+}
+.rynzo-brand[data-dark-surface="true"] .brand-logo-light {
+  display: none;
+}
+.rynzo-brand[data-dark-surface="true"] .brand-logo-dark {
+  display: block;
+}
+.rynzo-sidebar .mud-drawer-header {
+  height: 64px;
+  min-height: 64px;
+  padding: 0 20px;
+  align-items: center;
+  border-bottom: 1px solid var(--rynzo-shell-border);
+}
+.rynzo-sidebar .mud-navmenu {
+  padding: 12px;
+}
+.rynzo-sidebar .mud-nav-link {
+  padding: 8px 12px;
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  border-radius: 6px;
+}
+.rynzo-sidebar .mud-nav-link.active {
+  background: color-mix(
+    in srgb,
+    var(--primary) 12%,
+    var(--mud-palette-drawer-background)
+  );
+  color: var(--primary);
+  border-inline-start: 3px solid var(--primary);
+}
+.rynzo-theme[data-theme="dark"] .rynzo-sidebar .mud-nav-link.active {
+  color: var(--primary);
+}
+h1:focus {
+  outline: none;
+}
+.rynzo-theme .dashboard-page-title h1:focus-visible,
+.rynzo-theme .executive-heading-title h1:focus-visible {
+  outline: none;
+}
+@media (min-width: 1024px) {
+  .rynzo-theme .rynzo-layout .mud-main-content {
+    margin-inline-start: 264px !important;
+  }
+  .rynzo-theme .rynzo-layout .mud-appbar {
+    width: calc(100% - 264px);
+    inset-inline-start: 264px;
+  }
+  .rynzo-theme .rynzo-content {
+    padding: 24px;
+  }
+  .rynzo-mobile-menu {
+    display: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Crypto Wallet: retain the source page's tinted asset panels and footer treatment. */
+.crypto-workspace .crypto-wallet-summary > .mud-paper {
+  padding: 24px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--primary) 10%, var(--card));
+}
+.crypto-workspace .crypto-wallet-summary > .mud-paper > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.crypto-workspace .crypto-wallet-summary > .mud-paper > div:first-child b {
+  font-size: var(--rynzo-font-body1);
+}
+.crypto-workspace
+  .crypto-wallet-summary
+  > .mud-paper
+  > div:first-child
+  .mud-chip {
+  margin-inline-start: auto;
+}
+.crypto-workspace .crypto-wallet-summary > .mud-paper > small {
+  display: block;
+  margin-top: 28px;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.crypto-workspace .crypto-wallet-summary strong {
+  letter-spacing: -0.025em;
+}
+.crypto-workspace .crypto-wallet-values p {
+  color: var(--muted-foreground);
+}
+.crypto-workspace .crypto-balances .mud-paper {
+  position: relative;
+  overflow: hidden;
+  min-height: 292px;
+  padding: 20px 20px 62px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--wallet-tone, var(--primary)) 6%, var(--card)) 0
+      226px,
+    var(--card) 226px
+  );
+}
+.crypto-workspace
+  .crypto-balances
+  .mud-paper:has(.crypto-coin[style*="--warning"]) {
+  --wallet-tone: var(--warning);
+}
+.crypto-workspace
+  .crypto-balances
+  .mud-paper:has(.crypto-coin[style*="--primary"]) {
+  --wallet-tone: var(--primary);
+}
+.crypto-workspace
+  .crypto-balances
+  .mud-paper:has(.crypto-coin[style*="--chart-2"]) {
+  --wallet-tone: var(--info);
+}
+.crypto-workspace
+  .crypto-balances
+  .mud-paper:has(.crypto-coin[style*="--chart-4"]) {
+  --wallet-tone: var(--warning);
+}
+.crypto-workspace
+  .crypto-balances
+  .mud-paper:has(.crypto-coin[style*="--chart-5"]) {
+  --wallet-tone: var(--destructive);
+}
+.crypto-workspace .crypto-balances .crypto-coin {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 12px !important;
+  font-size: var(--rynzo-font-h4) !important;
+}
+.crypto-workspace .crypto-balances h2 {
+  font-weight: 600;
+}
+.crypto-workspace .crypto-balances h2 + p {
+  font-size: var(--rynzo-font-caption) !important;
+  color: var(--muted-foreground);
+  margin: 3px 0 0;
+}
+.crypto-workspace .crypto-balances h2 + p + b {
+  display: block;
+  font-size: var(--rynzo-font-h4);
+  margin-top: 20px;
+}
+.crypto-workspace .crypto-balances .mud-progress-linear {
+  height: 8px;
+  border-radius: 999px;
+  margin-top: 16px;
+  background: var(--muted);
+}
+.crypto-workspace .crypto-balances .mud-progress-linear-bar {
+  border-radius: 999px;
+}
+.crypto-workspace .crypto-balances small + small {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: var(--rynzo-font-overline);
+}
+.crypto-workspace .crypto-balances small + small + b {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+}
+.crypto-workspace .crypto-balances .mud-button-root {
+  position: absolute;
+  inset-inline-end: 20px;
+  bottom: 16px;
+  text-transform: none;
+}

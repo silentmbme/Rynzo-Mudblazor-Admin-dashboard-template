@@ -1,0 +1,63 @@
+.support-intro {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--foreground);
+  margin-bottom: 20px;
+}
+.support-intro > span {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--background);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.support-intro ::deep svg {
+  width: 22px;
+  height: 22px;
+}
+.support-intro h3 {
+  font-size: var(--rynzo-font-h6);
+  font-weight: 600;
+  margin: 0;
+}
+.support-intro p {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin: 6px 0 0;
+}
+.support-note {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  padding: 12px 14px;
+  margin-bottom: 24px;
+}
+.faq-support-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.faq-support-grid ::deep .rynzo-source-field {
+  min-width: 0;
+}
+.faq-support-grid ::deep .mud-input-control {
+  margin: 0;
+}
+.faq-support-grid ::deep input {
+  font-size: var(--rynzo-font-body2);
+}
+@media (max-width: 540px) {
+  .faq-support-grid {
+    grid-template-columns: 1fr;
+  }
+}

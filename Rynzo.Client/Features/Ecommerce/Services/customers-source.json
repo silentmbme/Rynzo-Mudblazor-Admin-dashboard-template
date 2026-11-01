@@ -1,0 +1,266 @@
+{
+  "customers": [
+    {
+      "id": 1,
+      "name": "Sophia Carter",
+      "email": "sophia@example.com",
+      "phone": "+1 212 555 0184",
+      "company": "Carter Studio",
+      "initials": "SC",
+      "city": "New York",
+      "country": "United States",
+      "orders": 12,
+      "spent": 4820,
+      "lastOrder": "Aug 22, 2026",
+      "lastOrderDays": 2,
+      "segment": "VIP",
+      "status": "Active",
+      "joined": "Mar 18, 2024",
+      "tags": [
+        "VIP",
+        "Repeat Buyer",
+        "Electronics"
+      ],
+      "notes": [
+        "High-value repeat customer.",
+        "Prefers email communication."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Daniel Lee",
+      "email": "daniel@example.com",
+      "phone": "+44 20 7946 0215",
+      "company": "Northline Ltd",
+      "initials": "DL",
+      "city": "London",
+      "country": "United Kingdom",
+      "orders": 8,
+      "spent": 3420,
+      "lastOrder": "Aug 18, 2026",
+      "lastOrderDays": 6,
+      "segment": "Returning",
+      "status": "Active",
+      "joined": "Jul 02, 2024",
+      "tags": [
+        "Repeat Buyer",
+        "Wholesale"
+      ],
+      "notes": [
+        "Requested invoice billing for enterprise orders."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Emma Wilson",
+      "email": "emma@example.com",
+      "phone": "+1 416 555 0142",
+      "company": "",
+      "initials": "EW",
+      "city": "Toronto",
+      "country": "Canada",
+      "orders": 4,
+      "spent": 1680,
+      "lastOrder": "Aug 12, 2026",
+      "lastOrderDays": 12,
+      "segment": "New",
+      "status": "Active",
+      "joined": "May 30, 2026",
+      "tags": [
+        "High Intent"
+      ],
+      "notes": []
+    },
+    {
+      "id": 4,
+      "name": "Olivia Smith",
+      "email": "olivia@example.com",
+      "phone": "+49 30 901820",
+      "company": "Smith & Co",
+      "initials": "OS",
+      "city": "Berlin",
+      "country": "Germany",
+      "orders": 15,
+      "spent": 6840,
+      "lastOrder": "Aug 21, 2026",
+      "lastOrderDays": 3,
+      "segment": "High Value",
+      "status": "Active",
+      "joined": "Nov 09, 2023",
+      "tags": [
+        "VIP",
+        "Support Priority"
+      ],
+      "notes": [
+        "Likes early access to new lighting collections."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Noah Williams",
+      "email": "noah@example.com",
+      "phone": "+91 40 5550 2184",
+      "company": "",
+      "initials": "NW",
+      "city": "Hyderabad",
+      "country": "India",
+      "orders": 2,
+      "spent": 420,
+      "lastOrder": "May 10, 2026",
+      "lastOrderDays": 106,
+      "segment": "At Risk",
+      "status": "Inactive",
+      "joined": "Jan 08, 2026",
+      "tags": [
+        "Support Follow-up"
+      ],
+      "notes": [
+        "Follow up with a replenishment offer."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Mia Anderson",
+      "email": "mia.anderson@example.com",
+      "phone": "+61 2 5550 0106",
+      "company": "Axis Home",
+      "initials": "MA",
+      "city": "Sydney",
+      "country": "Australia",
+      "orders": 0,
+      "spent": 0,
+      "lastOrder": "Never",
+      "lastOrderDays": null,
+      "segment": "New",
+      "status": "Active",
+      "joined": "Aug 23, 2026",
+      "tags": [
+        "New Lead"
+      ],
+      "notes": []
+    },
+    {
+      "id": 7,
+      "name": "James Brown",
+      "email": "james.brown@example.com",
+      "phone": "+1 512 555 0199",
+      "company": "Brownworks",
+      "initials": "JB",
+      "city": "Austin",
+      "country": "United States",
+      "orders": 10,
+      "spent": 5410,
+      "lastOrder": "Jul 29, 2026",
+      "lastOrderDays": 26,
+      "segment": "VIP",
+      "status": "Blocked",
+      "joined": "Feb 14, 2024",
+      "tags": [
+        "VIP"
+      ],
+      "notes": [
+        "Account temporarily blocked after payment review."
+      ]
+    }
+  ],
+  "segments": [
+    "New",
+    "Returning",
+    "VIP",
+    "High Value",
+    "At Risk",
+    "Inactive"
+  ],
+  "statuses": [
+    "Active",
+    "Inactive",
+    "Blocked",
+    "Archived"
+  ],
+  "statusTone": {
+    "Active": "success",
+    "Inactive": "warning",
+    "Blocked": "danger",
+    "Archived": "muted"
+  },
+  "segmentTone": {
+    "New": "primary",
+    "Returning": "info",
+    "VIP": "success",
+    "High Value": "success",
+    "At Risk": "warning",
+    "Inactive": "muted"
+  },
+  "emptyForm": {
+    "first": "",
+    "last": "",
+    "email": "",
+    "phone": "",
+    "company": "",
+    "country": "United States",
+    "city": "",
+    "segment": "New",
+    "status": "Active",
+    "tags": "",
+    "notes": ""
+  },
+  "filters": [
+    [
+      "All Customers",
+      "New",
+      "Returning",
+      "VIP",
+      "High Value",
+      "At Risk",
+      "Inactive"
+    ],
+    [
+      "All statuses",
+      "Active",
+      "Inactive",
+      "Blocked",
+      "Archived"
+    ],
+    [
+      "All regions",
+      "United States",
+      "United Kingdom",
+      "Germany",
+      "India",
+      "Canada",
+      "Australia"
+    ],
+    [
+      "All spend",
+      "Under $500",
+      "$500-$1,000",
+      "$1,000-$5,000",
+      "$5,000+"
+    ],
+    [
+      "All orders",
+      "0 Orders",
+      "1-5",
+      "6-10",
+      "10+"
+    ],
+    [
+      "Any time",
+      "Last 7 Days",
+      "Last 30 Days",
+      "Last 90 Days",
+      "More Than 90 Days",
+      "Never Ordered"
+    ],
+    [
+      "Newest",
+      "Oldest",
+      "Name A-Z",
+      "Highest Spend",
+      "Lowest Spend",
+      "Most Orders",
+      "Recent Purchase",
+      "Highest Customer Value"
+    ]
+  ]
+}

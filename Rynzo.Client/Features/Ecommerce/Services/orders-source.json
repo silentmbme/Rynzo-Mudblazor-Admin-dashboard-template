@@ -1,0 +1,108 @@
+{
+  "orders": [
+    {
+      "id": "#ORD-10482",
+      "customer": "Sophia Carter",
+      "email": "sophia.carter@example.com",
+      "initials": "SC",
+      "items": 2,
+      "total": 284,
+      "date": "Aug 24, 2026",
+      "payment": "Paid",
+      "fulfillment": "Fulfilled",
+      "status": "Delivered",
+      "channel": "Online Store",
+      "tracking": "NVA-729184"
+    },
+    {
+      "id": "#ORD-10483",
+      "customer": "Daniel Lee",
+      "email": "daniel.lee@example.com",
+      "initials": "DL",
+      "items": 1,
+      "total": 129,
+      "date": "Aug 24, 2026",
+      "payment": "Paid",
+      "fulfillment": "Unfulfilled",
+      "status": "Processing",
+      "channel": "Online Store",
+      "tracking": ""
+    },
+    {
+      "id": "#ORD-10484",
+      "customer": "Emma Wilson",
+      "email": "emma.wilson@example.com",
+      "initials": "EW",
+      "items": 4,
+      "total": 416,
+      "date": "Aug 23, 2026",
+      "payment": "Pending",
+      "fulfillment": "Unfulfilled",
+      "status": "Pending",
+      "channel": "Marketplace",
+      "tracking": ""
+    },
+    {
+      "id": "#ORD-10485",
+      "customer": "Olivia Smith",
+      "email": "olivia.smith@example.com",
+      "initials": "OS",
+      "items": 2,
+      "total": 196,
+      "date": "Aug 23, 2026",
+      "payment": "Refunded",
+      "fulfillment": "Returned",
+      "status": "Returned",
+      "channel": "Online Store",
+      "tracking": "RET-402818"
+    },
+    {
+      "id": "#ORD-10486",
+      "customer": "Noah Williams",
+      "email": "noah.williams@example.com",
+      "initials": "NW",
+      "items": 3,
+      "total": 328,
+      "date": "Aug 22, 2026",
+      "payment": "Paid",
+      "fulfillment": "Shipped",
+      "status": "Shipped",
+      "channel": "Wholesale",
+      "tracking": "NVA-729208"
+    },
+    {
+      "id": "#ORD-10487",
+      "customer": "Mia Anderson",
+      "email": "mia.anderson@example.com",
+      "initials": "MA",
+      "items": 1,
+      "total": 89,
+      "date": "Aug 22, 2026",
+      "payment": "Paid",
+      "fulfillment": "Fulfilled",
+      "status": "Delivered",
+      "channel": "Online Store",
+      "tracking": "NVA-729149"
+    }
+  ],
+  "orderTone": {
+    "Pending": "warning",
+    "Processing": "info",
+    "Shipped": "info",
+    "Delivered": "success",
+    "Cancelled": "danger",
+    "Returned": "muted"
+  },
+  "paymentTone": {
+    "Paid": "success",
+    "Pending": "warning",
+    "Refunded": "muted",
+    "Failed": "danger"
+  },
+  "fulfillmentTone": {
+    "Fulfilled": "success",
+    "Unfulfilled": "warning",
+    "Shipped": "info",
+    "Returned": "muted"
+  }
+}

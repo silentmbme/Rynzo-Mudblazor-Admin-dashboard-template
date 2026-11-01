@@ -1,0 +1,480 @@
+.pagination-page {
+  min-width: 0;
+  color: var(--foreground);
+  font-size: var(--rynzo-font-body2);
+  padding-bottom: 24px;
+}
+.pagination-intro {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 26px 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(
+    110deg,
+    color-mix(in srgb, var(--primary) 5%, var(--card)),
+    var(--card)
+  );
+  margin-bottom: 24px;
+}
+.pagination-intro-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.pagination-intro-icon ::deep svg {
+  width: 23px;
+  height: 23px;
+}
+.pagination-intro small,
+.pagination-eyebrow {
+  font-size: var(--rynzo-font-overline);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.pagination-intro h2 {
+  font-size: var(--rynzo-font-h5);
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 6px 0;
+}
+.pagination-intro p {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin: 0;
+}
+.pagination-intro-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.pagination-intro-note ::deep svg {
+  width: 16px;
+  height: 16px;
+}
+.pagination-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.pagination-table-section {
+  margin-top: 22px;
+  min-width: 0;
+}
+.pagination-example-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.pagination-small-count {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.pagination-caption {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin: 20px 0 0;
+}
+.pagination-caption b {
+  color: var(--foreground);
+  font-weight: 500;
+}
+.pagination-flow-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.pagination-flow-heading > span,
+.pagination-range-icon {
+  display: grid;
+  place-items: center;
+  height: 38px;
+  width: 38px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.pagination-flow-heading > span ::deep svg,
+.pagination-range-icon ::deep svg {
+  width: 19px;
+  height: 19px;
+}
+.pagination-page h3 {
+  font-size: var(--rynzo-font-body2);
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0;
+}
+.pagination-flow-heading p,
+.pagination-compact-surface p,
+.pagination-cursor-heading p {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  line-height: 1.7;
+  margin: 4px 0 0;
+}
+.pagination-simple {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.pagination-simple > span {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+.pagination-simple b {
+  font-weight: 600;
+  color: var(--foreground);
+}
+.pagination-page ::deep .mud-button {
+  font-size: var(--rynzo-font-caption);
+}
+.pagination-simple ::deep svg,
+.pagination-jump ::deep svg {
+  width: 16px;
+  height: 16px;
+}
+.pagination-compact-surface {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+  padding: 20px;
+}
+.pagination-cursor-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.pagination-cursor-heading ::deep .ui-status-chip {
+  margin-left: auto;
+}
+.pagination-activity-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--success) 10%, transparent);
+  margin: 0 5px;
+  flex-shrink: 0;
+}
+.pagination-cursor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+  padding: 8px;
+}
+.pagination-cursor > span {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.pagination-cursor ::deep svg {
+  width: 15px;
+  height: 15px;
+}
+.pagination-result-range {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.pagination-result-range strong {
+  font-size: var(--rynzo-font-h5);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.pagination-result-range p {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  margin: 2px 0 0;
+}
+.pagination-result-range b {
+  font-weight: 500;
+}
+.pagination-result-range > .pagination-small-count {
+  margin-left: auto;
+}
+.pagination-jump label {
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.pagination-jump > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.pagination-jump input {
+  height: 38px;
+  width: 76px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--foreground);
+  font: inherit;
+  font-size: var(--rynzo-font-caption);
+}
+.pagination-jump > div > span {
+  color: var(--muted-foreground);
+  font-size: var(--rynzo-font-caption);
+}
+.pagination-jump ::deep .mud-button {
+  margin-left: 6px;
+}
+.pagination-jump input:focus-visible,
+.pagination-table-footer select:focus-visible,
+.pagination-table-scroll:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+.pagination-table-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.pagination-table-summary h3 {
+  margin-top: 6px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pagination-table-summary h3 span {
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-weight: 400;
+}
+.pagination-table-page {
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+.pagination-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.pagination-table-scroll table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  text-align: start;
+  font-size: var(--rynzo-font-caption);
+}
+.pagination-table-scroll th {
+  padding: 13px 18px;
+  text-align: start;
+  background: var(--background);
+  font-size: var(--rynzo-font-overline);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+}
+.pagination-table-scroll td {
+  padding: 16px 18px;
+  color: var(--muted-foreground);
+  border-bottom: 1px solid var(--border);
+}
+.pagination-table-scroll tr:last-child td {
+  border-bottom: 0;
+}
+.pagination-table-scroll th:last-child,
+.pagination-table-scroll td:last-child {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.pagination-table-scroll tbody tr:hover {
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+}
+.pagination-project {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.pagination-project > span {
+  height: 32px;
+  width: 32px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--primary) 7%, var(--card));
+  color: var(--primary);
+  border-radius: 8px;
+}
+.pagination-project ::deep svg {
+  width: 16px;
+  height: 16px;
+}
+.pagination-project b {
+  font-weight: 500;
+  color: var(--foreground);
+}
+.pagination-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+.pagination-table-footer > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+}
+.pagination-table-footer select {
+  height: 34px;
+  min-width: 60px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit;
+  border-radius: 7px;
+  padding: 0 8px;
+}
+.pagination-table-footer > div > span {
+  margin-left: 6px;
+}
+@media (max-width: 1150px) {
+  .pagination-intro-note {
+    display: none;
+  }
+  .pagination-simple {
+    gap: 10px;
+  }
+  .pagination-simple ::deep .mud-button {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+@media (max-width: 850px) {
+  .pagination-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 540px) {
+  .pagination-intro {
+    padding: 20px 16px;
+    gap: 12px;
+    align-items: start;
+  }
+  .pagination-intro-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .pagination-intro-icon ::deep svg {
+    width: 18px;
+    height: 18px;
+  }
+  .pagination-intro h2 {
+    font-size: var(--rynzo-font-h6);
+  }
+  .pagination-intro small {
+    letter-spacing: 0.03em;
+  }
+  .pagination-grid {
+    gap: 18px;
+  }
+  .pagination-table-section {
+    margin-top: 18px;
+  }
+  .pagination-simple {
+    gap: 8px;
+  }
+  .pagination-simple ::deep .mud-button {
+    padding-left: 9px;
+    padding-right: 9px;
+    min-width: 0;
+  }
+  .pagination-simple ::deep .mud-button-icon-start {
+    margin-right: 4px;
+  }
+  .pagination-simple ::deep .mud-button-icon-end {
+    margin-left: 4px;
+  }
+  .pagination-compact-surface {
+    padding: 16px;
+  }
+  .pagination-cursor {
+    padding: 6px;
+  }
+  .pagination-cursor > span {
+    font-size: var(--rynzo-font-overline);
+  }
+  .pagination-result-range {
+    gap: 10px;
+  }
+  .pagination-result-range > .pagination-small-count {
+    font-size: var(--rynzo-font-overline);
+  }
+  .pagination-table-summary {
+    align-items: start;
+  }
+  .pagination-table-footer {
+    gap: 18px;
+  }
+  .pagination-table-footer > div {
+    gap: 9px;
+  }
+  .pagination-table-footer > div > span {
+    margin-left: 0;
+  }
+}
+@media print {
+  .pagination-grid {
+    display: block;
+  }
+  .pagination-page ::deep .button-showcase-card {
+    break-inside: avoid;
+    margin-bottom: 20px;
+  }
+  .pagination-table-scroll {
+    overflow: visible;
+  }
+}

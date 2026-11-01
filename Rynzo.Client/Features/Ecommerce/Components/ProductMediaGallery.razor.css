@@ -1,0 +1,87 @@
+.product-media-gallery {
+  display: grid;
+  gap: 12px;
+}
+.product-cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 256px;
+  border: 1px dashed color-mix(in srgb, var(--primary) 35%, transparent);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.product-cover > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  transition: transform 0.2s;
+}
+.product-cover:hover > img {
+  transform: scale(1.02);
+}
+.product-cover > span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: 0 1px 2px #0000000d;
+}
+.product-cover > b {
+  position: relative;
+  font-size: var(--rynzo-font-body1);
+  margin-top: 12px;
+}
+.product-cover > small {
+  position: relative;
+  font-size: var(--rynzo-font-caption);
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}
+.product-media-gallery > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.product-media-gallery button {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--muted);
+}
+.product-media-gallery button:hover {
+  border-color: var(--primary);
+}
+.product-media-gallery button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.product-media-gallery button > span {
+  position: absolute;
+  inset-inline: 8px;
+  bottom: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--background) 90%, transparent);
+  font-size: var(--rynzo-font-overline);
+  font-weight: 600;
+}
+@media (min-width: 640px) {
+  .product-media-gallery {
+    grid-template-columns: 1.4fr 1fr;
+  }
+}

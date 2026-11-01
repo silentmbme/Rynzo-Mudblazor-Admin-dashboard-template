@@ -1,0 +1,3 @@
+@using Rynzo.Client.Theme
+<MudCard Outlined="true" Elevation="0" Class="hospital-metric rynzo-widget-card"><div><MudText Typo="Typo.caption">@Label</MudText><MudText Typo="Typo.h4">@Value</MudText></div><span class="hospital-metric-icon @Tone"><MudIcon Icon="@RynzoIcons.Get(Icon)" /></span></MudCard>
+@code{[Parameter,EditorRequired]public string Label{get;set;}="";[Parameter,EditorRequired]public string Value{get;set;}="";[Parameter]public string Icon{get;set;}="Activity";[Parameter]public string Tone{get;set;}="primary";}

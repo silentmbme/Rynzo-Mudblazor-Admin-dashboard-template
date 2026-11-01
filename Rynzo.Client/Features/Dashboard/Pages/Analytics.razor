@@ -1,0 +1,96 @@
+@page "/dashboards/analytics"
+@using Rynzo.Client.Features.Dashboard.Models
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Theme
+<PageTitle>Analytics — Rynzo</PageTitle>
+<div class="analytics-dashboard">
+    <DashboardPageHeader Title="Analytics" Description="See how visitors discover, explore and convert across your product.">
+        <Actions><div class="analytics-actions"><MudButton Size="Size.Small" Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")">Export</MudButton><MudButton Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Plus")">Create report</MudButton></div></Actions>
+    </DashboardPageHeader>
+
+    <section aria-label="Audience pulse" class="analytics-audience-section">
+        <MudCard Outlined="true" Elevation="0" Class="analytics-audience-panel rynzo-widget-card"><div class="analytics-metrics">@foreach (var metric in _data.Metrics) { <AudienceMetric Metric="metric" /> }</div></MudCard>
+    </section>
+
+    <section class="analytics-traffic-layout" aria-label="Traffic and acquisition">
+        <DashboardCard Title="Visitors &amp; sessions" Description="Daily volume across the selected period" Class="analytics-volume-card">
+            <Actions><span class="analytics-tag">August 2026</span></Actions>
+            <ChildContent><DashboardChart Data="_data" Kind="visitors" Height="320" Label="Visitors and sessions by date" /></ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Acquisition mix" Description="Sessions by source" Class="analytics-acquisition-card">
+            <div class="analytics-acquisition">
+                @for (var i = 0; i < _data.Acquisition.Length; i++)
+                {
+                    var item = _data.Acquisition[i];
+                    <div style="--source-tone:var(--@(item[3].GetString()![3..]))"><div class="analytics-source-title"><span class="analytics-source-dot"></span><span>@item[0].GetString()</span><strong>@item[1].GetString()</strong></div><div class="analytics-source-track"><span style="width:@(item[2].GetInt32())%"></span></div></div>
+                }
+            </div>
+        </DashboardCard>
+    </section>
+
+    <section class="analytics-engagement-layout" aria-label="Engagement and conversion">
+        <DashboardCard Title="Device engagement profile" Description="How desktop and mobile audiences behave" Class="analytics-device-card">
+            <DashboardChart Data="_data" Kind="device" Height="270" Label="Desktop and mobile engagement profile" />
+            <div class="analytics-scores"><div><strong>78</strong><span>Desktop score</span></div><div><strong>62</strong><span>Mobile score</span></div><div><strong>64</strong><span>Average score</span></div></div>
+        </DashboardCard>
+        <DashboardCard Title="Conversion funnel" Description="Visitors advancing through the product journey" Class="analytics-conversion-card">
+            <Actions><span class="analytics-tag">Product journey</span></Actions>
+            <ChildContent><DashboardChart Data="_data" Kind="conversion" Height="290" Label="Product page, pricing, trial and activation conversion" /><div class="analytics-journey-labels"><span>Product page</span><span>Pricing</span><span>Start trial</span><span>Activation</span></div></ChildContent>
+        </DashboardCard>
+    </section>
+
+    <section class="analytics-content-layout" aria-label="Content and locations">
+        <DashboardCard Title="Top pages" Description="Content attracting the most qualified audience" Class="analytics-table-card">
+            <Actions><span class="analytics-tag">@_data.Pages.Length pages</span></Actions>
+            <ChildContent>
+                <MudTable T="string[]" Items="_data.Pages" Breakpoint="Breakpoint.None" Elevation="0" Class="analytics-table" aria-label="Top pages">
+                    <HeaderContent><MudTh>Page</MudTh><MudTh Class="analytics-number">Views</MudTh><MudTh Class="analytics-number">Engagement</MudTh><MudTh Class="analytics-number">Conversions</MudTh></HeaderContent>
+                    <RowTemplate><MudTd><div class="analytics-page-name"><MudIcon Icon="@RynzoIcons.Get("FileText")" /><strong>@context[0]</strong></div></MudTd><MudTd Class="analytics-number">@context[1]</MudTd><MudTd Class="analytics-number"><span class="analytics-engagement-rate">@context[2]</span></MudTd><MudTd Class="analytics-number"><strong>@context[3]</strong></MudTd></RowTemplate>
+                </MudTable>
+                <div class="analytics-table-footer">@_data.Pages.Length top performing pages<span>Selected reporting period</span></div>
+            </ChildContent>
+        </DashboardCard>
+        <DashboardCard Title="Top locations" Description="Visitor volume by market" Class="analytics-location-card">
+            <ol class="analytics-locations">
+                @for (var i = 0; i < _data.Locations.Length; i++)
+                {
+                    var location = _data.Locations[i];
+                    <li style="--location-tone:var(--chart-@(i + 1))"><div class="analytics-location-top"><span class="analytics-rank">@((i + 1).ToString("00"))</span><strong>@location[0]</strong><span class="analytics-location-value">@location[1]</span></div><div class="analytics-location-share"><span style="width:@location[2]"></span></div><small>@location[2] of total visitors</small></li>
+                }
+            </ol>
+        </DashboardCard>
+    </section>
+
+    <section class="analytics-browser-layout" aria-label="Browser distribution and experience">
+    <DashboardCard Title="Browser distribution" Description="Browser share and experience quality" Class="analytics-browser-card">
+        <div class="analytics-browser-allocation" role="img" aria-label="Browser traffic share distribution">
+            @for (var i = 0; i < _data.Browsers.Length; i++) { var browser = _data.Browsers[i]; <span style="flex-grow:@Share(browser[1]).ToString(System.Globalization.CultureInfo.InvariantCulture);--browser-tone:var(--chart-@(i + 1))" title="@(browser[0] + " " + browser[1])"></span> }
+            <span class="analytics-browser-other" style="flex-grow:@OtherBrowserShare.ToString(System.Globalization.CultureInfo.InvariantCulture)" title="@($"Other browsers {OtherBrowserShare}%")"></span>
+        </div>
+        <div class="analytics-browsers">
+            @for (var i = 0; i < _data.Browsers.Length; i++)
+            {
+                var browser = _data.Browsers[i];
+                <div style="--browser-tone:var(--chart-@(i + 1))"><span class="analytics-browser-mark"><img src="@($"assets/images/browsers/{browser[0].ToLowerInvariant()}.svg")" alt="@(browser[0] + " logo")" width="24" height="24" /></span><span class="analytics-browser-name"><strong>@browser[0]</strong><small class="analytics-browser-quality @(browser[2] == "Excellent" ? "excellent" : "good")">@browser[2] experience</small></span><strong class="analytics-browser-share">@browser[1]</strong></div>
+            }
+        </div>
+    </DashboardCard>
+    <DashboardCard Title="Experience coverage" Description="Traffic quality across reported browsers" Class="analytics-experience-card">
+        <div class="analytics-experience-score"><strong>@ExcellentShare<span>%</span></strong><span>Traffic with an excellent browser experience</span></div>
+        <div class="analytics-experience-breakdown"><div><span><i class="excellent"></i>Excellent</span><strong>@ExcellentShare%</strong></div><div><span><i class="good"></i>Good</span><strong>@GoodShare%</strong></div><div><span><i></i>Other browsers</span><strong>@OtherBrowserShare%</strong></div></div>
+    </DashboardCard>
+    </section>
+    <section class="analytics-insights-layout" aria-label="Audience and content insights">
+        <DashboardCard Title="Market coverage" Description="Reach across the listed top locations" Class="analytics-market-card"><div class="analytics-insight-value"><span class="analytics-insight-icon"><MudIcon Icon="@RynzoIcons.Get("Globe")" /></span><strong>@_data.Locations.Sum(location => Share(location[2]))<small>%</small></strong></div><p class="analytics-insight-description">Of total visitors across @_data.Locations.Length top markets</p><div class="analytics-insight-foot"><span>Largest market</span><strong>@_data.Locations.OrderByDescending(location => Count(location[1])).First()[0]</strong></div></DashboardCard>
+        <DashboardCard Title="Content conversions" Description="Conversions from the listed top pages" Class="analytics-content-insight-card"><div class="analytics-insight-value"><span class="analytics-insight-icon"><MudIcon Icon="@RynzoIcons.Get("MousePointerClick")" /></span><strong>@_data.Pages.Sum(page => Count(page[3])).ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</strong></div><p class="analytics-insight-description">Across @_data.Pages.Length top performing pages</p><div class="analytics-insight-foot"><span>Leading page</span><strong>@_data.Pages.OrderByDescending(page => Count(page[3])).First()[0]</strong></div></DashboardCard>
+    </section>
+</div>
+@code {
+    private readonly AnalyticsData _data = AnalyticsData.Load();
+    private static double Share(string value) => double.Parse(value.TrimEnd('%'), System.Globalization.CultureInfo.InvariantCulture);
+    private static int Count(string value) => int.Parse(value, System.Globalization.NumberStyles.AllowThousands, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+    private double ExcellentShare => _data.Browsers.Where(browser => browser[2] == "Excellent").Sum(browser => Share(browser[1]));
+    private double GoodShare => _data.Browsers.Where(browser => browser[2] == "Good").Sum(browser => Share(browser[1]));
+    private double OtherBrowserShare => Math.Max(0, 100 - _data.Browsers.Sum(browser => Share(browser[1])));
+    // Export, Create report, and date buttons retain their existing presentation-only behavior.
+}

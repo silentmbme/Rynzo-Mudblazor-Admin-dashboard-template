@@ -1,0 +1,86 @@
+@page "/forms/layouts"
+@using Rynzo.Client.Features.Dashboard.Components
+@using Rynzo.Client.Features.Ui.Components
+@using Rynzo.Client.Theme
+@inject IJSRuntime JS
+@inject ISnackbar Snackbar
+<PageTitle>Form layouts | Rynzo</PageTitle>
+
+<div class="form-layouts-page">
+    <DashboardPageHeader Title="Form layouts" Description="Clear, responsive patterns for organizing related fields and actions.">
+        <Actions>
+            <MudButton Variant="Variant.Outlined" StartIcon="@RynzoIcons.Get("Download")" OnClick="Print">Export</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Save")" OnClick="Save">Save layouts</MudButton>
+        </Actions>
+    </DashboardPageHeader>
+
+    <section class="layout-section">
+        <header class="layout-section-heading"><span><MudIcon Icon="@RynzoIcons.Get("Columns3")" /></span><div><h2>Structured field groups</h2><p>Use columns when fields belong to the same decision.</p></div></header>
+        <div class="layout-grid">
+            <FormElementCard Id="two-column" Title="Two-column profile" Description="A balanced layout for related identity details.">
+                <div class="layout-field-grid">
+                    <UiFormField Id="layout-first-name" Label="First name"><MudTextField T="string" @bind-Value="FirstName" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField>
+                    <UiFormField Id="layout-last-name" Label="Last name"><MudTextField T="string" @bind-Value="LastName" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField>
+                    <UiFormField Id="layout-email" Label="Work email"><MudTextField T="string" @bind-Value="Email" InputType="InputType.Email" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField>
+                    <UiFormField Id="layout-role" Label="Role"><MudSelect T="string" @bind-Value="Role" Variant="Variant.Outlined" Margin="Margin.Dense"><MudSelectItem Value="@("Product designer")">Product designer</MudSelectItem><MudSelectItem Value="@("Product manager")">Product manager</MudSelectItem><MudSelectItem Value="@("Engineer")">Engineer</MudSelectItem></MudSelect></UiFormField>
+                </div>
+                <div class="layout-profile-footer"><span><MudIcon Icon="@RynzoIcons.Get("CircleCheck")" /> Profile details are complete</span><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="Save">Update profile</MudButton></div>
+            </FormElementCard>
+            <FormElementCard Id="split" Title="Split configuration" Description="Pair settings with a concise, live summary.">
+                <div class="layout-split">
+                    <div class="layout-split-fields">
+                        <UiFormField Id="layout-workspace" Label="Workspace"><MudSelect T="string" @bind-Value="Workspace" Variant="Variant.Outlined" Margin="Margin.Dense"><MudSelectItem Value="@("Product")">Product</MudSelectItem><MudSelectItem Value="@("Marketing")">Marketing</MudSelectItem><MudSelectItem Value="@("Operations")">Operations</MudSelectItem></MudSelect></UiFormField>
+                        <UiFormField Id="layout-region" Label="Data region"><MudSelect T="string" @bind-Value="Region" Variant="Variant.Outlined" Margin="Margin.Dense"><MudSelectItem Value="@("United States")">United States</MudSelectItem><MudSelectItem Value="@("Europe")">Europe</MudSelectItem><MudSelectItem Value="@("Asia Pacific")">Asia Pacific</MudSelectItem></MudSelect></UiFormField>
+                    </div>
+                    <aside class="layout-summary" aria-live="polite"><span><MudIcon Icon="@RynzoIcons.Get("LayoutDashboard")" /></span><small>Configuration</small><b>@Workspace workspace</b><p>Hosted in @Region.</p></aside>
+                </div>
+            </FormElementCard>
+        </div>
+    </section>
+
+    <section class="layout-section">
+        <header class="layout-section-heading"><span><MudIcon Icon="@RynzoIcons.Get("List")" /></span><div><h2>Flow &amp; inline forms</h2><p>Choose a layout that matches the speed and complexity of the task.</p></div></header>
+        <div class="layout-grid layout-flow-grid">
+            <FormElementCard Id="vertical" Title="Vertical form" Description="A focused, readable stack for longer answers.">
+                <div class="layout-vertical-fields">
+                    <UiFormField Id="layout-project" Label="Project name" Required="true"><MudTextField T="string" @bind-Value="ProjectName" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField>
+                    <UiFormField Id="layout-description" Label="Description" Hint="Give collaborators enough context to get started."><MudTextField T="string" @bind-Value="Description" Lines="4" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField>
+                    <UiFormField Id="layout-owner" Label="Project owner"><MudSelect T="string" @bind-Value="Owner" Variant="Variant.Outlined" Margin="Margin.Dense"><MudSelectItem Value="@("Elena Marquez")">Elena Marquez</MudSelectItem><MudSelectItem Value="@("Noah Bennett")">Noah Bennett</MudSelectItem><MudSelectItem Value="@("Sophie Turner")">Sophie Turner</MudSelectItem></MudSelect></UiFormField>
+                </div>
+                <div class="layout-actions"><MudButton Variant="Variant.Text" OnClick="ResetProject">Discard</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveProject">Create project</MudButton></div>
+            </FormElementCard>
+            <FormElementCard Id="inline" Title="Inline invite" Description="Keep a simple single-purpose action compact.">
+                <div class="layout-inline-intro"><span><MudIcon Icon="@RynzoIcons.Get("UserPlus")" /></span><div><b>Invite a teammate</b><p>They will receive an email with access instructions.</p></div></div>
+                <div class="layout-inline-fields"><UiFormField Id="layout-invite-email" Label="Email address"><MudTextField T="string" @bind-Value="InviteEmail" InputType="InputType.Email" Placeholder="name@company.com" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField><UiFormField Id="layout-invite-role" Label="Role"><MudSelect T="string" @bind-Value="InviteRole" Variant="Variant.Outlined" Margin="Margin.Dense"><MudSelectItem Value="@("Viewer")">Viewer</MudSelectItem><MudSelectItem Value="@("Editor")">Editor</MudSelectItem><MudSelectItem Value="@("Admin")">Admin</MudSelectItem></MudSelect></UiFormField><MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@RynzoIcons.Get("Send")" OnClick="Invite">Send invite</MudButton></div>
+                <p class="layout-caption">Use inline fields only when there is one short, clear next step.</p>
+            </FormElementCard>
+        </div>
+    </section>
+
+    <section class="layout-section">
+        <header class="layout-section-heading"><span><MudIcon Icon="@RynzoIcons.Get("PanelLeft")" /></span><div><h2>Contextual layouts</h2><p>Put supporting information beside the form without interrupting it.</p></div></header>
+        <div class="layout-grid">
+            <FormElementCard Id="sidebar" Title="Form with context" Description="Keep guidance visible alongside important fields.">
+                <div class="layout-context-grid"><div class="layout-context-form"><UiFormField Id="layout-budget" Label="Monthly budget"><MudNumericField T="decimal" @bind-Value="Budget" Min="0" Adornment="Adornment.Start" AdornmentText="$" Variant="Variant.Outlined" Margin="Margin.Dense" /></UiFormField><UiFormField Id="layout-cycle" Label="Billing cycle"><MudSelect T="string" @bind-Value="BillingCycle" Variant="Variant.Outlined" Margin="Margin.Dense"><MudSelectItem Value="@("Monthly")">Monthly</MudSelectItem><MudSelectItem Value="@("Quarterly")">Quarterly</MudSelectItem><MudSelectItem Value="@("Yearly")">Yearly</MudSelectItem></MudSelect></UiFormField></div><aside class="layout-help"><MudIcon Icon="@RynzoIcons.Get("CircleHelp")" /><b>Planning tip</b><p>Start with a monthly budget and adjust as team needs become clearer.</p><a href="#">View budget guidance</a></aside></div>
+            </FormElementCard>
+            <FormElementCard Id="review" Title="Review before saving" Description="Present a concise confirmation at the end of a workflow.">
+                <div class="layout-review"><div><span>Project</span><b>@ProjectName</b></div><div><span>Owner</span><b>@Owner</b></div><div><span>Budget</span><b>$@Budget / @BillingCycle.ToLowerInvariant()</b></div></div>
+                <div class="layout-review-note"><MudIcon Icon="@RynzoIcons.Get("ShieldCheck")" /><span>Your changes are private until you save them.</span></div>
+                <div class="layout-actions"><MudButton Variant="Variant.Outlined" OnClick="ResetAll">Reset</MudButton><MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save">Save changes</MudButton></div>
+            </FormElementCard>
+        </div>
+    </section>
+</div>
+
+@code {
+    private string FirstName="Elena", LastName="Marquez", Email="elena@rynzoadmin.com", Role="Product designer";
+    private string Workspace="Product", Region="United States", ProjectName="Website refresh", Description="A focused redesign of the customer-facing experience.", Owner="Elena Marquez";
+    private string InviteEmail="", InviteRole="Viewer", BillingCycle="Monthly";
+    private decimal Budget=12000;
+    private void Save()=>Snackbar.Add("Form layout preferences saved", Severity.Success);
+    private void SaveProject()=>Snackbar.Add($"{ProjectName} created", Severity.Success);
+    private void Invite(){if(string.IsNullOrWhiteSpace(InviteEmail)){Snackbar.Add("Enter an email address first", Severity.Warning);return;} Snackbar.Add($"Invite sent to {InviteEmail}", Severity.Success);InviteEmail="";}
+    private void ResetProject(){ProjectName="";Description="";Owner="Elena Marquez";}
+    private void ResetAll(){ResetProject();Budget=0;BillingCycle="Monthly";}
+    private async Task Print()=>await JS.InvokeVoidAsync("print");
+}

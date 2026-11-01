@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Rynzo.Client/Rynzo.Client.csproj" />
+  <Project Path="Rynzo/Rynzo.csproj" />
+</Solution>

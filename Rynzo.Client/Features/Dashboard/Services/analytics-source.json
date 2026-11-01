@@ -1,0 +1,197 @@
+{
+  "days": [
+    "Aug 1",
+    "Aug 5",
+    "Aug 9",
+    "Aug 13",
+    "Aug 17",
+    "Aug 21",
+    "Aug 25",
+    "Aug 31"
+  ],
+  "visitorsSeries": [
+    {
+      "name": "Visitors",
+      "type": "column",
+      "data": [
+        8.4,
+        10.8,
+        9.6,
+        13.2,
+        12.1,
+        15.8,
+        14.3,
+        17.6
+      ]
+    },
+    {
+      "name": "Sessions",
+      "type": "line",
+      "data": [
+        6.8,
+        8.1,
+        7.7,
+        10.4,
+        9.2,
+        12.5,
+        11.8,
+        13.9
+      ]
+    }
+  ],
+  "deviceSeries": [
+    {
+      "name": "Desktop",
+      "data": [
+        78,
+        72,
+        64,
+        82,
+        68
+      ]
+    },
+    {
+      "name": "Mobile",
+      "data": [
+        62,
+        54,
+        48,
+        58,
+        52
+      ]
+    }
+  ],
+  "acquisition": [
+    [
+      "Organic search",
+      "32,840",
+      68,
+      "bg-primary"
+    ],
+    [
+      "Direct",
+      "18,920",
+      52,
+      "bg-chart-2"
+    ],
+    [
+      "Paid social",
+      "14,482",
+      36,
+      "bg-chart-3"
+    ],
+    [
+      "Partner referrals",
+      "8,604",
+      22,
+      "bg-chart-4"
+    ]
+  ],
+  "conversionSeries": [
+    {
+      "name": "Conversion",
+      "data": [
+        100,
+        64,
+        31,
+        18
+      ]
+    }
+  ],
+  "browsers": [
+    [
+      "Chrome",
+      "62%",
+      "Excellent"
+    ],
+    [
+      "Safari",
+      "19%",
+      "Excellent"
+    ],
+    [
+      "Edge",
+      "11%",
+      "Good"
+    ],
+    [
+      "Firefox",
+      "5%",
+      "Good"
+    ]
+  ],
+  "pages": [
+    [
+      "/workspace/overview",
+      "18,482",
+      "68.4%",
+      "842"
+    ],
+    [
+      "/solutions/teams",
+      "12,946",
+      "54.1%",
+      "486"
+    ],
+    [
+      "/pricing",
+      "8,254",
+      "42.8%",
+      "392"
+    ],
+    [
+      "/resources/report",
+      "6,812",
+      "61.2%",
+      "184"
+    ]
+  ],
+  "locations": [
+    [
+      "United States",
+      "24,680",
+      "29%"
+    ],
+    [
+      "United Kingdom",
+      "11,240",
+      "13%"
+    ],
+    [
+      "Germany",
+      "8,920",
+      "11%"
+    ],
+    [
+      "Singapore",
+      "6,482",
+      "8%"
+    ]
+  ],
+  "metrics": [
+    {
+      "icon": "UsersRound",
+      "label": "Visitors",
+      "value": "84,268",
+      "trend": "+14.2% vs Jul"
+    },
+    {
+      "icon": "MousePointerClick",
+      "label": "Engaged sessions",
+      "value": "52,614",
+      "trend": "+8.4% vs Jul"
+    },
+    {
+      "icon": "MonitorSmartphone",
+      "label": "Avg. session",
+      "value": "4m 18s",
+      "trend": "+9.1% vs Jul"
+    },
+    {
+      "icon": "Globe2",
+      "label": "Conversion rate",
+      "value": "4.56%",
+      "trend": "+0.62 pts vs Jul"
+    }
+  ]
+}

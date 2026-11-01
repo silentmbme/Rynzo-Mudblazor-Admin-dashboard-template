@@ -1,0 +1,86 @@
+.ui-dropdown-host {
+  display: inline-flex;
+  vertical-align: middle;
+}
+.ui-dropdown-host ::deep .mud-button > span > svg {
+  width: 17px;
+  height: 17px;
+}
+.ui-dropdown-content {
+  min-width: 210px;
+  max-width: min(310px, calc(100vw - 32px));
+  padding: 4px;
+}
+.ui-dropdown-heading {
+  padding: 12px 12px 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 5px;
+  color: var(--foreground);
+}
+.ui-dropdown-heading b {
+  display: block;
+  font-size: var(--rynzo-font-caption);
+  font-weight: 600;
+  line-height: 1.6;
+}
+.ui-dropdown-heading small {
+  display: block;
+  font-size: var(--rynzo-font-overline);
+  color: var(--muted-foreground);
+  margin-top: 4px;
+  line-height: 1.7;
+}
+.ui-dropdown-content ::deep .mud-menu-item {
+  font-size: var(--rynzo-font-caption);
+  border-radius: 6px;
+  min-height: 36px;
+  padding: 9px 12px;
+  line-height: 1.6;
+}
+.ui-dropdown-content ::deep .mud-menu-item .mud-icon-root {
+  width: 16px;
+  height: 16px;
+}
+.ui-dropdown-content ::deep .mud-menu-item .mud-menu-item-icon {
+  min-width: 28px;
+}
+.ui-dropdown-content ::deep .mud-divider {
+  margin: 6px 0;
+}
+.ui-dropdown-content ::deep .dropdown-danger {
+  color: var(--destructive);
+}
+
+.ui-dropdown-host.is-soft ::deep .mud-button {
+  background: color-mix(in srgb, var(--dropdown-tone) 11%, var(--card));
+  color: var(--dropdown-tone);
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+.ui-dropdown-host.is-soft ::deep .mud-button:hover {
+  background: color-mix(in srgb, var(--dropdown-tone) 18%, var(--card));
+}
+.ui-dropdown-host.is-pill ::deep .mud-button {
+  border-radius: 999px;
+}
+.ui-dropdown-content.is-tinted {
+  background: color-mix(in srgb, var(--dropdown-tone) 7%, var(--card));
+  border-radius: 9px;
+}
+.ui-dropdown-content.is-tinted .ui-dropdown-heading {
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--dropdown-tone) 18%,
+    var(--border)
+  );
+}
+.ui-dropdown-content.is-tinted .ui-dropdown-heading b {
+  color: var(--dropdown-tone);
+}
+.ui-dropdown-content.is-tinted ::deep .mud-menu-item:hover {
+  background: color-mix(in srgb, var(--dropdown-tone) 13%, var(--card));
+  color: var(--dropdown-tone);
+}
+.ui-dropdown-content.is-tinted ::deep .mud-menu-item-icon {
+  color: var(--dropdown-tone);
+}

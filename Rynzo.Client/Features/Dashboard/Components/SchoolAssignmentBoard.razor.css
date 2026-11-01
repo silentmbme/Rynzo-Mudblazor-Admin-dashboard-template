@@ -1,0 +1,237 @@
+.assignment-workspace {
+  padding: 0 22px 22px;
+}
+.assignment-overview {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 18px 0;
+  border-block: 1px solid var(--border);
+}
+.assignment-overview-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  color: var(--primary);
+  background: var(--accent);
+  border-radius: 10px;
+}
+.assignment-overview-icon ::deep svg {
+  width: 20px;
+  height: 20px;
+}
+.assignment-overview h3 {
+  font-size: 12px;
+  font-weight: 650;
+}
+.assignment-overview p {
+  font-size: 10px;
+  color: var(--muted-foreground);
+  margin-top: 5px;
+}
+.assignment-overview dl {
+  display: flex;
+  gap: 28px;
+  margin: 0 0 0 auto;
+}
+.assignment-overview dl > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.assignment-overview dt {
+  font-size: 10px;
+  color: var(--muted-foreground);
+}
+.assignment-overview dd {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+}
+.assignment-overview dl > div:last-child dd {
+  color: var(--success);
+}
+.assignment-lanes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 22px;
+  align-items: start;
+}
+.assignment-lane {
+  min-width: 0;
+  --lane-tone: var(--primary);
+}
+.assignment-lane.is-reviewed {
+  --lane-tone: var(--success);
+}
+.assignment-lane-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding: 0 0 15px;
+}
+.assignment-state-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--lane-tone);
+}
+.assignment-lane-heading h3 {
+  font-size: 12px;
+  font-weight: 650;
+}
+.assignment-lane-count {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 10px;
+}
+.assignment-lane-heading > small {
+  margin-left: auto;
+  color: var(--muted-foreground);
+  font-size: 9px;
+}
+.assignment-items {
+  display: grid;
+  gap: 14px;
+}
+.assignment-items article {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+}
+.assignment-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.assignment-subject {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--lane-tone);
+  font-size: 10px;
+  font-weight: 500;
+}
+.assignment-subject ::deep svg {
+  width: 14px;
+  height: 14px;
+}
+.assignment-grade {
+  font-size: 9px;
+  color: var(--muted-foreground);
+  padding: 4px 7px;
+  background: var(--muted);
+  border-radius: 5px;
+}
+.assignment-items h4 {
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 650;
+  margin-top: 14px;
+}
+.assignment-item-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+.assignment-teacher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.assignment-teacher img {
+  width: 29px;
+  height: 29px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.assignment-teacher small {
+  display: block;
+  font-size: 8px;
+  color: var(--muted-foreground);
+  margin-bottom: 4px;
+}
+.assignment-teacher b {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+}
+.assignment-item-bottom ::deep button {
+  font-size: 10px;
+  box-shadow: none;
+  text-transform: none;
+  flex-shrink: 0;
+}
+.assignment-item-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 9px;
+  color: var(--muted-foreground);
+}
+.is-reviewed .assignment-item-status {
+  color: var(--success);
+}
+.assignment-item-status ::deep svg {
+  width: 13px;
+  height: 13px;
+}
+.assignment-empty {
+  padding: 35px 18px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  text-align: center;
+}
+.assignment-empty ::deep svg {
+  color: var(--lane-tone);
+  width: 26px;
+  height: 26px;
+}
+.assignment-empty h4 {
+  font-size: 12px;
+  margin-top: 10px;
+}
+.assignment-empty p {
+  color: var(--muted-foreground);
+  font-size: 10px;
+  line-height: 1.8;
+  margin-top: 6px;
+}
+@media (max-width: 767px) {
+  .assignment-lanes {
+    grid-template-columns: 1fr;
+  }
+  .assignment-overview dl {
+    width: 100%;
+    margin: 4px 0 0;
+    justify-content: space-between;
+  }
+}
+@media (max-width: 639px) {
+  .assignment-workspace {
+    padding: 0 18px 18px;
+  }
+  .assignment-items article {
+    padding: 15px;
+  }
+  .assignment-lane-heading > small {
+    font-size: 8px;
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "categories": [
+    "Development",
+    "Design",
+    "Data Science",
+    "Marketing"
+  ],
+  "courses": [
+    {
+      "id": "CRS-101",
+      "title": "React & TypeScript Masterclass",
+      "category": "Development",
+      "instructorId": "daniel",
+      "lessons": 32,
+      "students": 428,
+      "completed": 296,
+      "price": 79,
+      "status": "Published",
+      "color": "--primary"
+    },
+    {
+      "id": "CRS-102",
+      "title": "UI/UX Design Fundamentals",
+      "category": "Design",
+      "instructorId": "sophia",
+      "lessons": 24,
+      "students": 356,
+      "completed": 264,
+      "price": 69,
+      "status": "Published",
+      "color": "--chart-2"
+    },
+    {
+      "id": "CRS-103",
+      "title": "Python for Data Analysis",
+      "category": "Data Science",
+      "instructorId": "daniel",
+      "lessons": 28,
+      "students": 284,
+      "completed": 188,
+      "price": 89,
+      "status": "Published",
+      "color": "--chart-3"
+    },
+    {
+      "id": "CRS-104",
+      "title": "Digital Marketing Essentials",
+      "category": "Marketing",
+      "instructorId": "olivia",
+      "lessons": 18,
+      "students": 216,
+      "completed": 168,
+      "price": 49,
+      "status": "Published",
+      "color": "--chart-4"
+    },
+    {
+      "id": "CRS-105",
+      "title": "Advanced Design Systems",
+      "category": "Design",
+      "instructorId": "sophia",
+      "lessons": 20,
+      "students": 0,
+      "completed": 0,
+      "price": 99,
+      "status": "Draft",
+      "color": "--chart-5"
+    },
+    {
+      "id": "CRS-106",
+      "title": "Building Production APIs",
+      "category": "Development",
+      "instructorId": "daniel",
+      "lessons": 26,
+      "students": 0,
+      "completed": 0,
+      "price": 89,
+      "status": "Draft",
+      "color": "--primary"
+    }
+  ],
+  "instructors": [
+    {
+      "id": "sophia",
+      "name": "Sophia Carter",
+      "specialty": "Design & creative thinking",
+      "rating": "4.9",
+      "imageName": "sophia carter"
+    },
+    {
+      "id": "daniel",
+      "name": "Daniel Lee",
+      "specialty": "Software & data science",
+      "rating": "4.8",
+      "imageName": "daniel lee"
+    },
+    {
+      "id": "olivia",
+      "name": "Olivia Smith",
+      "specialty": "Digital marketing",
+      "rating": "4.9",
+      "imageName": "olivia smith"
+    }
+  ],
+  "learners": [
+    {
+      "id": "STU-201",
+      "name": "Amara Okafor",
+      "courseId": "CRS-101",
+      "finished": 24,
+      "lastActive": "Oct 9, 10:42"
+    },
+    {
+      "id": "STU-202",
+      "name": "Daniel Reyes",
+      "courseId": "CRS-102",
+      "finished": 18,
+      "lastActive": "Oct 9, 10:35"
+    },
+    {
+      "id": "STU-203",
+      "name": "Priya Raman",
+      "courseId": "CRS-103",
+      "finished": 27,
+      "lastActive": "Oct 9, 10:28"
+    },
+    {
+      "id": "STU-204",
+      "name": "Noah Williams",
+      "courseId": "CRS-104",
+      "finished": 18,
+      "lastActive": "Oct 9, 09:55"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "session-1",
+      "title": "Design critique workshop",
+      "instructorId": "sophia",
+      "category": "Design",
+      "date": "October 10, 2026",
+      "time": "10:00–11:00 IST",
+      "duration": "60 minutes",
+      "day": "10",
+      "month": "OCT",
+      "description": "Review sample interface designs and discuss visual hierarchy, spacing, and accessibility."
+    },
+    {
+      "id": "session-2",
+      "title": "React patterns Q&A",
+      "instructorId": "daniel",
+      "category": "Development",
+      "date": "October 12, 2026",
+      "time": "14:00–14:45 IST",
+      "duration": "45 minutes",
+      "day": "12",
+      "month": "OCT",
+      "description": "Explore component composition, typed props, and practical application architecture."
+    },
+    {
+      "id": "session-3",
+      "title": "Campaign planning lab",
+      "instructorId": "olivia",
+      "category": "Marketing",
+      "date": "October 14, 2026",
+      "time": "11:00–12:00 IST",
+      "duration": "60 minutes",
+      "day": "14",
+      "month": "OCT",
+      "description": "Practice setting campaign objectives, choosing channels, and measuring outcomes."
+    },
+    {
+      "id": "session-4",
+      "title": "Python data storytelling",
+      "instructorId": "daniel",
+      "category": "Data Science",
+      "date": "October 16, 2026",
+      "time": "16:00â€“17:00 IST",
+      "duration": "60 minutes",
+      "day": "16",
+      "month": "OCT",
+      "description": "Turn exploratory analysis into a concise narrative using practical charts and stakeholder-ready summaries."
+    },
+    {
+      "id": "session-5",
+      "title": "Design systems office hours",
+      "instructorId": "sophia",
+      "category": "Design",
+      "date": "October 18, 2026",
+      "time": "10:30â€“11:15 IST",
+      "duration": "45 minutes",
+      "day": "18",
+      "month": "OCT",
+      "description": "Bring component-library questions and review patterns for scalable product interfaces."
+    },
+    {
+      "id": "session-6",
+      "title": "Growth experiment clinic",
+      "instructorId": "olivia",
+      "category": "Marketing",
+      "date": "October 21, 2026",
+      "time": "13:00â€“14:00 IST",
+      "duration": "60 minutes",
+      "day": "21",
+      "month": "OCT",
+      "description": "Prioritize experiments, define measurable hypotheses, and plan a clear learning cadence."
+    }
+  ]
+}
